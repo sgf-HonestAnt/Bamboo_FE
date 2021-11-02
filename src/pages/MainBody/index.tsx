@@ -1,15 +1,18 @@
 import { RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
-import { reduxStateInt } from "../../typings/interfaces";
 import { useSelector } from "react-redux";
+import { reduxStateInt } from "../../typings/interfaces";
 import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
-  const selectedTheme: string = useSelector(
-    (state: reduxStateInt) => state.themes.selectedTheme
-  );
-  useEffect(() => {}, [selectedTheme]);
+  const state: reduxStateInt = useSelector((state: reduxStateInt) => state);
+  // const selectedTheme: themeType = useSelector(
+  //   (state: reduxStateInt) => state.currentSettings.selectedTheme
+  // );
+  useEffect(() => {
+    console.log("USE EFFECT!");
+  }, [state]);
   //const path = location.pathname;
   return (
     <Container fluid className='main-page'>

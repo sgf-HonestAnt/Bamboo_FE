@@ -12,8 +12,8 @@ import { reduxStateInt } from "../typings/interfaces";
 import { Reducer } from "react";
 import thunk from "redux-thunk";
 import sessionStorage from "redux-persist/lib/storage/session";
-import themesReducer from "./reducers/themes";
 import currentUserReducer from "./reducers/user";
+import { LIGHT_MODE } from "../utils/constants";
 
 declare global {
   interface Window {
@@ -27,37 +27,40 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 
 export const initialState: reduxStateInt = {
-  themes: {
-    themesList: ["light-mode", "dark-mode"],
-    selectedTheme: "light-mode", // default theme
-  },
-  // set upon loading with endpoint "/user/me"
   currentUser: {
-    _id: "1",
-    first_name: "Sarah",
-    last_name: "Fisher",
-    username: "sgfisher",
-    email: "me@email.com",
-    avatar: "",
-    bio: "",
-    level: 0,
-    xp: 0,
-    // password
-    settings: {
-      difficulty: 1, // default difficulty
-      selectedTheme: "light-mode",
+    // set upon loading with endpoint "/user/me"
+    my_user: {
+      _id: "",
+      first_name: "",
+      last_name: "",
+      username: "",
+      email: "",
+      avatar: "",
+      bio: "",
+      level: null,
+      xp: null,
+      admin: false,
+      createdAt: "",
+      updatedAt: "",
     },
-    achievements: [],
-    followedUsers: {
-      requested: [],
-      pending: [],
-      accepted: [],
-      rejected: [],
-    },
-    collection: [],
-    tasklist: [],
-    challenges: [],
-    refreshToken: "",
+    followedUsers: [],
+  },
+  currentTasks: {
+    // set upon loading with endpoint "/tasks/me/"
+    _id: "",
+    completed: [],
+    awaited: [],
+    in_progress: [],
+  },
+  currentAchievements: {
+    // set upon loading with endpoint "/achievements/me/"
+    _id: "",
+    user: "",
+    list: [],
+  },
+  currentSettings: {
+    // set upon loading with endpoint "/user/me/settings"
+    selectedTheme: LIGHT_MODE,
   },
 };
 
@@ -72,8 +75,10 @@ const persistConfig = {
 };
 
 const bigReducer = combineReducers({
-  themes: themesReducer,
   currentUser: currentUserReducer,
+  // currentTasks: currentTasksReducer,
+  // currentAchievements: currentAchievementsReducer,
+  // currentSettings: currentSettingsReducer,
 }) as Reducer<any, AnyAction>;
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);
