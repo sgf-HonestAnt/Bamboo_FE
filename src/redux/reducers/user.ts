@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { currentUserInt } from "../../typings/interfaces";
-import { SET_CURR_USER } from "../../utils/constants";
+import { SET_CURR_USER, SET_REFRESH_TOKEN } from "../../utils/constants";
 import { initialState } from "../store";
 
 const currentUserReducer = (
@@ -13,6 +13,11 @@ const currentUserReducer = (
         ...state,
         ...action.payload,
       };
+    case SET_REFRESH_TOKEN:
+      return {
+        ...state,
+        refreshToken: action.payload
+      }
     default:
       return state;
   }

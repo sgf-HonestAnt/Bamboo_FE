@@ -1,7 +1,4 @@
 // fetches
-export const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgwZWMxMGM3OTVmMjYyYmIxOGI5OTciLCJpYXQiOjE2MzU4NjA5MjQsImV4cCI6MTYzNTg2MTgyNH0.TKN9ct8xupS7EnBOokjDNSvhuATxnZucsfuIV5ygdk4";
-// this will come from local storage later
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
 export const USERS = "users";
@@ -13,6 +10,8 @@ export const SET_CURR_USER = "SET_CURR_USER";
 export const SET_TASKS = "SET_TASKS";
 export const SET_ACHIEVEMENTS = "SET_ACHIEVEMENTS";
 export const SET_SETTINGS = "SET_SETTINGS";
+export const SET_FEATURES = "SET_FEATURES";
+export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN";
 // settings themes
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";

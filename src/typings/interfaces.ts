@@ -5,6 +5,7 @@ export interface reduxStateInt {
   currentTasks: currentTasksInt;
   currentAchievements: currentAchievementsInt;
   currentSettings: currentSettingsInt;
+  currentFeatures: currentFeaturesInt;
 }
 
 export interface currentSettingsInt {
@@ -31,6 +32,7 @@ export interface userInt {
   admin?: boolean; // required false
   createdAt: string;
   updatedAt: string;
+  refreshToken?: string;
 }
 export interface currentTasksInt {
   // GET tasks/me
@@ -49,7 +51,7 @@ export interface currentFeaturesInt {
   // GET features
   links: number | null;
   total: number | null;
-  features: featureInt;
+  features: featureInt[];
   pageTotal: number | null;
 }
 export interface searchedUsersInt {
@@ -91,12 +93,12 @@ export interface taskInt {
   title: string;
   image: string;
   desc: string;
-  type: taskType | string; 
+  type: taskType | string;
   value: number;
   createdBy: string; // user id
   sharedWith?: string[]; // user id
-  status: statusType | string; 
-  deadline?: string; 
+  status: statusType | string;
+  deadline?: string;
   _v: number;
 }
 export interface featureInt {

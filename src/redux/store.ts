@@ -17,6 +17,7 @@ import { LIGHT_MODE } from "../utils/constants";
 import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
 import currentSettingsReducer from "./reducers/settings";
+import currentFeaturesReducer from "./reducers/features";
 
 declare global {
   interface Window {
@@ -65,6 +66,12 @@ export const initialState: reduxStateInt = {
     // set upon loading with endpoint "/user/me/settings"
     selectedTheme: LIGHT_MODE,
   },
+  currentFeatures: {
+    links: 0,
+    total: 0,
+    features: [],
+    pageTotal: 0,
+  },
 };
 
 const persistConfig = {
@@ -82,6 +89,7 @@ const bigReducer = combineReducers({
   currentTasks: currentTasksReducer,
   currentAchievements: currentAchievementsReducer,
   currentSettings: currentSettingsReducer,
+  currentFeatures: currentFeaturesReducer,
 }) as Reducer<any, AnyAction>;
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);
@@ -95,8 +103,8 @@ export const configureStore = createStore(
 );
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof configureStore.getState>
+export type RootState = ReturnType<typeof configureStore.getState>;
 // Inferred type: {...}
-export type AppDispatch = typeof configureStore.dispatch
+export type AppDispatch = typeof configureStore.dispatch;
 
 export const persistor = persistStore(configureStore);

@@ -11,6 +11,7 @@ import {
   TASKS,
   USERS,
 } from "../../utils/constants";
+import { setRefreshToken } from "./user";
 
 // fetch('https://reqbin.com/echo/post/json', {
 //   method: 'POST',
@@ -22,7 +23,11 @@ import {
 //    .then(resp => resp.json())
 //    .then( json => console.log(json))
 
-export function initialFetchAction(token: string, type: string) {
+export function initialFetchAction(
+  token: string | null,
+  refreshToken: string | undefined,
+  type: string
+) {
   return async (dispatch: AppDispatch) => {
     const endpoint = type === SETTINGS ? "users/me/settings" : `${type}/me`;
     const url = `${BE_URL}/${endpoint}`;
@@ -73,7 +78,25 @@ export function initialFetchAction(token: string, type: string) {
           });
         }, 1000);
       } else if (response.status === 401) {
-        console.log("TIME TO REFRESH TOKEN!");
+        console.log("⏰TIME TO REFRESH TOKEN!");
+        try {
+          const data = { actualRefreshToken: refreshToken };
+          const refreshResponse = await fetch(
+            `${BE_URL}/users/session/refresh`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            }
+          );
+          if (refreshResponse.ok) {
+            const { accessToken, refreshToken } = await refreshResponse.json();
+            localStorage.setItem("token", accessToken);
+            setRefreshToken(refreshToken);
+          }
+        } catch (error) {
+          console.log("error in fetching refreshToken", error);
+        }
       } else {
         console.log("error in try of initialFetchAction");
       }

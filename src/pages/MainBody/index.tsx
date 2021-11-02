@@ -6,26 +6,24 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
   currentAchievementsInt,
+  currentFeaturesInt,
   currentTasksInt,
   followedUserInt,
   // currentSettingsInt,
-  // currentUserInt,
   reduxStateInt,
+  userInt,
 } from "../../typings/interfaces";
 import "./styles.css";
 import initialFetchAction from "../../redux/actions";
-import {
-  ACCESS_TOKEN,
-  ACHIEVEMENTS,
-  SETTINGS,
-  TASKS,
-  USERS,
-} from "../../utils/constants";
+import { ACHIEVEMENTS, SETTINGS, TASKS, USERS } from "../../utils/constants";
+import MainSideBar from "../MainSideBar";
+import Dashboard from "../Page_Dashboard";
+import { setFeatures } from "../../redux/actions/features";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   // const state: reduxStateInt = useSelector((state: reduxStateInt) => state);
-  const username: string = useAppSelector(
-    (state: reduxStateInt) => state.currentUser.my_user.username
+  const user: userInt = useAppSelector(
+    (state: reduxStateInt) => state.currentUser.my_user
   );
   const tasks: currentTasksInt = useAppSelector(
     (state: reduxStateInt) => state.currentTasks
@@ -36,34 +34,53 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const followedUsers: followedUserInt[] = useAppSelector(
     (state: reduxStateInt) => state.currentUser.followedUsers
   );
+  const curr_features: currentFeaturesInt = useAppSelector(
+    (state: reduxStateInt) => state.currentFeatures
+  );
   // const settings: currentSettingsInt = useSelector(
   //   (state: reduxStateInt) => state.currentSettings
   // );
+
+  const { username, refreshToken } = user;
+
   const dispatch = useDispatch();
+
+  const token = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgxNWQwMWFkY2M2ZmJhMzVmOTFjYzEiLCJpYXQiOjE2MzU4Njg1MTYsImV4cCI6MTYzNTg2OTQxNn0.Iatcg7OlAmBUIPI45suvwFyGuTKLbJfVeGGYrCCmefk";
+
   useEffect(() => {
-    dispatch(initialFetchAction(ACCESS_TOKEN, USERS));
+    dispatch(initialFetchAction(token, refreshToken, USERS));
     if (username.length > 0) {
-      dispatch(initialFetchAction(ACCESS_TOKEN, TASKS));
-      dispatch(initialFetchAction(ACCESS_TOKEN, ACHIEVEMENTS));
-      dispatch(initialFetchAction(ACCESS_TOKEN, SETTINGS));
+      dispatch(initialFetchAction(token, refreshToken, TASKS));
+      dispatch(initialFetchAction(token, refreshToken, ACHIEVEMENTS));
+      dispatch(initialFetchAction(token, refreshToken, SETTINGS));
+      dispatch(setFeatures());
     }
     console.log(`🥔${username} successfully logged in`);
     console.log(`🥔${username} has ${tasks.awaited.length} awaited tasks`);
     console.log(`🥔${username} has ${achievements.list.length} achievements`);
     console.log(`🥔${username} has ${followedUsers.length} followed users`);
+    console.log(`🥔Found ${curr_features.total} features`);
   }, [
     dispatch,
     username,
     tasks.awaited.length,
     achievements.list.length,
     followedUsers.length,
+    curr_features.total,
+    token,
+    refreshToken,
   ]);
   //const path = location.pathname;
   return (
-    <Container fluid className='main-page'>
+    <Container fluid className='main-page m-0'>
       <Row>
-        <Col sm={2}>{/* <MainSideBar /> */}</Col>
-        <Col>
+        <Col sm={2} className='p-0'>
+          <MainSideBar />
+        </Col>
+        <Col className='m-0'>
+          <Dashboard />
           {/* {path === "/dash" ? (
             <Dashboard />
           ) : path === "/stats" ? (
