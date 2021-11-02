@@ -14,6 +14,9 @@ import thunk from "redux-thunk";
 import sessionStorage from "redux-persist/lib/storage/session";
 import currentUserReducer from "./reducers/user";
 import { LIGHT_MODE } from "../utils/constants";
+import currentTasksReducer from "./reducers/tasks";
+import currentAchievementsReducer from "./reducers/achievements";
+import currentSettingsReducer from "./reducers/settings";
 
 declare global {
   interface Window {
@@ -76,9 +79,9 @@ const persistConfig = {
 
 const bigReducer = combineReducers({
   currentUser: currentUserReducer,
-  // currentTasks: currentTasksReducer,
-  // currentAchievements: currentAchievementsReducer,
-  // currentSettings: currentSettingsReducer,
+  currentTasks: currentTasksReducer,
+  currentAchievements: currentAchievementsReducer,
+  currentSettings: currentSettingsReducer,
 }) as Reducer<any, AnyAction>;
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);
@@ -90,5 +93,10 @@ export const configureStore = createStore(
     ? composeEnhancers(applyMiddleware(thunk))
     : compose(applyMiddleware(thunk))
 );
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
+export type RootState = ReturnType<typeof configureStore.getState>
+// Inferred type: {...}
+export type AppDispatch = typeof configureStore.dispatch
 
 export const persistor = persistStore(configureStore);

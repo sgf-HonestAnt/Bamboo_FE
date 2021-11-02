@@ -4,14 +4,14 @@ import { SET_CURR_USER } from "../../utils/constants";
 import { initialState } from "../store";
 
 const currentUserReducer = (
-  state = initialState,
+  state = initialState.currentUser,
   action: PayloadAction<currentUserInt | null>
 ) => {
   switch (action.type) {
     case SET_CURR_USER:
       return {
         ...state,
-        currentUser: action.payload,
+        ...action.payload,
       };
     default:
       return state;

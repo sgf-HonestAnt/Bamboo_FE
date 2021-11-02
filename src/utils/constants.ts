@@ -1,5 +1,18 @@
+// fetches
+export const ACCESS_TOKEN =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgwZWMxMGM3OTVmMjYyYmIxOGI5OTciLCJpYXQiOjE2MzU4NTgzMDQsImV4cCI6MTYzNTg1OTIwNH0.SeUT9dpfNfMijk7LTorhFlx1RJJLO3PW78bLoBidhPM";
+// this will come from local storage later
+export const BE_URL = process.env.REACT_APP_BE_URL;
+export const GET = "GET";
+export const USERS = "users";
+export const TASKS = "tasks";
+export const ACHIEVEMENTS = "achievements";
+export const SETTINGS = "settings";
 // reducers
 export const SET_CURR_USER = "SET_CURR_USER";
+export const SET_TASKS = "SET_TASKS";
+export const SET_ACHIEVEMENTS = "SET_ACHIEVEMENTS";
+export const SET_SETTINGS = "SET_SETTINGS";
 // settings themes
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
@@ -10,8 +23,8 @@ export const TEAM = "team";
 export const TASK_TYPES = [SOLO, TEAM];
 // task status
 export const AWAITED = "awaited";
-export const COMPLETED = "completed"
-export const IN_PROGRESS = "in_progress"
+export const COMPLETED = "completed";
+export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
 // task repetition
 export const NEVER = "never";
@@ -30,4 +43,3 @@ export const TASK_REPEAT_TYPES = [
 ];
 
 export const NONE = "none";
-
