@@ -1,6 +1,6 @@
 // fetches
 export const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgwZWMxMGM3OTVmMjYyYmIxOGI5OTciLCJpYXQiOjE2MzU4NTgzMDQsImV4cCI6MTYzNTg1OTIwNH0.SeUT9dpfNfMijk7LTorhFlx1RJJLO3PW78bLoBidhPM";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgwZWMxMGM3OTVmMjYyYmIxOGI5OTciLCJpYXQiOjE2MzU4NjA5MjQsImV4cCI6MTYzNTg2MTgyNH0.TKN9ct8xupS7EnBOokjDNSvhuATxnZucsfuIV5ygdk4";
 // this will come from local storage later
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
