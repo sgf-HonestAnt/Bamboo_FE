@@ -8,6 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import MainBody from "./pages/MainBody";
+import Login from "./pages/Page_Login";
 
 function App() {
   return (
@@ -21,13 +22,13 @@ function App() {
               <RegistrationPage {...routerProps} />
             )}
           /> */}
-          {/* <Route
+          <Route
             exact
             path='/login'
             render={(routerProps: RouteComponentProps) => (
-              <LoginPage {...routerProps} />
+              <Login {...routerProps} />
             )}
-          /> */}
+          />
           {/* "/" PATH REDIRECTS TO "/dash" */}
           <Route exact path='/'>
             <Redirect to='/dash' />
@@ -97,11 +98,11 @@ function App() {
             )}
           /> */}
           {/* ALL OTHER ROUTES POINT TO ERRORPAGE */}
-          {/* <Route
+          <Route
             render={(routerProps: RouteComponentProps) => (
-              <MainPageTemplate {...routerProps} />
-            )}
-          /> */}
+              <MainBody {...routerProps} />
+            )} 
+          />
         </Switch>
       </Router>
     </div>

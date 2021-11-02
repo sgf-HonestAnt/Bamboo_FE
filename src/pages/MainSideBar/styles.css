@@ -1,4 +1,7 @@
 .main-side-bar {
-    background-color: aqua;
-    min-height: 100vh;
+  background-color: aqua;
+  min-height: 100vh;
+}
+.main-side-bar a {
+  display: block;
 }
