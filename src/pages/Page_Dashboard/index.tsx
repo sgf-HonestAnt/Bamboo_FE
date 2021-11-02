@@ -1,33 +1,26 @@
 import { Row, Col, Card, Button } from "react-bootstrap";
-import { useAppSelector } from "../../redux/hooks";
 import {
   currentAchievementsInt,
   currentFeaturesInt,
   currentTasksInt,
-  // followedUserInt,
-  reduxStateInt,
+  followedUserInt,
   userInt,
 } from "../../typings/interfaces";
 import "./styles.css";
 
-const Dashboard = () => {
-  const user: userInt = useAppSelector(
-    (state: reduxStateInt) => state.currentUser.my_user
-  );
-  const tasks: currentTasksInt = useAppSelector(
-    (state: reduxStateInt) => state.currentTasks
-  );
-  const achievements: currentAchievementsInt = useAppSelector(
-    (state: reduxStateInt) => state.currentAchievements
-  );
-  // const followedUsers: followedUserInt[] = useAppSelector(
-  //   (state: reduxStateInt) => state.currentUser.followedUsers
-  // );
-  const features: currentFeaturesInt = useAppSelector(
-    (state: reduxStateInt) => state.currentFeatures
-  );
+type DashboardProps = {
+  user: userInt;
+  tasks: currentTasksInt;
+  achievements: currentAchievementsInt;
+  followedUsers: followedUserInt[];
+  curr_features: currentFeaturesInt;
+};
+
+const Dashboard = (props: DashboardProps) => {
+  const { user, tasks, achievements, curr_features } = props;
   const today = tasks.awaited; // 🖐️ add where date equals today!
   const list = achievements.list;
+  // followedUsers.achievements.list;
   const { username, bio, avatar } = user;
   return (
     <Row className='dashboard p-0'>
@@ -54,9 +47,11 @@ const Dashboard = () => {
             <div className='dashboard__tasks-card m-2'>
               <Card.Title>Today's tasks</Card.Title>
               <Card.Text>
-                {today.length < 1 && <span>No tasks awaited today!</span>}
-                {today.map((t, i) => (
-                  <span>TASK {i + 1}</span>
+                {today?.length < 1 && <span>No tasks awaited today!</span>}
+                {today?.map((t, i) => (
+                  <span className='dashboard__tasks-card__tasks' key={i}>
+                    {t.title}
+                  </span>
                 ))}
               </Card.Text>
               <Button variant='primary'>Go somewhere</Button>
@@ -93,7 +88,7 @@ const Dashboard = () => {
           <Col sm={6} className='p-1'>
             <div className='dashboard__challenge-card'>
               <Card.Title>Featured Challenge</Card.Title>
-              <Card.Text>{features.features[0].descrip}</Card.Text>
+              <Card.Text>{curr_features?.features[0]?.descrip}</Card.Text>
               {/* 🖐️ Should correspond to current month */}
             </div>
           </Col>
@@ -106,9 +101,12 @@ const Dashboard = () => {
           <Button variant='primary'>Button</Button>
         </div>
         <div className='dashboard__activities m-2 p-2'>
-          {list.length < 1 && <p>No achievements!</p>}
-          {list.map((l, i) => (
-            <p>LIST {i + 1}</p>
+          {list?.length < 1 && <p>No achievements!</p>}
+          {list?.map((l, i) => (
+            <p key={i}>
+              {username} completed task: "{l.item}"
+            </p>
+            // find a way to display followed users achievements items too
           ))}
         </div>
       </Col>

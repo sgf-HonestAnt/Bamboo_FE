@@ -16,9 +16,12 @@ import {
 import "./styles.css";
 import initialFetchAction from "../../redux/actions";
 import { ACHIEVEMENTS, SETTINGS, TASKS, USERS } from "../../utils/constants";
+import { setFeatures } from "../../redux/actions/features";
+import refreshSession from "../../utils/funcs/refresh";
 import MainSideBar from "../MainSideBar";
 import Dashboard from "../Page_Dashboard";
-import { setFeatures } from "../../redux/actions/features";
+import Following from "../Page_Following";
+import ErrorPage from "../Page_Error";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   // const state: reduxStateInt = useSelector((state: reduxStateInt) => state);
@@ -47,21 +50,28 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   const token = localStorage.getItem("token")
     ? localStorage.getItem("token")
-    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgxNWQwMWFkY2M2ZmJhMzVmOTFjYzEiLCJpYXQiOjE2MzU4Njg1MTYsImV4cCI6MTYzNTg2OTQxNn0.Iatcg7OlAmBUIPI45suvwFyGuTKLbJfVeGGYrCCmefk";
+    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgxNWQwMWFkY2M2ZmJhMzVmOTFjYzEiLCJpYXQiOjE2MzU4ODI3ODEsImV4cCI6MTYzNTg4MzY4MX0.UyxE5rCFQKtn3fbU5MkinEM7SG6DN9YFkniGQcoiSKI";
+
+  const path = location.pathname;
 
   useEffect(() => {
-    dispatch(initialFetchAction(token, refreshToken, USERS));
-    if (username.length > 0) {
+    if (!token && refreshToken) {
+      console.log("no token at mainbody");
+      refreshSession(refreshToken);
+    } else if (!token && !refreshToken) {
+      history.push("/login");
+    } else {
+      dispatch(initialFetchAction(token, refreshToken, USERS));
       dispatch(initialFetchAction(token, refreshToken, TASKS));
       dispatch(initialFetchAction(token, refreshToken, ACHIEVEMENTS));
       dispatch(initialFetchAction(token, refreshToken, SETTINGS));
       dispatch(setFeatures());
+      console.log(`🥔${username} successfully logged in`);
+      console.log(`🥔${username} has ${tasks.awaited.length} awaited tasks`);
+      console.log(`🥔${username} has ${achievements.list.length} achievements`);
+      console.log(`🥔${username} has ${followedUsers.length} followed users`);
+      console.log(`🥔Found ${curr_features.total} features`);
     }
-    console.log(`🥔${username} successfully logged in`);
-    console.log(`🥔${username} has ${tasks.awaited.length} awaited tasks`);
-    console.log(`🥔${username} has ${achievements.list.length} achievements`);
-    console.log(`🥔${username} has ${followedUsers.length} followed users`);
-    console.log(`🥔Found ${curr_features.total} features`);
   }, [
     dispatch,
     username,
@@ -71,8 +81,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     curr_features.total,
     token,
     refreshToken,
+    history,
   ]);
-  //const path = location.pathname;
   return (
     <Container fluid className='main-page m-0'>
       <Row>
@@ -80,24 +90,30 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
           <MainSideBar />
         </Col>
         <Col className='m-0'>
-          <Dashboard />
-          {/* {path === "/dash" ? (
-            <Dashboard />
-          ) : path === "/stats" ? (
-            <Stats />
-          ) : path === "/tasks" ? (
-            <Tasks />
-          ) : path === "/tasks-schedule" ? (
-            <TasksSchedule />
-          ) : path === "/quests" ? (
-            <Quests />
-          ) : path === "/inventory" ? (
-            <Inventory />
-          ) : path === "/following" ? (
-            <Following />
+          {path === "/dash" ? (
+            <Dashboard
+              user={user}
+              tasks={tasks}
+              achievements={achievements}
+              followedUsers={followedUsers}
+              curr_features={curr_features}
+            />
+          ) : // : path === "/stats" ? (
+          //   <Stats />
+          // ) : path === "/tasks" ? (
+          //   <Tasks />
+          // ) : path === "/tasks-schedule" ? (
+          //   <TasksSchedule />
+          // ) : path === "/quests" ? (
+          //   <Quests />
+          // ) : path === "/inventory" ? (
+          //   <Inventory />
+          // ) :
+          path === "/following" ? (
+            <Following followedUsers={followedUsers} />
           ) : (
             <ErrorPage />
-          )} */}
+          )}
         </Col>
       </Row>
     </Container>
