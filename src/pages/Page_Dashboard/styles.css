@@ -1,0 +1,35 @@
+.dashboard {
+  background-color: darkseagreen;
+  min-height: 100vh;
+}
+.dashboard__left-col {
+  min-height: 90vh;
+}
+.dashboard__right-col {
+  min-height: 90vh;
+}
+.dashboard__profile-card {
+  background-color: darksalmon;
+}
+.dashboard__tasks-card {
+  background-color: cyan;
+}
+.dashboard__calendar-card {
+  background-color: darkgrey;
+}
+.dashboard__search-bar {
+    display: flex;
+    justify-content: space-between;
+} 
+.dashboard__activities {
+  background-color: gold;
+}
+.dashboard__tips-card {
+  background-color: hotpink;
+}
+.dashboard__alerts-card {
+  background-color: floralwhite;
+}
+.dashboard__challenge-card {
+  background-color: cornsilk;
+}
