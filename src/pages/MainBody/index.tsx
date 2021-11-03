@@ -1,7 +1,5 @@
-// import React, { useState } from "react";
-import { useAppSelector } from "../../redux/hooks";
 import { RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { useAppSelector } from "../../redux/hooks";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -9,22 +7,25 @@ import {
   currentFeaturesInt,
   currentTasksInt,
   followedUserInt,
-  // currentSettingsInt,
+  currentSettingsInt,
   reduxStateInt,
   userInt,
 } from "../../typings/interfaces";
-import "./styles.css";
-import initialFetchAction from "../../redux/actions";
-import { ACHIEVEMENTS, SETTINGS, TASKS, USERS } from "../../utils/constants";
-import { setFeatures } from "../../redux/actions/features";
-import refreshSession from "../../utils/funcs/refresh";
+import { Container, Row, Col } from "react-bootstrap";
+import { fillUserAction } from "../../redux/actions/user";
+import { fillTasksAction } from "../../redux/actions/tasks";
+import { fillAchievementsAction } from "../../redux/actions/achievements";
+import { fillFeaturesAction } from "../../redux/actions/features";
+import { fillSettingsAction } from "../../redux/actions/settings";
 import MainSideBar from "../MainSideBar";
 import Dashboard from "../Page_Dashboard";
 import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
+import attemptRefresh from "../../utils/funcs/refresh";
+import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
-  // const state: reduxStateInt = useSelector((state: reduxStateInt) => state);
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
   );
@@ -40,49 +41,35 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const curr_features: currentFeaturesInt = useAppSelector(
     (state: reduxStateInt) => state.currentFeatures
   );
-  // const settings: currentSettingsInt = useSelector(
-  //   (state: reduxStateInt) => state.currentSettings
-  // );
+  const curr_settings: currentSettingsInt = useAppSelector(
+    (state: reduxStateInt) => state.currentSettings
+  );
 
-  const { username, refreshToken } = user;
+  const { error, loading } = state.currentUser;
 
   const dispatch = useDispatch();
 
-  const token = localStorage.getItem("token")
-    ? localStorage.getItem("token")
-    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTgxNWQwMWFkY2M2ZmJhMzVmOTFjYzEiLCJpYXQiOjE2MzU4ODI3ODEsImV4cCI6MTYzNTg4MzY4MX0.UyxE5rCFQKtn3fbU5MkinEM7SG6DN9YFkniGQcoiSKI";
-
   const path = location.pathname;
 
+  const token = localStorage.getItem("token");
+
+  const attemptLoad = () => {
+    dispatch(fillUserAction());
+    dispatch(fillTasksAction());
+    dispatch(fillAchievementsAction());
+    dispatch(fillFeaturesAction());
+    dispatch(fillSettingsAction());
+  };
+
   useEffect(() => {
-    if (!token && refreshToken) {
-      console.log("no token at mainbody");
-      refreshSession(refreshToken);
-    } else if (!token && !refreshToken) {
-      history.push("/login");
-    } else {
-      dispatch(initialFetchAction(token, refreshToken, USERS));
-      dispatch(initialFetchAction(token, refreshToken, TASKS));
-      dispatch(initialFetchAction(token, refreshToken, ACHIEVEMENTS));
-      dispatch(initialFetchAction(token, refreshToken, SETTINGS));
-      dispatch(setFeatures());
-      console.log(`🥔${username} successfully logged in`);
-      console.log(`🥔${username} has ${tasks.awaited.length} awaited tasks`);
-      console.log(`🥔${username} has ${achievements.list.length} achievements`);
-      console.log(`🥔${username} has ${followedUsers.length} followed users`);
-      console.log(`🥔Found ${curr_features.total} features`);
-    }
-  }, [
-    dispatch,
-    username,
-    tasks.awaited.length,
-    achievements.list.length,
-    followedUsers.length,
-    curr_features.total,
-    token,
-    refreshToken,
-    history,
-  ]);
+    attemptLoad();
+    console.log(`TOKEN ${token}`);
+    console.log(`LOADING ${loading}`);
+    console.log(`ERROR ${error}`);
+    error && attemptRefresh(history, user.refreshToken)
+  }, []);
+
+
   return (
     <Container fluid className='main-page m-0'>
       <Row>

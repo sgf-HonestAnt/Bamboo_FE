@@ -6,18 +6,18 @@ import {
   AnyAction,
 } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
-//import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import { reduxStateInt } from "../typings/interfaces";
 import { Reducer } from "react";
 import thunk from "redux-thunk";
+//import storage from "redux-persist/lib/storage";
 import sessionStorage from "redux-persist/lib/storage/session";
 import currentUserReducer from "./reducers/user";
-import { LIGHT_MODE } from "../utils/constants";
 import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
 import currentSettingsReducer from "./reducers/settings";
 import currentFeaturesReducer from "./reducers/features";
+import { LIGHT_MODE } from "../utils/constants";
 
 declare global {
   interface Window {
@@ -32,6 +32,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 
 export const initialState: reduxStateInt = {
   currentUser: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/user/me"
     my_user: {
       _id: "",
