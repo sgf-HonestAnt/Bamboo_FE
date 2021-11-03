@@ -1,27 +1,68 @@
-import { BE_URL, GET, SET_FEATURES } from "../../utils/constants";
-import { AppDispatch } from "../store";
+import type { AppDispatch } from "../store";
+import {
+  BE_URL,
+  GET,
+  FEATURES,
+  FILL_FEATURES,
+  FILL_FEATURES_ERROR,
+  FILL_FEATURES_LOADING,
+} from "../../utils/constants";
 
-export function setFeatures() {
-  return async (dispatch: AppDispatch) => {
-    const url = `${BE_URL}/features`;
-    const method = GET;
+export const fillFeaturesAction = () => {
+  const token = localStorage.getItem("token");
+  return async (dispatch: AppDispatch, getState: any) => {
     try {
-      const response = await fetch(url, {
-        method,
-      });
+      const url = `${BE_URL}/${FEATURES}`;
+      const method = GET;
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await fetch(url, { method, headers });
       if (response.ok) {
-        const payload = await response.json();
+        let body = await response.json();
+        const payload = { ...body };
         setTimeout(() => {
           dispatch({
-            type: SET_FEATURES,
-            payload,
-          }); 
+            type: FILL_FEATURES_LOADING,
+            payload: false,
+          });
         }, 1000);
+        dispatch({
+          type: FILL_FEATURES_ERROR,
+          payload: false,
+        });
+        dispatch({
+          type: FILL_FEATURES,
+          payload,
+        });
+        console.log(`🥔features=${payload.total}_total`);
       } else {
-        console.log("error in fetching features");
+        setTimeout(() => {
+          dispatch({
+            type: FILL_FEATURES_LOADING,
+            payload: false,
+          });
+        }, 1000);
+        setTimeout(() => {
+          dispatch({
+            type: FILL_FEATURES_ERROR,
+            payload: true,
+          });
+        }, 1000);
       }
     } catch (error) {
-      console.log("error in catch of setFeatures", error);
+      setTimeout(() => {
+        dispatch({
+          type: FILL_FEATURES_LOADING,
+          payload: false,
+        });
+      }, 1000);
+      setTimeout(() => {
+        dispatch({
+          type: FILL_FEATURES_ERROR,
+          payload: true,
+        });
+      }, 1000);
     }
   };
-}
+};

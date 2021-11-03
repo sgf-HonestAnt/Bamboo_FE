@@ -1,22 +1,30 @@
+import { History } from "history";
 import { setRefreshToken } from "../../redux/actions/user";
-import { BE_URL } from "../constants";
+import { BE_URL, POST, REFRESH, SESSION, USERS } from "../constants";
 
-const refreshSession = async (refreshToken: string) => {
-  try {
-    const data = { actualRefreshToken: refreshToken };
-    const response = await fetch(`${BE_URL}/users/session/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (response.ok) {
-      const { accessToken, refreshToken } = await response.json();
-      localStorage.setItem("token", accessToken);
-      setRefreshToken(refreshToken);
+const attemptRefresh = async (
+  history: History<unknown> | string[],
+  token: string | undefined
+) => {
+  if (token === undefined) {
+    history.push("/login");
+  } else {
+    try {
+      console.log("⏰attempt refresh!");
+      const url = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
+      const method = POST;
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify({ actualRefreshToken: token });
+      const response = await fetch(url, { method, headers, body });
+      if (response.ok) {
+        const { accessToken, refreshToken } = await response.json();
+        localStorage.setItem("token", accessToken);
+        setRefreshToken(refreshToken);
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log("error in fetching refreshToken", error);
   }
 };
 
-export default refreshSession;
+export default attemptRefresh;

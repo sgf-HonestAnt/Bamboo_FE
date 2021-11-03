@@ -14,6 +14,8 @@ export interface currentSettingsInt {
 }
 
 export interface currentUserInt {
+  loading: boolean;
+  error: boolean;
   // GET users/me
   my_user: userInt;
   followedUsers: followedUserInt[];
