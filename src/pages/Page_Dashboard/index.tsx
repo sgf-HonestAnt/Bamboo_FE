@@ -49,7 +49,7 @@ const Dashboard = (props: DashboardProps) => {
       const date_b = new Date(b.createdAt).getTime();
       return date_b - date_a;
     });
-    await createList(super_list, dispatch);
+    await createList(super_list, user.username, dispatch);
     // 🖐️ in future make only last x achievements display for each user, and get achievements sorted by date
   };
   useEffect(() => {
