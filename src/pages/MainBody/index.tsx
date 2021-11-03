@@ -2,15 +2,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  currentAchievementsInt,
-  currentFeaturesInt,
-  currentTasksInt,
-  followedUserInt,
-  currentSettingsInt,
-  reduxStateInt,
-  userInt,
-} from "../../typings/interfaces";
+import { reduxStateInt, userInt } from "../../typings/interfaces";
 import { Container, Row, Col } from "react-bootstrap";
 import { fillUserAction } from "../../redux/actions/user";
 import { fillTasksAction } from "../../redux/actions/tasks";
@@ -29,31 +21,18 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
   );
-  const tasks: currentTasksInt = useAppSelector(
-    (state: reduxStateInt) => state.currentTasks
-  );
-  const achievements: currentAchievementsInt = useAppSelector(
-    (state: reduxStateInt) => state.currentAchievements
-  );
-  const followedUsers: followedUserInt[] = useAppSelector(
-    (state: reduxStateInt) => state.currentUser.followedUsers
-  );
-  const curr_features: currentFeaturesInt = useAppSelector(
-    (state: reduxStateInt) => state.currentFeatures
-  );
-  const curr_settings: currentSettingsInt = useAppSelector(
-    (state: reduxStateInt) => state.currentSettings
-  );
-
+  const { refreshToken } = user;
+  const tasks = state.currentTasks;
+  const achievements = state.currentAchievements;
+  const followedUsers = state.currentUser.followedUsers;
+  const features = state.currentFeatures;
+  //const settings = state.currentSettings;
   const { error, loading } = state.currentUser;
-
   const dispatch = useDispatch();
-
   const path = location.pathname;
-
   const token = localStorage.getItem("token");
 
-  const attemptLoad = () => {
+  const attemptLoad = async () => {
     dispatch(fillUserAction());
     dispatch(fillTasksAction());
     dispatch(fillAchievementsAction());
@@ -63,12 +42,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   useEffect(() => {
     attemptLoad();
-    console.log(`TOKEN ${token}`);
-    console.log(`LOADING ${loading}`);
-    console.log(`ERROR ${error}`);
-    error && attemptRefresh(history, user.refreshToken)
+    console.log(`🗝️TOKEN ${token}`);
+    console.log(`🔁LOADING ${loading}`);
+    console.log(`💥ERROR ${error}`);
+    error && attemptRefresh(history, refreshToken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   return (
     <Container fluid className='main-page m-0'>
@@ -83,7 +62,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
               tasks={tasks}
               achievements={achievements}
               followedUsers={followedUsers}
-              curr_features={curr_features}
+              features={features}
             />
           ) : // : path === "/stats" ? (
           //   <Stats />

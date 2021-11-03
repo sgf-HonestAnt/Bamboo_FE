@@ -13,11 +13,11 @@ type DashboardProps = {
   tasks: currentTasksInt;
   achievements: currentAchievementsInt;
   followedUsers: followedUserInt[];
-  curr_features: currentFeaturesInt;
-};
+  features: currentFeaturesInt;
+}; 
 
 const Dashboard = (props: DashboardProps) => {
-  const { user, tasks, achievements, curr_features } = props;
+  const { user, tasks, achievements, features } = props;
   const today = tasks.awaited; // 🖐️ add where date equals today!
   const list = achievements.list;
   // followedUsers.achievements.list;
@@ -88,7 +88,7 @@ const Dashboard = (props: DashboardProps) => {
           <Col sm={6} className='p-1'>
             <div className='dashboard__challenge-card'>
               <Card.Title>Featured Challenge</Card.Title>
-              <Card.Text>{curr_features?.features[0]?.descrip}</Card.Text>
+              <Card.Text>{features?.features[0]?.descrip}</Card.Text>
               {/* 🖐️ Should correspond to current month */}
             </div>
           </Col>

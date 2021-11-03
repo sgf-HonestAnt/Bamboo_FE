@@ -1,7 +1,7 @@
 // fetches
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
-export const POST = "POST;";
+export const POST = "POST";
 export const PUT = "PUT";
 export const DELETE = "DELETE";
 export const SESSION = "session";
@@ -32,20 +32,15 @@ export const SETTINGS = "settings";
 export const FILL_SETTINGS_LOADING = "FILL_SETTINGS_LOADING";
 export const FILL_SETTINGS_ERROR = "FILL_SETTINGS_ERROR";
 export const FILL_SETTINGS = "FILL_SETTINGS";
-// export const SET_CURR_USER = "SET_CURR_USER";
-// export const SET_CURR_USER_ERROR = "SET_CURR_USER_ERROR"
-// export const SET_TASKS = "SET_TASKS";
-// export const SET_ACHIEVEMENTS = "SET_ACHIEVEMENTS";
-// export const SET_SETTINGS = "SET_SETTINGS";
 // settings themes
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];
-// task type
+// task types
 export const SOLO = "solo";
 export const TEAM = "team";
 export const TASK_TYPES = [SOLO, TEAM];
-// task status
+// task statuses
 export const AWAITED = "awaited";
 export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
@@ -65,5 +60,5 @@ export const TASK_REPEAT_TYPES = [
   MONTHLY,
   NUMBER,
 ];
-
+// other
 export const NONE = "none";
