@@ -93,6 +93,7 @@ export interface publicUserInt {
 }
 export interface achievementInt {
   // GET achievements/me, GET users/me, GET achievements/:id
+  username: string;
   item: string;
   createdAt: string;
   _id: string;

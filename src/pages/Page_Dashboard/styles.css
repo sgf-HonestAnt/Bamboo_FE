@@ -1,12 +1,15 @@
 .dashboard {
  border: 1px solid gold;
-  min-height: 100vh;
+ min-height: 100vh;
+ max-height: 100vh;
 }
 .dashboard__left-col {
   min-height: 90vh;
+  max-height: 90vh;
 }
 .dashboard__right-col {
   min-height: 90vh;
+  max-height: 90vh;
 }
 .dashboard__profile-card {
  border: 1px solid gold;
@@ -27,6 +30,8 @@
 }
 .dashboard__activities {
  border: 1px solid gold;
+ overflow-y: scroll;
+ max-height: 70vh;
 }
 .dashboard__tips-card {
  border: 1px solid gold;

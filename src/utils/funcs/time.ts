@@ -8,7 +8,7 @@ const getTime = (ach: achievementInt) => {
   const time = timestamp[4].toString();
   const zone = timestamp[5].toString().split("+")[0];
   return `${weekday}, ${date} ${month} @ ${time.split(":")[0]}:${
-    time.split(":")[2]
+    time.split(":")[1]
   } ${zone}`;
 };
 

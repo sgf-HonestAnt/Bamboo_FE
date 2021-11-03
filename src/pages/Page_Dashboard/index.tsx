@@ -9,6 +9,7 @@ import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievC
 import { Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
 import {
+  achievementInt,
   currentAchievementsInt,
   currentFeaturesInt,
   currentTasksInt,
@@ -34,7 +35,21 @@ const Dashboard = (props: DashboardProps) => {
   const { username, bio, avatar } = user;
   const dispatch = useDispatch();
   const attemptLoad = async () => {
-    await createList(list, followedUsers, dispatch);
+    let super_list: achievementInt[] = [];
+    followedUsers.map((user, i) => {
+      return user.achievements.map((ach, i) => {
+        return super_list.push(ach);
+      });
+    });
+    list.map((ach, i) => {
+      return super_list.push(ach);
+    });
+    super_list.sort(function (a, b) {
+      const date_a = new Date(a.createdAt).getTime();
+      const date_b = new Date(b.createdAt).getTime();
+      return date_b - date_a;
+    });
+    await createList(super_list, dispatch);
     // 🖐️ in future make only last x achievements display for each user, and get achievements sorted by date
   };
   useEffect(() => {
