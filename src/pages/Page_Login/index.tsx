@@ -6,7 +6,7 @@ import "./styles.css";
 const Login = ({ history, location, match }: RouteComponentProps) => {
   useEffect(() => {
     attemptLogin(history);
-  }, []);
+  }, [history]);
   return <></>;
 };
 
