@@ -9,6 +9,8 @@ export interface reduxStateInt {
 }
 
 export interface currentSettingsInt {
+  loading: boolean;
+  error: boolean;
   // GET users/me/settings
   selectedTheme: themeType;
 }
@@ -37,6 +39,8 @@ export interface userInt {
   refreshToken?: string;
 }
 export interface currentTasksInt {
+  loading: boolean;
+  error: boolean;
   // GET tasks/me
   _id: string;
   completed: taskInt[];
@@ -44,12 +48,17 @@ export interface currentTasksInt {
   in_progress: taskInt[];
 }
 export interface currentAchievementsInt {
+  loading: boolean;
+  error: boolean;
   // GET achievements/me
   _id: string;
   user: string; // user
   list: achievementInt[];
+  superlist: string[];
 }
 export interface currentFeaturesInt {
+  loading: boolean;
+  error: boolean;
   // GET features
   links: number | null;
   total: number | null;

@@ -1,12 +1,13 @@
-import { Row, Col, Button } from "react-bootstrap";
-import DashActivCard from "../../pages__components/Page_Dashboard_c/DashActivCard";
-import DashAlertCard from "../../pages__components/Page_Dashboard_c/DashAlertCard";
-import DashCalenCard from "../../pages__components/Page_Dashboard_c/DashCalenCard";
-import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCard";
 import DashProfileCard from "../../pages__components/Page_Dashboard_c/DashProfileCard";
-import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashTasksCard from "../../pages__components/Page_Dashboard_c/DashTasksCard";
+import DashCalenCard from "../../pages__components/Page_Dashboard_c/DashCalenCard";
 import DashTipsCard from "../../pages__components/Page_Dashboard_c/DashTipsCard";
+import DashAlertCard from "../../pages__components/Page_Dashboard_c/DashAlertCard";
+import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCard";
+import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
+import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievCard";
+import { Row, Col } from "react-bootstrap";
+import { useEffect } from "react";
 import {
   currentAchievementsInt,
   currentFeaturesInt,
@@ -14,7 +15,9 @@ import {
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
+import createList from "../../utils/funcs/list";
 import "./styles.css";
+import { useDispatch } from "react-redux";
 
 type DashboardProps = {
   user: userInt;
@@ -25,19 +28,27 @@ type DashboardProps = {
 };
 
 const Dashboard = (props: DashboardProps) => {
-  const { user, tasks, achievements, features } = props;
+  const { user, tasks, achievements, followedUsers, features } = props;
   const today = tasks.awaited; // 🖐️ add where date equals today!
-  const list = achievements.list;
-  // followedUsers.achievements.list;
+  const { list, superlist } = achievements;
   const { username, bio, avatar } = user;
+  const dispatch = useDispatch();
+  const attemptLoad = async () => {
+    await createList(list, followedUsers, dispatch);
+    // 🖐️ in future make only last x achievements display for each user, and get achievements sorted by date
+  };
+  useEffect(() => {
+    attemptLoad();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <Row className='dashboard p-0'>
+    <Row className='dashboard p-2'>
       {/* LOGO/NAME */}
-      <Col sm={10}>
+      <Col sm={12}>
         <div>APP-NAME</div>
       </Col>
-      {/* LEFT-HAND COLUMN WITH TWO INNER COLUMNS, TAKES UP 6/12 */}
-      <Col sm={6} className='dashboard__left-col m-2'>
+      {/* LEFT-HAND COLUMN WITH TWO INNER COLUMNS, TAKES UP 8/12 */}
+      <Col sm={8} className='dashboard__left-col'>
         <Row>
           {" "}
           {/* Row 1 */}
@@ -73,15 +84,19 @@ const Dashboard = (props: DashboardProps) => {
           </Col>
         </Row>
       </Col>
-      {/* RIGHT-HAND COLUMN WITH ONE INNER COLUMN, TAKES UP 4/12 */}
-      <Col sm={4} className='dashboard__right-col m-2'>
-        {/* SEARCH USERS AREA WITHIN THE RIGHTHAND COLUMN, TAKES 4/12 */}
-        <DashSearch />
-        {/* USER ACTIVITIES CARD WITHIN THE RIGHTHAND COLUMN, TAKES 4/12 */}
-        <DashActivCard list={list} username={username} />
+      {/* RIGHT-HAND COLUMN WITH ONE INNER COLUMN, TAKES UP 3/12 */}
+      <Col sm={3} className='dashboard__right-col'>
+        <Row>
+          <Col className='p-1'>
+            {/* SEARCH USERS AREA WITHIN THE RIGHTHAND COLUMN, TAKES 4/12 */}
+            <DashSearch />
+            {/* USER ACHIEVEMENTS CARD WITHIN THE RIGHTHAND COLUMN, TAKES 4/12 */}
+            <DashAchievCard superlist={superlist} />
+          </Col>
+        </Row>
       </Col>
     </Row>
   );
-}; 
+};
 
 export default Dashboard;

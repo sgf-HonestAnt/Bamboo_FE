@@ -1,5 +1,5 @@
 .dashboard {
-  background-color: darkseagreen;
+ border: 1px solid gold;
   min-height: 100vh;
 }
 .dashboard__left-col {
@@ -9,30 +9,31 @@
   min-height: 90vh;
 }
 .dashboard__profile-card {
-  background-color: darksalmon;
+ border: 1px solid gold;
 }
 .dashboard__tasks-card {
-  background-color: cyan;
+ border: 1px solid gold;
 }
 .dashboard__tasks-card__tasks {
   display: block;
 }
 .dashboard__calendar-card {
-  background-color: darkgrey;
+ border: 1px solid gold;
 }
 .dashboard__search-bar {
+  border: 1px solid gold;
   display: flex;
   justify-content: space-between;
 }
 .dashboard__activities {
-  background-color: gold;
+ border: 1px solid gold;
 }
 .dashboard__tips-card {
-  background-color: hotpink;
+ border: 1px solid gold;
 }
 .dashboard__alerts-card {
-  background-color: floralwhite;
+ border: 1px solid gold;
 }
 .dashboard__challenge-card {
-  background-color: cornsilk;
+ border: 1px solid gold;
 }

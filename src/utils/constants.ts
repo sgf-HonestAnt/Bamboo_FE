@@ -22,6 +22,7 @@ export const ACHIEVEMENTS = "achievements";
 export const FILL_ACHIEVEMENTS_LOADING = "FILL_ACHIEVEMENTS_LOADING";
 export const FILL_ACHIEVEMENTS_ERROR = "FILL_ACHIEVEMENTS_ERROR";
 export const FILL_ACHIEVEMENTS = "FILL_ACHIEVEMENTS";
+export const SET_SUPERLIST = "SET_SUPERLIST"
 // features reducers
 export const FEATURES = "features";
 export const FILL_FEATURES_LOADING = "FILL_FEATURES_LOADING";
@@ -62,3 +63,10 @@ export const TASK_REPEAT_TYPES = [
 ];
 // other
 export const NONE = "none";
+// congratulations
+export const congrats = [
+  "🖐️High five!",
+  "😃Well done!",
+  "😍Amazing!",
+  "✊Fist bump!"
+]

@@ -52,6 +52,8 @@ export const initialState: reduxStateInt = {
     followedUsers: [],
   },
   currentTasks: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/tasks/me/"
     _id: "",
     completed: [],
@@ -59,16 +61,23 @@ export const initialState: reduxStateInt = {
     in_progress: [],
   },
   currentAchievements: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/achievements/me/"
     _id: "",
     user: "",
     list: [],
+    superlist: [],
   },
   currentSettings: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/user/me/settings"
     selectedTheme: LIGHT_MODE,
   },
   currentFeatures: {
+    loading: true,
+    error: false,
     links: 0,
     total: 0,
     features: [],

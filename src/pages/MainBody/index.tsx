@@ -47,7 +47,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     console.log(`💥ERROR ${error}`);
     error && attemptRefresh(history, refreshToken);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [error]);
 
   return (
     <Container fluid className='main-page m-0'>
