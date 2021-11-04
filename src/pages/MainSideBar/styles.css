@@ -1,7 +1,19 @@
 .main-side-bar {
   background-color: aqua;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-.main-side-bar a {
+.main-side-bar__theme {
+}
+.main-side-bar__profile {
+}
+.main-side-bar__profile-img {
+  max-width: 60%;
+  border-radius: 50%;
+}
+.main-side-bar__links a {
   display: block;
+}
+.main-side-bar__settings {
 }

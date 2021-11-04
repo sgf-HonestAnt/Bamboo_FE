@@ -59,13 +59,13 @@ function App() {
             )}
           /> */}
           {/* TASKS BY TASKS */}
-          {/* <Route
+          <Route
             exact
             path='/tasks'
             render={(routerProps: RouteComponentProps) => (
-              <MainPageTemplate {...routerProps} />
+              <MainBody {...routerProps} />
             )}
-          /> */}
+          />
           {/* TASKS BY SCHEDULE */}
           {/* <Route
             exact

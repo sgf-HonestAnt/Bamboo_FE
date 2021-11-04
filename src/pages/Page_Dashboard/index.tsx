@@ -6,7 +6,7 @@ import DashAlertCard from "../../pages__components/Page_Dashboard_c/DashAlertCar
 import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCard";
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievCard";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 import { useEffect } from "react";
 import {
   achievementInt,
@@ -20,7 +20,7 @@ import createList from "../../utils/funcs/list";
 import "./styles.css";
 import { useDispatch } from "react-redux";
 
-type DashboardProps = {
+type DashboardProps = { 
   user: userInt;
   tasks: currentTasksInt;
   achievements: currentAchievementsInt;
@@ -56,7 +56,11 @@ const Dashboard = (props: DashboardProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
+  return !props ? (
+    <Spinner animation='border' role='status'>
+      <span className='visually-hidden'>Loading...</span>
+    </Spinner>
+  ) : (
     <Row className='dashboard p-2'>
       {/* LOGO/NAME */}
       <Col sm={12}>
@@ -69,7 +73,13 @@ const Dashboard = (props: DashboardProps) => {
           {/* Row 1 */}
           <Col sm={6} className='p-1'>
             {/* PROFILE CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
-            <DashProfileCard avatar={avatar} username={username} bio={bio} level={level} xp={xp} />
+            <DashProfileCard
+              avatar={avatar}
+              username={username}
+              bio={bio}
+              level={level}
+              xp={xp}
+            />
           </Col>
           <Col sm={6} className='p-1'>
             {/* TASK CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}

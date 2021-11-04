@@ -11,6 +11,7 @@ import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import MainSideBar from "../MainSideBar";
 import Dashboard from "../Page_Dashboard";
+import Tasks from "../Page_Tasks";
 import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
 import attemptRefresh from "../../utils/funcs/refresh";
@@ -53,7 +54,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     <Container fluid className='main-page m-0'>
       <Row>
         <Col sm={2} className='p-0'>
-          <MainSideBar />
+          <MainSideBar user={user} />
         </Col>
         <Col className='m-0'>
           {path === "/dash" ? (
@@ -66,9 +67,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             />
           ) : // : path === "/stats" ? (
           //   <Stats />
-          // ) : path === "/tasks" ? (
-          //   <Tasks />
-          // ) : path === "/tasks-schedule" ? (
+          // ) :
+          path === "/tasks" ? (
+            <Tasks tasks={tasks} />
+          ) : // path === "/tasks-schedule" ? (
           //   <TasksSchedule />
           // ) : path === "/quests" ? (
           //   <Quests />
