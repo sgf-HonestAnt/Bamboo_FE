@@ -1,4 +1,5 @@
-import { AppDispatch } from "../../redux/store";
+import { Dispatch } from "redux";
+import { loadTasksAction } from "../../redux/actions/tasks";
 import { statusType, taskType } from "../../typings/types";
 import { BE_URL, PUT, TASKS } from "../constants";
 
@@ -14,30 +15,31 @@ type taskUpdateType = {
   deadline?: string;
 };
 
-const updateTask = (id: string, taskUpdate: taskUpdateType) => {
+const updateTask = async (
+  id: string,
+  taskUpdate: taskUpdateType,
+  dispatch: Dispatch<any>
+) => {
   const token = localStorage.getItem("token");
-  return async (dispatch: AppDispatch, getState: any) => {
-    try {
-      console.log("✏️update task!", id, taskUpdate);
-      const url = `${BE_URL}/${TASKS}/me/${id}`;
-      const method = PUT;
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      const body = JSON.stringify(taskUpdate);
-      const response = await fetch(url, { method, headers, body });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        // const { accessToken, refreshToken } = await response.json();
-        // localStorage.setItem("token", accessToken);
-        // setRefreshToken(refreshToken);
-        // history.push("/");
-      }
-    } catch (error) {
-      console.log(error);
+  try {
+    const url = `${BE_URL}/${TASKS}/me/${id}`;
+    const method = PUT;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const body = JSON.stringify(taskUpdate);
+    console.log("✏️update task!", url, method, headers, body);
+    const response = await fetch(url, { method, headers, body });
+    if (response.ok) {
+      const updated = await response.json();
+      console.log("response was ok", updated); // WHYYYYYYYYY
+      setTimeout(() => {
+        dispatch(loadTasksAction(true));
+      }, 2000);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default updateTask;

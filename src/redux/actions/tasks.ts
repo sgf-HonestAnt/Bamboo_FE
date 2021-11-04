@@ -8,6 +8,11 @@ import {
   FILL_TASKS_LOADING,
 } from "../../utils/constants";
 
+export const loadTasksAction = (loading: boolean) => ({
+  type: FILL_TASKS_LOADING,
+  payload: true,
+});
+
 export const fillTasksAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {

@@ -1,5 +1,4 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { RouteComponentProps } from "react-router-dom";
 import { currentTasksInt, taskInt } from "../../typings/interfaces";
 import "./styles.css";
 

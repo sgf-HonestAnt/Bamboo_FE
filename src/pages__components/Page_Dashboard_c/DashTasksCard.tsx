@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { taskInt } from "../../typings/interfaces";
 import completeTasks from "../../utils/funcs/complete";
 
@@ -13,6 +14,7 @@ type DashTasksCardProps = {
 
 const DashTasksCard = (props: DashTasksCardProps) => {
   const { today } = props;
+  const dispatch = useDispatch(); 
   const checkedTasks: string[] = [];
   const handleChange = async (e: {
     preventDefault: () => void;
@@ -24,7 +26,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await completeTasks(checkedTasks);
+    await completeTasks(checkedTasks, dispatch);
   };
   useEffect(() => {});
   return (
@@ -52,7 +54,6 @@ const DashTasksCard = (props: DashTasksCardProps) => {
           mark complete
         </Button>
       </Form>
-      <Button variant='primary'>Go somewhere</Button>
     </div>
   );
 };

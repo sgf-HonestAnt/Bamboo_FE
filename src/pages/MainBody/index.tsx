@@ -27,8 +27,14 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const achievements = state.currentAchievements;
   const followedUsers = state.currentUser.followedUsers;
   const features = state.currentFeatures;
-  //const settings = state.currentSettings;
-  const { error, loading } = state.currentUser;
+  const settings = state.currentSettings;
+  const { error, loading } = state.currentUser; 
+  const reloading =
+    state.currentUser.loading ||
+    tasks.loading ||
+    achievements.loading ||
+    settings.loading ||
+    features.loading;
   const dispatch = useDispatch();
   const path = location.pathname;
   const token = localStorage.getItem("token");
@@ -44,11 +50,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   useEffect(() => {
     attemptLoad();
     console.log(`🗝️TOKEN ${token}`);
+    console.log(`🔄RELOADING ${reloading}`);
     console.log(`🔁LOADING ${loading}`);
     console.log(`💥ERROR ${error}`);
     error && attemptRefresh(history, refreshToken);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [error, reloading]);
 
   return (
     <Container fluid className='main-page m-0'>
