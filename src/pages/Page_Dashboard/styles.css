@@ -14,11 +14,26 @@
 .dashboard__profile-card {
  border: 1px solid gold;
 }
+.dashboard__profile-card__img {
+  width: 50%;
+  border-radius: 50%;
+}
+.dashboard__profile-card__username{
+}
+.dashboard__profile-card__level {
+  background-color: gold;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+}
 .dashboard__tasks-card {
  border: 1px solid gold;
 }
 .dashboard__tasks-card__tasks {
-  display: block;
+  display: flex;
 }
 .dashboard__calendar-card {
  border: 1px solid gold;
