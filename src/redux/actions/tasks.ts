@@ -7,6 +7,7 @@ import {
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
 } from "../../utils/constants";
+import attemptRefresh from "../../utils/funcs/refresh";
 
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
@@ -43,6 +44,8 @@ export const fillTasksAction = () => {
         console.log(
           `🥔tasks=${payload.awaited.length}awaited,${payload.completed.length}completed,${payload.in_progress.length}in_progress`
         );
+      } else if (response.status===401) {
+        await attemptRefresh(history, refreshToken) // ADD SAME AS BEFORE.
       } else {
         setTimeout(() => {
           dispatch({

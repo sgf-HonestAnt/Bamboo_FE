@@ -8,13 +8,15 @@ import {
   FILL_USER_LOADING,
 } from "../../utils/constants";
 import { SET_REFRESH_TOKEN } from "../../utils/constants";
+import attemptRefresh from "../../utils/funcs/refresh";
+import { History } from "history";
 
 export const setRefreshToken = (token: string) => ({
   type: SET_REFRESH_TOKEN,
   payload: token,
 });
 
-export const fillUserAction = () => {
+export const fillUserAction = (history: History<unknown>, refreshToken: string | undefined) => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -45,6 +47,8 @@ export const fillUserAction = () => {
           payload,
         });
         console.log(`🥔user=${payload.my_user.username}`);
+      } else if (response.status===401) {
+        await attemptRefresh(history, refreshToken)
       } else {
         setTimeout(() => {
           dispatch({

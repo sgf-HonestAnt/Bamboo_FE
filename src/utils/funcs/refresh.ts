@@ -20,6 +20,7 @@ const attemptRefresh = async (
         const { accessToken, refreshToken } = await response.json();
         localStorage.setItem("token", accessToken);
         setRefreshToken(refreshToken);
+        history.push("/");
       }
     } catch (error) {
       console.log(error);

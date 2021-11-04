@@ -40,7 +40,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const token = localStorage.getItem("token");
 
   const attemptLoad = async () => {
-    dispatch(fillUserAction());
+    dispatch(fillUserAction(history, refreshToken));
     dispatch(fillTasksAction());
     dispatch(fillAchievementsAction());
     dispatch(fillFeaturesAction());
