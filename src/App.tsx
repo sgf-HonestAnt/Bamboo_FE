@@ -9,19 +9,20 @@ import {
 } from "react-router-dom";
 import MainBody from "./pages/MainBody";
 import Login from "./pages/Page_Login";
+import Register from "./pages/Page_Register";
 
 function App() {
   return (
     <div className='App'>
       <Router>
         <Switch>
-          {/* <Route
+          <Route
             exact
             path='/register'
             render={(routerProps: RouteComponentProps) => (
-              <RegistrationPage {...routerProps} />
+              <Register {...routerProps} />
             )}
-          /> */}
+          />
           <Route
             exact
             path='/login'

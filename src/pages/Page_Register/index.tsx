@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
-import attemptLogin from "../../utils/funcs/login";
+//import attemptLogin from "../../utils/funcs/login";
 import "./styles.css";
 
-const Login = ({ history, location, match }: RouteComponentProps) => {
-  const [form, setForm] = useState({ email: "", password: "" });
+const Register = ({ history, location, match }: RouteComponentProps) => {
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
   const handleChange = async (e: {
     preventDefault: () => void;
     target: { id: any; value: any };
@@ -19,14 +25,44 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    attemptLogin(history); // don't forget to remove default parameters before deployment...
+    //attemptRegistration(history);
   };
   console.log(form);
   return (
     <Container fluid>
-      <Row className='login-form'>
+      <Row className='registration-form'>
         <Col sm={6}>
           <Form onSubmit={handleSubmit}>
+            <Form.Group>
+              <Form.Label>First name</Form.Label>
+              <Form.Control
+                type='text'
+                id='first_name'
+                value={form.first_name}
+                placeholder='Enter first name'
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Last name</Form.Label>
+              <Form.Control
+                type='text'
+                id='last_name'
+                value={form.last_name}
+                placeholder='Enter last name'
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type='text'
+                id='username'
+                value={form.username}
+                placeholder='Enter username'
+                onChange={handleChange}
+              />
+            </Form.Group>
             <Form.Group>
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -51,7 +87,7 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
               />
             </Form.Group>
             <Form.Group>
-              <Link to='/register'>Register instead</Link>{" "}
+              <Link to='/register'>Login</Link>{" "}
             </Form.Group>
             <Button variant='primary' type='submit'>
               Submit
@@ -63,4 +99,4 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
   );
 };
 
-export default Login;
+export default Register;
