@@ -20,7 +20,7 @@ import createList from "../../utils/funcs/list";
 import "./styles.css";
 import { useDispatch } from "react-redux";
 
-type DashboardProps = { 
+type DashboardProps = {
   user: userInt;
   tasks: currentTasksInt;
   achievements: currentAchievementsInt;

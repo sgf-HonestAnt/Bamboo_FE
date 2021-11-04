@@ -41,10 +41,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   const attemptLoad = async () => {
     dispatch(fillUserAction(history, refreshToken));
-    dispatch(fillTasksAction());
-    dispatch(fillAchievementsAction());
-    dispatch(fillFeaturesAction());
-    dispatch(fillSettingsAction());
+    dispatch(fillTasksAction(history, refreshToken)); 
+    dispatch(fillAchievementsAction(history, refreshToken));
+    dispatch(fillFeaturesAction(history, refreshToken));
+    dispatch(fillSettingsAction(history, refreshToken));
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     console.log(`💥ERROR ${error}`);
     error && attemptRefresh(history, refreshToken);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, reloading]);
+  }, [reloading]);
 
   return (
     <Container fluid className='main-page m-0'>
@@ -75,7 +75,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 tasks={tasks}
                 achievements={achievements}
                 followedUsers={followedUsers}
-                features={features}
+                features={features} 
               />
             ) : // : path === "/stats" ? (
             //   <Stats />

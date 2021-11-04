@@ -1,5 +1,5 @@
 import type { AppDispatch } from "../store";
-import { 
+import {
   BE_URL,
   GET,
   USERS,
@@ -8,15 +8,18 @@ import {
   FILL_USER_LOADING,
 } from "../../utils/constants";
 import { SET_REFRESH_TOKEN } from "../../utils/constants";
-import attemptRefresh from "../../utils/funcs/refresh";
 import { History } from "history";
+import attemptRefresh from "../../utils/funcs/refresh";
 
 export const setRefreshToken = (token: string) => ({
   type: SET_REFRESH_TOKEN,
   payload: token,
 });
 
-export const fillUserAction = (history: History<unknown>, refreshToken: string | undefined) => {
+export const fillUserAction = (
+  history: History<unknown>,
+  refreshToken: string | undefined
+) => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -47,8 +50,8 @@ export const fillUserAction = (history: History<unknown>, refreshToken: string |
           payload,
         });
         console.log(`🥔user=${payload.my_user.username}`);
-      } else if (response.status===401) {
-        await attemptRefresh(history, refreshToken)
+      } else if (response.status === 401) {
+        await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

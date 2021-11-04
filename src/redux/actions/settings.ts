@@ -8,8 +8,13 @@ import {
   FILL_SETTINGS_ERROR,
   FILL_SETTINGS_LOADING,
 } from "../../utils/constants";
+import { History } from "history";
+import attemptRefresh from "../../utils/funcs/refresh";
 
-export const fillSettingsAction = () => {
+export const fillSettingsAction = (
+  history: History<unknown>,
+  refreshToken: string | undefined
+) => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -36,7 +41,9 @@ export const fillSettingsAction = () => {
           type: FILL_SETTINGS,
           payload,
         });
-        console.log(`🥔theme=${payload.selectedTheme}`)
+        console.log(`🥔theme=${payload.selectedTheme}`);
+      } else if (response.status === 401) {
+        await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({
@@ -67,4 +74,3 @@ export const fillSettingsAction = () => {
     }
   };
 };
-

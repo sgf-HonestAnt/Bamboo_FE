@@ -14,14 +14,14 @@ type taskUpdateType = {
   status?: statusType | string;
   deadline?: string;
 };
- 
+
 const updateTask = async (
   id: string,
   taskUpdate: taskUpdateType,
   dispatch: Dispatch<any>
 ) => {
   const token = localStorage.getItem("token");
-  console.log(taskUpdate)
+  console.log(taskUpdate);
   try {
     const url = `${BE_URL}/${TASKS}/me/${id}`;
     const method = PUT;
@@ -30,15 +30,12 @@ const updateTask = async (
       "Content-Type": "application/json",
     };
     const body = JSON.stringify(taskUpdate);
-    // console.log("✏️update task!", url, method, headers, body);
-    console.log(body)
+    console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      const updated = await response.json();
-      console.log("response was ok", updated);
-      setTimeout(() => {
-        dispatch(loadTasksAction(true));
-      }, 2000);
+      // const updated = await response.json();
+      // console.log("response was ok", updated);
+      dispatch(loadTasksAction(true));
     }
   } catch (error) {
     console.log(error);

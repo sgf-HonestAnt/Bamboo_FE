@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { taskInt } from "../../typings/interfaces";
 import completeTasks from "../../utils/funcs/complete";
 
-type DashTasksCardProps = {
+type DashTasksCardProps = { 
   today: taskInt[];
 };
 
