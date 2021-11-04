@@ -6,7 +6,7 @@ import DashAlertCard from "../../pages__components/Page_Dashboard_c/DashAlertCar
 import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCard";
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievCard";
-import { Row, Col, Spinner } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useEffect } from "react";
 import {
   achievementInt,
@@ -56,11 +56,7 @@ const Dashboard = (props: DashboardProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return !props ? (
-    <Spinner animation='border' role='status'>
-      <span className='visually-hidden'>Loading...</span>
-    </Spinner>
-  ) : (
+  return (
     <Row className='dashboard p-2'>
       {/* LOGO/NAME */}
       <Col sm={12}>

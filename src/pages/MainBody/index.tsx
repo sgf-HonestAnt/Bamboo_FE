@@ -3,7 +3,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { Container, Row, Col } from "react-bootstrap";
+import { Spinner, Container, Row, Col } from "react-bootstrap";
 import { fillUserAction } from "../../redux/actions/user";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { fillAchievementsAction } from "../../redux/actions/achievements";
@@ -28,7 +28,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const followedUsers = state.currentUser.followedUsers;
   const features = state.currentFeatures;
   const settings = state.currentSettings;
-  const { error, loading } = state.currentUser; 
+  const { error, loading } = state.currentUser;
   const reloading =
     state.currentUser.loading ||
     tasks.loading ||
@@ -59,38 +59,44 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   return (
     <Container fluid className='main-page m-0'>
-      <Row>
-        <Col sm={2} className='p-0'>
-          <MainSideBar user={user} />
-        </Col>
-        <Col className='m-0'>
-          {path === "/dash" ? (
-            <Dashboard
-              user={user}
-              tasks={tasks}
-              achievements={achievements}
-              followedUsers={followedUsers}
-              features={features}
-            />
-          ) : // : path === "/stats" ? (
-          //   <Stats />
-          // ) :
-          path === "/tasks" ? (
-            <Tasks tasks={tasks} />
-          ) : // path === "/tasks-schedule" ? (
-          //   <TasksSchedule />
-          // ) : path === "/quests" ? (
-          //   <Quests />
-          // ) : path === "/inventory" ? (
-          //   <Inventory />
-          // ) :
-          path === "/following" ? (
-            <Following followedUsers={followedUsers} />
-          ) : (
-            <ErrorPage />
-          )}
-        </Col>
-      </Row>
+      {loading ? (
+        <Row className="main-page__spinner">
+          <Spinner animation='grow' />
+        </Row>
+      ) : (
+        <Row>
+          <Col sm={2} className='p-0'>
+            <MainSideBar user={user} />
+          </Col>
+          <Col className='m-0'>
+            {path === "/dash" ? (
+              <Dashboard
+                user={user}
+                tasks={tasks}
+                achievements={achievements}
+                followedUsers={followedUsers}
+                features={features}
+              />
+            ) : // : path === "/stats" ? (
+            //   <Stats />
+            // ) :
+            path === "/tasks" ? (
+              <Tasks tasks={tasks} />
+            ) : // path === "/tasks-schedule" ? (
+            //   <TasksSchedule />
+            // ) : path === "/quests" ? (
+            //   <Quests />
+            // ) : path === "/inventory" ? (
+            //   <Inventory />
+            // ) :
+            path === "/following" ? (
+              <Following followedUsers={followedUsers} />
+            ) : (
+              <ErrorPage />
+            )}
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 };
