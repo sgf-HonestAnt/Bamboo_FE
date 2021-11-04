@@ -4,6 +4,7 @@ export const GET = "GET";
 export const POST = "POST";
 export const PUT = "PUT";
 export const DELETE = "DELETE";
+export const REGISTER = "REGISTER"
 export const SESSION = "session";
 export const REFRESH = "refresh";
 // user reducers

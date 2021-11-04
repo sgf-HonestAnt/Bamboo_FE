@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
-//import attemptLogin from "../../utils/funcs/login";
+import attemptRegister from "../../utils/funcs/register";
 import "./styles.css";
 
 const Register = ({ history, location, match }: RouteComponentProps) => {
@@ -25,13 +25,14 @@ const Register = ({ history, location, match }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    //attemptRegistration(history);
+    attemptRegister(history, form);
   };
   console.log(form);
   return (
     <Container fluid>
       <Row className='registration-form'>
         <Col sm={6}>
+          <h1>Register</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>First name</Form.Label>
@@ -87,7 +88,7 @@ const Register = ({ history, location, match }: RouteComponentProps) => {
               />
             </Form.Group>
             <Form.Group>
-              <Link to='/register'>Login</Link>{" "}
+              <Link to='/login'>Login</Link>{" "}
             </Form.Group>
             <Button variant='primary' type='submit'>
               Submit

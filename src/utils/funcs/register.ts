@@ -1,18 +1,25 @@
 import { History } from "history";
 import { setRefreshToken } from "../../redux/actions/user";
-import { BE_URL, POST, SESSION, USERS } from "../constants";
+import { BE_URL, POST, REGISTER, USERS } from "../constants";
 
-const attemptLogin = async (
+type registrationForm = {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
+const attemptRegister = async (
   history: History<unknown> | string[],
-  email = process.env.REACT_APP_DEV_USER_EMAIL,
-  password = process.env.REACT_APP_DEV_USER_PASSWORD
+  form: registrationForm
 ) => {
   try {
-    console.log("🗝️attempt login!");
-    const url = `${BE_URL}/${USERS}/${SESSION}`;
+    console.log("✔️attempt registration!",form);
+    const url = `${BE_URL}/${USERS}/${REGISTER}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };
-    const body = JSON.stringify({ email, password });
+    const body = JSON.stringify(form);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const { accessToken, refreshToken } = await response.json();
@@ -20,9 +27,9 @@ const attemptLogin = async (
       setRefreshToken(refreshToken);
       history.push("/");
     }
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
   }
 };
 
-export default attemptLogin;
+export default attemptRegister;

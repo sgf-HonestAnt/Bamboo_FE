@@ -26,6 +26,7 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
     <Container fluid>
       <Row className='login-form'>
         <Col sm={6}>
+          <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label>Email address</Form.Label>
