@@ -1,4 +1,4 @@
-import { Container, Row, Col, Button, Dropdown, Form } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { currentTasksInt } from "../../typings/interfaces";
 import { GrAddCircle } from "react-icons/gr";
 import { FiClock } from "react-icons/fi";
@@ -10,7 +10,8 @@ import {
 import "./styles.css";
 import getCategories from "../../utils/funcs/categories";
 import { useEffect, useState } from "react";
-import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards"; 
+import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
+import filterTasks from "../../utils/funcs/filterTask";
 
 type TasksProps = {
   tasks: currentTasksInt;
@@ -21,6 +22,42 @@ const Tasks = (props: TasksProps) => {
   const { awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [allCategories, setAllCategories] = useState<string[]>([]);
+  const [statusToShow, setStatusToShow] = useState({
+    category: "",
+    awaited: true,
+    in_progress: true,
+    completed: false,
+  });
+  const changeCategory = (e: { target: { value: any; }; }) => {
+    const value = e.target.value
+    setStatusToShow({
+      ...statusToShow,
+      category: value,
+    });
+  };
+  const changeAwaited = () => {
+    setStatusToShow({
+      ...statusToShow,
+      awaited: !statusToShow.awaited,
+    });
+  };
+  const changeProgress = () => {
+    setStatusToShow({
+      ...statusToShow,
+      in_progress: !statusToShow.in_progress,
+    });
+  };
+  const changeCompleted = () => {
+    setStatusToShow({
+      ...statusToShow,
+      completed: !statusToShow.completed,
+    });
+  };
+  const filterByStatus = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    console.log(statusToShow);
+    // add funcionality to filter by category, status, time and value(?)
+  };
   const attemptLoad = async () => {
     const categories = await getCategories(allTasks);
     setAllCategories(categories);
@@ -49,31 +86,86 @@ const Tasks = (props: TasksProps) => {
                   <MdOutlineStarHalf />
                   <MdOutlineStar />
                 </div>
-                <Dropdown>
-                  <Dropdown.Toggle
-                    variant='success'
-                    id='dropdown-basic'
-                    size='sm'>
-                    category
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    {allCategories.map((c, i) => {
-                      <Dropdown.Item href='#/action-1' key={i}>
-                        {c}
-                      </Dropdown.Item>;
+                <form
+                  onSubmit={filterByStatus}
+                  className='tasks-page__filter-row-inner-display__status-form'>
+                  <select name='category' onChange={changeCategory}>
+                    {allCategories.map(function (c,i) {
+                      return (
+                        <option key={i} value={c} selected={statusToShow.category === c}>
+                          {c}
+                        </option> 
+                      );
                     })}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Form>
+                  </select>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <input
+                        type='checkbox'
+                        checked={statusToShow.awaited}
+                        onChange={changeAwaited}
+                        className='form-check-input'
+                      />
+                      Awaited
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <input
+                        type='checkbox'
+                        checked={statusToShow.in_progress}
+                        onChange={changeProgress}
+                        className='form-check-input'
+                      />
+                      In progress
+                    </label>
+                  </div>
+                  <div className='form-check'>
+                    <label className='form-check-label'>
+                      <input
+                        type='checkbox'
+                        checked={statusToShow.completed}
+                        onChange={changeCompleted}
+                        className='form-check-input'
+                      />
+                      Completed
+                    </label>
+                  </div>
+                  <div className='form-group'>
+                    <button className='btn btn-success'>Save</button>
+                  </div>
+                </form>
+                {/* TEST */}
+                {/* <Form>
                   <Form.Group controlId='formBasicCheckbox'>
-                    <Form.Check type='checkbox' label='In progress' />
+                    <Form.Check
+                      type='checkbox'
+                      label='Awaited'
+                      id='awaited'
+                      onChange={(e) => selectStatus(e, "awaited")}
+                    />
                   </Form.Group>
                 </Form>
                 <Form>
                   <Form.Group controlId='formBasicCheckbox'>
-                    <Form.Check type='checkbox' label='Show completed tasks' />
+                    <Form.Check
+                      type='checkbox'
+                      label='In progress'
+                      id='in_progress'
+                      onChange={(e) => selectStatus(e, "in_progress")}
+                    />
                   </Form.Group>
                 </Form>
+                <Form>
+                  <Form.Group controlId='formBasicCheckbox'>
+                    <Form.Check
+                      type='checkbox'
+                      label='Completed'
+                      id='completed'
+                      onChange={(e) => selectStatus(e, "completed")}
+                    />
+                  </Form.Group>
+                </Form> */}
               </div>
             </div>
           </Row>
