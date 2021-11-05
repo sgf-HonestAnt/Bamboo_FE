@@ -1,7 +1,8 @@
 .dashboard {
- border: 1px solid gold;
- min-height: 100vh;
- max-height: 100vh;
+  border: 1px solid gold;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
 }
 .dashboard__left-col {
   min-height: 90vh;
@@ -12,31 +13,54 @@
   max-height: 90vh;
 }
 .dashboard__profile-card {
- border: 1px solid gold;
+  border: 1px solid gold;
 }
-.dashboard__profile-card__img {
+.dashboard__profile-card__holder {
+  position: relative;
+}
+.dashboard__profile-card__holder-img {
   width: 50%;
   border-radius: 50%;
 }
-.dashboard__profile-card__username{
-}
 .dashboard__profile-card__level {
-  background-color: gold;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
   position: absolute;
-  bottom: 30px;
-  right: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: gold;
+  border-radius: 50%;
+  min-height: 30px;
+  min-width: 30px;
+  top: 0;
+  right: 25%;
+}
+.dashboard__profile-card__username {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+.dashboard__profile-card__holder-xp {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center;
+  text-size-adjust: 100%;
+}
+.dashboard__profile-card__stats {
+  display: block;
+}
+.dashboard__profile-card__stats svg {
+  margin: 5px 0;
+  height: 1.8em;
+  width: 1.8em;
 }
 .dashboard__tasks-card {
- border: 1px solid gold;
+  border: 1px solid gold;
 }
 .dashboard__tasks-card__tasks {
   display: flex;
 }
 .dashboard__calendar-card {
- border: 1px solid gold;
+  border: 1px solid gold;
 }
 .dashboard__search-bar {
   border: 1px solid gold;
@@ -44,16 +68,19 @@
   justify-content: space-between;
 }
 .dashboard__activities {
- border: 1px solid gold;
- overflow-y: scroll;
- max-height: 70vh;
+  border: 1px solid gold;
+  overflow-y: scroll;
+  max-height: 70vh;
 }
 .dashboard__tips-card {
- border: 1px solid gold;
+  border: 1px solid gold;
 }
 .dashboard__alerts-card {
- border: 1px solid gold;
+  border: 1px solid gold;
 }
 .dashboard__challenge-card {
- border: 1px solid gold;
+  border: 1px solid gold;
+}
+.dashboard__challenge-card__img {
+  max-width: 90%;
 }

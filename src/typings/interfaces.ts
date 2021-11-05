@@ -120,6 +120,7 @@ export interface featureInt {
   descrip: string;
   level: number;
   value: number;
+  image?: string;
   createdAt: string;
   updatedAt: string;
 }

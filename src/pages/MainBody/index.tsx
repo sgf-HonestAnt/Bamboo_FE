@@ -66,7 +66,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
       ) : (
         <Row>
           <Col sm={2} className='p-0'>
-            <MainSideBar user={user} />
+            <MainSideBar history={history} user={user} tasks={tasks} followedUsers={followedUsers} />
           </Col>
           <Col className='m-0'>
             {path === "/dash" ? (
