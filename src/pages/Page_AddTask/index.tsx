@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { followedUserInt } from "../../typings/interfaces";
+import { followedUserInt, SetTask } from "../../typings/interfaces";
+import { MdOutlinePsychology } from "react-icons/md";
 import "./styles.css";
 
 type AddTaskProps = {
@@ -10,140 +11,391 @@ type AddTaskProps = {
 
 const AddTask = (props: AddTaskProps) => {
   const { categories, followedUsers } = props;
-  const [statusToShow, setStatusToShow] = useState({
+  // categories
+  const [showCategoryDrop, setShowCategoryDrop] = useState(true);
+  const [showCategory, setShowCategory] = useState(false);
+  // other options
+  // does it repeat?
+  const [showRepeat, setShowRepeat] = useState(true);
+  // ➡️ changeRepeated
+  // if yes, how often?
+  const [showHowOften, setShowHowOften] = useState(false);
+  // ➡️ changeHowOften
+  // if other, how many days?
+  const [showOther, setShowOther] = useState(false);
+  // ➡️ changeOtherRep
+  // OR
+  // if no, is it shared?
+  const [showShared, setShowShared] = useState(false);
+  // ➡️ changeShared
+  // if yes, who with?
+  const [showSharedWith, setShowSharedWith] = useState(false);
+  // ➡️ changeSharedWith
+
+  const [otherRep, setOtherRep] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [newCateg, setNewCateg] = useState(false);
+  const [task, setTask] = useState<SetTask>({
     category: "",
     title: "",
     descrip: "",
-    value: "",
+    value: 0,
+    repeats: "",
     sharedWith: [],
-    repeat: "",
   });
-  const changeTitle = (e: { target: { value: string } }) => {
+  const changeSettings = (e: { target: { id: any; value: any } }) => {
+    const id = e.target.id;
     const value = e.target.value;
-    setStatusToShow({
-      ...statusToShow,
-      title: value,
-    });
-  };
-  const changeDescrip = (e: { target: { value: string } }) => {
-    const value = e.target.value;
-    setStatusToShow({
-      ...statusToShow,
-      descrip: value,
+    setTask({
+      ...task,
+      [id]: value,
     });
   };
   const changeCategory = (e: { target: { value: string } }) => {
     const value = e.target.value;
-    setStatusToShow({
-      ...statusToShow,
-      category: value,
-    });
+    if (value === "new") {
+      setShowCategory(true);
+      setShowCategoryDrop(false);
+    } else {
+      setTask({
+        ...task,
+        category: value,
+      });
+    }
   };
-  const changeRepeat = (e: { target: { value: string } }) => {
+  const changeRepeated = (e: { target: { value: string } }) => {
     const value = e.target.value;
-    setStatusToShow({
-      ...statusToShow,
-      repeat: value,
-    });
+    console.log(value);
+    if (value === "yes") {
+      setShowHowOften(true);
+      setShowRepeat(false);
+    } else {
+      setShowShared(true);
+      setShowRepeat(false);
+      setTask({
+        ...task,
+        repeats: value,
+      });
+    }
   };
-  const changeValue = (e: { target: { value: string } }) => {
+  const changeHowOften = (e: { target: { value: any } }) => {
     const value = e.target.value;
-    setStatusToShow({
-      ...statusToShow,
-      value: value,
+    console.log(value);
+    if (value === "other") {
+      setShowOther(true);
+      setShowHowOften(false);
+    } else {
+      setTask({
+        ...task,
+        repeats: value,
+      });
+    }
+  };
+  const changeOtherRep = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    console.log(value);
+    setTask({
+      ...task,
+      repeats: value,
     });
   };
-  // const changeShared = (e: { target: { value: any } }) => {
-  //   console.log(e.target.value);
-  // };
-  const addTask = (e: { preventDefault: () => void }) => {
+  const changeShared = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    console.log(value);
+    if (value === "yes") {
+      setShowSharedWith(true);
+      setShowShared(false);
+    }
+  };
+  const changeSharedWith = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    console.log(value);
+    const array = task.sharedWith
+    !task.sharedWith.includes(value) ? array.push(value) : array.filter(v=>v!==value)
+    console.log(array)
+    setTask({
+      ...task,
+      sharedWith: array,
+    });
+  };
+  const addTask = (e: {
+    currentTarget: any;
+    preventDefault: () => void;
+    stopPropagation: () => void;
+  }) => {
     e.preventDefault();
-    console.log(statusToShow);
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    console.log(task);
+    setValidated(true);
   };
+  console.log(task);
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
-        <Form onSubmit={addTask}>
+        <Form noValidate validated={validated} onSubmit={addTask}>
           {/* title */}
-          <Form.Group controlId='exampleForm.ControlInput1'>
-            <Form.Label>Title</Form.Label>
+          <Form.Group controlId='title'>
+            <Form.Label>What's the name of this task?</Form.Label>
             <Form.Control
+              required
               type='text'
-              value={statusToShow.title}
-              placeholder='...'
-              onChange={changeTitle}
+              value={task.title}
+              placeholder='Name the task'
+              onChange={changeSettings}
+              aria-describedby='titleHelpBlock'
             />
+            <Form.Text id='titleHelpBlock' muted>
+              Alternatively, you can create a new category.
+            </Form.Text>
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId='exampleForm.ControlInput1'>
-            <Form.Label>Value</Form.Label>
+          {/* value */}
+          <Form.Group controlId='value'>
+            <Form.Label>How hard is it?</Form.Label>
             <Form.Control
-              type='text' //this should be number.
-              value={statusToShow.value}
-              placeholder='0'
-              onChange={changeValue}
-            />
+              as='select'
+              onChange={changeSettings}
+              aria-describedby='valueHelpBlock'>
+              <option value='' disabled selected>
+                Select a value
+              </option>
+              <option value={10} selected={task.value === 10}>
+                10XP: it's a piece of cake!
+              </option>
+              <option value={20} selected={task.value === 20}>
+                20XP:
+              </option>
+              <option value={30} selected={task.value === 30}>
+                30XP:
+              </option>
+              <option value={40} selected={task.value === 40}>
+                40XP:
+              </option>
+              <option value={50} selected={task.value === 50}>
+                50XP:
+              </option>
+            </Form.Control>
+            <Form.Text id='valueHelpBlock' muted>
+              Alternatively, you can create a new category.
+            </Form.Text>
           </Form.Group>
           {/* category */}
-          <Form.Group controlId='exampleForm.Category'>
-            <Form.Label>Category</Form.Label>
-            <Form.Control as='select' onChange={changeCategory}>
-              <option value='none' selected={statusToShow.category === "none"}>
-                none
-              </option>
-              {categories
-                .filter((c) => c !== "none")
-                .sort()
-                .map((c, i) => {
-                  return (
-                    <option
-                      key={i}
-                      value={c} // make all categories lower case in backend.
-                      selected={statusToShow.category === c}>
-                      {c}
-                    </option>
-                  );
-                })}
-            </Form.Control>
-          </Form.Group>
+          {showCategoryDrop && (
+            <Form.Group controlId='category'>
+              <Form.Label>What's the category?</Form.Label>
+              <Form.Control
+                as='select'
+                onChange={changeCategory}
+                aria-describedby='categoryHelpBlock'>
+                <option value='' disabled selected>
+                  Select a category
+                </option>
+                <option
+                  value='household'
+                  selected={task.category === "household"}>
+                  household
+                </option>
+                <option value='work' selected={task.category === "work"}>
+                  work
+                </option>
+                <option
+                  value='relationships'
+                  selected={task.category === "relationships"}>
+                  relationships
+                </option>
+                <option
+                  value='well-being'
+                  selected={task.category === "well-being"}>
+                  well-being
+                </option>
+                <option value='' disabled>
+                  -------
+                </option>
+                {categories
+                  .filter((c) => c !== "none")
+                  .sort()
+                  .map((c, i) => {
+                    return (
+                      <option key={i} value={c} selected={task.category === c}>
+                        {c}
+                      </option>
+                    );
+                  })}
+                <option value='new' selected={task.category === "new"}>
+                  create new category
+                </option>
+              </Form.Control>
+              <Form.Text id='categoryHelpBlock' muted>
+                Alternatively, you can create a new category.
+              </Form.Text>
+            </Form.Group>
+          )}
+          {/* new category */}
+          {showCategory && (
+            <Form.Group controlId='category'>
+              <Form.Label>Name your category</Form.Label>
+              <Form.Control
+                required
+                type='text'
+                value={task.category}
+                placeholder='Name the category'
+                onChange={changeSettings}
+                aria-describedby='newCategoryHelpBlock'
+              />
+              <Form.Text id='newCategoryHelpBlock' muted>
+                Alternatively, you can create a new category.
+              </Form.Text>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+          )}
           {/* description */}
-          <Form.Group controlId='exampleForm.ControlInput1'>
+          <Form.Group controlId='descrip'>
             <Form.Label>Description</Form.Label>
             <Form.Control
               as='textarea'
               rows={3}
-              value={statusToShow.descrip}
-              placeholder='...'
-              onChange={changeDescrip}
+              placeholder='Provide more details'
+              onChange={changeSettings}
+              aria-describedby='descripHelpBlock'
             />
+            <Form.Text id='descripHelpBlock' muted>
+              Alternatively, you can create a new category.
+            </Form.Text>
           </Form.Group>
           {/* image */}
-          {/* <Form.File id='custom-file' label='Custom file input' custom /> */}
-          {/* shared with */}
-          {/* <Form.Group controlId='exampleForm.ControlSelect2'>
-            <Form.Label>Share with</Form.Label>
-            <Form.Control as='select' multiple onChange={changeShared}>
-              {followedUsers.map((f, i) => (
-                <option
-                  key={i}
-                  value={f._id}
-                  selected={statusToShow.sharedWith.includes(f._id)}>
-                  {f.username}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group> */}
-          <Form.Group controlId='exampleForm.Category'>
-            <Form.Label>Does it repeat?</Form.Label>
-            <Form.Control as='select' onChange={changeRepeat}>
-              <option value='never' selected={statusToShow.repeat === "never"}>
-                never
-              </option>
-              <option value='daily' selected={statusToShow.repeat === "daily"}>
-                daily
-              </option>
-            </Form.Control>
+          <Form.Group controlId='image' className='mb-3'>
+            <Form.Label>Does the task have an image?</Form.Label>
+            <Form.Control type='file' />
           </Form.Group>
-          <br />
+          {/* repeated */}
+          {showRepeat && (
+            <Form.Group controlId='repeated'>
+              <Form.Label>Does it repeat?</Form.Label>
+              <div className='mb-3'>
+                <Form.Check
+                  inline
+                  label='yes'
+                  name='group1'
+                  type='radio'
+                  value='yes'
+                  onChange={changeRepeated}
+                />
+                <Form.Check
+                  inline
+                  label='no'
+                  name='group1'
+                  type='radio'
+                  value='no'
+                  onChange={changeRepeated}
+                />
+              </div>
+            </Form.Group>
+          )}
+          {showHowOften && (
+            <Form.Group controlId='repeats'>
+              <Form.Label>How often?</Form.Label>
+              <div className='mb-3'>
+                <Form.Check
+                  inline
+                  label='daily'
+                  name='group1'
+                  type='radio'
+                  value='daily'
+                  onChange={changeHowOften}
+                />
+                <Form.Check
+                  inline
+                  label='weekly'
+                  name='group1'
+                  type='radio'
+                  value='weekly'
+                  onChange={changeHowOften}
+                />
+                <Form.Check
+                  inline
+                  label='monthly'
+                  name='group1'
+                  type='radio'
+                  value='monthly'
+                  onChange={changeHowOften}
+                />
+                <Form.Check
+                  inline
+                  label='other'
+                  name='group1'
+                  type='radio'
+                  value='other'
+                  onChange={changeHowOften}
+                />
+              </div>
+            </Form.Group>
+          )}
+          {showOther && (
+            <Form.Group controlId='repeats'>
+              <div>
+                Task repeats every
+                <input
+                  type='number'
+                  min='2'
+                  max='100'
+                  onChange={changeOtherRep}
+                />
+                days
+              </div>
+            </Form.Group>
+          )}
+          {showShared && (
+            <Form.Group controlId='sharedWith'>
+              <Form.Label>Is it shared?</Form.Label>
+              <div className='mb-3'>
+                <Form.Check
+                  inline
+                  label='yes'
+                  name='group1'
+                  type='radio'
+                  value='yes'
+                  onChange={changeShared}
+                />
+                <Form.Check
+                  inline
+                  label='no'
+                  name='group1'
+                  type='radio'
+                  value='no'
+                  onChange={changeShared}
+                />
+              </div>
+            </Form.Group>
+          )}
+          {showSharedWith && (
+            <Form.Group controlId='sharedWith'>
+              <Form.Label>Choose up to 3</Form.Label>
+              <Form.Control
+                as='select'
+                multiple
+                onChange={changeSharedWith}
+                aria-describedby='sharedWithHelpBlock'>
+                <option value='' disabled selected>
+                  Select a username
+                </option>
+                {followedUsers.map((u, i) => (
+                  <option
+                    key={i}
+                    value={u._id}
+                    selected={task.sharedWith.includes(u._id)}>                  
+                    {u.username}
+                  </option>
+                ))}
+              </Form.Control>
+              <Form.Text id='sharedWithHelpBlock' muted>
+                Alternatively, you can create a new category.
+              </Form.Text>
+            </Form.Group>
+          )}
           {/* <br />
           <label htmlFor='deadline'>Deadline</label>
           <input

@@ -126,3 +126,12 @@ export interface featureInt {
   createdAt: string;
   updatedAt: string;
 }
+export interface SetTask {
+  // for adding a task
+  category: string;
+  title: string;
+  descrip: string;
+  value: number;
+  repeats: string;
+  sharedWith: string[];
+}

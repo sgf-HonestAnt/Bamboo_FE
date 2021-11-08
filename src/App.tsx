@@ -1,5 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import {
   BrowserRouter as Router,
   Route,
@@ -102,7 +103,7 @@ function App() {
           <Route
             render={(routerProps: RouteComponentProps) => (
               <MainBody {...routerProps} />
-            )} 
+            )}
           />
         </Switch>
       </Router>
