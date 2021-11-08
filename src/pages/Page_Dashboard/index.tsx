@@ -32,7 +32,7 @@ const Dashboard = (props: DashboardProps) => {
   const { user, tasks, achievements, followedUsers, features } = props;
   const today = tasks.awaited; // 🖐️ add where date equals today!
   const { list, superlist } = achievements;
-  const { username, bio, avatar, level, xp } = user;
+  const { username, bio, avatar, level, xp, notification } = user;
   const dispatch = useDispatch();
   const attemptLoad = async () => {
     let super_list: achievementInt[] = [];
@@ -97,7 +97,7 @@ const Dashboard = (props: DashboardProps) => {
           {/* Row 3 */}
           {/* ALERT CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
           <Col sm={6} className='p-1'>
-            <DashAlertCard />
+            <DashAlertCard notification={notification} />
           </Col>
           {/* FEATURED CHALLENGE CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
           <Col sm={6} className='p-1'>

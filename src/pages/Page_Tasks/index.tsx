@@ -8,7 +8,7 @@ import {
   MdOutlineStar,
 } from "react-icons/md";
 import "./styles.css";
-import getCategories from "../../utils/funcs/categories";
+// import getCategories from "../../utils/funcs/categories";
 import { useEffect, useState } from "react";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
 import filterTasks from "../../utils/funcs/filterTask";
@@ -19,7 +19,7 @@ type TasksProps = {
 
 const Tasks = (props: TasksProps) => {
   const { tasks } = props;
-  const { awaited, in_progress, completed } = tasks;
+  const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [allCategories, setAllCategories] = useState<string[]>([]);
   const [statusToShow, setStatusToShow] = useState({
@@ -59,7 +59,7 @@ const Tasks = (props: TasksProps) => {
     // add funcionality to filter by category, status, time and value(?)
   };
   const attemptLoad = async () => {
-    const categories = await getCategories(allTasks);
+    // const categories = await getCategories(allTasks);
     setAllCategories(categories);
   };
   useEffect(() => {
@@ -90,7 +90,7 @@ const Tasks = (props: TasksProps) => {
                   onSubmit={filterByStatus}
                   className='tasks-page__filter-row-inner-display__status-form'>
                   <select name='category' onChange={changeCategory}>
-                    {allCategories.map(function (c,i) {
+                    {categories.map(function (c,i) {
                       return (
                         <option key={i} value={c} selected={statusToShow.category === c}>
                           {c}

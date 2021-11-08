@@ -1,13 +1,21 @@
 import { Card } from "react-bootstrap";
 
-type DashAlertCardProps = {};
+type DashAlertCardProps = {
+  notification: string[];
+};
 
 const DashAlertCard = (props: DashAlertCardProps) => {
-  //   const {} = props;
+  const {notification} = props;
   return (
     <div className='dashboard__alerts-card'>
       <Card.Title>Alerts</Card.Title>
-      <Card.Text>Some info</Card.Text>
+      <Card.Text>
+      {
+      notification.length>0
+      ?notification[0]
+      :<>NO NOTIFICATIONS</>
+      }
+      </Card.Text> 
     </div>
   );
 };

@@ -34,6 +34,7 @@ export interface userInt {
   level: number | null;
   xp: number | null;
   admin?: boolean; // required false
+  notification: string[];
   createdAt: string;
   updatedAt: string;
   refreshToken?: string;
@@ -43,6 +44,7 @@ export interface currentTasksInt {
   error: boolean;
   // GET tasks/me
   _id: string;
+  categories: string[];
   completed: taskInt[];
   awaited: taskInt[];
   in_progress: taskInt[];

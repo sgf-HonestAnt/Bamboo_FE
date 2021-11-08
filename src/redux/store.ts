@@ -46,6 +46,7 @@ export const initialState: reduxStateInt = {
       level: null,
       xp: null,
       admin: false,
+      notification: [],
       createdAt: "",
       updatedAt: "",
     },
@@ -56,6 +57,7 @@ export const initialState: reduxStateInt = {
     error: false,
     // set upon loading with endpoint "/tasks/me/"
     _id: "",
+    categories: [],
     completed: [],
     awaited: [],
     in_progress: [],
