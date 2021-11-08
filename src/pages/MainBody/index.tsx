@@ -16,6 +16,7 @@ import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
 import attemptRefresh from "../../utils/funcs/refresh";
 import "./styles.css";
+import AddTask from "../Page_AddTask";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -24,6 +25,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   );
   const { refreshToken } = user;
   const tasks = state.currentTasks;
+  const categories = tasks.categories;
   const achievements = state.currentAchievements;
   const followedUsers = state.currentUser.followedUsers;
   const features = state.currentFeatures;
@@ -41,7 +43,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   const attemptLoad = async () => {
     dispatch(fillUserAction(history, refreshToken));
-    dispatch(fillTasksAction(history, refreshToken)); 
+    dispatch(fillTasksAction(history, refreshToken));
     dispatch(fillAchievementsAction(history, refreshToken));
     dispatch(fillFeaturesAction(history, refreshToken));
     dispatch(fillSettingsAction(history, refreshToken));
@@ -60,13 +62,18 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   return (
     <Container fluid className='main-page m-0'>
       {loading ? (
-        <Row className="main-page__spinner">
+        <Row className='main-page__spinner'>
           <Spinner animation='grow' />
         </Row>
       ) : (
         <Row>
           <Col sm={2} className='p-0'>
-            <MainSideBar history={history} user={user} tasks={tasks} followedUsers={followedUsers} />
+            <MainSideBar
+              history={history}
+              user={user}
+              tasks={tasks}
+              followedUsers={followedUsers}
+            />
           </Col>
           <Col className='m-0'>
             {path === "/dash" ? (
@@ -75,12 +82,14 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 tasks={tasks}
                 achievements={achievements}
                 followedUsers={followedUsers}
-                features={features} 
+                features={features}
               />
             ) : // : path === "/stats" ? (
             //   <Stats />
             // ) :
-            path === "/tasks" ? (
+            path === "/tasks-add-new" ? (
+              <AddTask categories={categories} followedUsers={followedUsers} />
+            ) : path === "/tasks" ? (
               <Tasks tasks={tasks} />
             ) : // path === "/tasks-schedule" ? (
             //   <TasksSchedule />
