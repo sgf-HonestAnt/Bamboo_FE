@@ -19,6 +19,7 @@ import {
 import createList from "../../utils/funcs/list";
 import "./styles.css";
 import { useDispatch } from "react-redux";
+import { NONE } from "../../utils/constants";
 
 type DashboardProps = {
   user: userInt;
@@ -30,7 +31,11 @@ type DashboardProps = {
 
 const Dashboard = (props: DashboardProps) => {
   const { user, tasks, achievements, followedUsers, features } = props;
-  const today = tasks.awaited; // 🖐️ add where date equals today!
+  const { awaited } = tasks;
+  const dateNow = new Date().toString();
+  const today = awaited.filter(
+    (t) => t.deadline === dateNow || t.deadline === NONE
+  );
   const { list, superlist } = achievements;
   const { username, bio, avatar, level, xp, notification } = user;
   const dispatch = useDispatch();

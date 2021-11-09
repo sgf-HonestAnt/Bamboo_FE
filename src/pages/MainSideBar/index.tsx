@@ -14,7 +14,8 @@ type SidebarProps = {
 
 const MainSideBar = (props: SidebarProps) => {
   const { history, user, tasks, followedUsers } = props;
-  const numOfTasks = tasks.awaited.length && tasks.in_progress.length
+  const {awaited, in_progress} = tasks
+  const numOfTasks = awaited.length+in_progress.length
   const numOfUsers = followedUsers.length
   const logout = async () => {
     await attemptLogout()

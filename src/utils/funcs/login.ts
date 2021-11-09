@@ -6,7 +6,7 @@ const attemptLogin = async (
   history: History<unknown> | string[],
   email = process.env.REACT_APP_DEV_USER_EMAIL,
   password = process.env.REACT_APP_DEV_USER_PASSWORD
-) => {
+) => { 
   try {
     console.log("🗝️attempt login!");
     const url = `${BE_URL}/${USERS}/${SESSION}`;

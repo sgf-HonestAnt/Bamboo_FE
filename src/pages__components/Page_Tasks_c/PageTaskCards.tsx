@@ -1,5 +1,6 @@
 import { Row, Card } from "react-bootstrap";
 import { taskInt } from "../../typings/interfaces";
+import { NONE } from "../../utils/constants";
 
 type PageTaskCardsProps = {
   tasks: taskInt[];
@@ -7,10 +8,15 @@ type PageTaskCardsProps = {
 
 const PageTaskCards = (props: PageTaskCardsProps) => {
   const { tasks } = props;
+  const today = new Date().toString()
+  const todayTasks = tasks.filter((t) => t.deadline === today || t.deadline === NONE);
+  // const tomorrowTasks
+  // then show by date
   return (
     <Row>
-      {tasks.map((t: taskInt, i: number) => (
-        <Card className='col-3' key={i}>
+      Today
+      {todayTasks.map((t: taskInt, i: number) => (
+        <Card className='col-12' key={i}>
           <Card.Img variant='top' src={t.image} />
           <Card.Title>{t.title}</Card.Title>
           <Card.Text>worth: {t.value}XP</Card.Text>

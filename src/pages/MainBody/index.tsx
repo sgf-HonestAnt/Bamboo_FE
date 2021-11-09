@@ -88,7 +88,11 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             //   <Stats />
             // ) :
             path === "/tasks-add-new" ? (
-              <AddTask categories={categories} followedUsers={followedUsers} />
+              <AddTask
+                history={history}
+                categories={categories}
+                followedUsers={followedUsers}
+              />
             ) : path === "/tasks" ? (
               <Tasks tasks={tasks} />
             ) : // path === "/tasks-schedule" ? (

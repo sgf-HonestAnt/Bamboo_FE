@@ -46,23 +46,28 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         <span>No tasks awaited today!</span>
       ) : (
         <form onSubmit={handleComplete} className=''>
-          {today?.map((t, i) => {
-            const label = `${t.title} ${t.value}XP`;
-            return (
-              <div className='form-check'>
-                <label className='form-check-label'>
-                  <input
-                    type='checkbox'
-                    checked={statusToShow.completed}
-                    onChange={changeCompleted}
-                    className='form-check-input'
-                  />
-                  {label}
-                </label>
-              </div>
-            );
-            // <div>{label}</div>;
-          })}
+          {today
+            ?.sort()
+            .slice(Math.max(today.length - 3, 0))
+            .map((t, i) => {
+              const label = `${t.title} ${t.value}XP`;
+              return (
+                <div className='form-check' key={i}>
+                  <label className='form-check-label'>
+                    <input
+                      type='checkbox'
+                      checked={statusToShow.completed}
+                      onChange={changeCompleted}
+                      className='form-check-input'
+                    />
+                    {label}
+                  </label>
+                </div>
+              );
+            })}
+          <div>
+            <Link to='/tasks'>{`+ ${today?.length - 3} more`}</Link>
+          </div>
           <div className='form-group'>
             <button className='btn btn-success'>mark complete</button>
           </div>

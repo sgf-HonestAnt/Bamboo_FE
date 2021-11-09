@@ -12,7 +12,7 @@ type registrationForm = {
 
 const attemptRegister = async (
   history: History<unknown> | string[],
-  form: registrationForm
+  form: registrationForm 
 ) => {
   try {
     console.log("✔️attempt registration!",form);

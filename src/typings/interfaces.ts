@@ -126,7 +126,7 @@ export interface featureInt {
   createdAt: string;
   updatedAt: string;
 }
-export interface SetTask {
+export interface setTaskInt {
   // for adding a task
   category: string;
   title: string;
