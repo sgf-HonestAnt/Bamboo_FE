@@ -1,5 +1,6 @@
 import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
+import { TASK_CATEGORIES } from "../../utils/constants";
 
 type CategoryChooseGroupProps = {
   form: setTaskInt;
@@ -20,20 +21,11 @@ const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
         <option value='' disabled selected>
           Select a category
         </option>
-        <option value='household' selected={form.category === "household"}>
-          household
-        </option>
-        <option value='work' selected={form.category === "work"}>
-          work
-        </option>
-        <option
-          value='relationships'
-          selected={form.category === "relationships"}>
-          relationships
-        </option>
-        <option value='well-being' selected={form.category === "well-being"}>
-          well-being
-        </option>
+        {TASK_CATEGORIES.map((c) => (
+          <option key={c} selected={form.category === c}>
+            {c}
+          </option>
+        ))}
         <option value='' disabled>
           -------
         </option>

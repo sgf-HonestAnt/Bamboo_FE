@@ -130,8 +130,9 @@ export interface setTaskInt {
   // for adding a task
   category: string;
   title: string;
-  descrip: string;
+  desc: string;
   value: number;
   repeats: string;
   sharedWith: string[];
+  deadline: string;
 }

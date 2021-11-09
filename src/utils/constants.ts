@@ -4,9 +4,9 @@ export const GET = "GET";
 export const POST = "POST";
 export const PUT = "PUT";
 export const DELETE = "DELETE";
-export const REGISTER = "REGISTER"
+export const REGISTER = "REGISTER";
 export const SESSION = "session";
-export const ME = "me"
+export const ME = "me";
 export const REFRESH = "refresh";
 // user reducers
 export const USERS = "users";
@@ -24,7 +24,7 @@ export const ACHIEVEMENTS = "achievements";
 export const FILL_ACHIEVEMENTS_LOADING = "FILL_ACHIEVEMENTS_LOADING";
 export const FILL_ACHIEVEMENTS_ERROR = "FILL_ACHIEVEMENTS_ERROR";
 export const FILL_ACHIEVEMENTS = "FILL_ACHIEVEMENTS";
-export const SET_SUPERLIST = "SET_SUPERLIST"
+export const SET_SUPERLIST = "SET_SUPERLIST";
 // features reducers
 export const FEATURES = "features";
 export const FILL_FEATURES_LOADING = "FILL_FEATURES_LOADING";
@@ -48,6 +48,21 @@ export const AWAITED = "awaited";
 export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
+// task categories
+export const HOUSEHOLD = "household";
+export const WORK = "work";
+export const RELATIONSHIPS = "relationships";
+export const FINANCE = "finance";
+export const FITNESS = "fitness"
+export const WELLBEING = "wellbeing";
+export const TASK_CATEGORIES = [
+  HOUSEHOLD,
+  WORK,
+  RELATIONSHIPS,
+  FINANCE,
+  FITNESS,
+  WELLBEING,
+];
 // task repetition
 export const NEVER = "never";
 export const DAILY = "daily";
@@ -70,5 +85,5 @@ export const congrats = [
   "🖐️High five!",
   "😃Well done!",
   "😍Amazing!",
-  "✊Fist bump!"
-]
+  "✊Fist bump!",
+];

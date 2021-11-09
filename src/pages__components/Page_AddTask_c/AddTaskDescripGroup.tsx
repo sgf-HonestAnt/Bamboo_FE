@@ -7,7 +7,7 @@ type DescripGroupProps = {
 const DescripGroup = (props: DescripGroupProps) => {
   const { changeSettings } = props;
   return (
-    <Form.Group controlId='descrip'>
+    <Form.Group controlId='desc'>
       <Form.Label>Description</Form.Label>
       <Form.Control
         required

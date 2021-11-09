@@ -55,7 +55,6 @@ const Tasks = (props: TasksProps) => {
     console.log(statusToShow);
     // add funcionality to filter by category, status, time and value(?)
   }; 
-  console.log(categories);
   return (
     <Container fluid>
       <Row className='tasks-page'>

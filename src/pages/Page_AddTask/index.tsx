@@ -42,10 +42,11 @@ const AddTask = (props: AddTaskProps) => {
   const [form, setForm] = useState<setTaskInt>({
     category: "",
     title: "",
-    descrip: "",
+    desc: "",
     value: 0,
     repeats: "",
     sharedWith: [],
+    deadline: "" 
   });
   const handleSubmit = async (e: {
     currentTarget: any;

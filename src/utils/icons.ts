@@ -1,0 +1,10 @@
+import { MdCleaningServices } from "react-icons/md";
+import { RiSunLine } from "react-icons/ri"; 
+import { BsBriefcaseFill } from "react-icons/bs";
+import { BiSwim, BiHeartCircle, BiCoinStack } from "react-icons/bi";
+export const ICON_HOUSEHOLD = MdCleaningServices;
+export const ICON_FITNESS = BiSwim;
+export const ICON_RELATIONSHIPS = BiHeartCircle;
+export const ICON_FINANCE = BiCoinStack;
+export const ICON_WELLBEING = RiSunLine;
+export const ICON_WORK = BsBriefcaseFill;
