@@ -36,12 +36,14 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   const todayTasks = tasks.filter(
     (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE
   );
-  const tomorrowTasks = tasks.filter((t) => t.deadline?.slice(0, 10) === tomorrow);
+  const tomorrowTasks = tasks.filter(
+    (t) => t.deadline?.slice(0, 10) === tomorrow
+  );
   const futureTasks = tasks.filter(
     (t) =>
-      t.deadline?.slice(0, 10) !== today ||
-      t.deadline !== NONE ||
-      t.deadline?.slice(0, 10) !== tomorrow ||
+      t.deadline?.slice(0, 10) !== today &&
+      t.deadline !== NONE &&
+      t.deadline?.slice(0, 10) !== tomorrow &&
       t.deadline
   );
   const getIcon = (category: string) => {
@@ -102,7 +104,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
               <Card key={i} className='m-1'>
                 {/* <Card.Img variant='top' src={t.image} /> */}
                 <Card.Title style={{ fontSize: "1.5em" }}>
-                {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0,10)}
+                  {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
                 </Card.Title>
                 <Card.Text>{t.desc}</Card.Text>
                 {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
@@ -130,7 +132,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
               <Card key={i} className='m-1'>
                 {/* <Card.Img variant='top' src={t.image} /> */}
                 <Card.Title style={{ fontSize: "1.5em" }}>
-                {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0,10)}
+                  {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
                 </Card.Title>
                 <Card.Text>{t.desc}</Card.Text>
                 {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
@@ -160,7 +162,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
               <Card key={i} className='m-1'>
                 {/* <Card.Img variant='top' src={t.image} /> */}
                 <Card.Title style={{ fontSize: "1.5em" }}>
-                {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0,10)}
+                  {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
                 </Card.Title>
                 <Card.Text>{t.desc}</Card.Text>
                 {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
