@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Form, Button, Badge } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { Button } from "react-bootstrap";
+// import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { taskInt } from "../../typings/interfaces";
-import completeTasks from "../../utils/funcs/complete";
+// import completeTasks from "../../utils/funcs/complete";
 
 type DashTasksCardProps = {
   today: taskInt[];
@@ -15,8 +15,8 @@ type DashTasksCardProps = {
 
 const DashTasksCard = (props: DashTasksCardProps) => {
   const { today } = props;
-  const dispatch = useDispatch();
-  const checkedTasks: string[] = [];
+  // const dispatch = useDispatch();
+  // const checkedTasks: string[] = [];
   const [statusToShow, setStatusToShow] = useState({
     completed: false,
   });

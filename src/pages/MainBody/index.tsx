@@ -89,9 +89,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             // ) :
             path === "/tasks-add-new" ? (
               <AddTask
-                history={history}
-                categories={categories}
-                followedUsers={followedUsers}
+              user={user }
+              categories={categories}
+              followedUsers={followedUsers}
+              history={history}
               />
             ) : path === "/tasks" ? (
               <Tasks tasks={tasks} />

@@ -1,4 +1,3 @@
-import { Card } from "react-bootstrap";
 import { VscGraph } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 

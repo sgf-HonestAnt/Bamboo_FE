@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { followedUserInt, setTaskInt } from "../../typings/interfaces";
-import attemptPostTask from "../../utils/funcs/postTask";
-import { MdOutlinePsychology } from "react-icons/md";
+import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { History } from "history";
 import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
 import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
@@ -14,41 +12,30 @@ import RepeatsGroup from "../../pages__components/Page_AddTask_c/AddTaskRepeatsG
 import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRepeatsOtherGroup";
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
-import { RouteComponentProps } from "react-router-dom";
+import attemptPostTask from "../../utils/funcs/postTask";
+import attemptRefresh from "../../utils/funcs/refresh";
+import { NEVER } from "../../utils/constants";
 import "./styles.css";
 
 type AddTaskProps = {
+  user: userInt;
   categories: string[];
   followedUsers: followedUserInt[];
-  history: History<unknown> | string[];
+  history: History<unknown>;
 };
 
 const AddTask = (props: AddTaskProps) => {
-  const { categories, followedUsers } = props;
+  const { user, categories, followedUsers, history } = props;
+  const { refreshToken } = user;
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
-  // other options
-  // does it repeat?
   const [showRepeat, setShowRepeat] = useState(true);
-  // ➡️ changeRepeated
-  // if yes, how often?
   const [showHowOften, setShowHowOften] = useState(false);
-  // ➡️ changeHowOften
-  // if other, how many days?
   const [showOther, setShowOther] = useState(false);
-  // ➡️ changeOtherRep
-  // OR
-  // if no, is it shared?
   const [showShared, setShowShared] = useState(false);
-  // ➡️ changeShared
-  // if yes, who with?
   const [showSharedWith, setShowSharedWith] = useState(false);
-  // ➡️ changeSharedWith
-
-  const [otherRep, setOtherRep] = useState(false);
   const [validated, setValidated] = useState(false);
-  const [newCateg, setNewCateg] = useState(false);
   const [form, setForm] = useState<setTaskInt>({
     category: "",
     title: "",
@@ -63,17 +50,25 @@ const AddTask = (props: AddTaskProps) => {
     stopPropagation: () => void;
   }) => {
     e.preventDefault();
-    const thisForm = e.currentTarget;
-    if (thisForm.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
+    try {
+      const thisForm = e.currentTarget;
+      if (thisForm.checkValidity() === false) {
+        e.preventDefault();
+        e.stopPropagation();
+      } else {
+        console.log(form);
+        // send task in a POST to tasks/me....
+        const newTask = await attemptPostTask(form);
+        if (newTask.status === 401) {
+          await attemptRefresh(history, refreshToken);
+        }
+        console.log(newTask);
+        setValidated(true);
+        // history.push("/tasks");
+      }
+    } catch (e) {
+      console.log(e);
     }
-    console.log(form);
-    // send task in a POST to tasks/me....
-    const newTask = await attemptPostTask(form);
-    console.log(newTask)
-    setValidated(true);
-    // history.push("/tasks");
   };
   const changeSettings = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
@@ -106,7 +101,7 @@ const AddTask = (props: AddTaskProps) => {
       setShowRepeat(false);
       setForm({
         ...form,
-        repeats: "never",
+        repeats: NEVER,
       });
     }
   };
@@ -165,6 +160,7 @@ const AddTask = (props: AddTaskProps) => {
               categories={categories}
             />
           )}
+          {/* Does it repeat? Y && showCategory */}
           {showCategory && (
             <CategoryGroup form={form} changeSettings={changeSettings} />
           )}
@@ -186,9 +182,12 @@ const AddTask = (props: AddTaskProps) => {
             />
           </Form.Group>
           {showRepeat && <RepeatedGroup changeRepeated={changeRepeated} />}
+          {/* Does it repeat? Y ? showHowOften : showShared */}
           {showHowOften && <RepeatsGroup changeHowOften={changeHowOften} />}
+          {/* If shows "other", how many days? */}
           {showOther && <RepeatsOtherGroup changeOtherRep={changeOtherRep} />}
           {showShared && <SharedWithChooseGroup changeShared={changeShared} />}
+          {/* Is it shared? Y && showSharedWith */}
           {showSharedWith && (
             <SharedWithGroup
               followedUsers={followedUsers}

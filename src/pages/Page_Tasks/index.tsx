@@ -8,20 +8,17 @@ import {
   MdOutlineStar,
 } from "react-icons/md";
 import "./styles.css";
-// import getCategories from "../../utils/funcs/categories";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
-import filterTasks from "../../utils/funcs/filterTask";
 
 type TasksProps = {
   tasks: currentTasksInt;
-};
+}; 
 
 const Tasks = (props: TasksProps) => {
   const { tasks } = props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const [allCategories, setAllCategories] = useState<string[]>([]);
   const [statusToShow, setStatusToShow] = useState({
     category: "",
     awaited: true,
@@ -57,15 +54,8 @@ const Tasks = (props: TasksProps) => {
     e.preventDefault();
     console.log(statusToShow);
     // add funcionality to filter by category, status, time and value(?)
-  };
-  const attemptLoad = async () => {
-    // const categories = await getCategories(allTasks);
-    setAllCategories(categories);
-  };
-  useEffect(() => {
-    attemptLoad();
-  }, []);
-  console.log(allCategories);
+  }; 
+  console.log(categories);
   return (
     <Container fluid>
       <Row className='tasks-page'>

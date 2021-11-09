@@ -14,7 +14,8 @@ const attemptPostTask = async (form: setTaskInt) => {
     const body = JSON.stringify(form);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      return response.json;
+      const newTask = await response.json()
+      return newTask;
     }
   } catch (error) {
     console.log(error);
