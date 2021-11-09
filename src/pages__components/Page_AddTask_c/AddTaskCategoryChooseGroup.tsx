@@ -13,6 +13,7 @@ const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
     <Form.Group controlId='category-choose'>
       <Form.Label>What's the category?</Form.Label>
       <Form.Control
+        required
         as='select'
         onChange={changeCategory}
         aria-describedby='categoryHelpBlock'>

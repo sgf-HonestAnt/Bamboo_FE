@@ -1,11 +1,11 @@
 import { setTaskInt } from "../../typings/interfaces";
-import { BE_URL, POST, TASKS } from "../constants";
+import { BE_URL, POST, TASKS, ME } from "../constants";
 
 const attemptPostTask = async (form: setTaskInt) => {
-  try {
+  try { 
     console.log("✏️attempt post task!");
     const token = localStorage.getItem("token");
-    const url = `${BE_URL}/${TASKS}/ME`;
+    const url = `${BE_URL}/${TASKS}/${ME}`;
     const method = POST;
     const headers = {
       "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const attemptPostTask = async (form: setTaskInt) => {
     const body = JSON.stringify(form);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      const newTask = await response.json()
+      const newTask = await response.json();
       return newTask;
     }
   } catch (error) {

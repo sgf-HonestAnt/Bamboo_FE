@@ -10,6 +10,7 @@ const DescripGroup = (props: DescripGroupProps) => {
     <Form.Group controlId='descrip'>
       <Form.Label>Description</Form.Label>
       <Form.Control
+        required
         as='textarea'
         rows={3}
         placeholder='Provide more details'

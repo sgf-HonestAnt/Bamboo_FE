@@ -16,6 +16,7 @@ import attemptPostTask from "../../utils/funcs/postTask";
 import attemptRefresh from "../../utils/funcs/refresh";
 import { NEVER } from "../../utils/constants";
 import "./styles.css";
+import getMinMaxDate from "../../utils/funcs/minmax";
 
 type AddTaskProps = {
   user: userInt;
@@ -27,6 +28,8 @@ type AddTaskProps = {
 const AddTask = (props: AddTaskProps) => {
   const { user, categories, followedUsers, history } = props;
   const { refreshToken } = user;
+  const { min, max } = getMinMaxDate();
+  console.log(min);
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
@@ -44,19 +47,20 @@ const AddTask = (props: AddTaskProps) => {
     repeats: "",
     sharedWith: [],
   });
-  const addTask = async (e: {
+  const handleSubmit = async (e: {
     currentTarget: any;
     preventDefault: () => void;
     stopPropagation: () => void;
   }) => {
     e.preventDefault();
+    console.log(form);
     try {
       const thisForm = e.currentTarget;
+      console.log(thisForm.checkValidity())
       if (thisForm.checkValidity() === false) {
         e.preventDefault();
         e.stopPropagation();
       } else {
-        console.log(form);
         // send task in a POST to tasks/me....
         const newTask = await attemptPostTask(form);
         if (newTask.status === 401) {
@@ -150,7 +154,7 @@ const AddTask = (props: AddTaskProps) => {
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
-        <Form noValidate validated={validated} onSubmit={addTask}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <TitleGroup form={form} changeSettings={changeSettings} />
           <ValueGroup form={form} changeSettings={changeSettings} />
           {showCategoryDrop && (
@@ -172,13 +176,13 @@ const AddTask = (props: AddTaskProps) => {
             <Form.Control type='file' />
           </Form.Group>
           <Form.Group controlId='deadline' className='mb-3'>
-            <label htmlFor='deadline'>Deadline(NOT YET WORKING)</label>
-            <input
+            <Form.Label>Deadline(NOT YET WORKING)</Form.Label>
+            <Form.Control
               type='date'
               name='deadline'
-              value='2018-07-22'
-              min='2018-01-01'
-              max='2018-12-31'
+              min={min}
+              max={max}
+              onChange={changeSettings}
             />
           </Form.Group>
           {showRepeat && <RepeatedGroup changeRepeated={changeRepeated} />}

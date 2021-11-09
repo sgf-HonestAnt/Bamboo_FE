@@ -12,6 +12,7 @@ const ValueGroup = (props: ValueGroupProps) => {
     <Form.Group controlId='value'>
       <Form.Label>How hard is it?</Form.Label>
       <Form.Control
+        required
         as='select'
         onChange={changeSettings}
         aria-describedby='valueHelpBlock'>

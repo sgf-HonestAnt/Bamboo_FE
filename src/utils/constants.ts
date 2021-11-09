@@ -6,6 +6,7 @@ export const PUT = "PUT";
 export const DELETE = "DELETE";
 export const REGISTER = "REGISTER"
 export const SESSION = "session";
+export const ME = "me"
 export const REFRESH = "refresh";
 // user reducers
 export const USERS = "users";
