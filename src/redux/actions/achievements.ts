@@ -9,7 +9,7 @@ import {
   SET_SUPERLIST,
 } from "../../utils/constants";
 import { History } from "history";
-import attemptRefresh from "../../utils/funcs/refresh";
+// import attemptRefresh from "../../utils/funcs/refresh";
 
 export const setSuperlist = (superlist: string[]) => ({
   type: SET_SUPERLIST,
@@ -48,7 +48,8 @@ export const fillAchievementsAction = (
         });
         console.log(`🥔achievements=${payload.list.length}`);
       } else if (response.status === 401) {
-        await attemptRefresh(history, refreshToken);
+        console.log("☠️ACCESS TOKEN HAS EXPIRED");
+        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

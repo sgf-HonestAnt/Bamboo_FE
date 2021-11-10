@@ -13,6 +13,7 @@ export const USERS = "users";
 export const FILL_USER_LOADING = "FILL_USER_LOADING";
 export const FILL_USER_ERROR = "FILL_USER_ERROR";
 export const FILL_USER = "FILL_USER";
+export const SET_EXPIRED = "SET_EXPIRED";
 export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN";
 // tasks reducers
 export const TASKS = "tasks";
@@ -53,7 +54,7 @@ export const HOUSEHOLD = "household";
 export const WORK = "work";
 export const RELATIONSHIPS = "relationships";
 export const FINANCE = "finance";
-export const FITNESS = "fitness"
+export const FITNESS = "fitness";
 export const WELLBEING = "wellbeing";
 export const TASK_CATEGORIES = [
   HOUSEHOLD,

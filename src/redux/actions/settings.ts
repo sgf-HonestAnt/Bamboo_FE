@@ -9,7 +9,7 @@ import {
   FILL_SETTINGS_LOADING,
 } from "../../utils/constants";
 import { History } from "history";
-import attemptRefresh from "../../utils/funcs/refresh";
+// import attemptRefresh from "../../utils/funcs/refresh";
 
 export const fillSettingsAction = (
   history: History<unknown>,
@@ -43,7 +43,8 @@ export const fillSettingsAction = (
         });
         console.log(`🥔theme=${payload.selectedTheme}`);
       } else if (response.status === 401) {
-        await attemptRefresh(history, refreshToken);
+        console.log("☠️ACCESS TOKEN HAS EXPIRED");
+        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

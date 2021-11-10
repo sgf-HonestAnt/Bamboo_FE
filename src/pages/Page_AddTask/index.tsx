@@ -13,7 +13,7 @@ import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRep
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
 import attemptPostTask from "../../utils/funcs/postTask";
-import attemptRefresh from "../../utils/funcs/refresh";
+// import attemptRefresh from "../../utils/funcs/refresh";
 import { NEVER } from "../../utils/constants";
 import "./styles.css";
 import getMinMaxDate from "../../utils/funcs/minmax";
@@ -26,8 +26,9 @@ type AddTaskProps = {
 };
 
 const AddTask = (props: AddTaskProps) => {
-  const { user, categories, followedUsers, history } = props;
-  const { refreshToken } = user;
+  const { categories, followedUsers } = props;
+  // const { user, categories, followedUsers, history } = props;
+  // const { refreshToken } = user;
   const { min, max } = getMinMaxDate();
   console.log(min);
   // categories
@@ -65,7 +66,8 @@ const AddTask = (props: AddTaskProps) => {
         // send task in a POST to tasks/me....
         const newTask = await attemptPostTask(form);
         if (newTask.status === 401) {
-          await attemptRefresh(history, refreshToken);
+          console.log("☠️ACCESS TOKEN HAS EXPIRED");
+          // await attemptRefresh(history, refreshToken);
         }
         console.log(newTask);
         setValidated(true);

@@ -1,12 +1,12 @@
 import { History } from "history";
-import { setRefreshToken } from "../../redux/actions/user";
+import { setExpired, setRefreshToken } from "../../redux/actions/user";
 import { BE_URL, POST, SESSION, USERS } from "../constants";
 
 const attemptLogin = async (
   history: History<unknown> | string[],
   email = process.env.REACT_APP_DEV_USER_EMAIL,
   password = process.env.REACT_APP_DEV_USER_PASSWORD
-) => { 
+) => {
   try {
     console.log("🗝️attempt login!");
     const url = `${BE_URL}/${USERS}/${SESSION}`;
@@ -17,8 +17,11 @@ const attemptLogin = async (
     if (response.ok) {
       const { accessToken, refreshToken } = await response.json();
       localStorage.setItem("token", accessToken);
+      setExpired(false);
       setRefreshToken(refreshToken);
-      history.push("/");
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
     }
   } catch (error) {
     console.log(error);

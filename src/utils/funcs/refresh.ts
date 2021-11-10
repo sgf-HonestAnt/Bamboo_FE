@@ -1,5 +1,5 @@
 import { History } from "history";
-import { setRefreshToken } from "../../redux/actions/user";
+import { setExpired, setRefreshToken } from "../../redux/actions/user";
 import { BE_URL, POST, REFRESH, SESSION, USERS } from "../constants";
 
 const attemptRefresh = async (
@@ -17,10 +17,14 @@ const attemptRefresh = async (
       const body = JSON.stringify({ actualRefreshToken: token });
       const response = await fetch(url, { method, headers, body });
       if (response.ok) {
-        const { accessToken, refreshToken } = await response.json();
-        localStorage.setItem("token", accessToken);
-        setRefreshToken(refreshToken);
-        history.push("/");
+        const newTokens = await response.json();
+        console.log("🗝️NEW TOKENS=>", newTokens);
+        localStorage.setItem("token", newTokens.accessToken);
+        setRefreshToken(newTokens.refreshToken);
+        setExpired(false); 
+        setTimeout(() => {
+          history.push("/");
+        }, 1000);
       }
     } catch (error) {
       console.log(error);

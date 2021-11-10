@@ -8,7 +8,7 @@ import {
   FILL_TASKS_LOADING,
 } from "../../utils/constants";
 import { History } from "history";
-import attemptRefresh from "../../utils/funcs/refresh";
+// import attemptRefresh from "../../utils/funcs/refresh";
 
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
@@ -49,7 +49,8 @@ export const fillTasksAction = (
           `🥔tasks=${payload.awaited.length}awaited,${payload.completed.length}completed,${payload.in_progress.length}in_progress`
         );
       } else if (response.status === 401) {
-        await attemptRefresh(history, refreshToken);
+        console.log("☠️ACCESS TOKEN HAS EXPIRED");
+        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({
