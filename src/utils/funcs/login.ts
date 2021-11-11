@@ -1,9 +1,11 @@
 import { History } from "history";
-import { setExpired, setRefreshToken } from "../../redux/actions/user";
+import { Dispatch } from "redux";
+import { setRefreshToken } from "../../redux/actions/user";
 import { BE_URL, POST, SESSION, USERS } from "../constants";
 
 const attemptLogin = async (
   history: History<unknown> | string[],
+  dispatch: Dispatch<any>,
   email = process.env.REACT_APP_DEV_USER_EMAIL,
   password = process.env.REACT_APP_DEV_USER_PASSWORD
 ) => {
@@ -16,12 +18,19 @@ const attemptLogin = async (
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const { accessToken, refreshToken } = await response.json();
-      localStorage.setItem("token", accessToken);
-      setExpired(false);
-      setRefreshToken(refreshToken);
+      setTimeout(() => {
+        // console.log("SETTING ACCESSTOKEN", accessToken)
+        localStorage.setItem("token", accessToken);
+      }, 1000);
+      setTimeout(() => {
+        // console.log("SETTING REFRESH TOKEN", refreshToken)
+        dispatch(setRefreshToken(refreshToken)); // THIS IS NOT WORKING!
+      }, 1000);
       setTimeout(() => {
         history.push("/");
       }, 1000);
+    } else {
+      history.push("/login");
     }
   } catch (error) {
     console.log(error);

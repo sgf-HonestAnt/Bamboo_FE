@@ -20,6 +20,7 @@ import createList from "../../utils/funcs/list";
 import "./styles.css";
 import { useDispatch } from "react-redux";
 import { NONE } from "../../utils/constants";
+import getDateString from "../../utils/funcs/datestring";
 
 type DashboardProps = {
   user: userInt;
@@ -32,10 +33,13 @@ type DashboardProps = {
 const Dashboard = (props: DashboardProps) => {
   const { user, tasks, achievements, followedUsers, features } = props;
   const { awaited } = tasks;
-  const dateNow = new Date().toString();
-  const today = awaited.filter(
-    (t) => t.deadline === dateNow || t.deadline === NONE
+  const todayAsDate = new Date();
+  const today = getDateString(todayAsDate);
+  const todayTasks = awaited.filter(
+    (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE
   );
+  // const dispatch = useDispatch();
+  // const checkedTasks: string[] = [];
   const { list, superlist } = achievements;
   const { username, bio, avatar, level, xp, notification } = user;
   const dispatch = useDispatch();
@@ -84,7 +88,7 @@ const Dashboard = (props: DashboardProps) => {
           </Col>
           <Col sm={6} className='p-1'>
             {/* TASK CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
-            <DashTasksCard today={today} />
+            <DashTasksCard today={todayTasks} />
             {/* CALENDAR CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
             <DashCalenCard />
           </Col>

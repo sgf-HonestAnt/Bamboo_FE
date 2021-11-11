@@ -6,6 +6,17 @@
 }
 .main-side-bar__theme {
 }
+/* branding */
+.main-side-bar__branding div{
+  padding: 0;
+  margin: 0;
+}
+.main-side-bar__branding__cake-icon {
+  font-size: 6em;
+}
+.main-side-bar__branding__cake-name {
+  line-height: 0.8em;
+}
 .main-side-bar__profile {
 }
 .main-side-bar__profile-img {

@@ -26,8 +26,6 @@ type PageTaskCardsProps = {
 
 const PageTaskCards = (props: PageTaskCardsProps) => {
   const { tasks } = props;
-  console.log(tasks.map((t) => t.deadline && t.deadline.slice(0, 10)));
-  console.log(tasks.map((t) => typeof t.deadline));
   const todayAsDate = new Date();
   const tomorrowAsDate = getTomorrow(todayAsDate);
   const today = getDateString(todayAsDate);

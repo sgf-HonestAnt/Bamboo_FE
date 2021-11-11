@@ -21,7 +21,6 @@ export interface currentUserInt {
   // GET users/me
   my_user: userInt;
   followedUsers: followedUserInt[];
-  expired: boolean;
 }
 
 export interface userInt {

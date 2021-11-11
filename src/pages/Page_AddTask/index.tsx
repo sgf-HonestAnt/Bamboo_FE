@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { History } from "history";
+import { useDispatch } from "react-redux";
 import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
 import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
 import CategoryChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskCategoryChooseGroup";
@@ -17,20 +18,21 @@ import attemptPostTask from "../../utils/funcs/postTask";
 import { NEVER } from "../../utils/constants";
 import "./styles.css";
 import getMinMaxDate from "../../utils/funcs/minmax";
+import { fillTasksAction } from "../../redux/actions/tasks";
 
 type AddTaskProps = {
   user: userInt;
   categories: string[];
   followedUsers: followedUserInt[];
-  history: History<unknown>;
+  history: History<unknown> | string[];
 };
 
 const AddTask = (props: AddTaskProps) => {
-  const { categories, followedUsers } = props;
+  const { user, categories, followedUsers, history } = props;
   // const { user, categories, followedUsers, history } = props;
-  // const { refreshToken } = user;
+  const { refreshToken } = user;
+  const dispatch = useDispatch();
   const { min, max } = getMinMaxDate();
-  console.log(min);
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
@@ -47,7 +49,7 @@ const AddTask = (props: AddTaskProps) => {
     value: 0,
     repeats: "",
     sharedWith: [],
-    deadline: "" 
+    deadline: "",
   });
   const handleSubmit = async (e: {
     currentTarget: any;
@@ -58,20 +60,18 @@ const AddTask = (props: AddTaskProps) => {
     console.log(form);
     try {
       const thisForm = e.currentTarget;
-      console.log(thisForm.checkValidity())
+      console.log(thisForm.checkValidity());
       if (thisForm.checkValidity() === false) {
         e.preventDefault();
         e.stopPropagation();
       } else {
         // send task in a POST to tasks/me....
-        const newTask = await attemptPostTask(form);
-        if (newTask.status === 401) {
-          console.log("☠️ACCESS TOKEN HAS EXPIRED");
-          // await attemptRefresh(history, refreshToken);
-        }
-        console.log(newTask);
+        await attemptPostTask(form, refreshToken, history);
         setValidated(true);
-        // history.push("/tasks");
+        dispatch(fillTasksAction());
+        setTimeout(() => {
+          history.push("/tasks");
+        }, 1000);
       }
     } catch (e) {
       console.log(e);
@@ -135,7 +135,6 @@ const AddTask = (props: AddTaskProps) => {
   };
   const changeShared = (e: { target: { value: any } }) => {
     const value = e.target.value;
-    console.log(value);
     if (value === "yes") {
       setShowSharedWith(true);
       setShowShared(false);
@@ -154,6 +153,7 @@ const AddTask = (props: AddTaskProps) => {
       sharedWith: array,
     });
   };
+  console.log(form)
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>

@@ -16,7 +16,7 @@ const DashChallCard = (props: DashChallCardProps) => {
       (f) => f.month === currMonth
     );
     setFeatureList(foundFeatures);
-    console.log(featureList);
+    // console.log(featureList);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
   return (

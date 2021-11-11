@@ -8,13 +8,8 @@ import {
   FILL_SETTINGS_ERROR,
   FILL_SETTINGS_LOADING,
 } from "../../utils/constants";
-import { History } from "history";
-// import attemptRefresh from "../../utils/funcs/refresh";
 
-export const fillSettingsAction = (
-  history: History<unknown>,
-  refreshToken: string | undefined
-) => {
+export const fillSettingsAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -42,9 +37,6 @@ export const fillSettingsAction = (
           payload,
         });
         console.log(`🥔theme=${payload.selectedTheme}`);
-      } else if (response.status === 401) {
-        console.log("☠️ACCESS TOKEN HAS EXPIRED");
-        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

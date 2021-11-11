@@ -50,7 +50,7 @@ const Tasks = (props: TasksProps) => {
       completed: !statusToShow.completed,
     });
   };
-  const filterByStatus = (e: { preventDefault: () => void }) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(statusToShow);
     // add funcionality to filter by category, status, time and value(?)
@@ -76,7 +76,7 @@ const Tasks = (props: TasksProps) => {
                   <MdOutlineStar />
                 </div>
                 <form
-                  onSubmit={filterByStatus}
+                  onSubmit={handleSubmit}
                   className='tasks-page__filter-row-inner-display__status-form'>
                   <select name='category' onChange={changeCategory}>
                     {categories.map(function (c,i) {

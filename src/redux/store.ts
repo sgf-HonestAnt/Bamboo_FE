@@ -10,8 +10,8 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 import { reduxStateInt } from "../typings/interfaces";
 import { Reducer } from "react";
 import thunk from "redux-thunk";
-import storage from "redux-persist/lib/storage";
-// import sessionStorage from "redux-persist/lib/storage/session";
+// import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/lib/storage/session";
 import currentUserReducer from "./reducers/user";
 import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
@@ -51,7 +51,6 @@ export const initialState: reduxStateInt = {
       updatedAt: "",
     },
     followedUsers: [],
-    expired: false,
   },
   currentTasks: {
     loading: true,
@@ -90,7 +89,7 @@ export const initialState: reduxStateInt = {
 
 const persistConfig = {
   key: "root",
-  storage: storage, // sessionStorage
+  storage: sessionStorage,
   transforms: [
     encryptTransform({
       secretKey: process.env.REACT_APP_ENCRYPT_KEY || "random string",

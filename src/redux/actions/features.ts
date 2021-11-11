@@ -7,13 +7,8 @@ import {
   FILL_FEATURES_ERROR,
   FILL_FEATURES_LOADING,
 } from "../../utils/constants";
-import { History } from "history";
-// import attemptRefresh from "../../utils/funcs/refresh";
 
-export const fillFeaturesAction = (
-  history: History<unknown>,
-  refreshToken: string | undefined
-) => {
+export const fillFeaturesAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -41,9 +36,6 @@ export const fillFeaturesAction = (
           payload,
         });
         console.log(`🥔features=${payload.total}_total`);
-      } else if (response.status === 401) {
-        console.log("☠️ACCESS TOKEN HAS EXPIRED");
-        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

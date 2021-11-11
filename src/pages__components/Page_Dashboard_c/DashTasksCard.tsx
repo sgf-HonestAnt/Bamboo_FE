@@ -15,8 +15,6 @@ type DashTasksCardProps = {
 
 const DashTasksCard = (props: DashTasksCardProps) => {
   const { today } = props;
-  // const dispatch = useDispatch();
-  // const checkedTasks: string[] = [];
   const [statusToShow, setStatusToShow] = useState({
     completed: false,
   });
@@ -66,7 +64,9 @@ const DashTasksCard = (props: DashTasksCardProps) => {
               );
             })}
           <div>
-            <Link to='/tasks'>{`+ ${today?.length - 3} more`}</Link>
+            {today?.length > 3 && (
+              <Link to='/tasks'>{`+ ${today?.length - 3} more`}</Link>
+            )}
           </div>
           <div className='form-group'>
             <button className='btn btn-success'>mark complete</button>

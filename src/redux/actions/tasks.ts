@@ -7,18 +7,13 @@ import {
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
 } from "../../utils/constants";
-import { History } from "history";
-// import attemptRefresh from "../../utils/funcs/refresh";
 
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
   payload: true,
 });
 
-export const fillTasksAction = (
-  history: History<unknown>,
-  refreshToken: string | undefined
-) => {
+export const fillTasksAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {
@@ -48,9 +43,6 @@ export const fillTasksAction = (
         console.log(
           `🥔tasks=${payload.awaited.length}awaited,${payload.completed.length}completed,${payload.in_progress.length}in_progress`
         );
-      } else if (response.status === 401) {
-        console.log("☠️ACCESS TOKEN HAS EXPIRED");
-        // await attemptRefresh(history, refreshToken);
       } else {
         setTimeout(() => {
           dispatch({

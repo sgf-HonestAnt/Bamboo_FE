@@ -32,8 +32,10 @@ const currentUserReducer = (
     case SET_REFRESH_TOKEN:
       return {
         ...state,
-        refreshToken: action.payload,
-      };
+        my_user: {
+          refreshToken: action.payload,
+        }
+      }; 
     case SET_EXPIRED:
       return {
         ...state,
