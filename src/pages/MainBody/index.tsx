@@ -1,24 +1,26 @@
+//react and redux
 import { RouteComponentProps } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
 import { useEffect } from "react";
+import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
-import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { Spinner, Container, Row, Col } from "react-bootstrap";
-import {
-  fillUserAction,
-} from "../../redux/actions/user";
+//actions and interfaces
+import { fillUserAction } from "../../redux/actions/user";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
+import { reduxStateInt, userInt } from "../../typings/interfaces";
+//bootstrap and components
+import { Spinner, Container, Row, Col } from "react-bootstrap";
 import MainSideBar from "../MainSideBar";
 import Dashboard from "../Page_Dashboard";
 import Tasks from "../Page_Tasks";
 import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
-import "./styles.css";
+//functions and styles
 import AddTask from "../Page_AddTask";
 import checkToken from "../../utils/funcs/checkToken";
+import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -37,7 +39,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
 
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
-    if (!accessToken || !refreshToken) {
+    if (!accessToken) {
       console.log("⛔NO TOKEN");
       history.push("/login");
     } else {
@@ -49,6 +51,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
         dispatch(fillAchievementsAction());
         dispatch(fillFeaturesAction());
         dispatch(fillSettingsAction());
+      } else {
+        setTimeout(() => {
+          history.push("/login");
+        }, 3000);
       }
       loading && console.log(`🔁LOADING`);
       error && console.log(`💥ERROR`);
@@ -56,7 +62,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   };
 
   useEffect(() => {
-    refreshToken && attemptLoad();
+    refreshToken
+      ? attemptLoad()
+      : setTimeout(() => {
+          console.log("⛔NO TOKEN");
+          history.push("/login");
+        }, 1000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,6 +95,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 achievements={achievements}
                 followedUsers={followedUsers}
                 features={features}
+                history={history}
               />
             ) : // : path === "/stats" ? (
             //   <Stats />

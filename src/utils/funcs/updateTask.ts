@@ -1,7 +1,9 @@
 import { Dispatch } from "redux";
 import { loadTasksAction } from "../../redux/actions/tasks";
 import { statusType, taskType } from "../../typings/types";
-import { BE_URL, PUT, TASKS } from "../constants";
+import { BE_URL, COMPLETED, PUT, TASKS } from "../constants";
+import postAchievement from "./achievements";
+import attemptFetchTask from "./fetchTask";
 
 type taskUpdateType = {
   category?: string;
@@ -21,8 +23,10 @@ const updateTask = async (
   dispatch: Dispatch<any>
 ) => {
   const token = localStorage.getItem("token");
+  const { status } = taskUpdate;
   console.log(taskUpdate);
   try {
+    console.log("ATTEMPTING TO UPDATE TASK STATUS", id);
     const url = `${BE_URL}/${TASKS}/me/${id}`;
     const method = PUT;
     const headers = {
@@ -33,8 +37,11 @@ const updateTask = async (
     console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      // const updated = await response.json();
-      // console.log("response was ok", updated);
+      if (status === COMPLETED) {
+        console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
+        const { title } = await attemptFetchTask(id);
+        await postAchievement(title, dispatch);
+      }
       dispatch(loadTasksAction(true));
     }
   } catch (error) {

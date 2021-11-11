@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
-import { History } from "history";
 import { useDispatch } from "react-redux";
+import { fillTasksAction } from "../../redux/actions/tasks";
+import { History } from "history";
+import { NEVER } from "../../utils/constants";
 import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
 import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
 import CategoryChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskCategoryChooseGroup";
@@ -14,11 +16,8 @@ import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRep
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
 import attemptPostTask from "../../utils/funcs/postTask";
-// import attemptRefresh from "../../utils/funcs/refresh";
-import { NEVER } from "../../utils/constants";
-import "./styles.css";
 import getMinMaxDate from "../../utils/funcs/minmax";
-import { fillTasksAction } from "../../redux/actions/tasks";
+import "./styles.css";
 
 type AddTaskProps = {
   user: userInt;
@@ -29,7 +28,6 @@ type AddTaskProps = {
 
 const AddTask = (props: AddTaskProps) => {
   const { user, categories, followedUsers, history } = props;
-  // const { user, categories, followedUsers, history } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDate();
@@ -65,7 +63,6 @@ const AddTask = (props: AddTaskProps) => {
         e.preventDefault();
         e.stopPropagation();
       } else {
-        // send task in a POST to tasks/me....
         await attemptPostTask(form, refreshToken, history);
         setValidated(true);
         dispatch(fillTasksAction());

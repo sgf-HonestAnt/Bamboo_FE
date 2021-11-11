@@ -41,10 +41,10 @@ const MainSideBar = (props: SidebarProps) => {
       <div className='main-side-bar__profile my-5'>
         <img src={user.avatar} className='main-side-bar__profile-img' alt='' />
         <div>{user.username}</div>
-        <Link to='/dash'>dashboard</Link>
       </div>
       <div className='main-side-bar__links'>
-        <Link to='/login'>login</Link>
+        <Link to='/dash'>dashboard</Link>
+        {/* <Link to='/login'>login</Link> */}
         <Link to='/tasks'>tasks ({numOfTasks})</Link>
         <Link to='/following'>following ({numOfUsers})</Link>
         <Button variant='link' onClick={logout}>

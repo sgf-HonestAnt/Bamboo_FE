@@ -1,41 +1,47 @@
-import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-// import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
+import { History } from "history";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { taskInt } from "../../typings/interfaces";
-// import completeTasks from "../../utils/funcs/complete";
+import { taskInt, userInt } from "../../typings/interfaces";
+import attemptCompleteTasks from "../../utils/funcs/complete";
 
 type DashTasksCardProps = {
   today: taskInt[];
+  user: userInt;
+  history: History<unknown> | string[];
 };
-
-// const initCompleted: any[] = [];
-
-// type Completed = typeof initCompleted;
-
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { today } = props;
-  const [statusToShow, setStatusToShow] = useState({
-    completed: false,
-  });
-  const changeCompleted = () => {
-    setStatusToShow({
-      ...statusToShow,
-      completed: !statusToShow.completed,
-    });
-  };
-  const handleComplete = async (e: { preventDefault: () => void }) => {
+  const { today, user, history } = props;
+  const { refreshToken } = user;
+  const completedTasks: string[] = [];
+  const dispatch = useDispatch();
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(statusToShow);
-    // add funcionality to filter by category, status, time and value(?)
-
-    // const id = e.target.value;
-    // !checkedTasks.includes(id) && checkedTasks.push(id);
+    console.log(completedTasks);
+    try {
+      await attemptCompleteTasks(
+        completedTasks,
+        refreshToken,
+        history,
+        dispatch
+      );
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+    }
   };
-  // const handleSubmit = async (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  //   await completeTasks(checkedTasks, dispatch);
-  // };
+  const changeCompleted = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    if (completedTasks.includes(value)) {
+      const index = completedTasks.indexOf(value);
+      completedTasks.splice(index, 1);
+    } else {
+      completedTasks.push(value);
+    }
+  };
   useEffect(() => {});
   return (
     <div className='dashboard__tasks-card m-2'>
@@ -43,70 +49,28 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       {today?.length < 1 ? (
         <span>No tasks awaited today!</span>
       ) : (
-        <form onSubmit={handleComplete} className=''>
+        <Form onSubmit={handleSubmit}>
           {today
             ?.sort()
             .slice(Math.max(today.length - 3, 0))
-            .map((t, i) => {
-              const label = `${t.title} ${t.value}XP`;
-              return (
-                <div className='form-check' key={i}>
-                  <label className='form-check-label'>
-                    <input
-                      type='checkbox'
-                      checked={statusToShow.completed}
-                      onChange={changeCompleted}
-                      className='form-check-input'
-                    />
-                    {label}
-                  </label>
+            .map((t, i) => (
+              <Form.Group key={i} controlId={t._id}>
+                <div className='mb-0'>
+                  <Form.Check
+                    inline
+                    label={t.title}
+                    name='today'
+                    type='checkbox'
+                    value={t._id}
+                    onChange={changeCompleted}
+                  />
                 </div>
-              );
-            })}
-          <div>
-            {today?.length > 3 && (
-              <Link to='/tasks'>{`+ ${today?.length - 3} more`}</Link>
-            )}
-          </div>
-          <div className='form-group'>
-            <button className='btn btn-success'>mark complete</button>
-          </div>
-          {/* <select name='task' onChange={handleChange}>
-            {today?.map((t, i) => {
-              const label = `${t.title} ${t.value}XP`;
-              return (
-                <div className='form-check' key={i}>
-                    <label className='form-check-label'>
-                      {label}
-                      <input
-                        type='checkbox'
-                        // checked={statusToShow.awaited}
-                        // onChange={changeAwaited}
-                        className='form-check-input'
-                      />
-                      Completed
-                    </label>
-                </div>
-                // <option key={i} value={t._id} 
-                // // selected={}
-                // >
-                //   {label}
-                // </option>
-                // <Form.Group key={i}>
-                //   <Form.Check
-                //     type='checkbox'
-                //     label={label}
-                //     value={t._id}
-                //     onChange={handleChange}
-                //   />
-                // </Form.Group>
-              );
-            })}
-          </select>
-          <Button variant='link' size='sm' type='submit'>
-            mark complete
-          </Button> */}
-        </form>
+              </Form.Group>
+            ))}
+          <Button variant='primary' type='submit'>
+            Submit
+          </Button>
+        </Form>
       )}
       <Button variant='link'>
         <Link to='/tasks-add-new'>ADD A TASK</Link>

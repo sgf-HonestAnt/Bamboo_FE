@@ -17,7 +17,7 @@ const createList = async (
     return super_list.push(
       `${ach.username === username ? "you" : ach.username} completed task: "${
         ach.item
-      } on ${timestamp}. ${nice[num]}`
+      }" on ${timestamp}. ${nice[num]}`
     );
   });
   dispatch(setSuperlist(super_list));
