@@ -7,11 +7,10 @@ const attemptCompleteTasks = async (
   taskIds: string[],
   refreshToken: string | undefined,
   history: string[] | History<unknown>,
-  dispatch: Dispatch<any>
+  dispatch: Dispatch<any> 
 ) => {
   try {
-    const token = localStorage.getItem("token");
-    const username = await checkToken(token, refreshToken, history);
+    const username = await checkToken(refreshToken, history);
     if (username) {
       for (let i = 0; i < taskIds.length; i++) {
         console.log("ATTEMPTING TO COMPLETE TASK", i)
@@ -20,7 +19,7 @@ const attemptCompleteTasks = async (
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log("😥TROUBLE MARKING TASK COMPLETE", error)
     history.push("/login");
   }
 };

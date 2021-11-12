@@ -65,35 +65,6 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   return (
     <Row>
       <Col sm={4}>
-        {/* !DEADLINE */}
-        <h4 style={{ padding: "10px" }}>Anytime</h4>
-        {anyTimeTasks.length > 0 ? (
-          anyTimeTasks.map((t: taskInt, i: number) => {
-            const icon = getIcon(t.category);
-            return (
-              <Card key={i} className='m-1'>
-                {/* <Card.Img variant='top' src={t.image} /> */}
-                <Card.Title style={{ fontSize: "1.5em" }}>
-                  {icon} {t.title} ({t.value}XP)
-                </Card.Title>
-                <Card.Text>{t.desc}</Card.Text>
-                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
-              <Card.Text>created by: {t.createdBy}</Card.Text> */}
-                {/* <Card.Text>status: {t.status}</Card.Text>
-              <Card.Text>type: {t.type}</Card.Text> */}
-              </Card>
-            );
-          })
-        ) : (
-          <Card className='m-1'>
-            <Card.Title style={{ fontSize: "1.3em" }}>
-              Nothing to see here.
-            </Card.Title>
-          </Card>
-        )}
-      </Col>
-      <Col sm={12} />
-      <Col sm={4}>
         <h4 style={{ padding: "10px" }}>Today</h4>
         {todayTasks.length > 0 ? (
           todayTasks.map((t: taskInt, i: number) => {
@@ -120,7 +91,6 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           </Card>
         )}
       </Col>
-      <Col sm={12} />
       <Col sm={4}>
         <h4 style={{ padding: "10px" }}>Tomorrow</h4>
         {tomorrowTasks.length > 0 ? (
@@ -148,7 +118,34 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           </Card>
         )}
       </Col>
-      <Col sm={12} />
+      <Col sm={4}>
+        {/* !DEADLINE */}
+        <h4 style={{ padding: "10px" }}>Anytime</h4>
+        {anyTimeTasks.length > 0 ? (
+          anyTimeTasks.map((t: taskInt, i: number) => {
+            const icon = getIcon(t.category);
+            return (
+              <Card key={i} className='m-1'>
+                {/* <Card.Img variant='top' src={t.image} /> */}
+                <Card.Title style={{ fontSize: "1.5em" }}>
+                  {icon} {t.title} ({t.value}XP)
+                </Card.Title>
+                <Card.Text>{t.desc}</Card.Text>
+                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
+              <Card.Text>created by: {t.createdBy}</Card.Text> */}
+                {/* <Card.Text>status: {t.status}</Card.Text>
+              <Card.Text>type: {t.type}</Card.Text> */}
+              </Card>
+            );
+          })
+        ) : (
+          <Card className='m-1'>
+            <Card.Title style={{ fontSize: "1.3em" }}>
+              Nothing to see here.
+            </Card.Title>
+          </Card>
+        )}
+      </Col>
       <Col sm={4}>
         <h4 style={{ padding: "10px" }}>
           Future tasks (will be displayed by date)

@@ -1,5 +1,6 @@
 import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
+import { PIE } from "../../utils/icons";
 
 type ValueGroupProps = {
   form: setTaskInt;
@@ -20,7 +21,7 @@ const ValueGroup = (props: ValueGroupProps) => {
           Select a value
         </option>
         <option value={10} selected={form.value === 10}>
-          10XP: it's a piece of cake!
+          10XP: easy as pie!
         </option>
         <option value={20} selected={form.value === 20}>
           20XP:

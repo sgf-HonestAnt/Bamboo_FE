@@ -34,12 +34,16 @@ const AddTask = (props: AddTaskProps) => {
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
+  // deadline
+  // MAKE SO CAN CHOOSE NONE. HOW?
+  // repeats
   const [showRepeat, setShowRepeat] = useState(true);
   const [showHowOften, setShowHowOften] = useState(false);
   const [showOther, setShowOther] = useState(false);
+  // shared
   const [showShared, setShowShared] = useState(false);
   const [showSharedWith, setShowSharedWith] = useState(false);
-  const [validated, setValidated] = useState(false);
+  // const [validated, setValidated] = useState(false);
   const [form, setForm] = useState<setTaskInt>({
     category: "",
     title: "",
@@ -57,19 +61,20 @@ const AddTask = (props: AddTaskProps) => {
     e.preventDefault();
     console.log(form);
     try {
-      const thisForm = e.currentTarget;
-      console.log(thisForm.checkValidity());
-      if (thisForm.checkValidity() === false) {
-        e.preventDefault();
-        e.stopPropagation();
-      } else {
-        await attemptPostTask(form, refreshToken, history);
-        setValidated(true);
-        dispatch(fillTasksAction());
-        setTimeout(() => {
-          history.push("/tasks");
-        }, 1000);
-      }
+      // const thisForm = e.currentTarget;
+      // console.log(thisForm.checkValidity());
+      // if (thisForm.checkValidity() === false) {
+      //   e.preventDefault();
+      //   e.stopPropagation();
+      // } else {
+      const { _id } = await attemptPostTask(form, refreshToken, history);
+      console.log("CREATED NEW TASK", _id);
+      // setValidated(true);
+      dispatch(fillTasksAction());
+      setTimeout(() => {
+        history.push("/tasks");
+      }, 1000);
+      // }
     } catch (e) {
       console.log(e);
     }
@@ -96,7 +101,6 @@ const AddTask = (props: AddTaskProps) => {
   };
   const changeRepeated = (e: { target: { value: string } }) => {
     const value = e.target.value;
-    console.log(value);
     if (value === "yes") {
       setShowHowOften(true);
       setShowRepeat(false);
@@ -118,6 +122,7 @@ const AddTask = (props: AddTaskProps) => {
     } else {
       setForm({
         ...form,
+        deadline: min,
         repeats: value,
       });
     }
@@ -150,11 +155,13 @@ const AddTask = (props: AddTaskProps) => {
       sharedWith: array,
     });
   };
-  console.log(form)
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form
+          // noValidate
+          // validated={validated}
+          onSubmit={handleSubmit}>
           <TitleGroup form={form} changeSettings={changeSettings} />
           <ValueGroup form={form} changeSettings={changeSettings} />
           {showCategoryDrop && (
@@ -176,10 +183,11 @@ const AddTask = (props: AddTaskProps) => {
             <Form.Control type='file' />
           </Form.Group>
           <Form.Group controlId='deadline' className='mb-3'>
-            <Form.Label>Deadline(NOT YET WORKING)</Form.Label>
+            <Form.Label>Deadline</Form.Label>
             <Form.Control
               type='date'
               name='deadline'
+              // defaultValue={min}
               min={min}
               max={max}
               onChange={changeSettings}

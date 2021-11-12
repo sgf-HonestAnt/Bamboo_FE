@@ -43,31 +43,27 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
       console.log("⛔NO TOKEN");
       history.push("/login");
     } else {
-      const username = await checkToken(accessToken, refreshToken, history);
-      if (username) {
-        console.log(`🥔user=${username}`);
-        dispatch(fillUserAction(accessToken));
-        dispatch(fillTasksAction());
-        dispatch(fillAchievementsAction());
-        dispatch(fillFeaturesAction());
-        dispatch(fillSettingsAction());
-      } else {
-        setTimeout(() => {
-          history.push("/login");
-        }, 3000);
-      }
+      const username = await checkToken(refreshToken, history);
+      // if (username) {
+      console.log(`🥔user=${username}`);
+      dispatch(fillUserAction(accessToken));
+      dispatch(fillTasksAction());
+      dispatch(fillAchievementsAction());
+      dispatch(fillFeaturesAction());
+      dispatch(fillSettingsAction());
+      // } else {
+      //   setTimeout(() => {
+      //     console.log("😥TROUBLE LOADING MAIN PAGE")
+      //     history.push("/login");
+      //   }, 3000);
+      // }
       loading && console.log(`🔁LOADING`);
       error && console.log(`💥ERROR`);
     }
   };
 
   useEffect(() => {
-    refreshToken
-      ? attemptLoad()
-      : setTimeout(() => {
-          console.log("⛔NO TOKEN");
-          history.push("/login");
-        }, 1000);
+    attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -30,6 +30,7 @@ const attemptLogin = async (
         history.push("/");
       }, 1000);
     } else {
+      console.log("😥TROUBLE LOGGING IN")
       history.push("/login");
     }
   } catch (error) {

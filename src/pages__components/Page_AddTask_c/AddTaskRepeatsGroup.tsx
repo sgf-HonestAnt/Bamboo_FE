@@ -12,7 +12,7 @@ const RepeatsGroup = (props: RepeatsGroupProps) => {
       <div className='mb-3'>
         <Form.Check
           inline
-          label='daily'
+          label='daily*'
           name='group1'
           type='radio'
           value='daily'
@@ -20,7 +20,7 @@ const RepeatsGroup = (props: RepeatsGroupProps) => {
         />
         <Form.Check
           inline
-          label='weekly'
+          label='weekly*'
           name='group1'
           type='radio'
           value='weekly'
@@ -28,7 +28,7 @@ const RepeatsGroup = (props: RepeatsGroupProps) => {
         />
         <Form.Check
           inline
-          label='monthly'
+          label='monthly*'
           name='group1'
           type='radio'
           value='monthly'
@@ -42,6 +42,11 @@ const RepeatsGroup = (props: RepeatsGroupProps) => {
           value='other'
           onChange={changeHowOften}
         />
+      </div>
+      <div>
+        * If set to repeat daily, weekly, or monthly, tasks will be created for
+        1 year. For example, if set to repeat weekly, the task will appear every week for
+        52 weeks from date of creation).
       </div>
     </Form.Group>
   );

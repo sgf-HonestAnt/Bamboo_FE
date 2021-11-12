@@ -11,8 +11,11 @@ const RepeatsOtherGroup = (props: RepeatsOtherGroupProps) => {
       <div>
         Task repeats every
         <input type='number' min='2' max='100' onChange={changeOtherRep} />
-        days
+        days to a total of 
+        {/* <input type='number' min='2' max='100' onChange={changeOtherRep} /> */}
+        repetitions
       </div>
+      {/* NUMBER OF REPS */}
     </Form.Group>
   );
 };

@@ -7,7 +7,6 @@ const attemptRefresh = async (
   token: string | undefined
 ) => {
   try {
-    console.log("⏰REFRESH");
     const url = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };
@@ -15,13 +14,15 @@ const attemptRefresh = async (
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const newTokens = await response.json();
+      const { accessToken, refreshToken } = newTokens;
       console.log(newTokens);
-      localStorage.setItem("token", newTokens.accessToken);
-      setRefreshToken(newTokens.refreshToken);
+      localStorage.setItem("token", accessToken);
+      setRefreshToken(refreshToken);
       setUserError(false);
+      return newTokens;
     }
   } catch (error) {
-    console.log(error);
+    console.log("😥TROUBLE REFRESHING", error)
     history.push("/login");
   }
 };

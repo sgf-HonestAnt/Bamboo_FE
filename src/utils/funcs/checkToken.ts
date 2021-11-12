@@ -1,9 +1,13 @@
 import { History } from "history";
 import { BE_URL, GET, USERS } from "../constants";
-import attemptRefresh from "./refresh"; 
+import attemptRefresh from "./refresh";
 
-const checkToken = async (access: string | null, refresh: string | undefined, history: History<unknown> | string[]) => {
-  try { 
+const checkToken = async (
+  refresh: string | undefined,
+  history: History<unknown> | string[]
+) => { 
+  try {
+    const access = localStorage.getItem("token");
     const url = `${BE_URL}/${USERS}/test`;
     const method = GET;
     const headers = {
@@ -15,11 +19,14 @@ const checkToken = async (access: string | null, refresh: string | undefined, hi
       const { username } = await response.json();
       return username;
     } else if (response.status === 401) {
-      await attemptRefresh(history, refresh);
+      console.log("⏰TOKEN EXPIRED")
+      const { refreshToken } = await attemptRefresh(history, refresh);
       setTimeout(() => {
         history.push("/");
-      }, 1000);
+        return refreshToken;
+      }, 1000); 
     } else {
+      console.log("😥TROUBLE CHECKING TOKEN")
       history.push("/login");
     }
   } catch (e) {

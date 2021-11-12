@@ -10,7 +10,7 @@ const attemptPostTask = async (
 ) => {
   try {
     const token = localStorage.getItem("token");
-    const username = await checkToken(token, refreshToken, history);
+    const username = await checkToken(refreshToken, history);
     if (username) {
       console.log("✏️attempt post task!");
       const url = `${BE_URL}/${TASKS}/${ME}`;
@@ -27,7 +27,7 @@ const attemptPostTask = async (
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log("😥TROUBLE POSTING TASK", error)
     history.push("/login");
   }
 };
