@@ -1,4 +1,4 @@
-import { History } from "history";
+import { History, Location } from "history";
 import { Dispatch } from "redux";
 import checkToken from "./checkToken";
 import updateTask from "./updateTask";
@@ -7,10 +7,11 @@ const attemptCompleteTasks = async (
   taskIds: string[],
   refreshToken: string | undefined,
   history: string[] | History<unknown>,
+  location: Location<unknown> | undefined,
   dispatch: Dispatch<any> 
 ) => {
-  try {
-    const username = await checkToken(refreshToken, history);
+  try { 
+    const username = await checkToken(refreshToken, history, location);
     if (username) {
       for (let i = 0; i < taskIds.length; i++) {
         console.log("ATTEMPTING TO COMPLETE TASK", i)

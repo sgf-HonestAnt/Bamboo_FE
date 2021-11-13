@@ -1,4 +1,4 @@
-import { History } from "history";
+import { History, Location } from "history";
 import { setTaskInt } from "../../typings/interfaces";
 import { BE_URL, POST, TASKS, ME } from "../constants";
 import checkToken from "./checkToken";
@@ -6,11 +6,13 @@ import checkToken from "./checkToken";
 const attemptPostTask = async (
   form: setTaskInt,
   refreshToken: string | undefined,
-  history: string[] | History<unknown>
+  history: string[] | History<unknown>,
+  location: Location<unknown> | undefined,
+  setErrorMessage: any,
 ) => {
-  try {
+  try {  
     const token = localStorage.getItem("token");
-    const username = await checkToken(refreshToken, history);
+    const username = await checkToken(refreshToken, history, location);
     if (username) {
       console.log("✏️attempt post task!");
       const url = `${BE_URL}/${TASKS}/${ME}`;
@@ -24,10 +26,14 @@ const attemptPostTask = async (
       if (response.ok) {
         const newTask = await response.json();
         return newTask;
-      }
+      } 
+      // else {
+      //   setErrorMessage("ERROR CREATING NEW TASK");
+      //   history.push("/error");
+      // }
     }
   } catch (error) {
-    console.log("😥TROUBLE POSTING TASK", error)
+    console.log("😥TROUBLE POSTING TASK", error);
     history.push("/login");
   }
 };

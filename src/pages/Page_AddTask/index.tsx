@@ -3,7 +3,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { useDispatch } from "react-redux";
 import { fillTasksAction } from "../../redux/actions/tasks";
-import { History } from "history";
+import { History, Location } from "history";
 import { NEVER } from "../../utils/constants";
 import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
 import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
@@ -24,10 +24,12 @@ type AddTaskProps = {
   categories: string[];
   followedUsers: followedUserInt[];
   history: History<unknown> | string[];
+  location: Location<unknown>;
+  setErrorMessage: any;
 };
 
 const AddTask = (props: AddTaskProps) => {
-  const { user, categories, followedUsers, history } = props;
+  const { user, categories, followedUsers, history, location, setErrorMessage } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDate();
@@ -67,16 +69,17 @@ const AddTask = (props: AddTaskProps) => {
       //   e.preventDefault();
       //   e.stopPropagation();
       // } else {
-      const { _id } = await attemptPostTask(form, refreshToken, history);
+      const { _id } = await attemptPostTask(form, refreshToken, history, location, setErrorMessage);
       console.log("CREATED NEW TASK", _id);
       // setValidated(true);
       dispatch(fillTasksAction());
       setTimeout(() => {
         history.push("/tasks");
       }, 1000);
-      // }
     } catch (e) {
-      console.log(e);
+      console.log("ERROR CREATING NEW TASK", e)
+      setErrorMessage("ERROR CREATING NEW TASK");
+      history.push("/error");
     }
   };
   const changeSettings = (e: { target: { id: any; value: any } }) => {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
-import { History } from "history";
+import { History, Location } from "history";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { taskInt, userInt } from "../../typings/interfaces";
@@ -10,9 +10,10 @@ type DashTasksCardProps = {
   today: taskInt[];
   user: userInt;
   history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { today, user, history } = props;
+  const { today, user, history, location } = props;
   const { refreshToken } = user;
   const completedTasks: string[] = [];
   const dispatch = useDispatch();
@@ -20,15 +21,16 @@ const DashTasksCard = (props: DashTasksCardProps) => {
     e.preventDefault();
     console.log(completedTasks);
     try {
-      await attemptCompleteTasks(
+      attemptCompleteTasks(
         completedTasks,
         refreshToken,
         history,
+        location,  
         dispatch
       );
-      setTimeout(() => {
-        history.push("/");
-      }, 1000);
+      // setTimeout(() => {
+      //   history.push("/");
+      // }, 1000);
     } catch (e) {
       console.log(e);
     }
@@ -42,8 +44,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       completedTasks.push(value);
     }
   };
-  useEffect(() => {});
-  return (
+  return ( 
     <div className='dashboard__tasks-card m-2'>
       <div>Today's tasks</div>
       {today?.length < 1 ? (

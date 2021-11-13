@@ -7,7 +7,7 @@ import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCar
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievCard";
 import { Row, Col } from "react-bootstrap";
-import { History } from "history";
+import { History, Location } from "history";
 import { useEffect } from "react";
 import {
   achievementInt,
@@ -30,10 +30,19 @@ type DashboardProps = {
   followedUsers: followedUserInt[];
   features: currentFeaturesInt;
   history: History<unknown> | string[];
+  location: Location<unknown>;
 };
- 
+
 const Dashboard = (props: DashboardProps) => {
-  const { user, tasks, achievements, followedUsers, features, history } = props;
+  const {
+    user,
+    tasks,
+    achievements,
+    followedUsers,
+    features,
+    history,
+    location,
+  } = props;
   const { awaited } = tasks;
   const todayAsDate = new Date();
   const today = getDateString(todayAsDate);
@@ -90,7 +99,12 @@ const Dashboard = (props: DashboardProps) => {
           </Col>
           <Col sm={6} className='p-1'>
             {/* TASK CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
-            <DashTasksCard today={todayTasks} user={user} history={history} />
+            <DashTasksCard
+              today={todayTasks}
+              user={user}
+              history={history}
+              location={location}
+            />
             {/* CALENDAR CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
             <DashCalenCard />
           </Col>

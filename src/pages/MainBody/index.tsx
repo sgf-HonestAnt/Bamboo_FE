@@ -1,6 +1,6 @@
 //react and redux
 import { RouteComponentProps } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 //actions and interfaces
@@ -34,6 +34,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const achievements = state.currentAchievements;
   const features = state.currentFeatures;
   // const settings = state.currentSettings;
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
   const path = location.pathname;
 
@@ -42,23 +43,27 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     if (!accessToken) {
       console.log("⛔NO TOKEN");
       history.push("/login");
+    }
+    else if (!refreshToken) {
+      console.log("⛔NO TOKEN");
+      history.push("/login")
     } else {
-      const username = await checkToken(refreshToken, history);
-      // if (username) {
-      console.log(`🥔user=${username}`);
-      dispatch(fillUserAction(accessToken));
-      dispatch(fillTasksAction());
-      dispatch(fillAchievementsAction());
-      dispatch(fillFeaturesAction());
-      dispatch(fillSettingsAction());
-      // } else {
-      //   setTimeout(() => {
-      //     console.log("😥TROUBLE LOADING MAIN PAGE")
-      //     history.push("/login");
-      //   }, 3000);
-      // }
-      loading && console.log(`🔁LOADING`);
-      error && console.log(`💥ERROR`);
+      const username = await checkToken(refreshToken, history, location);
+      setTimeout(() => {
+        // if (!username) {
+        //   console.log("⛔NO USER");
+        //   history.push("/login");
+        // } else {
+        console.log(`🥔user=${username}`);
+        dispatch(fillUserAction(accessToken));
+        dispatch(fillTasksAction());
+        dispatch(fillAchievementsAction());
+        dispatch(fillFeaturesAction());
+        dispatch(fillSettingsAction());
+        loading && console.log(`🔁LOADING`);
+        error && console.log(`💥ERROR`);
+        // }
+      }, 1000);
     }
   };
 
@@ -66,7 +71,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  // console.log(location.pathname)
   return (
     <Container fluid className='main-page m-0'>
       {loading ? (
@@ -91,7 +96,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 achievements={achievements}
                 followedUsers={followedUsers}
                 features={features}
-                history={history}
+                history={history} 
+                location={location}
               />
             ) : // : path === "/stats" ? (
             //   <Stats />
@@ -102,6 +108,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 categories={categories}
                 followedUsers={followedUsers}
                 history={history}
+                location={location}
+                setErrorMessage={setErrorMessage}
               />
             ) : path === "/tasks" ? (
               <Tasks tasks={tasks} />
@@ -114,8 +122,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             // ) :
             path === "/following" ? (
               <Following followedUsers={followedUsers} />
+            ) : path === "/error" ? (
+              <ErrorPage history={history} errorMessage={errorMessage} />
             ) : (
-              <ErrorPage />
+              <ErrorPage history={history} />
             )}
           </Col>
         </Row>
