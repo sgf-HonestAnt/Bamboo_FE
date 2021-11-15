@@ -1,7 +1,5 @@
 import { Key } from "react";
-import { Card } from "react-bootstrap";
 import {
-  getCurrMonth,
   getFirstDayOfThisMonth,
   getLastDayOfThisMonth,
   getMonthByIndex,
@@ -14,8 +12,9 @@ const DashCalenCard = (props: DashCalenCardProps) => {
   //   const {} = props;
   const month = getMonthByIndex();
   const numberOfDays = getNumberOfDaysInMonth();
-  const firstDay = getFirstDayOfThisMonth(); // 0 for sunday, 1 for monday etc
+  const firstDay = getFirstDayOfThisMonth();
   const lastDay = getLastDayOfThisMonth();
+  // first day being monday for our purposes, if firstDay === Sunday it falls at end of week
   const addedDays =
     firstDay === 0
       ? 6
@@ -51,44 +50,27 @@ const DashCalenCard = (props: DashCalenCardProps) => {
     weeksArray.push(i);
   }
   for (let i = 1; i < numberOfDays + 1; i++) {
-    daysArray.push(i);
-    // [1,2,3,4,5,6,7,...]
+    daysArray.push(i); // if for e.g. 31 days this month: [1,2,3,4,...29,30,31]
   }
   for (let i = 0; i < addedDays; i++) {
-    daysArray.unshift(0);
-    // [0,0,0,1,2,3,4,...] if for e.g. first day fell on thursday
+    daysArray.unshift(0); // if for e.g. first day falls on wednesday: [0,0,1,2,3,4...29,30,31]
   }
   for (let i = 0; i < addedDaysAtEnd; i++) {
-    daysArray.push(0);
-    // [0,0,0,1,2,3,4,...] if for e.g. first day fell on thursday
+    daysArray.push(0); // if for e.g. last day falls on friday: [0,0,1,2,3,4...29,30,31,0,0]
   }
-  console.log(
-    numberOfDays,
-    // addedDays,
-    // addedDaysAtEnd,
-    numberOfWeeks,
-    firstDay,
-    lastDay,
-    weeksArray,
-    daysArray
-  );
   return (
     <div className='dashboard__calendar-card m-2'>
       <div className='dashboard__calendar-card__month-line'>{month}</div>
       <div className='dashboard__calendar-card__line'>
-        <div className='dashboard__calendar-card__box-empty'>M</div>
-        <div className='dashboard__calendar-card__box-empty'>T</div>
-        <div className='dashboard__calendar-card__box-empty'>W</div>
-        <div className='dashboard__calendar-card__box-empty'>T</div>
-        <div className='dashboard__calendar-card__box-empty'>F</div>
-        <div className='dashboard__calendar-card__box-empty'>S</div>
-        <div className='dashboard__calendar-card__box-empty'>S</div>
+        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+          <div key={i} className='dashboard__calendar-card__box-empty'>
+            {d}
+          </div>
+        ))}
       </div>
       {weeksArray.map((w: string | undefined, i: Key | any) => {
         let a = 7 * i;
-        // 0 // 7 // 14 // 21
         let b = 7 * (i + 1);
-        // 7 // 14 // 21 // 28
         return (
           <div key={i} className='dashboard__calendar-card__line' id={w}>
             {daysArray
