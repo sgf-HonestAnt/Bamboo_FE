@@ -2,15 +2,16 @@ import { History, Location } from "history";
 import { setTaskInt } from "../../typings/interfaces";
 import { BE_URL, POST, TASKS, ME } from "../constants";
 import checkToken from "./checkToken";
+import { getCurrDate } from "./dateTimeFuncs";
 
 const attemptPostTask = async (
   form: setTaskInt,
   refreshToken: string | undefined,
   history: string[] | History<unknown>,
   location: Location<unknown> | undefined,
-  setErrorMessage: any,
+  setErrorMessage: any
 ) => {
-  try {  
+  try {
     const token = localStorage.getItem("token");
     const username = await checkToken(refreshToken, history, location);
     if (username) {
@@ -26,7 +27,7 @@ const attemptPostTask = async (
       if (response.ok) {
         const newTask = await response.json();
         return newTask;
-      } 
+      }
       // else {
       //   setErrorMessage("ERROR CREATING NEW TASK");
       //   history.push("/error");

@@ -79,8 +79,13 @@ export const TASK_REPEAT_TYPES = [
   MONTHLY,
   NUMBER,
 ];
+// task values
+export const TASK_VALUES = ["easy as pie!","something else","something different","hard as rock","last one"]
 // other
 export const NONE = "none";
+export const ANY = "any"
+export const WILD_STR = "some random string used for wild searches, so long as filtered key !== this string it will be displayed"
+export const WILD_NUM = 42
 // congratulations
 export const congrats = [
   "🖐️High five!",

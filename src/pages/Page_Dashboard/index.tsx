@@ -9,7 +9,7 @@ import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievC
 import { Row, Col } from "react-bootstrap";
 import { History, Location } from "history";
 import { useEffect } from "react";
-import {
+import { 
   achievementInt,
   currentAchievementsInt,
   currentFeaturesInt,
@@ -26,22 +26,26 @@ import { getSelectedDateAsString } from "../../utils/funcs/dateTimeFuncs";
 type DashboardProps = {
   user: userInt;
   tasks: currentTasksInt;
+  categories: string[];
   achievements: currentAchievementsInt;
   followedUsers: followedUserInt[];
   features: currentFeaturesInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
+  setErrorMessage: any
 };
 
 const Dashboard = (props: DashboardProps) => {
   const {
     user,
     tasks,
+    categories,
     achievements,
     followedUsers,
     features,
     history,
     location,
+    setErrorMessage
   } = props;
   const { awaited } = tasks;
   const todayAsDate = new Date();
@@ -104,6 +108,8 @@ const Dashboard = (props: DashboardProps) => {
               user={user}
               history={history}
               location={location}
+              categories={categories}
+              setErrorMessage={setErrorMessage}
             />
             {/* CALENDAR CARD WITHIN THE LEFT-HAND COLUMN, TAKES 3/12 */}
             <DashCalenCard />

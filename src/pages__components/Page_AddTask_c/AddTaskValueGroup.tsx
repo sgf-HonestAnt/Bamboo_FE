@@ -1,5 +1,6 @@
 import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
+import { TASK_VALUES } from "../../utils/constants";
 import { PIE } from "../../utils/icons";
 
 type ValueGroupProps = {
@@ -20,21 +21,14 @@ const ValueGroup = (props: ValueGroupProps) => {
         <option value='' disabled selected>
           Select a value
         </option>
-        <option value={10} selected={form.value === 10}>
-          10XP: easy as pie!
-        </option>
-        <option value={20} selected={form.value === 20}>
-          20XP:
-        </option>
-        <option value={30} selected={form.value === 30}>
-          30XP:
-        </option>
-        <option value={40} selected={form.value === 40}>
-          40XP:
-        </option>
-        <option value={50} selected={form.value === 50}>
-          50XP:
-        </option>
+        {TASK_VALUES.map((script, i) => {
+          let value = 10 * (i + 1);
+          return (
+            <option key={i} value={value} selected={form.value === value}>
+              {value}XP: {script}
+            </option>
+          );
+        })}
       </Form.Control>
       <Form.Text id='valueHelpBlock' muted>
         Alternatively, you can create a new category.

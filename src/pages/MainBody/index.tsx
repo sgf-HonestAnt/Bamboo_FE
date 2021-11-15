@@ -93,11 +93,13 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
               <Dashboard
                 user={user}
                 tasks={tasks}
+                categories={categories}
                 achievements={achievements}
                 followedUsers={followedUsers}
                 features={features}
                 history={history} 
                 location={location}
+                setErrorMessage={setErrorMessage}
               />
             ) : // : path === "/stats" ? (
             //   <Stats />

@@ -75,8 +75,9 @@ const DashCalenCard = (props: DashCalenCardProps) => {
           <div key={i} className='dashboard__calendar-card__line' id={w}>
             {daysArray
               .slice(a, b) //
-              .map((d: number) => (
+              .map((d: number, i: Key | null | undefined) => (
                 <div
+                  key={i}
                   className={
                     d !== 0
                       ? "dashboard__calendar-card__box"

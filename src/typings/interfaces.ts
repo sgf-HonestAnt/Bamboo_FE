@@ -108,6 +108,7 @@ export interface taskInt {
   title: string;
   image: string;
   desc: string;
+  repeats: string;
   type: taskType | string;
   value: number;
   createdBy: string; // user id

@@ -56,6 +56,12 @@
 .dashboard__tasks-card {
   border: 1px solid gold;
 }
+.dashboard__tasks-card__text-muted {
+  color: #6c757d;
+  margin: 0 0.25rem;
+  font-size: 80%;
+  font-weight: 400;
+}
 .dashboard__tasks-card__tasks {
   display: flex;
 }

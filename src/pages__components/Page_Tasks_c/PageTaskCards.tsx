@@ -16,32 +16,59 @@ import {
   FITNESS,
   WELLBEING,
   NONE,
+  COMPLETED,
+  AWAITED,
+  IN_PROGRESS,
+  ANY,
+  WILD_STR,
+  WILD_NUM,
 } from "../../utils/constants";
-import { getSelectedDateAsString, getTomorrowAsString } from "../../utils/funcs/dateTimeFuncs";
+import {
+  getSelectedDateAsString,
+  getTomorrowAsString,
+} from "../../utils/funcs/dateTimeFuncs";
 
 type PageTaskCardsProps = {
   tasks: taskInt[];
+  categoryToShow: string;
+  statusToShow: string;
+  sharedToShow: boolean;
+  valueToShow: number;
+  repeatToShow: string;
 };
 
 const PageTaskCards = (props: PageTaskCardsProps) => {
-  const { tasks } = props;
-  const todayAsDate = new Date();
-  const tomorrowAsDate = getTomorrowAsString(todayAsDate);
-  const today = getSelectedDateAsString(todayAsDate); 
-  const tomorrow = getSelectedDateAsString(tomorrowAsDate);
-  const anyTimeTasks = tasks.filter((t) => !t.deadline);
-  const todayTasks = tasks.filter(
-    (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE
-  );
-  const tomorrowTasks = tasks.filter(
-    (t) => t.deadline?.slice(0, 10) === tomorrow
-  );
-  const futureTasks = tasks.filter(
-    (t) =>
-      t.deadline?.slice(0, 10) !== today &&
-      t.deadline !== NONE &&
-      t.deadline?.slice(0, 10) !== tomorrow &&
-      t.deadline
+  const {
+    tasks,
+    categoryToShow,
+    statusToShow,
+    sharedToShow,
+    valueToShow,
+    repeatToShow,
+  } = props;
+  const filterByCat = categoryToShow
+    ? tasks.filter((t) => t.category === categoryToShow)
+    : tasks.filter((t) => t.category !== WILD_STR);
+  const filterByStat =
+    statusToShow !== ANY
+      ? tasks.filter((t) => t.status === statusToShow)
+      : tasks.filter((t) => t.status !== WILD_STR);
+  const filterBySha = sharedToShow
+    ? tasks.filter((t) => t.sharedWith && t.sharedWith.length > 1)
+    : tasks.filter((t) => !t.sharedWith || t.sharedWith.length < 1);
+  const filterByVal =
+    valueToShow !== WILD_NUM
+      ? tasks.filter((t) => t.value === valueToShow)
+      : tasks.filter((t) => t.value !== WILD_NUM);
+  const filterByRep =
+    repeatToShow !== ANY
+      ? tasks.filter((t) => t.repeats === repeatToShow)
+      : tasks.filter((t) => t.repeats !== WILD_STR);
+  const filteredTasks = filterByCat.concat(
+    filterByStat,
+    filterBySha,
+    filterByVal,
+    filterByRep
   );
   const getIcon = (category: string) => {
     return category === HOUSEHOLD ? (
@@ -65,8 +92,8 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     <Row>
       <Col sm={4}>
         <h4 style={{ padding: "10px" }}>Today</h4>
-        {todayTasks.length > 0 ? (
-          todayTasks.map((t: taskInt, i: number) => {
+        {filteredTasks.length > 0 ? (
+          filteredTasks.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
             return (
               <Card key={i} className='m-1'>
@@ -74,95 +101,6 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
                 <Card.Title style={{ fontSize: "1.5em" }}>
                   {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
                 </Card.Title>
-                <Card.Text>{t.desc}</Card.Text>
-                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
-              <Card.Text>created by: {t.createdBy}</Card.Text> */}
-                {/* <Card.Text>status: {t.status}</Card.Text>
-              <Card.Text>type: {t.type}</Card.Text> */}
-              </Card>
-            );
-          })
-        ) : (
-          <Card className='m-1'>
-            <Card.Title style={{ fontSize: "1.3em" }}>
-              Nothing to see here.
-            </Card.Title>
-          </Card>
-        )}
-      </Col>
-      <Col sm={4}>
-        <h4 style={{ padding: "10px" }}>Tomorrow</h4>
-        {tomorrowTasks.length > 0 ? (
-          tomorrowTasks.map((t: taskInt, i: number) => {
-            const icon = getIcon(t.category);
-            return (
-              <Card key={i} className='m-1'>
-                {/* <Card.Img variant='top' src={t.image} /> */}
-                <Card.Title style={{ fontSize: "1.5em" }}>
-                  {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
-                </Card.Title>
-                <Card.Text>{t.desc}</Card.Text>
-                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
-              <Card.Text>created by: {t.createdBy}</Card.Text> */}
-                {/* <Card.Text>status: {t.status}</Card.Text>
-              <Card.Text>type: {t.type}</Card.Text> */}
-              </Card>
-            );
-          })
-        ) : (
-          <Card className='m-1'>
-            <Card.Title style={{ fontSize: "1.3em" }}>
-              Nothing to see here.
-            </Card.Title>
-          </Card>
-        )}
-      </Col>
-      <Col sm={4}>
-        {/* !DEADLINE */}
-        <h4 style={{ padding: "10px" }}>Anytime</h4>
-        {anyTimeTasks.length > 0 ? (
-          anyTimeTasks.map((t: taskInt, i: number) => {
-            const icon = getIcon(t.category);
-            return (
-              <Card key={i} className='m-1'>
-                {/* <Card.Img variant='top' src={t.image} /> */}
-                <Card.Title style={{ fontSize: "1.5em" }}>
-                  {icon} {t.title} ({t.value}XP)
-                </Card.Title>
-                <Card.Text>{t.desc}</Card.Text>
-                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
-              <Card.Text>created by: {t.createdBy}</Card.Text> */}
-                {/* <Card.Text>status: {t.status}</Card.Text>
-              <Card.Text>type: {t.type}</Card.Text> */}
-              </Card>
-            );
-          })
-        ) : (
-          <Card className='m-1'>
-            <Card.Title style={{ fontSize: "1.3em" }}>
-              Nothing to see here.
-            </Card.Title>
-          </Card>
-        )}
-      </Col>
-      <Col sm={4}>
-        <h4 style={{ padding: "10px" }}>
-          Future tasks (will be displayed by date)
-        </h4>
-        {futureTasks.length > 0 ? (
-          futureTasks.map((t: taskInt, i: number) => {
-            const icon = getIcon(t.category);
-            return (
-              <Card key={i} className='m-1'>
-                {/* <Card.Img variant='top' src={t.image} /> */}
-                <Card.Title style={{ fontSize: "1.5em" }}>
-                  {icon} {t.title} ({t.value}XP) {t.deadline?.slice(0, 10)}
-                </Card.Title>
-                <Card.Text>{t.desc}</Card.Text>
-                {/* <Card.Text>shared with: {t.sharedWith}</Card.Text>
-              <Card.Text>created by: {t.createdBy}</Card.Text> */}
-                {/* <Card.Text>status: {t.status}</Card.Text>
-              <Card.Text>type: {t.type}</Card.Text> */}
               </Card>
             );
           })

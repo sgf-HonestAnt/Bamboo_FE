@@ -10,6 +10,9 @@ import {
 import "./styles.css";
 import { useState } from "react";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
+import { Link } from "react-router-dom";
+import { getSelectedDateAsString, getTomorrowAsString } from "../../utils/funcs/dateTimeFuncs";
+import { ANY, COMPLETED, NONE, WILD_NUM } from "../../utils/constants";
 
 type TasksProps = {
   tasks: currentTasksInt;
@@ -19,42 +22,32 @@ const Tasks = (props: TasksProps) => {
   const { tasks } = props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const [statusToShow, setStatusToShow] = useState({
-    category: "",
-    awaited: true,
-    in_progress: true,
-    completed: false,
-  });
-  const changeCategory = (e: { target: { value: any; }; }) => {
-    const value = e.target.value
-    setStatusToShow({
-      ...statusToShow,
-      category: value,
-    });
-  };
-  const changeAwaited = () => {
-    setStatusToShow({
-      ...statusToShow,
-      awaited: !statusToShow.awaited,
-    });
-  };
-  const changeProgress = () => {
-    setStatusToShow({
-      ...statusToShow,
-      in_progress: !statusToShow.in_progress,
-    });
-  };
-  const changeCompleted = () => {
-    setStatusToShow({
-      ...statusToShow,
-      completed: !statusToShow.completed,
-    });
-  };
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log(statusToShow);
-    // add funcionality to filter by category, status, time and value(?)
-  }; 
+  // today, tomorrow, and future
+  const todayAsDate = new Date();
+  const tomorrowAsDate = getTomorrowAsString(todayAsDate);
+  const today = getSelectedDateAsString(todayAsDate); 
+  const tomorrow = getSelectedDateAsString(tomorrowAsDate);
+  const anyTimeTasks = allTasks.filter((t) => !t.deadline);
+  const tasksToday = allTasks.filter(
+    (t) => (t.deadline?.slice(0, 10) === today || t.deadline === NONE) && t.status !== COMPLETED
+  );
+  const tasksTomorrow = allTasks.filter(
+    (t) => t.deadline?.slice(0, 10) === tomorrow && t.status !== COMPLETED
+  );
+  const tasksInFuture = allTasks.filter(
+    (t) =>
+      t.deadline?.slice(0, 10) !== today &&
+      t.deadline !== NONE &&
+      t.deadline?.slice(0, 10) !== tomorrow &&
+      t.deadline && t.status !== COMPLETED
+  );
+  // filters
+  const [tasksToShow, setTasksToShow] = useState(allTasks) // all, today, tomorrow or future
+  const [categoryToShow, setCategoryToShow] = useState(ANY) // user's categories or any
+  const [statusToShow, setStatusToShow] = useState(ANY) // awaited, in_progress, completed or any
+  const [sharedToShow, setSharedToShow] = useState(true) // true or false
+  const [valueToShow, setValueToShow] = useState(WILD_NUM) // 10,20,30,40,50 or WILD
+  const [repeatToShow, setRepeatToShow] = useState(ANY) // daily, weekly, monthly, every x days or any 
   return (
     <Container fluid>
       <Row className='tasks-page'>
@@ -62,7 +55,7 @@ const Tasks = (props: TasksProps) => {
           <Row>Tasks | Schedule</Row>
           <Row className='tasks-page__filter-row'>
             <Button className='tasks-page__filter-row__add-btn'>
-              <GrAddCircle />
+              <Link to="tasks-add-new"><GrAddCircle /></Link>
             </Button>
             <div className='tasks-page__filter-row-inner'>
               Filters
@@ -75,90 +68,10 @@ const Tasks = (props: TasksProps) => {
                   <MdOutlineStarHalf />
                   <MdOutlineStar />
                 </div>
-                <form
-                  onSubmit={handleSubmit}
-                  className='tasks-page__filter-row-inner-display__status-form'>
-                  <select name='category' onChange={changeCategory}>
-                    {categories.map(function (c,i) {
-                      return (
-                        <option key={i} value={c} selected={statusToShow.category === c}>
-                          {c}
-                        </option> 
-                      );
-                    })}
-                  </select>
-                  <div className='form-check'>
-                    <label className='form-check-label'>
-                      <input
-                        type='checkbox'
-                        checked={statusToShow.awaited}
-                        onChange={changeAwaited}
-                        className='form-check-input'
-                      />
-                      Awaited
-                    </label>
-                  </div>
-                  <div className='form-check'>
-                    <label className='form-check-label'>
-                      <input
-                        type='checkbox'
-                        checked={statusToShow.in_progress}
-                        onChange={changeProgress}
-                        className='form-check-input'
-                      />
-                      In progress
-                    </label>
-                  </div>
-                  <div className='form-check'>
-                    <label className='form-check-label'>
-                      <input
-                        type='checkbox'
-                        checked={statusToShow.completed}
-                        onChange={changeCompleted}
-                        className='form-check-input'
-                      />
-                      Completed
-                    </label>
-                  </div>
-                  <div className='form-group'>
-                    <button className='btn btn-success'>Save</button>
-                  </div>
-                </form>
-                {/* TEST */}
-                {/* <Form>
-                  <Form.Group controlId='formBasicCheckbox'>
-                    <Form.Check
-                      type='checkbox'
-                      label='Awaited'
-                      id='awaited'
-                      onChange={(e) => selectStatus(e, "awaited")}
-                    />
-                  </Form.Group>
-                </Form>
-                <Form>
-                  <Form.Group controlId='formBasicCheckbox'>
-                    <Form.Check
-                      type='checkbox'
-                      label='In progress'
-                      id='in_progress'
-                      onChange={(e) => selectStatus(e, "in_progress")}
-                    />
-                  </Form.Group>
-                </Form>
-                <Form>
-                  <Form.Group controlId='formBasicCheckbox'>
-                    <Form.Check
-                      type='checkbox'
-                      label='Completed'
-                      id='completed'
-                      onChange={(e) => selectStatus(e, "completed")}
-                    />
-                  </Form.Group>
-                </Form> */}
               </div>
             </div>
           </Row>
-          <PageTaskCards tasks={allTasks} />
+          <PageTaskCards tasks={tasksToShow} categoryToShow={categoryToShow} statusToShow={statusToShow} sharedToShow={sharedToShow} valueToShow={valueToShow} repeatToShow={repeatToShow} />
         </Col>
       </Row>
     </Container>
