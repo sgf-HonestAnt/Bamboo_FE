@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { setSuperlist } from "../../redux/actions/achievements";
 import { achievementInt } from "../../typings/interfaces";
 import { congrats } from "../constants";
-import getTime from "./time";
+import { getCurrDateTimeAsString } from "./dateTimeFuncs";
 
 const createList = async (
   list: achievementInt[],
@@ -12,7 +12,7 @@ const createList = async (
   let super_list: string[] = [];
   let nice: string[] = congrats;
   list.map((ach, i) => {
-    const timestamp = getTime(ach);
+    const timestamp = getCurrDateTimeAsString(ach);
     const num = i < nice.length ? i : Math.floor(Math.random() * nice.length);
     return super_list.push(
       `${ach.username === username ? "you" : ach.username} completed task: "${

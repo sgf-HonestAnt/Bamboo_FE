@@ -21,7 +21,7 @@ import createList from "../../utils/funcs/list";
 import "./styles.css";
 import { useDispatch } from "react-redux";
 import { NONE } from "../../utils/constants";
-import getDateString from "../../utils/funcs/datestring";
+import { getSelectedDateAsString } from "../../utils/funcs/dateTimeFuncs";
 
 type DashboardProps = {
   user: userInt;
@@ -45,7 +45,7 @@ const Dashboard = (props: DashboardProps) => {
   } = props;
   const { awaited } = tasks;
   const todayAsDate = new Date();
-  const today = getDateString(todayAsDate);
+  const today = getSelectedDateAsString(todayAsDate);
   const todayTasks = awaited.filter(
     (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE
   );
@@ -66,7 +66,7 @@ const Dashboard = (props: DashboardProps) => {
     });
     super_list.sort(function (a, b) {
       const date_a = new Date(a.createdAt).getTime();
-      const date_b = new Date(b.createdAt).getTime();
+      const date_b = new Date(b.createdAt).getTime(); 
       return date_b - date_a;
     });
     await createList(super_list, user.username, dispatch);

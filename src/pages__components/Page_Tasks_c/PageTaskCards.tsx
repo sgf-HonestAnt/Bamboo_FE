@@ -17,8 +17,7 @@ import {
   WELLBEING,
   NONE,
 } from "../../utils/constants";
-import getDateString from "../../utils/funcs/datestring";
-import getTomorrow from "../../utils/funcs/tomorrow";
+import { getSelectedDateAsString, getTomorrowAsString } from "../../utils/funcs/dateTimeFuncs";
 
 type PageTaskCardsProps = {
   tasks: taskInt[];
@@ -27,9 +26,9 @@ type PageTaskCardsProps = {
 const PageTaskCards = (props: PageTaskCardsProps) => {
   const { tasks } = props;
   const todayAsDate = new Date();
-  const tomorrowAsDate = getTomorrow(todayAsDate);
-  const today = getDateString(todayAsDate);
-  const tomorrow = getDateString(tomorrowAsDate);
+  const tomorrowAsDate = getTomorrowAsString(todayAsDate);
+  const today = getSelectedDateAsString(todayAsDate); 
+  const tomorrow = getSelectedDateAsString(tomorrowAsDate);
   const anyTimeTasks = tasks.filter((t) => !t.deadline);
   const todayTasks = tasks.filter(
     (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE

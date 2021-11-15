@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { taskInt, userInt } from "../../typings/interfaces";
 import attemptCompleteTasks from "../../utils/funcs/complete";
+import { getDayMonthYearAsString } from "../../utils/funcs/dateTimeFuncs";
 
 type DashTasksCardProps = {
   today: taskInt[];
@@ -13,6 +14,7 @@ type DashTasksCardProps = {
   location: Location<unknown>;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
+  const dayMonthYearAsString = getDayMonthYearAsString()
   const { today, user, history, location } = props;
   const { refreshToken } = user;
   const completedTasks: string[] = [];
@@ -46,7 +48,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   };
   return ( 
     <div className='dashboard__tasks-card m-2'>
-      <div>Today's tasks</div>
+      <div>{dayMonthYearAsString}</div> 
       {today?.length < 1 ? (
         <span>No tasks awaited today!</span>
       ) : (
