@@ -1,23 +1,19 @@
-//react and redux
 import { RouteComponentProps } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
-//actions and interfaces
 import { fillUserAction } from "../../redux/actions/user";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-//bootstrap and components
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import MainSideBar from "../MainSideBar";
 import Dashboard from "../Page_Dashboard";
 import Tasks from "../Page_Tasks";
 import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
-//functions and styles
 import AddTask from "../Page_AddTask";
 import checkToken from "../../utils/funcs/checkToken";
 import "./styles.css";
@@ -33,7 +29,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const categories = tasks.categories;
   const achievements = state.currentAchievements;
   const features = state.currentFeatures;
-  // const settings = state.currentSettings;
+  const settings = state.currentSettings;
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
   const path = location.pathname;
@@ -50,10 +46,6 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     } else {
       const username = await checkToken(refreshToken, history, location);
       setTimeout(() => {
-        // if (!username) {
-        //   console.log("⛔NO USER");
-        //   history.push("/login");
-        // } else {
         console.log(`🥔user=${username}`);
         dispatch(fillUserAction(accessToken));
         dispatch(fillTasksAction());
@@ -62,7 +54,6 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
         dispatch(fillSettingsAction());
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
-        // }
       }, 1000);
     }
   };
@@ -71,7 +62,6 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log(location.pathname)
   return (
     <Container fluid className='main-page m-0'>
       {loading ? (
@@ -85,6 +75,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
               history={history}
               user={user}
               tasks={tasks}
+              settings={settings}
               followedUsers={followedUsers}
             />
           </Col>

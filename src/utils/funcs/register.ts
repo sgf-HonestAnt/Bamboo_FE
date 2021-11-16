@@ -12,22 +12,20 @@ type registrationForm = {
 
 const attemptRegister = async (
   history: History<unknown> | string[],
-  form: registrationForm 
+  form: registrationForm
 ) => {
   try {
-    console.log("✔️attempt registration!",form);
+    console.log("✔️attempt registration!", form);
     const url = `${BE_URL}/${USERS}/${REGISTER}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };
     const body = JSON.stringify(form);
     const response = await fetch(url, { method, headers, body });
-    if (response.ok) {
-      const { accessToken, refreshToken } = await response.json();
-      localStorage.setItem("token", accessToken);
-      setRefreshToken(refreshToken);
-      history.push("/");
-    }
-  } catch (error) { 
+    const { accessToken, refreshToken } = await response.json();
+    localStorage.setItem("token", accessToken);
+    setRefreshToken(refreshToken);
+    history.push("/");
+  } catch (error) {
     console.log(error);
   }
 };

@@ -9,7 +9,6 @@ type FollowingProps = {
 const Following = ({ followedUsers }: FollowingProps) => {
   return (
     <Row className='following-page p-1'>
-      {/* PROFILE CARD */}
       {followedUsers?.length < 1 && <p>NO FOLLOWED USERS!</p>}
       {followedUsers?.map((u, i) => (
         <Card key={i} className='following-page__profile-card col-3 m-1'>

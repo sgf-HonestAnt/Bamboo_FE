@@ -1,7 +1,7 @@
 .tasks-page {
   overflow-y: scroll;
 }
-.tasks-page__filter-row {
+.tasks-page__filter-row form {
   display: flex;
   justify-content: flex-start;
 }
@@ -23,4 +23,17 @@
 }
 .tasks-page__filter-row-inner-display__status-form {
   display: flex;
+}
+.tasks-page__tasks-row {}
+.tasks-page__tasks-row__single-task {
+  border: 1px solid black;
+}
+.tasks-page__tasks-row__single-task.awaited {
+  background-color: var(--awaited-color);
+}
+.tasks-page__tasks-row__single-task.completed {
+  background-color: var(--completed-color);
+}
+.tasks-page__tasks-row__single-task.in-progress {
+  background-color: var(--progress-color);
 }

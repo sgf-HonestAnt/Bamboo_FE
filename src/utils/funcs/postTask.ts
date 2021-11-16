@@ -24,14 +24,8 @@ const attemptPostTask = async (
       };
       const body = JSON.stringify(form);
       const response = await fetch(url, { method, headers, body });
-      if (response.ok) {
-        const newTask = await response.json();
-        return newTask;
-      }
-      // else {
-      //   setErrorMessage("ERROR CREATING NEW TASK");
-      //   history.push("/error");
-      // }
+      const newTask = await response.json();
+      return newTask;
     }
   } catch (error) {
     console.log("😥TROUBLE POSTING TASK", error);

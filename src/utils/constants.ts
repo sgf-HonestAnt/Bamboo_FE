@@ -68,24 +68,40 @@ export const TASK_CATEGORIES = [
 export const NEVER = "never";
 export const DAILY = "daily";
 export const WEEKLY = "weekly";
-export const BIMONTHLY = "bimonthly";
+// export const BIMONTHLY = "bimonthly";
 export const MONTHLY = "monthly";
-export const NUMBER = `+${!NaN}`;
+export const EVERY_X_DAYS = "every 'x' days"
 export const TASK_REPEAT_TYPES = [
   NEVER,
   DAILY,
   WEEKLY,
-  BIMONTHLY,
   MONTHLY,
-  NUMBER,
+  EVERY_X_DAYS,
 ];
+export const NUMBER = `+${!NaN}`;
 // task values
-export const TASK_VALUES = ["easy as pie!","something else","something different","hard as rock","last one"]
+export const TASK_VALUE_NUMS = [10, 20, 30, 40, 50];
+export const TASK_VALUES = [
+  "easy as pie!",
+  "something else",
+  "something different",
+  "hard as rock",
+  "last one",
+];
+export const ALL_TASKS = "All Tasks";
+export const ANY_CAT = "Any Category";
+export const ANY_STATUS = "Any Status";
+export const ANY_REPEAT = "Any Repeat";
+export const TODAY = "Today";
+export const TOMORROW = "Tomorrow";
+export const NO_DEADLINE = "No deadline"
+export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, ALL_TASKS];
 // other
 export const NONE = "none";
-export const ANY = "any"
-export const WILD_STR = "some random string used for wild searches, so long as filtered key !== this string it will be displayed"
-export const WILD_NUM = 42
+export const ANY = "any";
+export const WILD_STR =
+  "some random string used for wild searches, so long as filtered key !== this string it will be displayed";
+export const WILD_NUM = 4242424242;
 // congratulations
 export const congrats = [
   "🖐️High five!",

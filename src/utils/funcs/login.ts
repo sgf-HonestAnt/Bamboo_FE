@@ -19,11 +19,9 @@ const attemptLogin = async (
     if (response.ok) {
       const { accessToken, refreshToken } = await response.json();
       setTimeout(() => {
-        // console.log("SETTING ACCESSTOKEN", accessToken)
         localStorage.setItem("token", accessToken);
       }, 1000);
       setTimeout(() => {
-        // console.log("SETTING REFRESH TOKEN", refreshToken)
         dispatch(setRefreshToken(refreshToken)); // THIS IS NOT WORKING!
       }, 1000);
       setTimeout(() => {

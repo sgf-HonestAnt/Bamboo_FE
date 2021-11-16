@@ -1,3 +1,9 @@
+:root {
+  --awaited-color: red;
+  --progress-color: orange;
+  --completed-color: green;
+}
+
 .App {
   text-align: center;
 }

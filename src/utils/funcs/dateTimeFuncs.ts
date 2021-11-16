@@ -1,23 +1,27 @@
 import { achievementInt } from "../../typings/interfaces";
 
 export const getCurrDate = () => {
-  return new Date().getDate()
-}
+  return new Date().getDate();
+};
+
+export const getTomorrowDate = () => {
+  return getCurrDate() + 1;
+};
 
 export const getCurrDay = () => {
-  return new Date().getDay()
-}
+  return new Date().getDay();
+};
 
 export const getCurrMonth = () => {
-  return new Date().getMonth()
-} 
+  return new Date().getMonth();
+};
 
 export const getCurrYear = () => {
-  return new Date().getFullYear()
-}
+  return new Date().getFullYear();
+};
 
 export const getDayMonthYearAsString = () => {
-  // simple func to get current date used for DashTasksCard
+  // simple func to get current date used for DashTasksCard and Tasks>PageTaskCards
   const year = getCurrYear().toString();
   const month = getMonthByIndex();
   const date = getCurrDate().toString();
@@ -30,6 +34,23 @@ export const getDayMonthYearAsString = () => {
       ? "rd"
       : "th";
   const day = getDayByIndex();
+  return `${day}, ${date}${dateEnd} ${month} ${year}`;
+};
+
+export const getTomorrowDayMonthYearAsString = () => {
+  // simple func to get tomorrow date used for Tasks>PageTaskCards
+  const year = getCurrYear().toString();
+  const month = getMonthByIndex();
+  const date = getTomorrowDate().toString();
+  const dateEnd =
+    date[date.length - 1] === "1"
+      ? "st"
+      : date[date.length - 1] === "2"
+      ? "nd"
+      : date[date.length - 1] === "3"
+      ? "rd"
+      : "th";
+  const day = getTomorrowDayByIndex();
   return `${day}, ${date}${dateEnd} ${month} ${year}`;
 };
 
@@ -46,6 +67,22 @@ export const getDayByIndex = () => {
     "Saturday",
   ];
   return dayNames[dayAsNum];
+};
+
+export const getTomorrowDayByIndex = () => {
+  // simple func to get tomorrow day
+  const dayAsNum = getCurrDay() + 1;
+  const tomorrowAsNum = dayAsNum > 6 ? 0 : dayAsNum;
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return dayNames[tomorrowAsNum];
 };
 
 export const getMonthByIndex = () => {
@@ -71,14 +108,14 @@ export const getMonthByIndex = () => {
 export const getFirstDayOfThisMonth = () => {
   const year = getCurrYear();
   const day = new Date(year, 1, 1).getDay();
-  return day
+  return day;
 };
 
 export const getLastDayOfThisMonth = () => {
   const year = getCurrYear();
-  const numberOfDays = getNumberOfDaysInMonth()
+  const numberOfDays = getNumberOfDaysInMonth();
   const day = new Date(year, 1, numberOfDays).getDay();
-  return day
+  return day;
 };
 
 export const getNumberOfDaysInMonth = () => {
