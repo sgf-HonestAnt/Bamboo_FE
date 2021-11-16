@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { useState } from "react";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
-import { currentTasksInt } from "../../typings/interfaces";
+import { currentTasksInt, userInt } from "../../typings/interfaces";
 import {
   ALL_TASKS,
   ANY_CAT,
@@ -21,10 +21,11 @@ import "./styles.css";
 
 type TasksProps = {
   tasks: currentTasksInt;
+  user: userInt;
 };
 
 const Tasks = (props: TasksProps) => {
-  const { tasks } = props;
+  const { tasks, user } = props;
   const { categories } = tasks;
   // filters
   const [form, setForm] = useState({
@@ -181,7 +182,7 @@ const Tasks = (props: TasksProps) => {
               </Form.Group>
             </Form>
           </Row>
-          <PageTaskCards tasks={tasks} form={form} />
+          <PageTaskCards form={form} user={user} />
         </Col>
       </Row>
     </Container>

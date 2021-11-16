@@ -105,7 +105,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 setErrorMessage={setErrorMessage}
               />
             ) : path === "/tasks" ? (
-              <Tasks tasks={tasks} />
+              <Tasks user={user} tasks={tasks} />
             ) : // path === "/tasks-schedule" ? (
             //   <TasksSchedule />
             // ) : path === "/quests" ? (
