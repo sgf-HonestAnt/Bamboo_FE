@@ -2,7 +2,7 @@ import { BE_URL, GET, TASKS } from "../constants";
 
 const fetchTasksByQuery = async (criteria: string) => {
   try {
-    const url = `${BE_URL}/${TASKS}/query?${criteria}&sort=deadline&offset=10&limit=10`;
+    const url = `${BE_URL}/${TASKS}/query?${criteria}&sort=deadline&limit=25`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",
