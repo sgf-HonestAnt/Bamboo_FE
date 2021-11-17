@@ -4,7 +4,7 @@ import {
   getLastDayOfThisMonth,
   getMonthByIndex,
   getNumberOfDaysInMonth,
-} from "../../utils/funcs/dateTimeFuncs";
+} from "../../utils/dateFuncs";
 
 type DashCalenCardProps = {};
 

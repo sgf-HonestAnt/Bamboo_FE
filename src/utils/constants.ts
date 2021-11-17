@@ -1,3 +1,5 @@
+import { ICOFINANCE, ICOFIT, ICOHOUSE, ICOPETS, ICORELATE, ICOSHOP, ICOURGENT, ICOWELLNESS, ICOWORK } from "./icons";
+
 // fetches
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
@@ -50,19 +52,36 @@ export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
 // task categories
-export const HOUSEHOLD = "household";
-export const WORK = "work";
-export const RELATIONSHIPS = "relationships";
-export const FINANCE = "finance";
-export const FITNESS = "fitness";
-export const WELLBEING = "wellbeing";
+export const URGENT = "Urgent";
+export const HOUSEHOLD = "Home";
+export const SHOPPING = "Shopping";
+export const WORK = "Work";
+export const RELATIONSHIPS = "Relationships";
+export const FINANCE = "Finance";
+export const FITNESS = "Fitness";
+export const PETS = "Pets";
+export const WELLBEING = "Wellbeing";
 export const TASK_CATEGORIES = [
+  URGENT,
   HOUSEHOLD,
+  SHOPPING,
   WORK,
   RELATIONSHIPS,
   FINANCE,
   FITNESS,
+  PETS,
   WELLBEING,
+];
+export const TASK_CATEGORY_ICONS = [
+  ICOURGENT,
+  ICOHOUSE,
+  ICOSHOP,
+  ICOWORK,
+  ICORELATE,
+  ICOFINANCE,
+  ICOFIT,
+  ICOPETS,
+  ICOWELLNESS,
 ];
 // task repetition
 export const NEVER = "never";
@@ -70,14 +89,8 @@ export const DAILY = "daily";
 export const WEEKLY = "weekly";
 // export const BIMONTHLY = "bimonthly";
 export const MONTHLY = "monthly";
-export const EVERY_X_DAYS = "every 'x' days"
-export const TASK_REPEAT_TYPES = [
-  NEVER,
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  EVERY_X_DAYS,
-];
+export const EVERY_X_DAYS = "every 'x' days";
+export const TASK_REPEAT_TYPES = [NEVER, DAILY, WEEKLY, MONTHLY, EVERY_X_DAYS];
 export const NUMBER = `+${!NaN}`;
 // task values
 export const TASK_VALUE_NUMS = [10, 20, 30, 40, 50];
@@ -94,7 +107,7 @@ export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
 export const TODAY = "Today";
 export const TOMORROW = "Tomorrow";
-export const NO_DEADLINE = "No deadline"
+export const NO_DEADLINE = "No deadline";
 export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, ALL_TASKS];
 // other
 export const NONE = "none";

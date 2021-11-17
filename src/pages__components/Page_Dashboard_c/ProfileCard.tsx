@@ -1,5 +1,6 @@
 import { VscGraph } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { ICOACTIVITY } from "../../utils/icons";
 
 type DashProfileCardProps = {
   avatar: string;
@@ -28,7 +29,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <div>{bio}</div>
       <div className='dashboard__profile-card__stats'>
         <div>
-          <VscGraph />
+          <ICOACTIVITY /> 
         </div>
         <Link to='/stats'>Stats</Link>
       </div>

@@ -16,6 +16,11 @@ export const SubmitButton = () => (
     Submit
   </Button>
 );
+export const CompleteButton = () => (
+  <Button variant='light' className='mb-3 mr-1' type='submit'>
+    Complete
+  </Button>
+);
 export const ProgressTaskButton = () => (
   <Button variant='light' className='mb-3 mr-1'>
     Task Started

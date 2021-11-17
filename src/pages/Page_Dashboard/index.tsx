@@ -1,62 +1,66 @@
 import { History, Location } from "history";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Row, Col } from "react-bootstrap";
-import { 
+import {
   achievementInt,
   currentAchievementsInt,
   currentFeaturesInt,
-  currentTasksInt,
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import DashProfileCard from "../../pages__components/Page_Dashboard_c/DashProfileCard";
-import DashTasksCard from "../../pages__components/Page_Dashboard_c/DashTasksCard";
-import DashCalenCard from "../../pages__components/Page_Dashboard_c/DashCalenCard";
+import DashProfileCard from "../../pages__components/Page_Dashboard_c/ProfileCard";
+import DashTasksCard from "../../pages__components/Page_Dashboard_c/TasksCard";
+import DashCalenCard from "../../pages__components/Page_Dashboard_c/Calendar";
 import DashTipsCard from "../../pages__components/Page_Dashboard_c/DashTipsCard";
-import DashAlertCard from "../../pages__components/Page_Dashboard_c/DashAlertCard";
-import DashChallCard from "../../pages__components/Page_Dashboard_c/DashChallCard";
+import DashAlertCard from "../../pages__components/Page_Dashboard_c/AlertCard";
+import DashChallCard from "../../pages__components/Page_Dashboard_c/ChallengeCard";
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
-import DashAchievCard from "../../pages__components/Page_Dashboard_c/DashAchievCard";
+import DashAchievCard from "../../pages__components/Page_Dashboard_c/Achievements";
 import createList from "../../utils/funcs/list";
-import { getSelectedDateAsString } from "../../utils/funcs/dateTimeFuncs";
-import { NONE } from "../../utils/constants";
+import { getSelectedDateAsString } from "../../utils/dateFuncs";
+import { fetchTaskByQuery, getTaskByDeadline } from "../../utils/taskFuncs";
 import "./styles.css";
 
 type DashboardProps = {
   user: userInt;
-  tasks: currentTasksInt;
   categories: string[];
   achievements: currentAchievementsInt;
   followedUsers: followedUserInt[];
   features: currentFeaturesInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
-  setErrorMessage: any
+  setErrorMessage: any;
 };
 
 const Dashboard = (props: DashboardProps) => {
   const {
     user,
-    tasks,
     categories,
     achievements,
     followedUsers,
     features,
     history,
     location,
-    setErrorMessage
+    setErrorMessage,
   } = props;
-  const { awaited } = tasks;
+  const { _id } = user;
+  const [tasks, setTasks] = useState([]);
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
-  const todayTasks = awaited.filter(
-    (t) => t.deadline?.slice(0, 10) === today || t.deadline === NONE
-  );
   const { list, superlist } = achievements;
   const { username, bio, avatar, level, xp, notification } = user;
   const dispatch = useDispatch();
   const attemptLoad = async () => {
+    // load tasks with no deadline / deadline for today
+    const data = await fetchTaskByQuery(
+      `deadline=${today}&status=awaited&status=in_progress&sort=deadline,title`,
+      _id
+    );
+    const todayDeadline = data.tasks;
+    const noDeadline = await getTaskByDeadline(null);
+    const tasksForToday = todayDeadline.concat(noDeadline);
+    setTasks(tasksForToday);
     let super_list: achievementInt[] = [];
     followedUsers.map((user, i) => {
       return user.achievements.map((ach, i) => {
@@ -68,7 +72,7 @@ const Dashboard = (props: DashboardProps) => {
     });
     super_list.sort(function (a, b) {
       const date_a = new Date(a.createdAt).getTime();
-      const date_b = new Date(b.createdAt).getTime(); 
+      const date_b = new Date(b.createdAt).getTime();
       return date_b - date_a;
     });
     await createList(super_list, user.username, dispatch);
@@ -96,7 +100,8 @@ const Dashboard = (props: DashboardProps) => {
           </Col>
           <Col sm={6} className='p-1'>
             <DashTasksCard
-              today={todayTasks}
+              tasks={tasks}
+              today={today}
               user={user}
               history={history}
               location={location}

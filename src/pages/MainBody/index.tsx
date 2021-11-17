@@ -20,6 +20,7 @@ import SpinnerPage from "../Page_Spinner";
 import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
+  const [mainLoading, setMainLoading] = useState(true);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
@@ -54,6 +55,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
       }
       setTimeout(() => {
         // looks like achievements are loading after user
+        setMainLoading(false);
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
       }, 1000);
@@ -62,10 +64,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   useEffect(() => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [mainLoading]);
   return (
     <Container fluid className='main-page m-0'>
-      {loading ? (
+      {loading || mainLoading ? (
         <Row className='main-page__spinner'>
           <Spinner animation='grow' />
         </Row>
@@ -75,7 +77,6 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             <MainSideBar
               history={history}
               user={user}
-              tasks={tasks}
               settings={settings}
               followedUsers={followedUsers}
             />
@@ -84,7 +85,6 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             {path === "/dash" ? (
               <Dashboard
                 user={user}
-                tasks={tasks}
                 categories={categories}
                 achievements={achievements}
                 followedUsers={followedUsers}
@@ -106,7 +106,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 setErrorMessage={setErrorMessage}
               />
             ) : path === "/tasks" ? (
-              <Tasks user={user} tasks={tasks} />
+              <Tasks user={user} categories={categories} />
             ) : // path === "/tasks-schedule" ? (
             //   <TasksSchedule />
             // ) : path === "/quests" ? (

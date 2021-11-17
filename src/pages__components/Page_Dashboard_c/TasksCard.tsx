@@ -7,18 +7,20 @@ import attemptCompleteTasks from "../../utils/funcs/complete";
 import {
   getDayMonthYearAsString,
   getMinMaxDateAsString,
-} from "../../utils/funcs/dateTimeFuncs";
+} from "../../utils/dateFuncs";
 import attemptPostTask from "../../utils/funcs/postTask";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";
-import { BULB } from "../../utils/icons";
+import { BULB, CIRCLE, CLOCK, ICOSAVE } from "../../utils/icons";
 import {
   AddNewTaskButton,
+  CompleteButton,
   SubmitButton,
 } from "../../utils/buttons";
 
 type DashTasksCardProps = {
-  today: taskInt[];
+  tasks: taskInt[];
+  today: string;
   user: userInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
@@ -26,7 +28,7 @@ type DashTasksCardProps = {
   setErrorMessage: any;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { today, user, history, location, categories, setErrorMessage } = props;
+  const { tasks, today, user, history, location, categories, setErrorMessage } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
   // add today tasks
@@ -107,21 +109,27 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       completedTasks.push(value);
     }
   };
-  console.log(form);
   return (
     <div className='dashboard__tasks-card m-2'>
       <div>{dayMonthYearAsString}</div>
-      {today?.length < 1 ? (
+      {tasks.length < 1 ? (
         <>
           <div>No tasks awaited today!</div>
           <AddNewTaskButton />
         </>
       ) : (
         <Form onSubmit={handleSubmitComplete}>
-          {today
-            ?.sort()
-            .slice(Math.max(today.length - 3, 0))
-            .map((t, i) => (
+          <div>Tick to complete</div>
+          {tasks.slice(0, 3).map((t, i) => {
+            const clock =
+            t.deadline?.includes(today) ? ( 
+                <CLOCK className='icon-urgent' />
+              ) : t.deadline ? (
+                <CLOCK className='icon-semi-urgent' />
+              ) : (
+                <CIRCLE />
+              );
+            return (
               <Form.Group key={i} controlId={t._id}>
                 <div className='mb-0'>
                   <Form.Check
@@ -132,13 +140,16 @@ const DashTasksCard = (props: DashTasksCardProps) => {
                     value={t._id}
                     onChange={handleChangeCompleted}
                   />
+                  {clock}
                 </div>
               </Form.Group>
-            ))}
+            );
+          })}
+          <div>{tasks.length > 3 ? `+ ${tasks.length - 3} more` : ""}</div>
           <Button variant='light' className='mb-3 mr-1' onClick={handleShow}>
             Add new
           </Button>
-          <SubmitButton />
+          <CompleteButton />
         </Form>
       )}
       <Modal show={show} onHide={handleClose}>
@@ -208,7 +219,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
                 <option selected={form.category === NONE}>{NONE}</option>
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId='desc'>
+            <Form.Group controlId='desc' className='mb-2'>
               <Form.Label>Description</Form.Label>
               <Form.Control
                 required
@@ -218,16 +229,15 @@ const DashTasksCard = (props: DashTasksCardProps) => {
                 onChange={handleChange}></Form.Control>
             </Form.Group>
             <SubmitButton />
+            <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
+              <ICOSAVE />
+            </Button>
+            {/* <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
+            Save Changes
+          </Button> */}
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </Modal>
     </div>
   );

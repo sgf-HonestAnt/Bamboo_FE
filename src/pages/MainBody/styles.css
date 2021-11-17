@@ -5,3 +5,9 @@
   justify-content: center;
   align-items: center;
 }
+.icon-urgent {
+  color: red;
+}
+.icon-semi-urgent {
+  color: blue;
+}

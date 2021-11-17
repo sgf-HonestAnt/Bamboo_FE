@@ -22,13 +22,12 @@ import "./styles.css";
 import { AddNewTaskButton, RefreshButton } from "../../utils/buttons";
 
 type TasksProps = {
-  tasks: currentTasksInt;
   user: userInt;
+  categories: string[];
 };
 
 const Tasks = (props: TasksProps) => {
-  const { tasks, user } = props;
-  const { categories } = tasks;
+  const { user, categories } = props;
   // filters
   const [form, setForm] = useState({
     tasksToShow: ALL_TASKS, // all, today, tomorrow or future
@@ -51,6 +50,11 @@ const Tasks = (props: TasksProps) => {
         ...form,
         [id]: false,
       });
+    } else if (value === NO_DEADLINE) {
+      setForm({
+        ...form,
+        [id]: null,
+      });
     } else {
       setForm({
         ...form,
@@ -58,7 +62,7 @@ const Tasks = (props: TasksProps) => {
       });
     }
   };
-  console.log(form);
+  // console.log(form);
   return (
     <Container fluid>
       <Row className='tasks-page'>

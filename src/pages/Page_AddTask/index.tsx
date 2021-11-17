@@ -16,7 +16,7 @@ import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRep
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
 import attemptPostTask from "../../utils/funcs/postTask";
-import { getMinMaxDateAsString } from "../../utils/funcs/dateTimeFuncs";
+import { getMinMaxDateAsString } from "../../utils/dateFuncs";
 import "./styles.css";
 
 type AddTaskProps = {

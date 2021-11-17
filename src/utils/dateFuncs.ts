@@ -1,4 +1,4 @@
-import { achievementInt } from "../../typings/interfaces";
+import { achievementInt } from "../typings/interfaces";
 
 export const getCurrDate = () => {
   return new Date().getDate();
@@ -82,7 +82,7 @@ export const getTomorrowDayByIndex = () => {
     "Friday",
     "Saturday",
   ];
-  return dayNames[tomorrowAsNum];
+  return dayNames[tomorrowAsNum]; 
 };
 
 export const getMonthByIndex = () => {
