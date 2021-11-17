@@ -1,0 +1,6 @@
+.spinner-page {
+    display: flex;
+    min-height: 100vh;
+    justify-content: space-around;
+    align-content: center;
+}

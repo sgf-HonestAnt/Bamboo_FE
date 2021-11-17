@@ -4,6 +4,7 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import attemptLogin from "../../utils/funcs/login";
 import "./styles.css";
+import { SubmitButton } from "../../utils/buttons";
 
 const Login = ({ history, location, match }: RouteComponentProps) => {
   const dispatch = useDispatch();
@@ -56,9 +57,7 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
             <Form.Group>
               <Link to='/register'>Register instead</Link>{" "}
             </Form.Group>
-            <Button variant='primary' type='submit'>
-              Submit
-            </Button>
+            <SubmitButton />
           </Form>
         </Col>
       </Row>

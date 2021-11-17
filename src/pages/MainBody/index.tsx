@@ -16,6 +16,7 @@ import Following from "../Page_Following";
 import ErrorPage from "../Page_Error";
 import AddTask from "../Page_AddTask";
 import checkToken from "../../utils/funcs/checkToken";
+import SpinnerPage from "../Page_Spinner";
 import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
@@ -33,31 +34,31 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
   const path = location.pathname;
-
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
       console.log("⛔NO TOKEN");
       history.push("/login");
-    }
-    else if (!refreshToken) {
+    } else if (!refreshToken) {
       console.log("⛔NO TOKEN");
-      history.push("/login")
+      history.push("/login");
     } else {
       const username = await checkToken(refreshToken, history, location);
-      setTimeout(() => {
+      if (username) {
         console.log(`🥔user=${username}`);
         dispatch(fillUserAction(accessToken));
         dispatch(fillTasksAction());
         dispatch(fillAchievementsAction());
         dispatch(fillFeaturesAction());
         dispatch(fillSettingsAction());
+      }
+      setTimeout(() => {
+        // looks like achievements are loading after user
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
       }, 1000);
     }
   };
-
   useEffect(() => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,7 +89,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 achievements={achievements}
                 followedUsers={followedUsers}
                 features={features}
-                history={history} 
+                history={history}
                 location={location}
                 setErrorMessage={setErrorMessage}
               />
@@ -115,6 +116,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             // ) :
             path === "/following" ? (
               <Following followedUsers={followedUsers} />
+            ) : path === "/reloading" ? (
+              <SpinnerPage history={history} />
             ) : path === "/error" ? (
               <ErrorPage history={history} errorMessage={errorMessage} />
             ) : (

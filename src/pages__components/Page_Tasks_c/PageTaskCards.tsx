@@ -1,4 +1,4 @@
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button, Modal } from "react-bootstrap";
 import { currentTasksInt, taskInt, userInt } from "../../typings/interfaces";
 import {
   ICON_HOUSEHOLD,
@@ -26,6 +26,7 @@ import {
   TODAY,
   TOMORROW,
   NO_DEADLINE,
+  ANY_CAT,
 } from "../../utils/constants";
 import {
   getDayMonthYearAsString,
@@ -35,14 +36,17 @@ import {
 } from "../../utils/funcs/dateTimeFuncs";
 import { useEffect, useState } from "react";
 import fetchTasksByQuery from "../../utils/funcs/fetchTasksByQuery";
+import { CompleteTaskButton, ProgressTaskButton } from "../../utils/buttons";
+import PageTaskButtonWithModal from "./PageTaskButtonWithModal";
+import { FiCheck, FiWatch } from "react-icons/fi";
 
 type FilterForm = {
   tasksToShow: string;
   categoryToShow: string;
   statusToShow: string;
-  sharedToShow: boolean;
+  //sharedToShow: boolean;
   valueToShow: number;
-  repeatToShow: string;
+  //repeatToShow: string;
 };
 
 type PageTaskCardsProps = {
@@ -52,14 +56,10 @@ type PageTaskCardsProps = {
 
 const PageTaskCards = (props: PageTaskCardsProps) => {
   const { form, user } = props;
-  const {
-    tasksToShow,
-    categoryToShow,
-    statusToShow,
-    sharedToShow,
-    valueToShow,
-    repeatToShow,
-  } = form;
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const { tasksToShow, categoryToShow, statusToShow, valueToShow } = form;
   const [data, setData] = useState<any>([]);
   const todayAsDate = new Date();
   const tomorrowAsDate = getTomorrowAsString(todayAsDate);
@@ -73,16 +73,37 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
       : tasksToShow === NO_DEADLINE
       ? "deadline=none&"
       : "";
-  const loadPageTaskCards = async (deadline: string) => {
-    const criteria = `${deadline}createdBy=${user._id}`;
+  const categoryCriteria =
+    categoryToShow === ANY_CAT ? "" : `category=${categoryToShow}&`;
+  const statusCriteria =
+    statusToShow === AWAITED
+      ? `status=${AWAITED}&`
+      : statusToShow === IN_PROGRESS
+      ? `status=${IN_PROGRESS}&`
+      : statusToShow === COMPLETED
+      ? `status=${COMPLETED}&`
+      : "";
+  const valueCriteria = valueToShow === WILD_NUM ? "" : `value=${valueToShow}&`;
+  const loadPageTaskCards = async (
+    deadline: string,
+    category: string,
+    status: string,
+    value: string
+  ) => {
+    const criteria = `${deadline}${category}${status}${value}createdBy=${user._id}`;
     console.log("CRITERIA=>", criteria);
     const fetchedTasks = await fetchTasksByQuery(criteria);
-    setData(fetchedTasks); 
+    setData(fetchedTasks);
   };
   // today, tomorrow, and future
   // const allTasks = tasks;
   useEffect(() => {
-    loadPageTaskCards(deadlineCriteria);
+    loadPageTaskCards(
+      deadlineCriteria,
+      categoryCriteria,
+      statusCriteria,
+      valueCriteria
+    );
   }, [form]);
   const { links, pageTotal, tasks, total } = data;
   console.log(data);
@@ -148,7 +169,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   // then show by date
   return (
     <Row className='tasks-page__tasks-row'>
-      <Col sm={4}>
+      <Col sm={6}>
         <h4 style={{ padding: "10px" }}>
           {tasksToShow === TODAY
             ? `Today, ${getDayMonthYearAsString()}`
@@ -163,8 +184,88 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           {total && total < 2 ? "task" : "tasks"} to perform
         </h4>
         {total && total > 0 && tasksToShow === ALL_TASKS ? (
+          // const group = groupByDate(tasks, "deadline");
+          // console.log(group);  
           // Instead of mapping filtered tasks, I want to fetch all tasks in order of date ascending and then paginate them
-          <div></div>
+          tasks?.map((t: taskInt, i: number) => {
+            const icon = getIcon(t.category);
+            const statusClass =
+              t.status === AWAITED
+                ? "tasks-page__tasks-row__single-task awaited"
+                : t.status === COMPLETED
+                ? "tasks-page__tasks-row__single-task completed"
+                : "tasks-page__tasks-row__single-task in-progress";
+            // const groupByDate = (array, deadline) => {
+            //   let grouped = {};
+            //   for (let i = 0; i < array.length; i++) {
+            //     let p = array[i][deadline];
+            //     if (!grouped[p]) {
+            //       grouped[p] = [];
+            //     }
+            //     grouped[p].push(array[i]);
+            //   }
+            //   return grouped;
+            // }
+            return (
+              <div>
+                {icon} {t.title} ({t.value}XP)
+                <Button variant='light' className='ml-1 my-1 px-2'>
+                  <FiWatch />
+                </Button>
+                <Button variant='light' className='ml-1 my-1 px-2'>
+                  <FiCheck />
+                </Button>
+              </div>
+              // <Button
+              //   key={i}
+              //   variant='light'
+              //   className={statusClass}
+              //   //onClick={handleShow}
+              // >
+              //   {icon} {t.title} ({t.value}XP)
+              // </Button>
+              // <PageTaskButtonWithModal
+              //   task={t}
+              //   index={i}
+              //   show={show}
+              //   handleShow={handleShow}
+              //   handleClose={handleClose}
+              //   statusClass={statusClass}
+              //   icon={icon}
+              // />
+              // <>
+              //   <Button
+              //     key={i}
+              //     variant='light'
+              //     className={statusClass}
+              //     onClick={handleShow}>
+              //     {icon} {t.title} ({t.value}XP)
+              //   </Button>
+              //   <Modal show={show} onHide={handleClose}>
+              //     <Modal.Header closeButton>
+              //       <Modal.Title>{t.title}</Modal.Title>
+              //     </Modal.Header>
+              //     <Modal.Body>
+              //       <img src={t.image} alt={t.title} className='img-fluid' />
+              //       <div>Category: {t.category}</div>
+              //       <div>Description: {t.desc}</div>
+              //       <div>Value: {t.value}XP</div>
+              //       <div>Deadline: {t.deadline}</div>
+              //       <ProgressTaskButton />
+              //       <CompleteTaskButton />
+              //     </Modal.Body>
+              //     <Modal.Footer>
+              //       <Button
+              //         variant='light'
+              //         className='mb-3 mr-1'
+              //         onClick={handleClose}>
+              //         Close
+              //       </Button>
+              //     </Modal.Footer>
+              //   </Modal>
+              // </>
+            );
+          })
         ) : total && total > 0 ? (
           tasks?.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
@@ -175,10 +276,14 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
                 ? "tasks-page__tasks-row__single-task completed"
                 : "tasks-page__tasks-row__single-task in-progress";
             return (
-              <div key={i} className={statusClass}>
-                <div style={{ fontSize: "1.5em" }}>
-                  {icon} {t.title} ({t.value}XP)
-                </div>
+              <div>
+                {icon} {t.title} ({t.value}XP)
+                <Button variant='light' className='ml-1 my-1 px-2'>
+                  <FiWatch />
+                </Button>
+                <Button variant='light' className='ml-1 my-1 px-2'>
+                  <FiCheck />
+                </Button>
               </div>
             );
           })

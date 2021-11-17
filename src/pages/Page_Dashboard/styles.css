@@ -86,10 +86,9 @@
   min-height: 30px;
   min-width: 12%;
 }
-.dashboard__search-bar {
+.dashboard__search-bar form {
   border: 1px solid gold;
   display: flex;
-  justify-content: space-between;
 }
 .dashboard__activities {
   border: 1px solid gold;

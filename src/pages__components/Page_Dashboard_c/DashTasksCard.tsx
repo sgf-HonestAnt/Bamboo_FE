@@ -12,6 +12,10 @@ import attemptPostTask from "../../utils/funcs/postTask";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";
 import { BULB } from "../../utils/icons";
+import {
+  AddNewTaskButton,
+  SubmitButton,
+} from "../../utils/buttons";
 
 type DashTasksCardProps = {
   today: taskInt[];
@@ -88,7 +92,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         dispatch
       );
       setTimeout(() => {
-        history.push("/");
+        history.push("/reloading");
       }, 1000);
     } catch (e) {
       console.log(e);
@@ -109,10 +113,8 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       <div>{dayMonthYearAsString}</div>
       {today?.length < 1 ? (
         <>
-          <span>No tasks awaited today!</span>
-          <Button variant='secondary' onClick={handleShow}>
-            Add today
-          </Button>
+          <div>No tasks awaited today!</div>
+          <AddNewTaskButton />
         </>
       ) : (
         <Form onSubmit={handleSubmitComplete}>
@@ -133,12 +135,10 @@ const DashTasksCard = (props: DashTasksCardProps) => {
                 </div>
               </Form.Group>
             ))}
-          <Button variant='secondary' onClick={handleShow}>
+          <Button variant='light' className='mb-3 mr-1' onClick={handleShow}>
             Add new
           </Button>
-          <Button variant='primary' type='submit'>
-            Submit
-          </Button>
+          <SubmitButton />
         </Form>
       )}
       <Modal show={show} onHide={handleClose}>
@@ -217,16 +217,14 @@ const DashTasksCard = (props: DashTasksCardProps) => {
                 placeholder='Provide more details'
                 onChange={handleChange}></Form.Control>
             </Form.Group>
-            <Button variant='primary' type='submit'>
-              Submit
-            </Button>
+            <SubmitButton />
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' onClick={handleClose}>
+          <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
             Save Changes
           </Button>
         </Modal.Footer>

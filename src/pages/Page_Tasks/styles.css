@@ -26,7 +26,6 @@
 }
 .tasks-page__tasks-row {}
 .tasks-page__tasks-row__single-task {
-  border: 1px solid black;
 }
 .tasks-page__tasks-row__single-task.awaited {
   background-color: var(--awaited-color);

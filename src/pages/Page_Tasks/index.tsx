@@ -1,4 +1,5 @@
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { FiRefreshCcw, FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
 import { currentTasksInt, userInt } from "../../typings/interfaces";
@@ -18,6 +19,7 @@ import {
   WILD_NUM,
 } from "../../utils/constants";
 import "./styles.css";
+import { AddNewTaskButton, RefreshButton } from "../../utils/buttons";
 
 type TasksProps = {
   tasks: currentTasksInt;
@@ -32,9 +34,9 @@ const Tasks = (props: TasksProps) => {
     tasksToShow: ALL_TASKS, // all, today, tomorrow or future
     categoryToShow: ANY_CAT, // user's categories or any
     statusToShow: ANY_STATUS, // awaited, in_progress, completed or any
-    sharedToShow: true, // true or false
+    //sharedToShow: true, // true or false
     valueToShow: WILD_NUM, // 10,20,30,40,50 or WILD
-    repeatToShow: ANY_REPEAT, // never, daily, weekly, monthly, every x days or any
+    //repeatToShow: ANY_REPEAT, // never, daily, weekly, monthly, every x days or any
   });
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
@@ -63,6 +65,8 @@ const Tasks = (props: TasksProps) => {
         <Col sm={12}>
           <Row>Filter tasks</Row>
           <Row className='tasks-page__filter-row'>
+            <AddNewTaskButton />
+            <RefreshButton />
             <Form>
               <Form.Group controlId='tasksToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
@@ -128,7 +132,7 @@ const Tasks = (props: TasksProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='sharedToShow' className='mb-3 mr-1'>
+              {/* <Form.Group controlId='sharedToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
                   {[true, false].map((boo, i) => (
                     <option
@@ -139,7 +143,7 @@ const Tasks = (props: TasksProps) => {
                     </option>
                   ))}
                 </Form.Control>
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group controlId='valueToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
                   <option
@@ -160,7 +164,7 @@ const Tasks = (props: TasksProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='repeatToShow' className='mb-3 mr-1'>
+              {/* <Form.Group controlId='repeatToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
                   <option
                     value={ANY_REPEAT}
@@ -179,7 +183,7 @@ const Tasks = (props: TasksProps) => {
                     </option>
                   ))}
                 </Form.Control>
-              </Form.Group>
+              </Form.Group> */}
             </Form>
           </Row>
           <PageTaskCards form={form} user={user} />

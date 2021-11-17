@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { SubmitButton } from "../../utils/buttons";
 import attemptRegister from "../../utils/funcs/register";
 import "./styles.css";
 
@@ -90,9 +91,7 @@ const Register = ({ history, location, match }: RouteComponentProps) => {
             <Form.Group>
               <Link to='/login'>Login</Link>{" "}
             </Form.Group>
-            <Button variant='primary' type='submit'>
-              Submit
-            </Button>
+            <SubmitButton />
           </Form>
         </Col>
       </Row>
