@@ -11,6 +11,7 @@ import {
 import MainBody from "./pages/MainBody";
 import LoginPage from "./pages/Page_Login";
 import RegisterPage from "./pages/Page_Register";
+import SettingsPage from "./pages/Page_Settings";
 
 function App() {
   return (
@@ -58,9 +59,18 @@ function App() {
               <MainPageTemplate {...routerProps} />
             )}
           /> */}
+          {/* TASKS */}
           <Route
             exact
             path='/tasks'
+            render={(routerProps: RouteComponentProps) => (
+              <MainBody {...routerProps} />
+            )}
+          />
+          {/* SETTINGS */}
+          <Route
+            exact
+            path='/user-settings'
             render={(routerProps: RouteComponentProps) => (
               <MainBody {...routerProps} />
             )}

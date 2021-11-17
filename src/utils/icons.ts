@@ -15,10 +15,12 @@ import { FaDog } from "react-icons/fa";
 import {
   FiActivity,
   FiAtSign,
+  FiBell,
   FiBriefcase,
   FiCircle,
   FiClock,
   FiCoffee,
+  FiCornerUpLeft,
   FiDribbble,
   FiEdit,
   FiFlag,
@@ -57,10 +59,12 @@ export const ICOPETS = FaDog;
 export const ICOWELLNESS = FiHeart;
 export const ICOEMPTY = FiMaximize;
 //
-export const CLOCK = FiClock;
-export const CIRCLE = FiCircle;
-export const STAR = FiStar;
-
+export const ICOCLOCK = FiClock;
+export const ICOCIRCLE = FiCircle;
+export const ICOSTAR = FiStar;
+export const ICOBELL = FiBell;
+export const ICOBACK = FiCornerUpLeft;
+export const ICOEDIT = FiEdit;
 
 export const ADD_CIRCLE = GrAddCircle;
 export const STAR_FULL = MdOutlineStar;

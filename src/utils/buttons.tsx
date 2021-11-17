@@ -1,5 +1,6 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw, FiCheck } from "react-icons/fi";
+import { ICOBACK } from "./icons";
 
 export const AddNewTaskButton = () => (
   <Button variant='light' className='mb-3 mr-1' href='tasks-add-new'>
@@ -29,5 +30,20 @@ export const ProgressTaskButton = () => (
 export const CompleteTaskButton = () => (
   <Button variant='light' className='mb-3 mr-1'>
     Mark Complete
+  </Button>
+);
+export const BackToDashButton = () => (
+  <Button variant='light' className='mb-3 mr-1' href='/dash'>
+    <ICOBACK />
+  </Button>
+);
+export const SubmitButtonCol = () => ( 
+  <Button variant='light' className='my-1' type='submit'>
+    Submit
+  </Button>
+);
+export const BackToDashButtonCol = () => (
+  <Button variant='light' className='my-1' href='/dash'>
+    <ICOBACK />
   </Button>
 );

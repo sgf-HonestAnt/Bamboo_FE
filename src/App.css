@@ -1,4 +1,5 @@
 :root {
+  --sidebar-bg: thistle;
   --awaited-color: rgba(255, 0, 0, 0.1);
   --progress-color: rgba(255, 165, 0, 0.1);
   --completed-color: rgba(0, 128, 0, 0.1);

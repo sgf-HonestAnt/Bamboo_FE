@@ -7,9 +7,9 @@ import {
   ICOFINANCE,
   ICOFIT,
   ICOWELLNESS,
-  CLOCK,
-  CIRCLE,
-  STAR,
+  ICOCLOCK,
+  ICOCIRCLE,
+  ICOSTAR,
 } from "../../utils/icons";
 import {
   HOUSEHOLD,
@@ -124,7 +124,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
       let CAT_ICON = TASK_CATEGORY_ICONS[index];
       return <CAT_ICON />;
     } else {
-      return <STAR />;
+      return <ICOSTAR />;
     }
   };
   // then show by date
@@ -152,11 +152,11 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           data.tasks?.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(today) ? (
-              <CLOCK className='icon-urgent' />
+              <ICOCLOCK className='icon-urgent' />
             ) : t.deadline ? (
-              <CLOCK className='icon-semi-urgent' />
+              <ICOCLOCK className='icon-semi-urgent' />
             ) : (
-              <CIRCLE />
+              <ICOCIRCLE />
             );
             const statusClass =
               t.status === AWAITED
@@ -185,11 +185,11 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           data.tasks?.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(today) ? (
-              <CLOCK className='icon-urgent' />
+              <ICOCLOCK className='icon-urgent' />
             ) : t.deadline ? (
-              <CLOCK className='icon-semi-urgent' />
+              <ICOCLOCK className='icon-semi-urgent' />
             ) : (
-              <CIRCLE />
+              <ICOCIRCLE />
             );
             const statusClass =
               t.status === AWAITED

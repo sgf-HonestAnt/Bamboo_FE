@@ -1,5 +1,5 @@
 .main-side-bar {
-  background-color: aqua;
+  background-color: var(--sidebar-bg);
   min-height: 100vh;
   display: flex;
   flex-direction: column;

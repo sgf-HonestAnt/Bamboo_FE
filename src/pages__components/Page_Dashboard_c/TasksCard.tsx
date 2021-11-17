@@ -11,7 +11,7 @@ import {
 import attemptPostTask from "../../utils/funcs/postTask";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";
-import { BULB, CIRCLE, CLOCK, ICOSAVE } from "../../utils/icons";
+import { BULB, ICOCIRCLE, ICOCLOCK, ICOSAVE } from "../../utils/icons";
 import {
   AddNewTaskButton,
   CompleteButton,
@@ -123,11 +123,11 @@ const DashTasksCard = (props: DashTasksCardProps) => {
           {tasks.slice(0, 3).map((t, i) => {
             const clock =
             t.deadline?.includes(today) ? ( 
-                <CLOCK className='icon-urgent' />
+                <ICOCLOCK className='icon-urgent' />
               ) : t.deadline ? (
-                <CLOCK className='icon-semi-urgent' />
+                <ICOCLOCK className='icon-semi-urgent' />
               ) : (
-                <CIRCLE />
+                <ICOCIRCLE />
               );
             return (
               <Form.Group key={i} controlId={t._id}>

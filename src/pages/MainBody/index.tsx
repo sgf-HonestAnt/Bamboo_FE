@@ -13,10 +13,11 @@ import MainSideBar from "../MainSideBar";
 import DashboardPage from "../Page_Dashboard";
 import TasksPage from "../Page_Tasks";
 import FollowingPage from "../Page_Following";
-import ErrorPage from "../Page_Error";
 import AddTaskPage from "../Page_AddTask";
-import checkToken from "../../utils/funcCheckToken";
+import SettingsPage from "../Page_Settings";
+import ErrorPage from "../Page_Error";
 import SpinnerPage from "../Page_Spinner";
+import checkToken from "../../utils/funcCheckToken";
 import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
@@ -58,18 +59,25 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
         setMainLoading(false);
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
-      }, 1000);
+      }, 500);
     }
   };
   useEffect(() => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainLoading]);
+  console.log(location);
   return (
     <Container fluid className='main-page m-0'>
       {loading || mainLoading ? (
         <Row className='main-page__spinner'>
           <Spinner animation='grow' />
+        </Row>
+      ) : path === "/user-settings" ? (
+        <Row>
+          <Col sm={12} className='p-0'>
+            <SettingsPage history={history} user={user} settings={settings} />
+          </Col>
         </Row>
       ) : (
         <Row>

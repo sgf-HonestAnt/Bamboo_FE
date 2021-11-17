@@ -1,0 +1,32 @@
+.settings-page {
+  background-color: var(--sidebar-bg);
+  display: flex;
+  min-height: 100vh;
+  justify-content: space-around;
+  align-content: center;
+}
+.settings-page__profile-card {}
+.settings-page__profile-card__profile-img {
+  max-width: 60%;
+  border-radius: 50%;
+}
+.settings-page__profile-card__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+}
+.settings-page__profile-card__form-control {
+  position: relative;
+}
+.settings-page__profile-card__edit-button {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  opacity: 0.4;
+  color: lightslategray;
+}
+.settings-page__profile-card__edit-button:hover {
+  opacity: 0.1;
+  color: inherit;
+}

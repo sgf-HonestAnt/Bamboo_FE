@@ -62,7 +62,7 @@ const MainSideBar = (props: SidebarProps) => {
         </Button>
       </div>
       <div className='main-side-bar__settings'>
-        <Button>settings</Button>
+        <Button href='/user-settings'>settings</Button>
       </div>
     </div>
   );
