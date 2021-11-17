@@ -26,6 +26,7 @@ import {
   FiHome,
   FiImage,
   FiKey,
+  FiMaximize,
   FiTrash2,
   FiSave,
   FiSearch,
@@ -54,6 +55,7 @@ export const ICOFINANCE = FiUmbrella;
 export const ICOFIT = FiDribbble;
 export const ICOPETS = FaDog;
 export const ICOWELLNESS = FiHeart;
+export const ICOEMPTY = FiMaximize;
 //
 export const CLOCK = FiClock;
 export const CIRCLE = FiCircle;

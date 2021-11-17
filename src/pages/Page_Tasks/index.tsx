@@ -1,7 +1,6 @@
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FiRefreshCcw, FiPlus } from "react-icons/fi";
 import { useState } from "react";
-import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { currentTasksInt, userInt } from "../../typings/interfaces";
 import {
   ALL_TASKS,
@@ -18,15 +17,16 @@ import {
   TASK_VALUE_NUMS,
   WILD_NUM,
 } from "../../utils/constants";
-import "./styles.css";
 import { AddNewTaskButton, RefreshButton } from "../../utils/buttons";
+import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
+import "./styles.css";
 
-type TasksProps = {
+type TasksPageProps = {
   user: userInt;
   categories: string[];
 };
 
-const Tasks = (props: TasksProps) => {
+const TasksPage = (props: TasksPageProps) => {
   const { user, categories } = props;
   // filters
   const [form, setForm] = useState({
@@ -136,18 +136,6 @@ const Tasks = (props: TasksProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              {/* <Form.Group controlId='sharedToShow' className='mb-3 mr-1'>
-                <Form.Control required as='select' onChange={handleChange}>
-                  {[true, false].map((boo, i) => (
-                    <option
-                      key={i}
-                      value={boo ? "True" : "False"}
-                      selected={form.sharedToShow === boo}>
-                      {boo ? "Show Shared Tasks" : "Hide Shared Tasks"}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group> */}
               <Form.Group controlId='valueToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
                   <option
@@ -168,26 +156,6 @@ const Tasks = (props: TasksProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              {/* <Form.Group controlId='repeatToShow' className='mb-3 mr-1'>
-                <Form.Control required as='select' onChange={handleChange}>
-                  <option
-                    value={ANY_REPEAT}
-                    selected={form.repeatToShow === ANY_REPEAT}>
-                    Any Repeat
-                  </option>
-                  <option value='' disabled>
-                    ---
-                  </option>
-                  {TASK_REPEAT_TYPES.map((reps) => (
-                    <option
-                      key={reps}
-                      value={reps}
-                      selected={form.repeatToShow === reps}>
-                      {reps.charAt(0).toUpperCase() + reps.slice(1)}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group> */}
             </Form>
           </Row>
           <PageTaskCards form={form} user={user} />
@@ -197,4 +165,4 @@ const Tasks = (props: TasksProps) => {
   );
 };
 
-export default Tasks;
+export default TasksPage;

@@ -30,7 +30,7 @@ const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
           -------
         </option>
         {categories
-          .filter((c) => c !== "none")
+          .filter((c) => c !== "none" && TASK_CATEGORIES.includes(c))
           .sort()
           .map((c, i) => {
             return (

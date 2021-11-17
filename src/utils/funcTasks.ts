@@ -26,7 +26,7 @@ export const getTaskByDeadline = async (par: string | null) => {
   );
   return filtered;
 };
-export const fetchTaskByQuery = async (criteria: string, _id: string) => {
+export const getTaskByQuery = async (criteria: string, _id: string) => {
   try {
     const url = `${BE_URL}/${TASKS}/query?createdBy=${_id}&${criteria}`;
     const method = GET;

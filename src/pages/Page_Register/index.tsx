@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { SubmitButton } from "../../utils/buttons";
-import attemptRegister from "../../utils/funcs/register";
-import "./styles.css";
+import { attemptRegister } from "../../utils/funcSessions";
+import "./styles.css"; 
 
-const Register = ({ history, location, match }: RouteComponentProps) => {
+const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -99,4 +99,4 @@ const Register = ({ history, location, match }: RouteComponentProps) => {
   );
 };
 
-export default Register;
+export default RegisterPage;

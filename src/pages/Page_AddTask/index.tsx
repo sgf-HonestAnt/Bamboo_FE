@@ -4,7 +4,6 @@ import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { useDispatch } from "react-redux";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { History, Location } from "history";
-import { NEVER } from "../../utils/constants";
 import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
 import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
 import CategoryChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskCategoryChooseGroup";
@@ -16,10 +15,11 @@ import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRep
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
 import attemptPostTask from "../../utils/funcs/postTask";
-import { getMinMaxDateAsString } from "../../utils/dateFuncs";
+import { getMinMaxDateAsString } from "../../utils/funcDates";
+import { NEVER } from "../../utils/constants";
 import "./styles.css";
 
-type AddTaskProps = {
+type AddTaskPageProps = {
   user: userInt;
   categories: string[];
   followedUsers: followedUserInt[];
@@ -28,8 +28,15 @@ type AddTaskProps = {
   setErrorMessage: any;
 };
 
-const AddTask = (props: AddTaskProps) => {
-  const { user, categories, followedUsers, history, location, setErrorMessage } = props;
+const AddTaskPage = (props: AddTaskPageProps) => {
+  const {
+    user,
+    categories,
+    followedUsers,
+    history,
+    location,
+    setErrorMessage,
+  } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString();
@@ -37,7 +44,7 @@ const AddTask = (props: AddTaskProps) => {
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
   // deadline
-  // MAKE SO CAN CHOOSE NONE. HOW?
+  // 👋 MAKE SO CAN CHOOSE NONE. HOW?
   // repeats
   const [showRepeat, setShowRepeat] = useState(true);
   const [showHowOften, setShowHowOften] = useState(false);
@@ -69,7 +76,13 @@ const AddTask = (props: AddTaskProps) => {
       //   e.preventDefault();
       //   e.stopPropagation();
       // } else {
-      const { _id } = await attemptPostTask(form, refreshToken, history, location, setErrorMessage);
+      const { _id } = await attemptPostTask(
+        form,
+        refreshToken,
+        history,
+        location,
+        setErrorMessage
+      );
       console.log("CREATED NEW TASK", _id);
       // setValidated(true);
       dispatch(fillTasksAction());
@@ -77,7 +90,7 @@ const AddTask = (props: AddTaskProps) => {
         history.push("/tasks");
       }, 1000);
     } catch (e) {
-      console.log("ERROR CREATING NEW TASK", e)
+      console.log("ERROR CREATING NEW TASK", e);
       setErrorMessage("ERROR CREATING NEW TASK");
       history.push("/error");
     }
@@ -219,4 +232,4 @@ const AddTask = (props: AddTaskProps) => {
   );
 };
 
-export default AddTask;
+export default AddTaskPage;

@@ -10,6 +10,7 @@ type ErrorPageProps = {
 };
 
 const ErrorPage = (props: ErrorPageProps) => {
+  // 👏 change this page.
   const { history, errorMessage } = props;
   const [counter, setCounter] = useState(5);
   useEffect(() => {

@@ -25,6 +25,11 @@
   display: flex;
 }
 .tasks-page__tasks-row {}
+.tasks-page__tasks-row__category {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: gray;
+}
 .tasks-page__tasks-row__single-task {
 }
 .tasks-page__tasks-row__single-task.awaited {

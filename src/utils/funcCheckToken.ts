@@ -1,6 +1,6 @@
 import { History, Location } from "history";
-import { BE_URL, GET, USERS } from "../constants";
-import attemptRefresh from "./refresh";
+import { BE_URL, GET, USERS } from "./constants";
+import attemptRefresh from "./funcRefresh";
 
 const checkToken = async (
   refresh: string | undefined,

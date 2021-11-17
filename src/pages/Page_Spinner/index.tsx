@@ -12,7 +12,7 @@ const SpinnerPage = (props: SpinnerPageProps) => {
   useEffect(() => {
     setTimeout(() => {
       history.push("/");
-    }, 1000); 
+    }, 1000);
   });
   return (
     <Row className='spinner-page p-1'>

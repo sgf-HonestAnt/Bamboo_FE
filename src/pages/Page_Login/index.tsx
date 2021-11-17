@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { Link, RouteComponentProps } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import attemptLogin from "../../utils/funcs/login";
-import "./styles.css";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { SubmitButton } from "../../utils/buttons";
+import { attemptLogin } from "../../utils/funcSessions";
+import "./styles.css";
 
-const Login = ({ history, location, match }: RouteComponentProps) => {
+const LoginPage = ({ history, location, match }: RouteComponentProps) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({ email: "", password: "" });
   const handleChange = async (e: {
@@ -65,4 +65,4 @@ const Login = ({ history, location, match }: RouteComponentProps) => {
   );
 };
 
-export default Login;
+export default LoginPage;

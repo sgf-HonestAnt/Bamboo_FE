@@ -10,12 +10,12 @@ import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
 import { Spinner, Container, Row, Col } from "react-bootstrap";
 import MainSideBar from "../MainSideBar";
-import Dashboard from "../Page_Dashboard";
-import Tasks from "../Page_Tasks";
-import Following from "../Page_Following";
+import DashboardPage from "../Page_Dashboard";
+import TasksPage from "../Page_Tasks";
+import FollowingPage from "../Page_Following";
 import ErrorPage from "../Page_Error";
-import AddTask from "../Page_AddTask";
-import checkToken from "../../utils/funcs/checkToken";
+import AddTaskPage from "../Page_AddTask";
+import checkToken from "../../utils/funcCheckToken";
 import SpinnerPage from "../Page_Spinner";
 import "./styles.css";
 
@@ -83,7 +83,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
           </Col>
           <Col className='m-0'>
             {path === "/dash" ? (
-              <Dashboard
+              <DashboardPage
                 user={user}
                 categories={categories}
                 achievements={achievements}
@@ -97,7 +97,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             //   <Stats />
             // ) :
             path === "/tasks-add-new" ? (
-              <AddTask
+              <AddTaskPage
                 user={user}
                 categories={categories}
                 followedUsers={followedUsers}
@@ -106,7 +106,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 setErrorMessage={setErrorMessage}
               />
             ) : path === "/tasks" ? (
-              <Tasks user={user} categories={categories} />
+              <TasksPage user={user} categories={categories} />
             ) : // path === "/tasks-schedule" ? (
             //   <TasksSchedule />
             // ) : path === "/quests" ? (
@@ -115,7 +115,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             //   <Inventory />
             // ) :
             path === "/following" ? (
-              <Following followedUsers={followedUsers} />
+              <FollowingPage followedUsers={followedUsers} />
             ) : path === "/reloading" ? (
               <SpinnerPage history={history} />
             ) : path === "/error" ? (

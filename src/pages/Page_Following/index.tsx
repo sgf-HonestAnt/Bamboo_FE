@@ -2,11 +2,12 @@ import { Row, Card, Button } from "react-bootstrap";
 import { followedUserInt } from "../../typings/interfaces";
 import "./styles.css";
 
-type FollowingProps = {
+type FollowingPageProps = {
   followedUsers: followedUserInt[];
 };
 
-const Following = ({ followedUsers }: FollowingProps) => {
+const FollowingPage = ({ followedUsers }: FollowingPageProps) => {
+  // include search users by username or email
   return (
     <Row className='following-page p-1'>
       {followedUsers?.length < 1 && <p>NO FOLLOWED USERS!</p>}
@@ -22,4 +23,4 @@ const Following = ({ followedUsers }: FollowingProps) => {
   );
 };
 
-export default Following;
+export default FollowingPage;

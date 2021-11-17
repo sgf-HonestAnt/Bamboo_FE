@@ -1,6 +1,6 @@
 import { History, Location } from "history";
 import { Dispatch } from "redux";
-import checkToken from "./checkToken";
+import checkToken from "../funcCheckToken";
 import updateTask from "./updateTask";
 
 const attemptCompleteTasks = async (

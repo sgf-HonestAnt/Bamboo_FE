@@ -9,8 +9,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import MainBody from "./pages/MainBody";
-import Login from "./pages/Page_Login";
-import Register from "./pages/Page_Register";
+import LoginPage from "./pages/Page_Login";
+import RegisterPage from "./pages/Page_Register";
 
 function App() {
   return (
@@ -21,21 +21,20 @@ function App() {
             exact
             path='/register'
             render={(routerProps: RouteComponentProps) => (
-              <Register {...routerProps} />
+              <RegisterPage {...routerProps} />
             )}
           />
           <Route
             exact
             path='/login'
             render={(routerProps: RouteComponentProps) => (
-              <Login {...routerProps} />
+              <LoginPage {...routerProps} />
             )}
           />
           {/* "/" PATH REDIRECTS TO "/dash" */}
           <Route exact path='/'>
             <Redirect to='/dash' />
           </Route>
-          {/* DASHBOARD */}
           <Route
             exact
             path='/dash'
@@ -59,7 +58,6 @@ function App() {
               <MainPageTemplate {...routerProps} />
             )}
           /> */}
-          {/* TASKS BY TASKS */}
           <Route
             exact
             path='/tasks'
@@ -67,7 +65,6 @@ function App() {
               <MainBody {...routerProps} />
             )}
           />
-          {/* TASKS BY SCHEDULE */}
           {/* <Route
             exact
             path='/tasks-schedule'

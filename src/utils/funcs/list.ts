@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { setSuperlist } from "../../redux/actions/achievements";
 import { achievementInt } from "../../typings/interfaces";
 import { congrats } from "../constants";
-import { getCurrDateTimeAsString } from "../dateFuncs";
+import { getCurrDateTimeAsString } from "../funcDates";
 
 const createList = async (
   list: achievementInt[],

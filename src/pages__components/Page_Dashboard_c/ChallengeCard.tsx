@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { currentFeaturesInt, featureInt } from "../../typings/interfaces";
-import { getMonthByIndex } from "../../utils/dateFuncs";
+import { getMonthByIndex } from "../../utils/funcDates";
 
 type DashChallCardProps = {
   features: currentFeaturesInt;

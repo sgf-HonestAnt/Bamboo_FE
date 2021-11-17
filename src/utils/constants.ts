@@ -1,4 +1,4 @@
-import { ICOFINANCE, ICOFIT, ICOHOUSE, ICOPETS, ICORELATE, ICOSHOP, ICOURGENT, ICOWELLNESS, ICOWORK } from "./icons";
+import { ICOEMPTY, ICOFINANCE, ICOFIT, ICOHOUSE, ICOPETS, ICORELATE, ICOSHOP, ICOURGENT, ICOWELLNESS, ICOWORK } from "./icons";
 
 // fetches
 export const BE_URL = process.env.REACT_APP_BE_URL;
@@ -61,6 +61,7 @@ export const FINANCE = "Finance";
 export const FITNESS = "Fitness";
 export const PETS = "Pets";
 export const WELLBEING = "Wellbeing";
+export const NONE = "None";
 export const TASK_CATEGORIES = [
   URGENT,
   HOUSEHOLD,
@@ -71,8 +72,9 @@ export const TASK_CATEGORIES = [
   FITNESS,
   PETS,
   WELLBEING,
+  NONE
 ];
-export const TASK_CATEGORY_ICONS = [
+export const TASK_CATEGORY_ICONS = [ 
   ICOURGENT,
   ICOHOUSE,
   ICOSHOP,
@@ -82,6 +84,7 @@ export const TASK_CATEGORY_ICONS = [
   ICOFIT,
   ICOPETS,
   ICOWELLNESS,
+  ICOEMPTY
 ];
 // task repetition
 export const NEVER = "never";
@@ -110,7 +113,6 @@ export const TOMORROW = "Tomorrow";
 export const NO_DEADLINE = "No deadline";
 export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, ALL_TASKS];
 // other
-export const NONE = "none";
 export const ANY = "any";
 export const WILD_STR =
   "some random string used for wild searches, so long as filtered key !== this string it will be displayed";

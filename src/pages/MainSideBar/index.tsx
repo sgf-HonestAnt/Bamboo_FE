@@ -1,17 +1,17 @@
 import { History } from "history";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import {
   currentTasksInt,
   currentSettingsInt,
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import { CAKE1, CAKE2 } from "../../utils/icons";
-import attemptLogout from "../../utils/funcs/logout";
+import { CAKE1 } from "../../utils/icons";
+import { getTasks } from "../../utils/funcTasks";
+import { attemptLogout } from "../../utils/funcSessions";
 import "./styles.css";
-import { getTasks } from "../../utils/taskFuncs";
-import { useEffect, useState } from "react";
 
 type SidebarProps = {
   history: History<unknown> | string[];

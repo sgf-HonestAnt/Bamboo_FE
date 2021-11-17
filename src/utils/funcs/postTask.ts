@@ -1,8 +1,8 @@
 import { History, Location } from "history";
 import { setTaskInt } from "../../typings/interfaces";
 import { BE_URL, POST, TASKS, ME } from "../constants";
-import checkToken from "./checkToken";
-import { getCurrDate } from "../dateFuncs";
+import checkToken from "../funcCheckToken";
+import { getCurrDate } from "../funcDates";
 
 const attemptPostTask = async (
   form: setTaskInt,

@@ -7,7 +7,7 @@ import attemptCompleteTasks from "../../utils/funcs/complete";
 import {
   getDayMonthYearAsString,
   getMinMaxDateAsString,
-} from "../../utils/dateFuncs";
+} from "../../utils/funcDates";
 import attemptPostTask from "../../utils/funcs/postTask";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";

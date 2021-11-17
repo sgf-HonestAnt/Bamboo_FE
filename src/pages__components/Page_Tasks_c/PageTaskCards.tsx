@@ -38,13 +38,12 @@ import {
   getSelectedDateAsString,
   getTomorrowAsString,
   getTomorrowDayMonthYearAsString,
-} from "../../utils/dateFuncs";
+} from "../../utils/funcDates";
 import { useEffect, useState } from "react";
 import fetchTasksByQuery from "../../utils/funcs/fetchTasksByQuery";
 import { CompleteTaskButton, ProgressTaskButton } from "../../utils/buttons";
-import PageTaskButtonWithModal from "./PageTaskButtonWithModal";
 import { FiCheck, FiWatch } from "react-icons/fi";
-import { getTaskByDeadline } from "../../utils/taskFuncs";
+import { getTaskByDeadline } from "../../utils/funcTasks";
 
 type FilterForm = {
   tasksToShow: string | null;
@@ -99,11 +98,11 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     console.log("CRITERIA=>", criteria);
     const fetchedTasks = await fetchTasksByQuery(criteria);
     const noDeadline = await getTaskByDeadline(null);
-    console.log("=>",tasksToShow)
+    console.log("=>", tasksToShow);
     !tasksToShow
       ? setData(fetchedTasks)
       : setData({ tasks: noDeadline, total: noDeadline.length });
-    console.log(data)
+    console.log(data);
   };
   // today, tomorrow, and future
   // const allTasks = tasks;
@@ -167,13 +166,18 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
                 : "tasks-page__tasks-row__single-task in-progress";
             return (
               <div key={i}>
-                {icon} {t.title} ({t.value}XP) {clock}
-                <Button variant='light' className='ml-1 my-1 px-2'>
-                  <FiWatch />
-                </Button>
-                <Button variant='light' className='ml-1 my-1 px-2'>
-                  <FiCheck />
-                </Button>
+                <div className='tasks-page__tasks-row__category'>
+                  {icon} {t.category}
+                </div>
+                <div>
+                  {t.title} ({t.value}XP) {clock}
+                  <Button variant='light' className='ml-1 my-1 px-2'>
+                    <FiWatch />
+                  </Button>
+                  <Button variant='light' className='ml-1 my-1 px-2'>
+                    <FiCheck />
+                  </Button>
+                </div>
               </div>
             );
           })

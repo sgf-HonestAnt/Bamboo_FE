@@ -18,11 +18,11 @@ import DashChallCard from "../../pages__components/Page_Dashboard_c/ChallengeCar
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/Achievements";
 import createList from "../../utils/funcs/list";
-import { getSelectedDateAsString } from "../../utils/dateFuncs";
-import { fetchTaskByQuery, getTaskByDeadline } from "../../utils/taskFuncs";
+import { getSelectedDateAsString } from "../../utils/funcDates";
+import { getTaskByQuery, getTaskByDeadline } from "../../utils/funcTasks";
 import "./styles.css";
 
-type DashboardProps = {
+type DashboardPageProps = {
   user: userInt;
   categories: string[];
   achievements: currentAchievementsInt;
@@ -33,7 +33,7 @@ type DashboardProps = {
   setErrorMessage: any;
 };
 
-const Dashboard = (props: DashboardProps) => {
+const DashboardPage = (props: DashboardPageProps) => {
   const {
     user,
     categories,
@@ -53,7 +53,7 @@ const Dashboard = (props: DashboardProps) => {
   const dispatch = useDispatch();
   const attemptLoad = async () => {
     // load tasks with no deadline / deadline for today
-    const data = await fetchTaskByQuery(
+    const data = await getTaskByQuery(
       `deadline=${today}&status=awaited&status=in_progress&sort=deadline,title`,
       _id
     );
@@ -137,4 +137,4 @@ const Dashboard = (props: DashboardProps) => {
   );
 };
 
-export default Dashboard;
+export default DashboardPage;
