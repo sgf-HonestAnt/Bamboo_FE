@@ -40,9 +40,6 @@ export const fillTasksAction = () => {
           type: FILL_TASKS,
           payload,
         });
-        console.log(
-          `🥔tasks=${payload.awaited.length}awaited,${payload.completed.length}completed,${payload.in_progress.length}in_progress`
-        );
       } else {
         setTimeout(() => {
           dispatch({

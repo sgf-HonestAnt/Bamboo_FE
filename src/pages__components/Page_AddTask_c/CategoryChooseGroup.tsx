@@ -7,7 +7,6 @@ type CategoryChooseGroupProps = {
   changeCategory: any;
   categories: string[];
 };
-
 const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
   const { form, changeCategory, categories } = props;
   return (
@@ -17,7 +16,8 @@ const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
         required
         as='select'
         onChange={changeCategory}
-        aria-describedby='categoryHelpBlock'>
+        // aria-describedby='categoryHelpBlock'
+        >
         <option value='' disabled selected>
           Select a category
         </option>
@@ -43,9 +43,9 @@ const CategoryChooseGroup = (props: CategoryChooseGroupProps) => {
           create new category
         </option>
       </Form.Control>
-      <Form.Text id='categoryHelpBlock' muted>
+      {/* <Form.Text id='categoryHelpBlock' muted>
         Alternatively, you can create a new category.
-      </Form.Text>
+      </Form.Text> */}
     </Form.Group>
   );
 };

@@ -12,10 +12,10 @@ const RepeatsOtherGroup = (props: RepeatsOtherGroupProps) => {
         Task repeats every
         <input type='number' min='2' max='100' onChange={changeOtherRep} />
         days to a total of 
-        {/* <input type='number' min='2' max='100' onChange={changeOtherRep} /> */}
+        <input type='number' min='1' max='50' />
         repetitions
       </div>
-      {/* NUMBER OF REPS */}
+      <span className="red">FIX STYLE AND NUM OF REPEATS SET</span>
     </Form.Group>
   );
 };

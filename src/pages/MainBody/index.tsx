@@ -47,12 +47,18 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     } else {
       const username = await checkToken(refreshToken, history, location);
       if (username) {
-        console.log(`🥔user=${username}`);
         dispatch(fillUserAction(accessToken));
         dispatch(fillTasksAction());
         dispatch(fillAchievementsAction());
         dispatch(fillFeaturesAction());
         dispatch(fillSettingsAction());
+        console.log(`🥔user=${username}`);
+        console.log(
+          `🥔tasks=${tasks.awaited.length}awaited,${tasks.completed.length}completed,${tasks.in_progress.length}in_progress`
+        );
+        console.log(`🥔achievements=${achievements.list.length}`);
+        console.log(`🥔features=${features.total}_total`);
+        console.log(`🥔theme=${settings.selectedTheme}`);
       }
       setTimeout(() => {
         // looks like achievements are loading after user
@@ -66,7 +72,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainLoading]);
-  console.log(location);
+  useEffect(() => {
+    console.log(location.pathname); 
+  }, [location.pathname]);
+  useEffect(() => {
+    console.log("🔐",localStorage.getItem("token")); 
+  }, [localStorage.getItem("token")]);
   return (
     <Container fluid className='main-page m-0'>
       {loading || mainLoading ? (
@@ -76,7 +87,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
       ) : path === "/user-settings" ? (
         <Row>
           <Col sm={12} className='p-0'>
-            <SettingsPage history={history} user={user} settings={settings} />
+            <SettingsPage history={history} location={location} user={user} settings={settings} />
           </Col>
         </Row>
       ) : (

@@ -1,17 +1,21 @@
 import { VscGraph } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import userRole from "../../utils/funcRole";
 import { ICOACTIVITY } from "../../utils/icons";
+import BambooPoints from "../XP";
 
 type DashProfileCardProps = {
   avatar: string;
   username: string;
+  admin: boolean | undefined;
   bio: string;
   level: number | null;
   xp: number | null;
 };
 
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const { avatar, username, bio, level, xp } = props;
+  const { avatar, username, admin, bio, level, xp } = props;
+  const role = userRole(level);
   return (
     <div className='dashboard__profile-card m-1'>
       <div className='dashboard__profile-card__holder'>
@@ -24,12 +28,17 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           <span>{level}</span>
         </div>
       </div>
-      <div className='dashboard__profile-card__username'>{username}</div>
-      <div className='dashboard__profile-card__holder-xp'>{xp}XP</div>
+      <div className='dashboard__profile-card__username'>
+        {username} {admin && "(admin)"}
+      </div>
+      <div>{role}</div>
+      <div className='dashboard__profile-card__holder-xp'>
+        {xp} <BambooPoints />
+      </div>
       <div>{bio}</div>
       <div className='dashboard__profile-card__stats'>
         <div>
-          <ICOACTIVITY /> 
+          <ICOACTIVITY />
         </div>
         <Link to='/stats'>Stats</Link>
       </div>

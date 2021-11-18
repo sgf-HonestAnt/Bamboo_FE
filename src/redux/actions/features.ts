@@ -35,7 +35,6 @@ export const fillFeaturesAction = () => {
           type: FILL_FEATURES,
           payload,
         });
-        console.log(`🥔features=${payload.total}_total`);
       } else {
         setTimeout(() => {
           dispatch({

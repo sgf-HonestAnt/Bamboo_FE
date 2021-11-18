@@ -44,10 +44,7 @@ import {
   FiUserPlus,
   FiWatch,
 } from "react-icons/fi";
-// button icons
-export const ICOSAVE = FiSave;
-export const ICOACTIVITY = FiActivity;
-// category icons
+// ********** CATEGORIES **********
 export const ICOURGENT = FiFlag;
 export const ICOHOUSE = FiHome;
 export const ICOSHOP = FiShoppingCart;
@@ -58,13 +55,16 @@ export const ICOFIT = FiDribbble;
 export const ICOPETS = FaDog;
 export const ICOWELLNESS = FiHeart;
 export const ICOEMPTY = FiMaximize;
-//
+// ********** GENERAL **********
+export const ICOSAVE = FiSave;
+export const ICOACTIVITY = FiActivity;
 export const ICOCLOCK = FiClock;
 export const ICOCIRCLE = FiCircle;
 export const ICOSTAR = FiStar;
 export const ICOBELL = FiBell;
 export const ICOBACK = FiCornerUpLeft;
 export const ICOEDIT = FiEdit;
+export const ICOSETTINGS = FiSettings;
 
 export const ADD_CIRCLE = GrAddCircle;
 export const STAR_FULL = MdOutlineStar;

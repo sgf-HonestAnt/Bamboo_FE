@@ -2,20 +2,23 @@
   background-color: var(--sidebar-bg);
   min-height: 100vh;
   display: flex;
+  padding: 0 10px;
   flex-direction: column;
 }
 .main-side-bar__theme {
 }
 /* branding */
-.main-side-bar__branding div{
-  padding: 0;
+.main-side-bar__branding {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+}
+.main-side-bar__branding img {
   margin: 0;
 }
-.main-side-bar__branding__cake-icon {
-  font-size: 6em;
-}
-.main-side-bar__branding__cake-name {
-  line-height: 0.8em;
+.main-side-bar__branding span {
+  text-transform: uppercase;
 }
 .main-side-bar__profile {
 }
@@ -27,4 +30,7 @@
   display: block;
 }
 .main-side-bar__settings {
+}
+.main-side-bar__credits {
+  background-color: thistle;
 }

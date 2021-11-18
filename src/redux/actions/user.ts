@@ -6,14 +6,8 @@ import {
   FILL_USER,
   FILL_USER_ERROR,
   FILL_USER_LOADING,
-  SET_EXPIRED,
 } from "../../utils/constants";
 import { SET_REFRESH_TOKEN } from "../../utils/constants";
-
-export const setExpired = (boolean: boolean) => ({
-  type: SET_EXPIRED,
-  payload: boolean,
-});
 
 export const setUserError = (boolean: boolean) => ({
   type: FILL_USER_ERROR,

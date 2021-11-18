@@ -7,7 +7,7 @@ type RepeatsGroupProps = {
 const RepeatsGroup = (props: RepeatsGroupProps) => {
   const { changeHowOften } = props;
   return (
-    <Form.Group controlId='repeats'>
+    <Form.Group controlId='repeats' aria-describedby='repeatsHelpBlock'>
       <Form.Label>How often?</Form.Label>
       <div className='mb-3'>
         <Form.Check
@@ -42,12 +42,12 @@ const RepeatsGroup = (props: RepeatsGroupProps) => {
           value='other'
           onChange={changeHowOften}
         />
+        <Form.Text id='repeatsHelpBlock' muted>
+          * If set to repeat daily, weekly, or monthly, tasks will be created
+          for 1 year. Don't want this? Select 'other' and choose the number of repeats!
+        </Form.Text>
       </div>
-      <div>
-        * If set to repeat daily, weekly, or monthly, tasks will be created for
-        1 year. For example, if set to repeat weekly, the task will appear every week for
-        52 weeks from date of creation).
-      </div>
+      <div></div>
     </Form.Group>
   );
 };

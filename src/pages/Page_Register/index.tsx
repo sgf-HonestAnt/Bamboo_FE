@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { setRefreshToken } from "../../redux/actions/user";
 import { SubmitButton } from "../../utils/buttons";
-import { attemptRegister } from "../../utils/funcSessions";
+import { BE_URL, USERS, REGISTER, POST } from "../../utils/constants";
 import "./styles.css"; 
 
 const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
@@ -26,8 +27,24 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    attemptRegister(history, form);
+    try {
+      console.log("✔️attempt registration!", form);
+      const url = `${BE_URL}/${USERS}/${REGISTER}`;
+      const method = POST;
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify(form);
+      const response = await fetch(url, { method, headers, body });
+      const { accessToken, refreshToken } = await response.json();
+      localStorage.setItem("token", accessToken);
+      setRefreshToken(refreshToken);
+      history.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    console.log(location.pathname); 
+  }, [location.pathname]);
   console.log(form);
   return (
     <Container fluid>

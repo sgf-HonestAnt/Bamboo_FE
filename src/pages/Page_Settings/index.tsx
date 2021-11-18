@@ -1,22 +1,23 @@
-import { History } from "history";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { History, Location } from "history";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
 import { BackToDashButtonCol, SubmitButtonCol } from "../../utils/buttons";
 import { THEMES } from "../../utils/constants";
-import { CAKE1, ICOEDIT } from "../../utils/icons";
+import { ICOEDIT } from "../../utils/icons";
 import "./styles.css";
+import ImageUploader from "../../pages__components/Page_Settings_c/ImageUploader";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
-  user: userInt;
+  location: Location<unknown>;
+  user: userInt; 
   settings: currentSettingsInt;
   // { history, location, match }: RouteComponentProps
 };
 
 const SettingsPage = (props: SettingsPageProps) => {
-  const { history, user, settings } = props;
+  const { user, settings, location } = props;
   const { selectedTheme } = settings;
   const [form, setForm] = useState({
     avatar: user.avatar,
@@ -40,15 +41,22 @@ const SettingsPage = (props: SettingsPageProps) => {
     e.preventDefault();
     console.log(form);
   };
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location.pathname]);
   return (
     <div className='settings-page'>
       <Card className='col-4 my-3'>
         <Card.Body className='settings-page__profile-card'>
           <img
             src={user.avatar}
+            alt=''
             className='settings-page__profile-card__profile-img'
           />
-          <Form className='pt-1 pb-3 settings-page__profile-card__form' onSubmit={handleSubmit}>
+          <Form
+            className='pt-1 pb-3 settings-page__profile-card__form'
+            onSubmit={handleSubmit}>
+            <ImageUploader />
             <Form.Group as={Row} controlId='avatar'>
               <Form.Label column sm='4'>
                 avatar
@@ -113,7 +121,8 @@ const SettingsPage = (props: SettingsPageProps) => {
                 </Form.Control>
               </Col>
             </Form.Group>
-            <BackToDashButtonCol /><SubmitButtonCol />
+            <BackToDashButtonCol />
+            <SubmitButtonCol />
           </Form>
         </Card.Body>
       </Card>

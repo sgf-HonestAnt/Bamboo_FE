@@ -36,7 +36,6 @@ export const fillSettingsAction = () => {
           type: FILL_SETTINGS,
           payload,
         });
-        console.log(`🥔theme=${payload.selectedTheme}`);
       } else {
         setTimeout(() => {
           dispatch({

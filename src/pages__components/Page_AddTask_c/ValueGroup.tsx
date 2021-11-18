@@ -2,17 +2,19 @@ import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/constants";
 import { PIE } from "../../utils/icons";
+import BambooPoints from "../XP";
 
 type ValueGroupProps = {
   form: setTaskInt;
   changeSettings: any;
 };
-
 const ValueGroup = (props: ValueGroupProps) => {
   const { form, changeSettings } = props;
   return (
-    <Form.Group controlId='value'>
-      <Form.Label>How hard is it?</Form.Label>
+    <Form.Group controlId='value' className="py-2">
+      <Form.Label>
+        How many Bamboo Points <BambooPoints /> is it worth?
+      </Form.Label>
       <Form.Control
         required
         as='select'
@@ -31,7 +33,7 @@ const ValueGroup = (props: ValueGroupProps) => {
         })}
       </Form.Control>
       <Form.Text id='valueHelpBlock' muted>
-        Alternatively, you can create a new category.
+        Bamboo Points can be spent on future rewards.
       </Form.Text>
     </Form.Group>
   );

@@ -8,10 +8,11 @@ import {
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import { CAKE1 } from "../../utils/icons";
+import { CAKE1, ICOSETTINGS } from "../../utils/icons";
 import { getTasks } from "../../utils/funcTasks";
-import { attemptLogout } from "../../utils/funcSessions";
+import attemptLogout from "../../utils/funcLogout";
 import "./styles.css";
+import PandaLogo from "../../pages__components/Logo";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -27,12 +28,14 @@ const MainSideBar = (props: SidebarProps) => {
   const numOfUsers = followedUsers.length;
   const loadSidebar = async () => {
     const tasks = await getTasks();
-    const { awaited, in_progress } = tasks;
-    setTaskNum(awaited.length + in_progress.length);
+    if (tasks) {
+      const { awaited, in_progress } = tasks;
+      setTaskNum(awaited.length + in_progress.length);
+    }
   };
   const logout = async () => {
     await attemptLogout();
-    history.push("/login");
+    history.push("/session-closed");
   };
   useEffect(() => {
     loadSidebar();
@@ -44,17 +47,21 @@ const MainSideBar = (props: SidebarProps) => {
       <div className='main-side-bar__theme'>
         <Button>theme</Button>
       </div>
-      <div className='main-side-bar__branding'>
-        <div className='main-side-bar__branding__cake-icon'>
-          <CAKE1 />
-        </div>
+      <div className='main-side-bar__branding my-3'>
+        <PandaLogo />
+        <h3>Panda</h3>
       </div>
-      <div className='main-side-bar__profile my-5'>
-        <img src={user.avatar} className='main-side-bar__profile-img' alt='' />
-        <div>{user.username}</div>
+      <div className='main-side-bar__profile mb-2'>
+        You are logged in as
+        <br />
+        <span className='text-bigger'>
+          {user.username}
+        </span>
       </div>
       <div className='main-side-bar__links'>
+      {user.admin && <Link to=''>admin</Link>}
         <Link to='/dash'>dashboard</Link>
+        <Link to='tasks-add-new'>add new</Link>
         <Link to='/tasks'>tasks ({taskNum})</Link>
         <Link to='/following'>following ({numOfUsers})</Link>
         <Button variant='link' onClick={logout}>
@@ -62,7 +69,19 @@ const MainSideBar = (props: SidebarProps) => {
         </Button>
       </div>
       <div className='main-side-bar__settings'>
-        <Button href='/user-settings'>settings</Button>
+        <Button href='/user-settings'>
+          <ICOSETTINGS /> 
+        </Button>
+      </div>
+      <div className='main-side-bar__credits mt-5'>
+        Icons made by{" "}
+        <a href='https://www.freepik.com' title='Freepik'>
+          Freepik
+        </a>{" "}
+        from{" "}
+        <a href='https://www.flaticon.com/' title='Flaticon'>
+          www.flaticon.com
+        </a>
       </div>
     </div>
   );

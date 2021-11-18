@@ -44,12 +44,11 @@ const DashboardPage = (props: DashboardPageProps) => {
     location,
     setErrorMessage,
   } = props;
-  const { _id } = user;
   const [tasks, setTasks] = useState([]);
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
   const { list, superlist } = achievements;
-  const { username, bio, avatar, level, xp, notification } = user;
+  const { _id, username, admin, bio, avatar, level, xp, notification } = user;
   const dispatch = useDispatch();
   const attemptLoad = async () => {
     // load tasks with no deadline / deadline for today
@@ -92,7 +91,8 @@ const DashboardPage = (props: DashboardPageProps) => {
           <Col sm={6} className='p-1'>
             <DashProfileCard
               avatar={avatar}
-              username={username}
+              username={username} 
+              admin={admin}
               bio={bio}
               level={level}
               xp={xp}

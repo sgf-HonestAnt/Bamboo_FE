@@ -16,7 +16,7 @@ const checkToken = async (
     };
     const response = await fetch(url, { method, headers });
     if (response.ok) {
-      console.log("🗝️TOKEN");
+      console.log("🗝️CHECKED TOKEN");
       const { username } = await response.json();
       return username;
     } else if (response.status === 401) {

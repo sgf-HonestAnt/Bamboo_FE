@@ -41,7 +41,6 @@ export const fillAchievementsAction = () => {
           type: FILL_ACHIEVEMENTS,
           payload,
         });
-        console.log(`🥔achievements=${payload.list.length}`);
       } else {
         setTimeout(() => {
           dispatch({

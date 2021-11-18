@@ -4,13 +4,13 @@ import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { useDispatch } from "react-redux";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { History, Location } from "history";
-import TitleGroup from "../../pages__components/Page_AddTask_c/AddTaskTitleGroup";
-import ValueGroup from "../../pages__components/Page_AddTask_c/AddTaskValueGroup";
-import CategoryChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskCategoryChooseGroup";
+import TitleGroup from "../../pages__components/Page_AddTask_c/TitleGroup";
+import ValueGroup from "../../pages__components/Page_AddTask_c/ValueGroup";
+import CategoryChooseGroup from "../../pages__components/Page_AddTask_c/CategoryChooseGroup";
 import CategoryGroup from "../../pages__components/Page_AddTask_c/AddTaskCategoryGroup";
-import DescripGroup from "../../pages__components/Page_AddTask_c/AddTaskDescripGroup";
-import RepeatedGroup from "../../pages__components/Page_AddTask_c/AddTaskRepeatedGroup";
-import RepeatsGroup from "../../pages__components/Page_AddTask_c/AddTaskRepeatsGroup";
+import DescripGroup from "../../pages__components/Page_AddTask_c/DescriptionGroup";
+import RepeatedGroup from "../../pages__components/Page_AddTask_c/RepeatedGroup";
+import RepeatsGroup from "../../pages__components/Page_AddTask_c/RepeatsGroup";
 import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRepeatsOtherGroup";
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
@@ -174,6 +174,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
+        <img src="http://www.keystonetrust.org.uk/wp-content/uploads/2020/06/placeholder-image-1.png" alt="" style={{height: "200px"}} />   
         <Form
           // noValidate
           // validated={validated}
@@ -192,23 +193,6 @@ const AddTaskPage = (props: AddTaskPageProps) => {
             <CategoryGroup form={form} changeSettings={changeSettings} />
           )}
           <DescripGroup changeSettings={changeSettings} />
-          <Form.Group controlId='image' className='mb-3'>
-            <Form.Label>
-              Does the task have an image?(NOT YET WORKING)
-            </Form.Label>
-            <Form.Control type='file' />
-          </Form.Group>
-          <Form.Group controlId='deadline' className='mb-3'>
-            <Form.Label>Deadline</Form.Label>
-            <Form.Control
-              type='date'
-              name='deadline'
-              // defaultValue={min}
-              min={min}
-              max={max}
-              onChange={changeSettings}
-            />
-          </Form.Group>
           {showRepeat && <RepeatedGroup changeRepeated={changeRepeated} />}
           {/* Does it repeat? Y ? showHowOften : showShared */}
           {showHowOften && <RepeatsGroup changeHowOften={changeHowOften} />}

@@ -95,14 +95,14 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     value: string
   ) => {
     const criteria = `${deadline}${category}${status}${value}createdBy=${user._id}`;
-    console.log("CRITERIA=>", criteria);
+    // console.log("CRITERIA=>", criteria);
     const fetchedTasks = await fetchTasksByQuery(criteria);
     const noDeadline = await getTaskByDeadline(null);
-    console.log("=>", tasksToShow);
+    // console.log("=>", tasksToShow);
     !tasksToShow
       ? setData(fetchedTasks)
       : setData({ tasks: noDeadline, total: noDeadline.length });
-    console.log(data);
+    // console.log(data);
   };
   // today, tomorrow, and future
   // const allTasks = tasks;
@@ -115,7 +115,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     );
   }, [form]);
   const { links, pageTotal, tasks, total } = data;
-  console.log(data);
+  // console.log(data);
   const getIcon = (category: string) => {
     const index = TASK_CATEGORIES.findIndex(
       (cat) => cat.toLowerCase() === category.toLowerCase()

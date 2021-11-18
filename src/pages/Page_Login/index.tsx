@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { SubmitButton } from "../../utils/buttons";
-import { attemptLogin } from "../../utils/funcSessions";
+import { BE_URL, USERS, SESSION, POST } from "../../utils/constants";
+import { setRefreshToken } from "../../redux/actions/user";
 import "./styles.css";
 
 const LoginPage = ({ history, location, match }: RouteComponentProps) => {
@@ -22,8 +23,46 @@ const LoginPage = ({ history, location, match }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await attemptLogin(history, dispatch);
+    try {
+      console.log("🗝️attempt login!");
+      let email;
+      let password;
+      if (form.email !== "" && form.password !== "") {
+        email = form.email;
+        password = form.password;
+      } else {
+        email = process.env.REACT_APP_DEV_USER_EMAIL;
+        password = process.env.REACT_APP_DEV_USER_PASSWORD;
+      }
+      // UNTIL PRODUCTION /////////////////////////////////
+      /////////////////////////////////
+      const url = `${BE_URL}/${USERS}/${SESSION}`;
+      const method = POST;
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify({ email, password });
+      const response = await fetch(url, { method, headers, body });
+      if (response.ok) {
+        const { accessToken, refreshToken } = await response.json();
+        setTimeout(() => {
+          localStorage.setItem("token", accessToken);
+        }, 1000);
+        setTimeout(() => {
+          dispatch(setRefreshToken(refreshToken));
+        }, 1000);
+        setTimeout(() => {
+          history.push("/");
+        }, 1000);
+      } else {
+        console.log("😥TROUBLE LOGGING IN");
+        history.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location.pathname]);
   console.log(form);
   return (
     <Container fluid>

@@ -1,6 +1,5 @@
 import { ICOEMPTY, ICOFINANCE, ICOFIT, ICOHOUSE, ICOPETS, ICORELATE, ICOSHOP, ICOURGENT, ICOWELLNESS, ICOWORK } from "./icons";
-
-// fetches
+// ********** CRUD **********
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
 export const POST = "POST";
@@ -8,50 +7,42 @@ export const PUT = "PUT";
 export const DELETE = "DELETE";
 export const REGISTER = "REGISTER";
 export const SESSION = "session";
-export const ME = "me";
 export const REFRESH = "refresh";
-// user reducers
+export const ME = "me";
+// ********** STORE **********
 export const USERS = "users";
 export const FILL_USER_LOADING = "FILL_USER_LOADING";
 export const FILL_USER_ERROR = "FILL_USER_ERROR";
 export const FILL_USER = "FILL_USER";
-export const SET_EXPIRED = "SET_EXPIRED";
 export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN";
-// tasks reducers
 export const TASKS = "tasks";
 export const FILL_TASKS_LOADING = "FILL_TASKS_LOADING";
 export const FILL_TASKS_ERROR = "FILL_TASKS_ERROR";
 export const FILL_TASKS = "FILL_TASKS";
-// achievements reducers
 export const ACHIEVEMENTS = "achievements";
 export const FILL_ACHIEVEMENTS_LOADING = "FILL_ACHIEVEMENTS_LOADING";
 export const FILL_ACHIEVEMENTS_ERROR = "FILL_ACHIEVEMENTS_ERROR";
 export const FILL_ACHIEVEMENTS = "FILL_ACHIEVEMENTS";
 export const SET_SUPERLIST = "SET_SUPERLIST";
-// features reducers
 export const FEATURES = "features";
 export const FILL_FEATURES_LOADING = "FILL_FEATURES_LOADING";
 export const FILL_FEATURES_ERROR = "FILL_FEATURES_ERROR";
 export const FILL_FEATURES = "FILL_FEATURES";
-// settings reducers
 export const SETTINGS = "settings";
 export const FILL_SETTINGS_LOADING = "FILL_SETTINGS_LOADING";
 export const FILL_SETTINGS_ERROR = "FILL_SETTINGS_ERROR";
 export const FILL_SETTINGS = "FILL_SETTINGS";
-// settings themes
+// ********** FUNCS **********
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];
-// task types
 export const SOLO = "solo";
 export const TEAM = "team";
 export const TASK_TYPES = [SOLO, TEAM];
-// task statuses
 export const AWAITED = "awaited";
 export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
-// task categories
 export const URGENT = "Urgent";
 export const HOUSEHOLD = "Home";
 export const SHOPPING = "Shopping";
@@ -98,11 +89,11 @@ export const NUMBER = `+${!NaN}`;
 // task values
 export const TASK_VALUE_NUMS = [10, 20, 30, 40, 50];
 export const TASK_VALUES = [
-  "easy as pie!",
-  "something else",
-  "something different",
-  "hard as rock",
-  "last one",
+  "easy as pie",
+  "easy as falling off a log",
+  "painful, but I know I can do it",
+  "may take a bit more effort to complete",
+  "difficult, so I'll look forward to my reward",
 ];
 export const ALL_TASKS = "All Tasks";
 export const ANY_CAT = "Any Category";

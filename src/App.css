@@ -1,45 +1,31 @@
+/* fonts */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 :root {
-  --sidebar-bg: thistle;
+  --main-bg: #f6e5ff;
+  --sidebar-bg: #98ffa9;
   --awaited-color: rgba(255, 0, 0, 0.1);
   --progress-color: rgba(255, 165, 0, 0.1);
   --completed-color: rgba(0, 128, 0, 0.1);
 }
-
 .App {
+  background-color: var(--main-bg);
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* universal styling */
+.text-bigger {
+  font-size: 1.2rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.xp {
+  padding-left: 5px;
+  max-height: 25px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.opaquish {
+  opacity: 0.5;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.red {
+  color: red;
+  font-weight: 700;
 }

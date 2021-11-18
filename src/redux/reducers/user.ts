@@ -5,7 +5,6 @@ import {
   FILL_USER,
   FILL_USER_ERROR,
   FILL_USER_LOADING,
-  SET_EXPIRED,
   SET_REFRESH_TOKEN,
 } from "../../utils/constants";
 
@@ -36,11 +35,6 @@ const currentUserReducer = (
           refreshToken: action.payload,
         }
       }; 
-    case SET_EXPIRED:
-      return {
-        ...state,
-        expired: action.payload,
-      };
     default:
       return state;
   }
