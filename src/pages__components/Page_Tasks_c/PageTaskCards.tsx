@@ -44,15 +44,15 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   // set these after fetchTasksByQuery
   let selectedOverdue; // {tasks, total}
   // includes tasks with a deadline prior to today (tasks are sorted by deadline when in fetchTasksByQuery)
-  let selectedToday; // {tasks, total}
+  let selectedToday; // {tasks, total} // INCLUDE "DUE NOW" STRING IN DEADLINE FOR DISPLAY
   // includes deadline today [criteria] and all overdue tasks
-  let selectedTomorrow; // {tasks, total}
+  let selectedTomorrow; // {tasks, total} // INCLUDE "DUE SOON" STRING IN DEADLINE FOR DISPLAY
   // includes deadline tomorrow [criteria]
-  let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER
+  let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER. INCLUDE "OVERDUE" STRING IN DEADLINE FOR DISPLAY
   // includes !deadline [fetchTasksByDeadline(null)]
   let selectedAll; // {tasks, total}
   // all deadline types selected [criteria ""]
-  
+
   // data must always look like {tasks:[{}], total: 100}
 
   let dueAndFutureTasks: taskInt[] = [];
