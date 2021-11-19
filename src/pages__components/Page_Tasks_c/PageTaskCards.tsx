@@ -10,7 +10,6 @@ import {
   TODAY,
   TOMORROW,
   ANY_CAT,
-  YESTERDAY,
   NO_DEADLINE,
   OVERDUE,
 } from "../../utils/constants";
@@ -20,7 +19,6 @@ import {
 } from "../../utils/f_getDatesTimes";
 import { useEffect, useState } from "react";
 import fetchTasksByQuery from "../../utils/funcs/fetchTasksByQuery";
-import { getTaskByDeadline } from "../../utils/f_getTasks";
 import getIcon from "../../utils/funcs/f_getIcon";
 
 type FilterForm = {
@@ -42,15 +40,15 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   const { tasksToShow, categoryToShow, statusToShow, valueToShow } = form;
   const [data, setData] = useState<any>([]); // {total, tasks}
   // set these after fetchTasksByQuery
-  let selectedOverdue; // {tasks, total}
+  //let selectedOverdue; // {tasks, total}
   // includes tasks with a deadline prior to today (tasks are sorted by deadline when in fetchTasksByQuery)
-  let selectedToday; // {tasks, total} // INCLUDE "DUE NOW" STRING IN DEADLINE FOR DISPLAY
+  //let selectedToday; // {tasks, total} // INCLUDE "DUE NOW" STRING IN DEADLINE FOR DISPLAY
   // includes deadline today [criteria] and all overdue tasks
-  let selectedTomorrow; // {tasks, total} // INCLUDE "DUE SOON" STRING IN DEADLINE FOR DISPLAY
+  //let selectedTomorrow; // {tasks, total} // INCLUDE "DUE SOON" STRING IN DEADLINE FOR DISPLAY
   // includes deadline tomorrow [criteria]
-  let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER. INCLUDE "OVERDUE" STRING IN DEADLINE FOR DISPLAY
+  //let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER. INCLUDE "OVERDUE" STRING IN DEADLINE FOR DISPLAY
   // includes !deadline [fetchTasksByDeadline(null)]
-  let selectedAll; // {tasks, total}
+  //let selectedAll; // {tasks, total}
   // all deadline types selected [criteria ""]
 
   // data must always look like {tasks:[{}], total: 100}
@@ -71,6 +69,8 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
         ? `deadline=${todayAsString}&`
         : tasksToShow === TOMORROW
         ? `deadline=${tomorrowAsString}&`
+        : !tasksToShow
+        ? `!deadline&`
         : "";
     const category =
       categoryToShow === ANY_CAT ? "" : `category=${categoryToShow}&`;
@@ -96,7 +96,6 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     const criteria = `${deadline}${category}${status}${value}createdBy=${user._id}`;
     console.log(criteria);
     const fetchedData = await fetchTasksByQuery(criteria);
-    const tasksWithoutDeadline = await getTaskByDeadline(null);
     if (tasksToShow) {
       const firstIndex = fetchedData.tasks.findIndex(
         (t: taskInt) => t.deadline?.slice(0, 10) === todayAsString
@@ -111,28 +110,18 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           i < firstIndex &&
           overdueTasks.push(fetchedData.tasks[i]);
       }
-      console.log("DUE=>", dueAndFutureTasks);
-      console.log("OVERDUE=>", overdueTasks);
     }
-    const todayAndOverdue = fetchedData.tasks.concat(tasksWithoutDeadline);
-    tasksToShow === TODAY &&
-      setData({ tasks: todayAndOverdue, total: todayAndOverdue.length });
-    !tasksToShow
-      ? setData({
-          tasks: tasksWithoutDeadline,
-          total: tasksWithoutDeadline.length,
-        })
-      : tasksToShow === OVERDUE
+    tasksToShow === OVERDUE
       ? setData({ tasks: overdueTasks, total: overdueTasks.length })
       : setData(fetchedData);
-    console.log("=>", tasksToShow);
-    console.log(data);
+    console.log("OVERDUE=>", overdueTasks);
+    console.log("OVERDUE=>",overdueTasks[0]?._id);
   };
   useEffect(() => {
     loadPageTaskCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
-  const { links, pageTotal, tasks, total } = data;
+  const { tasks, total } = data;
   console.log(data);
   return (
     <Row className='tasks-page__tasks-row'>
@@ -148,37 +137,43 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             ? OVERDUE
             : ALL_TASKS}
         </h4>
-        <h4>
+        <h5>
           There {data.total && data.total < 2 ? "is" : "are"}{" "}
           {data.total ? data.total : 0}{" "}
           {data.total && data.total < 2 ? "task" : "tasks"} to perform
-          {tasksToShow === TODAY && ", " + overdueTasks.length + " overdue"}
-          {tasksToShow === TOMORROW && " tomorrow"}
-          {!tasksToShow && " without a deadline"}
-          {tasksToShow === ALL_TASKS && " overall"}
-        </h4>
+        </h5>
+        {/*********** ALL TASKS ***********/}
         {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? (
-          // Instead of mapping filtered tasks, I want to fetch all tasks in order of date ascending and then paginate them
-          data.tasks?.map((t: taskInt, i: number) => {
+          tasks?.map((t: taskInt, i: number) => {
+            console.log(t._id)
+            const overdue = overdueTasks.find((task) => task === t); //"6197b2665068c1db0d52eac0"
+            // find this and fix it at next session!
+            console.log(overdue);
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(todayAsString) ? (
-              <ICOCLOCK className='icon-urgent' />
-            ) : t.deadline ? (
-              <ICOCLOCK className='icon-semi-urgent' />
+              <span className='icon-semi-urgent'>
+                <ICOCLOCK />
+                DUE
+              </span>
+            ) : overdue ? (
+              <span className='icon-urgent'>
+                <ICOCLOCK />
+                OVERDUE
+              </span>
             ) : (
-              <ICOCIRCLE />
+              ""
             );
-            const statusClass =
-              t.status === AWAITED
-                ? "tasks-page__tasks-row__single-task awaited"
-                : t.status === COMPLETED
-                ? "tasks-page__tasks-row__single-task completed"
-                : "tasks-page__tasks-row__single-task in-progress";
+            // const statusClass =
+            //   t.status === AWAITED
+            //     ? "tasks-page__tasks-row__single-task awaited"
+            //     : t.status === COMPLETED
+            //     ? "tasks-page__tasks-row__single-task completed"
+            //     : "tasks-page__tasks-row__single-task in-progress";
             return (
               <div key={i}>
-                <div className='tasks-page__tasks-row__category'>
+                {/* <div className='tasks-page__tasks-row__category'>
                   {icon} {t.category}
-                </div>
+                </div> */}
                 <div>
                   {icon} {t.title} ({t.value}XP) due{" "}
                   {t.deadline ? t.deadline.slice(0, 10) : "any time"} {clock}
@@ -193,7 +188,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             );
           })
         ) : total && total > 0 ? (
-          data.tasks?.map((t: taskInt, i: number) => {
+          tasks?.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(todayAsString) ? (
               <ICOCLOCK className='icon-urgent' />
@@ -202,12 +197,12 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             ) : (
               <ICOCIRCLE />
             );
-            const statusClass =
-              t.status === AWAITED
-                ? "tasks-page__tasks-row__single-task awaited"
-                : t.status === COMPLETED
-                ? "tasks-page__tasks-row__single-task completed"
-                : "tasks-page__tasks-row__single-task in-progress";
+            // const statusClass =
+            //   t.status === AWAITED
+            //     ? "tasks-page__tasks-row__single-task awaited"
+            //     : t.status === COMPLETED
+            //     ? "tasks-page__tasks-row__single-task completed"
+            //     : "tasks-page__tasks-row__single-task in-progress";
             return (
               <div key={i}>
                 {icon} {t.title} ({t.value}XP) due{" "}

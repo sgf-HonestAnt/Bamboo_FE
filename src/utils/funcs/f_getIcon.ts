@@ -2,6 +2,7 @@ import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "../constants";
 import { ICOSTAR } from "../icons";
 
 const getIcon = (category: string) => {
+  console.log(category)
   const index = TASK_CATEGORIES.findIndex(
     (cat) => cat.toLowerCase() === category.toLowerCase()
   );

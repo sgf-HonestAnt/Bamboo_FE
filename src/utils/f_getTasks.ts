@@ -17,6 +17,7 @@ export const getTasks = async () => {
     console.log(error);
   }
 };
+// export const getTasksWithoutDeadline /me/null with access token!!
 export const getTaskByDeadline = async (par: string | null) => {
   const tasks = await getTasks();
   const { awaited, in_progress } = tasks;

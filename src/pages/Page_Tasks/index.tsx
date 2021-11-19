@@ -9,6 +9,7 @@ import {
   IN_PROGRESS,
   NO_DEADLINE,
   TASKS_TO_SHOW,
+  TASK_CATEGORIES,
   TASK_STATUS_TYPES,
   TASK_VALUE_NUMS,
   WILD_NUM,
@@ -109,14 +110,32 @@ const TasksPage = (props: TasksPageProps) => {
                   <option value='' disabled>
                     ---
                   </option>
-                  {categories.map((cat) => (
+                  {/* PRE-SET CATEGORIES */}
+                  {TASK_CATEGORIES.map((cat, i) => (
                     <option
-                      key={cat}
+                      key={i}
                       value={cat}
                       selected={form.categoryToShow === cat}>
                       {cat.charAt(0).toUpperCase() + cat.slice(1)}
                     </option>
                   ))}
+                  <option value='' disabled>
+                    ---
+                  </option>
+                  {/* CUSTOM CATEGORIES */}
+                  {categories.map(
+                    (cat, i) =>
+                      !TASK_CATEGORIES.includes(
+                        cat!.charAt(0).toUpperCase() + cat!.slice(1)
+                      ) && (
+                        <option
+                          key={i}
+                          value={cat}
+                          selected={form.categoryToShow === cat}>
+                          {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
+                        </option> // what is going on....?
+                      )
+                  )}
                 </Form.Control>
               </Form.Group>
               <Form.Group controlId='statusToShow' className='mb-3 mr-1'>
