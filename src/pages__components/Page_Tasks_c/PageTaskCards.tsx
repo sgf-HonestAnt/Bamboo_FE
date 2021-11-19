@@ -11,6 +11,8 @@ import {
   TOMORROW,
   ANY_CAT,
   YESTERDAY,
+  NO_DEADLINE,
+  OVERDUE,
 } from "../../utils/constants";
 import {
   getDayMonthYearAsString,
@@ -29,77 +31,109 @@ type FilterForm = {
   valueToShow: number;
   //repeatToShow: string;
 };
-
 type PageTaskCardsProps = {
   form: FilterForm;
   user: userInt;
 };
-
 const PageTaskCards = (props: PageTaskCardsProps) => {
+  console.log(props.form);
+
   const { form, user } = props;
-  console.log(form);
   const { tasksToShow, categoryToShow, statusToShow, valueToShow } = form;
   const [data, setData] = useState<any>([]); // {total, tasks}
+  // set these after fetchTasksByQuery
+  let selectedOverdue; // {tasks, total}
+  // includes tasks with a deadline prior to today (tasks are sorted by deadline when in fetchTasksByQuery)
+  let selectedToday; // {tasks, total}
+  // includes deadline today [criteria] and all overdue tasks
+  let selectedTomorrow; // {tasks, total}
+  // includes deadline tomorrow [criteria]
+  let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER
+  // includes !deadline [fetchTasksByDeadline(null)]
+  let selectedAll; // {tasks, total}
+  // all deadline types selected [criteria ""]
+  
+  // data must always look like {tasks:[{}], total: 100}
+
+  let dueAndFutureTasks: taskInt[] = [];
+  let overdueTasks: taskInt[] = [];
+
   // get dates to filter tasks
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() + 1);
   const todayAsString = getSelectedDateAsString(today); //2021-11-19
   const tomorrowAsString = getSelectedDateAsString(tomorrow); //2021-11-20
-  const yesterdayAsString = getSelectedDateAsString(yesterday); //2021-11-18
-  // set criteria
-  const deadlineCriteria =
-    tasksToShow === TODAY
-      ? `deadline=${todayAsString}&deadline=${yesterdayAsString}&`
-      : tasksToShow === TOMORROW
-      ? `deadline=${tomorrowAsString}&`
-      : tasksToShow === YESTERDAY
-      ? `deadline=${yesterdayAsString}&`
-      : "";
-  const categoryCriteria =
-    categoryToShow === ANY_CAT ? "" : `category=${categoryToShow}&`;
-  const statusCriteria =
-    statusToShow === AWAITED
-      ? `status=${AWAITED}&`
-      : statusToShow === IN_PROGRESS
-      ? `status=${IN_PROGRESS}&`
-      : statusToShow === COMPLETED
-      ? `status=${COMPLETED}&`
-      : "";
-  const valueCriteria = valueToShow === WILD_NUM ? "" : `value=${valueToShow}&`;
-  const loadPageTaskCards = async (
-    deadline: string,
-    category: string,
-    status: string,
-    value: string
-  ) => {
+
+  const setCriteria = () => {
+    const deadline =
+      tasksToShow === TODAY
+        ? `deadline=${todayAsString}&`
+        : tasksToShow === TOMORROW
+        ? `deadline=${tomorrowAsString}&`
+        : "";
+    const category =
+      categoryToShow === ANY_CAT ? "" : `category=${categoryToShow}&`;
+    const status =
+      statusToShow === AWAITED
+        ? `status=${AWAITED}&`
+        : statusToShow === IN_PROGRESS
+        ? `status=${IN_PROGRESS}&`
+        : statusToShow === COMPLETED
+        ? `status=${COMPLETED}&`
+        : "";
+    const value = valueToShow === WILD_NUM ? "" : `value=${valueToShow}&`;
+    return {
+      deadline,
+      category,
+      status,
+      value,
+    };
+  };
+
+  const loadPageTaskCards = async () => {
+    const { deadline, category, status, value } = setCriteria();
     const criteria = `${deadline}${category}${status}${value}createdBy=${user._id}`;
     console.log(criteria);
-    const fetchedTasks = await fetchTasksByQuery(criteria);
-    const noDeadline = await getTaskByDeadline(null);
+    const fetchedData = await fetchTasksByQuery(criteria);
+    const tasksWithoutDeadline = await getTaskByDeadline(null);
+    if (tasksToShow) {
+      const firstIndex = fetchedData.tasks.findIndex(
+        (t: taskInt) => t.deadline?.slice(0, 10) === todayAsString
+      );
+      for (let i = 0; i < fetchedData.tasks.length; i++) {
+        !fetchedData.tasks[i].deadline &&
+          dueAndFutureTasks.push(fetchedData.tasks[i]);
+        fetchedData.tasks[i].deadline &&
+          i >= firstIndex &&
+          dueAndFutureTasks.push(fetchedData.tasks[i]);
+        fetchedData.tasks[i].deadline &&
+          i < firstIndex &&
+          overdueTasks.push(fetchedData.tasks[i]);
+      }
+      console.log("DUE=>", dueAndFutureTasks);
+      console.log("OVERDUE=>", overdueTasks);
+    }
+    const todayAndOverdue = fetchedData.tasks.concat(tasksWithoutDeadline);
+    tasksToShow === TODAY &&
+      setData({ tasks: todayAndOverdue, total: todayAndOverdue.length });
+    !tasksToShow
+      ? setData({
+          tasks: tasksWithoutDeadline,
+          total: tasksWithoutDeadline.length,
+        })
+      : tasksToShow === OVERDUE
+      ? setData({ tasks: overdueTasks, total: overdueTasks.length })
+      : setData(fetchedData);
     console.log("=>", tasksToShow);
-    tasksToShow
-      ? setData(fetchedTasks)
-      : setData({ tasks: noDeadline, total: noDeadline.length });
+    console.log(data);
   };
   useEffect(() => {
-    loadPageTaskCards(
-      deadlineCriteria,
-      categoryCriteria,
-      statusCriteria,
-      valueCriteria
-    );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    loadPageTaskCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
   const { links, pageTotal, tasks, total } = data;
   console.log(data);
-  const yesterdayTasks = tasks?.filter(
-    (t: taskInt) => t.deadline?.slice(0, 10) === yesterdayAsString
-  );
-  const yesterdayLength = yesterdayTasks?.length;
-  console.log(yesterdayTasks);
   return (
     <Row className='tasks-page__tasks-row'>
       <Col sm={6}>
@@ -108,18 +142,20 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             ? `Today, ${getDayMonthYearAsString(today)}`
             : tasksToShow === TOMORROW
             ? `Tomorrow, ${getDayMonthYearAsString(tomorrow)}`
-            : tasksToShow === ALL_TASKS
-            ? "All Tasks"
-            : "No Deadline"}
+            : !tasksToShow
+            ? NO_DEADLINE
+            : tasksToShow === OVERDUE
+            ? OVERDUE
+            : ALL_TASKS}
         </h4>
         <h4>
           There {data.total && data.total < 2 ? "is" : "are"}{" "}
           {data.total ? data.total : 0}{" "}
           {data.total && data.total < 2 ? "task" : "tasks"} to perform
-          {tasksToShow === ALL_TASKS && " overall"}
+          {tasksToShow === TODAY && ", " + overdueTasks.length + " overdue"}
           {tasksToShow === TOMORROW && " tomorrow"}
-          {tasksToShow === TODAY && ", " + yesterdayLength + " overdue"}
           {!tasksToShow && " without a deadline"}
+          {tasksToShow === ALL_TASKS && " overall"}
         </h4>
         {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? (
           // Instead of mapping filtered tasks, I want to fetch all tasks in order of date ascending and then paginate them
