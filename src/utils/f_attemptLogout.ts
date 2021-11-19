@@ -15,5 +15,4 @@ const attemptLogout = async () => {
     console.log(error);
   }
 };
-
 export default attemptLogout

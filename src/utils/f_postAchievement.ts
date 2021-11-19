@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
-import { loadTasksAction } from "../../redux/actions/tasks";
-import { ACHIEVEMENTS, BE_URL, POST } from "../constants";
+import { ACHIEVEMENTS, BE_URL, POST } from "./constants";
 
+// 💡ADD ACHIEVEMENT TO REDUX UNTIL THE NEXT FETCH IS PERFORMED!
 const postAchievement = async (item: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
@@ -25,5 +25,4 @@ const postAchievement = async (item: string, dispatch: Dispatch<any>) => {
     console.log(error);
   }
 };
-
 export default postAchievement;

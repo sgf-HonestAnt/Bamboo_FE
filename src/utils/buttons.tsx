@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { FiPlus, FiRefreshCcw, FiCheck } from "react-icons/fi";
+import { FiPlus, FiRefreshCcw } from "react-icons/fi";
 import { ICOBACK } from "./icons";
 
 export const AddNewTaskButton = () => (
@@ -8,7 +8,7 @@ export const AddNewTaskButton = () => (
   </Button>
 );
 export const RefreshButton = () => (
-  <Button variant='light' className='mb-3 mr-1' href='/tasks'>
+  <Button variant='light' className='mb-3 mr-1'>
     <FiRefreshCcw />
   </Button>
 );

@@ -1,23 +1,19 @@
-import { FiRefreshCcw, FiPlus } from "react-icons/fi";
+import { FiRefreshCcw } from "react-icons/fi";
 import { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { currentTasksInt, userInt } from "../../typings/interfaces";
+import { userInt } from "../../typings/interfaces";
 import {
   ALL_TASKS,
   ANY_CAT,
-  ANY_REPEAT,
   ANY_STATUS,
-  COMPLETED,
   IN_PROGRESS,
-  NONE,
   NO_DEADLINE,
   TASKS_TO_SHOW,
-  TASK_REPEAT_TYPES,
   TASK_STATUS_TYPES,
   TASK_VALUE_NUMS,
   WILD_NUM,
 } from "../../utils/constants";
-import { AddNewTaskButton, RefreshButton } from "../../utils/buttons";
+import { AddNewTaskButton } from "../../utils/buttons";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
 import "./styles.css";
 
@@ -25,7 +21,6 @@ type TasksPageProps = {
   user: userInt;
   categories: string[];
 };
-
 const TasksPage = (props: TasksPageProps) => {
   const { user, categories } = props;
   // filters
@@ -33,9 +28,7 @@ const TasksPage = (props: TasksPageProps) => {
     tasksToShow: ALL_TASKS, // all, today, tomorrow or future
     categoryToShow: ANY_CAT, // user's categories or any
     statusToShow: ANY_STATUS, // awaited, in_progress, completed or any
-    //sharedToShow: true, // true or false
     valueToShow: WILD_NUM, // 10,20,30,40,50 or WILD
-    //repeatToShow: ANY_REPEAT, // never, daily, weekly, monthly, every x days or any
   });
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
@@ -62,6 +55,16 @@ const TasksPage = (props: TasksPageProps) => {
       });
     }
   };
+  const handleReset = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setForm({
+      ...form,
+      tasksToShow: ALL_TASKS,
+      categoryToShow: ANY_CAT,
+      statusToShow: ANY_STATUS,
+      valueToShow: WILD_NUM,
+    });
+  };
   // console.log(form);
   return (
     <Container fluid>
@@ -70,11 +73,13 @@ const TasksPage = (props: TasksPageProps) => {
           <Row>Filter tasks</Row>
           <Row className='tasks-page__filter-row'>
             <AddNewTaskButton />
-            <RefreshButton />
+            <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
+              <FiRefreshCcw />
+            </Button>
             <Form>
               <Form.Group controlId='tasksToShow' className='mb-3 mr-1'>
                 <Form.Control required as='select' onChange={handleChange}>
-                  {TASKS_TO_SHOW.filter((t) => t !== NO_DEADLINE).map(
+                  {TASKS_TO_SHOW.filter((t) => t !== ALL_TASKS).map(
                     (taskByDate) => (
                       <option
                         key={taskByDate}
@@ -88,9 +93,9 @@ const TasksPage = (props: TasksPageProps) => {
                     ---
                   </option>
                   <option
-                    value={NO_DEADLINE}
-                    selected={form.tasksToShow === NO_DEADLINE}>
-                    No Deadline
+                    value={ALL_TASKS}
+                    selected={form.tasksToShow === ALL_TASKS}>
+                    All Tasks
                   </option>
                 </Form.Control>
               </Form.Group>

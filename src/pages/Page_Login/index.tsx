@@ -25,17 +25,8 @@ const LoginPage = ({ history, location, match }: RouteComponentProps) => {
     e.preventDefault();
     try {
       console.log("🗝️attempt login!");
-      let email;
-      let password;
-      if (form.email !== "" && form.password !== "") {
-        email = form.email;
-        password = form.password;
-      } else {
-        email = process.env.REACT_APP_DEV_USER_EMAIL;
-        password = process.env.REACT_APP_DEV_USER_PASSWORD;
-      }
-      // UNTIL PRODUCTION /////////////////////////////////
-      /////////////////////////////////
+      const email = form.email;
+      const password = form.password;
       const url = `${BE_URL}/${USERS}/${SESSION}`;
       const method = POST;
       const headers = { "Content-Type": "application/json" };

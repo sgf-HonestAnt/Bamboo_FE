@@ -7,7 +7,7 @@ import attemptCompleteTasks from "../../utils/funcs/complete";
 import {
   getDayMonthYearAsString,
   getMinMaxDateAsString,
-} from "../../utils/funcDates";
+} from "../../utils/f_getDatesTimes";
 import attemptPostTask from "../../utils/funcs/postTask";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";
@@ -35,7 +35,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { min } = getMinMaxDateAsString();
+  const { min } = getMinMaxDateAsString(new Date());
   const [form, setForm] = useState<setTaskInt>({
     category: "",
     title: "",
@@ -81,7 +81,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   };
   // complete today task(s)
   const completedTasks: string[] = [];
-  const dayMonthYearAsString = getDayMonthYearAsString();
+  const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   const handleSubmitComplete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(completedTasks);

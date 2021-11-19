@@ -18,8 +18,8 @@ import DashChallCard from "../../pages__components/Page_Dashboard_c/ChallengeCar
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/Achievements";
 import createList from "../../utils/funcs/list";
-import { getSelectedDateAsString } from "../../utils/funcDates";
-import { getTaskByQuery, getTaskByDeadline } from "../../utils/funcTasks";
+import { getSelectedDateAsString } from "../../utils/f_getDatesTimes";
+import { getTaskByQuery, getTaskByDeadline } from "../../utils/f_getTasks";
 import "./styles.css";
 
 type DashboardPageProps = {
@@ -90,8 +90,9 @@ const DashboardPage = (props: DashboardPageProps) => {
         <Row>
           <Col sm={6} className='p-1'>
             <DashProfileCard
+              followedUsers={followedUsers}
               avatar={avatar}
-              username={username} 
+              username={username}
               admin={admin}
               bio={bio}
               level={level}

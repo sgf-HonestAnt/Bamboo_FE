@@ -1,10 +1,11 @@
-import { VscGraph } from "react-icons/vsc";
 import { Link } from "react-router-dom";
-import userRole from "../../utils/funcRole";
-import { ICOACTIVITY } from "../../utils/icons";
+import { followedUserInt } from "../../typings/interfaces";
+import getUserRole from "../../utils/f_getUserRole";
 import BambooPoints from "../XP";
+import { ICOACTIVITY, ICORELATE } from "../../utils/icons";
 
 type DashProfileCardProps = {
+  followedUsers: followedUserInt[];
   avatar: string;
   username: string;
   admin: boolean | undefined;
@@ -14,8 +15,8 @@ type DashProfileCardProps = {
 };
 
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const { avatar, username, admin, bio, level, xp } = props;
-  const role = userRole(level);
+  const { followedUsers, avatar, username, admin, bio, level, xp } = props;
+  const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-1'>
       <div className='dashboard__profile-card__holder'>
@@ -41,6 +42,10 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           <ICOACTIVITY />
         </div>
         <Link to='/stats'>Stats</Link>
+      </div>
+      <div className='dashboard__profile-card__following'>
+        <ICORELATE className='mr-1' />
+        Following: <Link to='/following'>{followedUsers.length}</Link>
       </div>
     </div>
   );

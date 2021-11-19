@@ -17,7 +17,7 @@ import AddTaskPage from "../Page_AddTask";
 import SettingsPage from "../Page_Settings";
 import ErrorPage from "../Page_Error";
 import SpinnerPage from "../Page_Spinner";
-import checkToken from "../../utils/funcCheckToken";
+import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
@@ -27,6 +27,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     (state: reduxStateInt) => state.currentUser.my_user
   );
   const { refreshToken } = user;
+  const token = localStorage.getItem("token")
   const { followedUsers, error, loading } = state.currentUser;
   const tasks = state.currentTasks;
   const categories = tasks.categories;
@@ -39,10 +40,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
-      console.log("⛔NO TOKEN");
+      console.log("⛔NO ACCESS TOKEN");
       history.push("/login");
     } else if (!refreshToken) {
-      console.log("⛔NO TOKEN");
+      console.log("⛔NO REFRESH TOKEN");
       history.push("/login");
     } else {
       const username = await checkToken(refreshToken, history, location);
@@ -73,11 +74,11 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainLoading]);
   useEffect(() => {
-    console.log(location.pathname); 
+    console.log(location.pathname);
   }, [location.pathname]);
   useEffect(() => {
-    console.log("🔐",localStorage.getItem("token")); 
-  }, [localStorage.getItem("token")]);
+    console.log("🔐", localStorage.getItem("token"));
+  }, [token]);
   return (
     <Container fluid className='main-page m-0'>
       {loading || mainLoading ? (
@@ -87,7 +88,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
       ) : path === "/user-settings" ? (
         <Row>
           <Col sm={12} className='p-0'>
-            <SettingsPage history={history} location={location} user={user} settings={settings} />
+            <SettingsPage
+              history={history}
+              location={location}
+              user={user}
+              settings={settings}
+            />
           </Col>
         </Row>
       ) : (

@@ -1,19 +1,17 @@
 import { Key } from "react";
 import {
-  getFirstDayOfThisMonth,
-  getLastDayOfThisMonth,
+  getFirstLastDayOfMonth,
   getMonthByIndex,
   getNumberOfDaysInMonth,
-} from "../../utils/funcDates";
+} from "../../utils/f_getDatesTimes";
 
 type DashCalenCardProps = {};
 
 const DashCalenCard = (props: DashCalenCardProps) => {
   //   const {} = props;
-  const month = getMonthByIndex();
-  const numberOfDays = getNumberOfDaysInMonth();
-  const firstDay = getFirstDayOfThisMonth();
-  const lastDay = getLastDayOfThisMonth();
+  const month = getMonthByIndex(new Date());
+  const numberOfDays = getNumberOfDaysInMonth(new Date());
+  const { firstDay, lastDay } = getFirstLastDayOfMonth(new Date());
   // first day being monday for our purposes, if firstDay === Sunday it falls at end of week
   const addedDays =
     firstDay === 0

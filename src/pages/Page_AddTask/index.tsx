@@ -15,7 +15,7 @@ import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/AddTaskRep
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/AddTaskSharedWithChooseGroup";
 import attemptPostTask from "../../utils/funcs/postTask";
-import { getMinMaxDateAsString } from "../../utils/funcDates";
+import { getMinMaxDateAsString } from "../../utils/f_getDatesTimes";
 import { NEVER } from "../../utils/constants";
 import "./styles.css";
 
@@ -39,7 +39,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
-  const { min, max } = getMinMaxDateAsString();
+  const { min, max } = getMinMaxDateAsString(new Date());
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);

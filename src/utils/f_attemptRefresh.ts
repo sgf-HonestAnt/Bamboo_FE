@@ -26,5 +26,4 @@ const attemptRefresh = async (
     history.push("/login");
   }
 };
-
 export default attemptRefresh;

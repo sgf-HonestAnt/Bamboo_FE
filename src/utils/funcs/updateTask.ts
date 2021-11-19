@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { loadTasksAction } from "../../redux/actions/tasks";
 import { statusType, taskType } from "../../typings/types";
 import { BE_URL, COMPLETED, PUT, TASKS } from "../constants";
-import postAchievement from "./achievements";
+import postAchievement from "../f_postAchievement";
 import attemptFetchTask from "./fetchTask";
 
 type taskUpdateType = {

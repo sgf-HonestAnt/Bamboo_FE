@@ -1,4 +1,4 @@
-import { taskInt } from "../../typings/interfaces";
+import { taskInt } from "../typings/interfaces";
 
 const getCategories = async (tasks: taskInt[]) => {
   let array: string[] = []
@@ -7,5 +7,4 @@ const getCategories = async (tasks: taskInt[]) => {
   }
   return array;
 };
-
 export default getCategories;

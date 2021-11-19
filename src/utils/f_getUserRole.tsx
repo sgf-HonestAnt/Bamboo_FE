@@ -1,4 +1,4 @@
-const userRole = (level: number | null) => {
+const getUserRole = (level: number | null) => {
   return !level || level === null || level < 5
     ? "Newbie!"
     : level > 5 && level < 15
@@ -9,5 +9,4 @@ const userRole = (level: number | null) => {
     ? "Proficient Panda"
     : "Adept";
 };
-
-export default userRole;
+export default getUserRole;

@@ -9,8 +9,8 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { CAKE1, ICOSETTINGS } from "../../utils/icons";
-import { getTasks } from "../../utils/funcTasks";
-import attemptLogout from "../../utils/funcLogout";
+import { getTasks } from "../../utils/f_getTasks";
+import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
 import PandaLogo from "../../pages__components/Logo";
 

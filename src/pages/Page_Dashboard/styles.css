@@ -1,5 +1,4 @@
 .dashboard {
-  /* border: 1px solid gold; */
   min-height: 100vh;
   max-height: 100vh;
   overflow-y: scroll;
@@ -13,7 +12,7 @@
   max-height: 90vh;
 }
 .dashboard__profile-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__profile-card__holder {
   position: relative;
@@ -55,7 +54,7 @@
   width: 1.8em;
 }
 .dashboard__tasks-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__tasks-card__text-muted {
   color: #6c757d;
@@ -67,7 +66,7 @@
   display: flex;
 }
 .dashboard__calendar-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__calendar-card__line {
   display: flex;
@@ -88,22 +87,22 @@
   min-width: 12%;
 }
 .dashboard__search-bar form {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
   display: flex;
 }
 .dashboard__activities {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
   overflow-y: scroll;
   max-height: 70vh;
 }
 .dashboard__tips-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__alerts-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__challenge-card {
-  /* border: 1px solid gold; */
+  border: 1px solid lightgray;
 }
 .dashboard__challenge-card__img {
   max-width: 90%;

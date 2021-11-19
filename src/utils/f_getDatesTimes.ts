@@ -1,62 +1,8 @@
 import { achievementInt } from "../typings/interfaces";
 
-export const getCurrDate = () => {
-  return new Date().getDate();
-};
-
-export const getTomorrowDate = () => {
-  return getCurrDate() + 1;
-};
-
-export const getCurrDay = () => {
-  return new Date().getDay();
-};
-
-export const getCurrMonth = () => {
-  return new Date().getMonth();
-};
-
-export const getCurrYear = () => {
-  return new Date().getFullYear();
-};
-
-export const getDayMonthYearAsString = () => {
-  // simple func to get current date used for DashTasksCard and Tasks>PageTaskCards
-  const year = getCurrYear().toString();
-  const month = getMonthByIndex();
-  const date = getCurrDate().toString();
-  const dateEnd =
-    date[date.length - 1] === "1"
-      ? "st"
-      : date[date.length - 1] === "2"
-      ? "nd"
-      : date[date.length - 1] === "3"
-      ? "rd"
-      : "th";
-  const day = getDayByIndex();
-  return `${day}, ${date}${dateEnd} ${month} ${year}`;
-};
-
-export const getTomorrowDayMonthYearAsString = () => {
-  // simple func to get tomorrow date used for Tasks>PageTaskCards
-  const year = getCurrYear().toString();
-  const month = getMonthByIndex();
-  const date = getTomorrowDate().toString();
-  const dateEnd =
-    date[date.length - 1] === "1"
-      ? "st"
-      : date[date.length - 1] === "2"
-      ? "nd"
-      : date[date.length - 1] === "3"
-      ? "rd"
-      : "th";
-  const day = getTomorrowDayByIndex();
-  return `${day}, ${date}${dateEnd} ${month} ${year}`;
-};
-
-export const getDayByIndex = () => {
+export const getDayByIndex = (date: Date) => {
   // simple func to get current day
-  const dayAsNum = getCurrDay();
+  const dayAsNum = date.getDay();
   const dayNames = [
     "Sunday",
     "Monday",
@@ -68,26 +14,9 @@ export const getDayByIndex = () => {
   ];
   return dayNames[dayAsNum];
 };
-
-export const getTomorrowDayByIndex = () => {
-  // simple func to get tomorrow day
-  const dayAsNum = getCurrDay() + 1;
-  const tomorrowAsNum = dayAsNum > 6 ? 0 : dayAsNum;
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return dayNames[tomorrowAsNum]; 
-};
-
-export const getMonthByIndex = () => {
+export const getMonthByIndex = (date: Date) => {
   // simple func to get current month
-  const monthAsNum = getCurrMonth();
+  const monthAsNum = date.getMonth();
   const monthNames = [
     "January",
     "February",
@@ -104,23 +33,32 @@ export const getMonthByIndex = () => {
   ];
   return monthNames[monthAsNum];
 };
-
-export const getFirstDayOfThisMonth = () => {
-  const year = getCurrYear();
-  const day = new Date(year, 1, 1).getDay();
-  return day;
+export const getDayMonthYearAsString = (datePar: Date) => {
+  // simple func to get current date used for DashTasksCard and Tasks>PageTaskCards
+  const year = datePar.getFullYear().toString();
+  const month = getMonthByIndex(datePar);
+  const date = datePar.getDate().toString();
+  const dateEnd =
+    date[date.length - 1] === "1"
+      ? "st"
+      : date[date.length - 1] === "2"
+      ? "nd"
+      : date[date.length - 1] === "3"
+      ? "rd"
+      : "th";
+  const day = getDayByIndex(new Date());
+  return `${day}, ${date}${dateEnd} ${month} ${year}`;
 };
-
-export const getLastDayOfThisMonth = () => {
-  const year = getCurrYear();
-  const numberOfDays = getNumberOfDaysInMonth();
-  const day = new Date(year, 1, numberOfDays).getDay();
-  return day;
+export const getFirstLastDayOfMonth = (date: Date) => {
+  const year = date.getFullYear();
+  const firstDay = new Date(year, 1, 1).getDay();
+  const numberOfDays = getNumberOfDaysInMonth(date);
+  const lastDay = new Date(year, 1, numberOfDays).getDay();
+  return {firstDay, lastDay};
 };
-
-export const getNumberOfDaysInMonth = () => {
-  const month = getMonthByIndex();
-  const year = getCurrYear();
+export const getNumberOfDaysInMonth = (date: Date) => {
+  const month = getMonthByIndex(date);
+  const year = date.getFullYear();
   const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
   const number =
     month === "September" ||
@@ -135,7 +73,6 @@ export const getNumberOfDaysInMonth = () => {
       : 31;
   return number;
 };
-
 export const getCurrDateTimeAsString = (ach: achievementInt) => {
   // simple func to get current time used for achievements
   const timestamp = new Date(ach.createdAt).toString().split(" ");
@@ -148,15 +85,6 @@ export const getCurrDateTimeAsString = (ach: achievementInt) => {
     time.split(":")[1]
   } ${zone}`;
 };
-
-export const getTomorrowAsString = (today: Date) => {
-  // simple func to get tomorrow date as date string (see getSelectedDateAsString)
-  const year = getCurrYear();
-  const month = getCurrMonth() + 1;
-  const date = getCurrDate() + 1;
-  return new Date(`${year}-${month}-${date}`);
-};
-
 export const getSelectedDateAsString = (dateAsDate: {
   // date string for tasks looks like `2021-11-15`
   getFullYear: () => any;
@@ -180,13 +108,12 @@ export const getSelectedDateAsString = (dateAsDate: {
   }
   return dateAsString;
 };
-
-export const getMinMaxDateAsString = () => {
+export const getMinMaxDateAsString = (datePar: Date) => {
   // minimum date for task creation is present date
   // maximum date for task creation is one year from now
-  const year = getCurrYear();
-  const month = getCurrMonth() + 1;
-  const date = getCurrDate();
+  const year = datePar.getFullYear();
+  const month = datePar.getMonth() + 1;
+  const date = datePar.getDate();
   const shortMonth = month.toString().length < 2;
   const shortDate = date.toString().length < 2;
   let yearMonthDate;

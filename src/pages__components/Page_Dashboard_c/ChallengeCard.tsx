@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { currentFeaturesInt, featureInt } from "../../typings/interfaces";
-import { getMonthByIndex } from "../../utils/funcDates";
+import { getMonthByIndex } from "../../utils/f_getDatesTimes";
 
 type DashChallCardProps = {
   features: currentFeaturesInt;
@@ -11,7 +11,7 @@ const DashChallCard = (props: DashChallCardProps) => {
   const { features } = props;
   const [featureList, setFeatureList] = useState<featureInt[] | never[]>([]);
   useEffect(() => {
-    const currMonth = getMonthByIndex();
+    const currMonth = getMonthByIndex(new Date());
     const foundFeatures = features.features.filter(
       (f) => f.month === currMonth
     );

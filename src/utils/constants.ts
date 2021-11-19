@@ -95,14 +95,15 @@ export const TASK_VALUES = [
   "may take a bit more effort to complete",
   "difficult, so I'll look forward to my reward",
 ];
-export const ALL_TASKS = "All Tasks";
 export const ANY_CAT = "Any Category";
 export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
 export const TODAY = "Today";
 export const TOMORROW = "Tomorrow";
+export const YESTERDAY = "Yesterday"
+export const ALL_TASKS = "All Tasks";
 export const NO_DEADLINE = "No deadline";
-export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, ALL_TASKS];
+export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, ALL_TASKS]; 
 // other
 export const ANY = "any";
 export const WILD_STR =
