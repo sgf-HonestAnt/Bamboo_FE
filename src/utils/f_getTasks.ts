@@ -27,6 +27,22 @@ export const getTaskByDeadline = async (par: string | null) => {
   );
   return filtered;
 };
+export const getAllTasks = async () => {
+  try {
+    const url = `${BE_URL}/${TASKS}/query`;
+    const method = GET;
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await fetch(url, { method, headers });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getTaskByQuery = async (criteria: string, _id: string) => {
   try {
     const url = `${BE_URL}/${TASKS}/query?createdBy=${_id}&${criteria}`;

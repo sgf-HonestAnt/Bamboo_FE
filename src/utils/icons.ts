@@ -20,6 +20,7 @@ import {
   FiCircle,
   FiClock,
   FiCoffee,
+  FiCornerDownRight,
   FiCornerUpLeft,
   FiDribbble,
   FiEdit,
@@ -65,6 +66,7 @@ export const ICOBELL = FiBell;
 export const ICOBACK = FiCornerUpLeft;
 export const ICOEDIT = FiEdit;
 export const ICOSETTINGS = FiSettings;
+export const ICODOWNRIGHT = FiCornerDownRight;
 
 export const ADD_CIRCLE = GrAddCircle;
 export const STAR_FULL = MdOutlineStar;

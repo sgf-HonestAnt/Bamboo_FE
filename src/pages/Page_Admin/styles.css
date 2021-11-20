@@ -14,7 +14,10 @@
   display: flex;
   justify-content: space-between;
 }
-.admin-page__table__id {
+.admin-page__table__td {
   max-width: 100px;
   overflow-x: scroll;
+}
+.admin-page__table__img {
+  max-height: 25px;
 }

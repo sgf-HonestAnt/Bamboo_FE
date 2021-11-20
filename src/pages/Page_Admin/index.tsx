@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
-import { Container, Row, Col, Button, Table } from "react-bootstrap";
-import { currentFeaturesInt, userInt } from "../../typings/interfaces";
-import AdminNavbar from "../../pages__components/Page_Admin_c/AdminNavbar";
+import { Container, Row, Col, Table } from "react-bootstrap";
+import { currentFeaturesInt, taskInt, userInt } from "../../typings/interfaces";
 import { getUsersAsAdmin } from "../../utils/f_getUsers";
-import { Link } from "react-router-dom";
+import AdminNavbar from "../../pages__components/Page_Admin_c/AdminNavbar";
+import {
+  TasksTableHeading,
+  UsersTableHeading,
+} from "../../pages__components/Page_Admin_c/TableHeadings";
+import UsersRow from "../../pages__components/Page_Admin_c/UsersRow";
 import "./styles.css";
+import { getAllTasks } from "../../utils/f_getTasks";
+import TasksRow from "../../pages__components/Page_Admin_c/TasksRow";
 
 type AdminPageProps = {
   user: userInt; // to ensure admin role
@@ -16,10 +22,14 @@ type AdminPageProps = {
 const AdminPage = (props: AdminPageProps) => {
   const { user, features, history, location } = props;
   const [users, setUsers] = useState<userInt[] | never>([]);
-  const [form, setForm] = useState({ dropdown: "", search: "" });
+  const [tasks, setTasks] = useState<taskInt[] | never>([]);
+  const [form, setForm] = useState({ dropdown: "Users", search: "" });
+  let tasksData;
   const loadAdmin = async () => {
     const usersData = await getUsersAsAdmin();
+    tasksData = await getAllTasks();
     setUsers(usersData);
+    setTasks(tasksData.tasks);
   };
   useEffect(() => {
     loadAdmin();
@@ -28,6 +38,7 @@ const AdminPage = (props: AdminPageProps) => {
     console.log(location.pathname);
   }, [location.pathname]);
   console.log(users);
+  console.log(tasks);
   return !user.admin ? (
     <Container fluid>
       <Row className='admin-page' id='denied'>
@@ -45,48 +56,42 @@ const AdminPage = (props: AdminPageProps) => {
       </Row>
       <Row>
         <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th></th>
-              <th>Name</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Avatar</th>
-              <th>Level</th>
-              <th>XP</th>
-              <th>Date Created</th>
-            </tr>
-          </thead>
+          {form.dropdown === "Users" ? <UsersTableHeading /> : <TasksTableHeading />}
           <tbody>
-            {form.dropdown === "Users" &&
-              users.map((u) => (
-                <tr>
-                  <td className='admin-page__table__id'>{u._id}</td>
-                  <td>
-                    {" "} 
-                    <Button
-                      onClick={() => {
-                        navigator.clipboard.writeText(u._id);
-                      }}>
-                      Copy
-                    </Button>
-                  </td>
-                  <td>
-                    {u.first_name} {u.last_name}
-                  </td>
-                  <td>{u.username}</td>
-                  <td>{u.email}</td>
-                  <td>{u.admin ? "Admin" : "General"}</td>
-                  <td>
-                    <Link to={u.avatar}>Link</Link>
-                  </td>
-                  <td>{u.level}</td>
-                  <td>{u.xp}</td>
-                  <td>{u.createdAt.slice(0, 10)}</td>
-                </tr>
-              ))}
+            {form.dropdown === "Users"
+              ? users.map((u) => (
+                  <UsersRow
+                    _id={u._id}
+                    first_name={u.first_name}
+                    last_name={u.last_name}
+                    bio={u.bio}
+                    username={u.username}
+                    email={u.email}
+                    admin={u.admin}
+                    avatar={u.avatar}
+                    level={u.level}
+                    xp={u.xp}
+                    notification={u.notification}
+                    createdAt={u.createdAt}
+                    updatedAt={u.updatedAt}
+                  />
+                ))
+              : tasks.map((t) => (
+                  <TasksRow
+                    _id={t._id}
+                    title={t.title}
+                    desc={t.desc}
+                    category={t.category}
+                    image={t.image}
+                    repeats={t.repeats}
+                    type={t.type}
+                    status={t.status}
+                    value={t.value}
+                    createdBy={t.createdBy}
+                    deadline={t.deadline}
+                    _v={t._v}
+                  />
+                ))}
           </tbody>
         </Table>
       </Row>

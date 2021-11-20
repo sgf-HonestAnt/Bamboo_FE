@@ -10,7 +10,7 @@ type AdminNavbarProps = {
 
 const AdminNavbar = (props: AdminNavbarProps) => {
   const { user, form, setForm } = props;
-  const dropdown = ["Users", "Features", "Something"];
+  const dropdown = ["Users", "Tasks", "Features", "Something"];
   const changeDropdown = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setForm({
@@ -28,7 +28,6 @@ const AdminNavbar = (props: AdminNavbarProps) => {
             {/* <Nav.Link href='#link'>Link</Nav.Link> */}
             <Form.Group className='admin-page__form-dropdown' id='dropdown'>
               <Form.Control as='select' onChange={changeDropdown}>
-              <option value='' disabled selected>Sort</option>
                 {dropdown.map((d) => (
                   <option key={d} selected={form.dropdown === d}>
                     {d}
