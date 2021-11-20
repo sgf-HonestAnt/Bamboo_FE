@@ -1,4 +1,4 @@
-import Logo from "../media/logo.png";
+import Logo from "../../media/logo.png";
 
 const PandaLogo = () => (
   <img

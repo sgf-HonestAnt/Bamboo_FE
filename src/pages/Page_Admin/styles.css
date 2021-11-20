@@ -1,0 +1,20 @@
+.admin-page #denied {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.admin-page__form {
+  display: flex;
+  min-width: 100%;
+  justify-content: space-between;
+}
+.admin-page__form-search {
+  display: flex;
+  justify-content: space-between;
+}
+.admin-page__table__id {
+  max-width: 100px;
+  overflow-x: scroll;
+}

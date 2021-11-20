@@ -4,16 +4,20 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { PandaSleep } from "../../pages__components/App/Pandas";
 import "./styles.css";
 
-const LogoutPage = ({ history, location, match }: RouteComponentProps) => {
+const LandingPage = ({ history, location, match }: RouteComponentProps) => {
+  const token = localStorage.getItem("token");
   useEffect(() => {
+    token && history.push("/dash");
     console.log(location.pathname);
   }, [location.pathname]);
   return (
     <Container fluid>
-      <Row className='logout-page'>
+      <Row className='landing-page'>
         <Col sm={4}>
-          <div>You have been successfully logged out.</div>
-          <Link to='/login'>Log in</Link> again?
+          <div>Welcome to Panda, the strong and steady big task app.</div>
+          <div>
+            Would you like to <Link to='/login'>log in</Link>?
+          </div>
           <PandaSleep />
         </Col>
       </Row>
@@ -21,4 +25,4 @@ const LogoutPage = ({ history, location, match }: RouteComponentProps) => {
   );
 };
 
-export default LogoutPage;
+export default LandingPage;

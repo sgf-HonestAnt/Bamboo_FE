@@ -1,4 +1,4 @@
-import Bamboo from "../media/xp.png";
+import Bamboo from "../../media/xp.png";
 
 const BambooPoints = () => (
     <img src={Bamboo} alt='Bamboo Points' className="xp" />

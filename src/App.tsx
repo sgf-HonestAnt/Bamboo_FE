@@ -13,6 +13,7 @@ import LoginPage from "./pages/Page_Login";
 import RegisterPage from "./pages/Page_Register";
 import SettingsPage from "./pages/Page_Settings";
 import LogoutPage from "./pages/Page_Logout";
+import LandingPage from "./pages/Landing";
 
 function App() {
   return (
@@ -42,8 +43,15 @@ function App() {
           />
           {/* "/" PATH REDIRECTS TO "/dash" */}
           <Route exact path='/'>
-            <Redirect to='/dash' />
+            <Redirect to='/landing-page' />
           </Route>
+          <Route
+            exact
+            path='/landing-page'
+            render={(routerProps: RouteComponentProps) => (
+              <LandingPage {...routerProps} />
+            )}
+          />
           <Route
             exact
             path='/dash'

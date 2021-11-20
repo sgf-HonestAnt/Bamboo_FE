@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { followedUserInt } from "../../typings/interfaces";
 import getUserRole from "../../utils/f_getUserRole";
-import BambooPoints from "../XP";
+import BambooPoints from "../App/XP";
 import { ICOACTIVITY, ICORELATE } from "../../utils/icons";
 
 type DashProfileCardProps = {

@@ -19,6 +19,7 @@ import ErrorPage from "../Page_Error";
 import SpinnerPage from "../Page_Spinner";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
+import AdminPage from "../Page_Admin";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
@@ -101,6 +102,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
           <Col sm={2} className='p-0'>
             <MainSideBar
               history={history}
+              location={location}
               user={user}
               settings={settings}
               followedUsers={followedUsers}
@@ -141,6 +143,13 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             // ) :
             path === "/following" ? (
               <FollowingPage followedUsers={followedUsers} />
+            ) : path === "/admin-dash" ? (
+              <AdminPage
+                user={user}
+                features={features}
+                history={history}
+                location={location}
+              />
             ) : path === "/reloading" ? (
               <SpinnerPage history={history} />
             ) : path === "/error" ? (

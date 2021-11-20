@@ -1,4 +1,4 @@
-import { History } from "history";
+import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -12,17 +12,18 @@ import { CAKE1, ICOSETTINGS } from "../../utils/icons";
 import { getTasks } from "../../utils/f_getTasks";
 import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
-import PandaLogo from "../../pages__components/Logo";
+import PandaLogo from "../../pages__components/App/Logo";
 
 type SidebarProps = {
   history: History<unknown> | string[];
+  location: Location<unknown>;
   user: userInt;
   settings: currentSettingsInt;
   followedUsers: followedUserInt[];
 };
 
 const MainSideBar = (props: SidebarProps) => {
-  const { history, user, settings, followedUsers } = props;
+  const { history, location, user, settings, followedUsers } = props;
   const [taskNum, setTaskNum] = useState(0);
   const [loading, setLoading] = useState(true);
   const numOfUsers = followedUsers.length;
@@ -51,38 +52,44 @@ const MainSideBar = (props: SidebarProps) => {
         <PandaLogo />
         <h3>Panda</h3>
       </div>
-      <div className='main-side-bar__profile mb-2'>
-        You are logged in as
-        <br />
-        <span className='text-bigger'>
-          {user.username}
-        </span>
-      </div>
-      <div className='main-side-bar__links'>
-      {user.admin && <Link to=''>admin</Link>}
-        <Link to='/dash'>dashboard</Link>
-        <Link to='tasks-add-new'>add new</Link>
-        <Link to='/tasks'>tasks ({taskNum})</Link>
-        <Link to='/following'>following ({numOfUsers})</Link>
-        <Button variant='link' onClick={logout}>
-          log out
-        </Button>
-      </div>
-      <div className='main-side-bar__settings'>
-        <Button href='/user-settings'>
-          <ICOSETTINGS /> 
-        </Button>
-      </div>
-      <div className='main-side-bar__credits mt-5'>
-        Icons made by{" "}
-        <a href='https://www.freepik.com' title='Freepik'>
-          Freepik
-        </a>{" "}
-        from{" "}
-        <a href='https://www.flaticon.com/' title='Flaticon'>
-          www.flaticon.com
-        </a>
-      </div>
+      {location.pathname !== "/admin-dash" ? (
+        <>
+          <div className='main-side-bar__profile mb-2'>
+            You are logged in as
+            <br />
+            <span className='text-bigger'>{user.username}</span>
+          </div>
+          <div className='main-side-bar__links'>
+            {user.admin && <Link to='/admin-dash'>admin</Link>}
+            <Link to='/dash'>dashboard</Link>
+            <Link to='tasks-add-new'>add new</Link>
+            <Link to='/tasks'>tasks ({taskNum})</Link>
+            <Link to='/following'>following ({numOfUsers})</Link>
+            <Button variant='link' onClick={logout}>
+              log out
+            </Button>
+          </div>
+          <div className='main-side-bar__settings'>
+            <Button href='/user-settings'>
+              <ICOSETTINGS />
+            </Button>
+          </div>
+          <div className='main-side-bar__credits mt-5'>
+            Icons made by{" "}
+            <a href='https://www.freepik.com' title='Freepik'>
+              Freepik
+            </a>{" "}
+            from{" "}
+            <a href='https://www.flaticon.com/' title='Flaticon'>
+              www.flaticon.com
+            </a>
+          </div>
+        </>
+      ) : (
+        <div className='main-side-bar__links'>
+          <Link to='/dash'>back to dash</Link>
+        </div>
+      )}
     </div>
   );
 };

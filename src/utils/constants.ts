@@ -9,6 +9,7 @@ export const REGISTER = "REGISTER";
 export const SESSION = "session";
 export const REFRESH = "refresh";
 export const ME = "me";
+export const ADMIN = "admin"; 
 // ********** STORE **********
 export const USERS = "users";
 export const FILL_USER_LOADING = "FILL_USER_LOADING";
