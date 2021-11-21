@@ -120,7 +120,7 @@ const DashboardPage = (props: DashboardPageProps) => {
         </Row>
         <Row>
           <Col sm={6} className='p-1'>
-            <DashAlertCard notification={notification} />
+            <DashAlertCard notification={notification} history={history} />
           </Col>
           <Col sm={6} className='p-1'>
             <DashChallCard features={features} />
@@ -130,7 +130,7 @@ const DashboardPage = (props: DashboardPageProps) => {
       <Col sm={3} className='dashboard__right-col'>
         <Row>
           <Col className='p-1'>
-            <DashSearch search={search} setSearch={setSearch} />
+            <DashSearch user_id={_id} followedUsers={followedUsers} search={search} setSearch={setSearch} />
             <DashAchievCard superlist={superlist} />
           </Col>
         </Row>

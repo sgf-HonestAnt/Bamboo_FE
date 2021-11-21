@@ -1,4 +1,4 @@
-import { BE_URL, GET, USERS, ADMIN } from "./appConstants";
+import { BE_URL, GET, PUT, USERS, ADMIN } from "./appConstants";
 
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
@@ -65,4 +65,27 @@ export const getUserRole = (level: number | null) => {
     : level > 30 && level < 50
     ? "Proficient Panda"
     : "Adept";
+};
+export const clearNotifications = async (notification: string[]) => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    console.log(notification)
+    notification.pop()
+    console.log(notification)
+    const body = JSON.stringify({notification});
+    console.log(body);
+    const response = await fetch(url, { method, headers, body });
+    if (response.ok) {
+      const data = await response.json()
+      return data
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };

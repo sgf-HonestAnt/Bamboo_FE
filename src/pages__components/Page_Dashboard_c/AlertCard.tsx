@@ -1,4 +1,6 @@
 import { Card } from "react-bootstrap";
+import { ClearNotification } from "../../utils/appButtons";
+import { History } from "history";
 import {
   ICOBELL,
   ICOCHECK,
@@ -6,21 +8,30 @@ import {
   ICOROTATE,
   ICOSMILE,
 } from "../../utils/appIcons";
+import { clearNotifications } from "../../utils/f_users";
 
 type DashAlertCardProps = {
   notification: string[];
+  history: History<unknown> | string[];
 };
 
 const DashAlertCard = (props: DashAlertCardProps) => {
-  const { notification } = props;
+  const { notification, history } = props;
   const notifLength = notification.length;
   const recentNotif = notification[notification.length - 1];
-  const isReq = recentNotif.includes("has sent you a request");
-  const isAcc = recentNotif.includes("accepted your request");
+  const isReq = recentNotif?.includes("has sent you a request");
+  const isAcc = recentNotif?.includes("accepted your request");
+  const handleClick = async () => {
+    await clearNotifications(notification);
+    history.push("/dash");
+  };
   return (
     <div className='dashboard__alerts-card'>
       <Card.Title>
-        <ICOBELL /> {!isReq && <ICOROTATE />}
+        <ICOBELL />{" "}
+        {!isReq && notifLength > 0 && (
+          <ClearNotification handleClick={handleClick} />
+        )}
       </Card.Title>
       <Card.Text>
         {notifLength > 0 && isReq ? (

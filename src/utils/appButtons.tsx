@@ -1,11 +1,16 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw } from "react-icons/fi";
-import { ICOBACK, ICODELETE, ICOEDIT } from "./appIcons";
+import { ICOBACK, ICODELETE, ICOEDIT, ICOROTATE } from "./appIcons";
 
 type ButtonProps = {
   label?: string | null;
   handleClick: any;
 };
+export const ClearNotification = (props: ButtonProps) => (
+  <Button variant='link' className='mb-3 mr-1' onClick={props.handleClick}>
+    {props.label} <ICOROTATE />
+  </Button>
+);
 export const EditButton = (props: ButtonProps) => (
   <Button variant='link' className='m-0 p-0' onClick={props.handleClick}>
     {props.label} <ICOEDIT />

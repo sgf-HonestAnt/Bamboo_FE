@@ -122,7 +122,7 @@ export const attemptPostTask = async (
       const method = POST;
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, 
       };
       const body = JSON.stringify(form);
       const response = await fetch(url, { method, headers, body });

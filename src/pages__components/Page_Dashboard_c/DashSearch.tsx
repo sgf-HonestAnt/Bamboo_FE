@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Form, FormControl } from "react-bootstrap";
-import { publicUserInt } from "../../typings/interfaces";
+import { Form, FormControl, Button } from "react-bootstrap";
+import { followedUserInt, publicUserInt } from "../../typings/interfaces";
 import { SubmitButton } from "../../utils/appButtons";
+import { requestFollow } from "../../utils/f_follows";
 import { getUserByQuery } from "../../utils/f_users";
 
 type ResultProps = {
@@ -10,15 +11,17 @@ type ResultProps = {
   message: string;
 };
 type DashSearchProps = {
+  user_id: string;
+  followedUsers: followedUserInt[];
   search: string;
   setSearch: any;
 };
 const DashSearch = (props: DashSearchProps) => {
-  const { search, setSearch } = props;
+  const { user_id, followedUsers, search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
     user: null,
-    message: "No user found",
+    message: "",
   });
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
@@ -30,6 +33,22 @@ const DashSearch = (props: DashSearchProps) => {
     if (publicUsers.length > 0) {
       setResult({ found: true, user: publicUsers[0], message: "User found:" });
     } else setResult({ found: true, user: null, message: "No user found" });
+  };
+  const sendRequest = async () => {
+    const success = await requestFollow(result.user ? result.user?._id : "");
+    if (success) {
+      setResult({
+        ...result,
+        user: null,
+        message: "Request sent. You will be notified if accepted",
+      });
+    } else {
+      setResult({
+        ...result,
+        user: null,
+        message: "Duplicate requests cannot be made",
+      });
+    }
   };
   return (
     <div className='dashboard__search-bar m-2'>
@@ -45,15 +64,22 @@ const DashSearch = (props: DashSearchProps) => {
       </Form>
       {result.found && result.user ? (
         <>
-          <div>{result.message}</div>
           <div>
             <img
               src={result.user?.avatar}
               alt=''
               className='dashboard__search-bar__avatar'
             />
-            {result.user?.username}
           </div>
+          {result.user?.username}{" "}
+          {user_id !== result.user._id &&
+            !followedUsers.some((u) => u._id === result.user?._id) && (
+              <div>
+                <Button variant='link' onClick={sendRequest}>
+                  Request to follow user?
+                </Button>
+              </div>
+            )}
         </>
       ) : result.found ? (
         <div>{result.message}</div>
