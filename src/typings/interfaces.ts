@@ -39,6 +39,12 @@ export interface userInt {
   createdAt: string;
   updatedAt: string;
   refreshToken?: string;
+  followedUsers?: {
+    accepted: string[];
+    rejected: string[];
+    requested: string[];
+    response_awaited: string[];
+  };
 }
 export interface currentTasksInt {
   loading: boolean;

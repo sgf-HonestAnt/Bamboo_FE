@@ -3,6 +3,7 @@ import { followedUserInt } from "../../typings/interfaces";
 import getUserRole from "../../utils/f_getUserRole";
 import BambooPoints from "../App/XP";
 import { ICOACTIVITY, ICORELATE } from "../../utils/icons";
+import { EditButton } from "../../utils/buttons";
 
 type DashProfileCardProps = {
   followedUsers: followedUserInt[];
@@ -36,7 +37,9 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <div className='dashboard__profile-card__holder-xp'>
         {xp} <BambooPoints />
       </div>
-      <div>{bio}</div>
+      <div>
+        {bio} <EditButton handleClick={null} />
+      </div>
       <div className='dashboard__profile-card__stats'>
         <div>
           <ICOACTIVITY />

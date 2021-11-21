@@ -8,7 +8,11 @@
 .admin-page__form {
   display: flex;
   min-width: 100%;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: space-evenly;
+  /* justify-content: space-around; */
+}
+.admin-page__form-header {
 }
 .admin-page__form-search {
   display: flex;
@@ -16,7 +20,11 @@
 }
 .admin-page__table__td {
   max-width: 100px;
-  overflow-x: scroll;
+}
+.admin-page__table__td div.overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .admin-page__table__img {
   max-height: 25px;

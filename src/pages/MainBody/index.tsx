@@ -15,11 +15,11 @@ import TasksPage from "../Page_Tasks";
 import FollowingPage from "../Page_Following";
 import AddTaskPage from "../Page_AddTask";
 import SettingsPage from "../Page_Settings";
+import AdminPage from "../Page_Admin";
 import ErrorPage from "../Page_Error";
 import SpinnerPage from "../Page_Spinner";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
-import AdminPage from "../Page_Admin";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
@@ -28,7 +28,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     (state: reduxStateInt) => state.currentUser.my_user
   );
   const { refreshToken } = user;
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
   const { followedUsers, error, loading } = state.currentUser;
   const tasks = state.currentTasks;
   const categories = tasks.categories;
@@ -80,6 +80,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   useEffect(() => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
+  const sideBarSize = location.pathname === "/admin-dash" ? 1 : 2;
   return (
     <Container fluid className='main-page m-0'>
       {loading || mainLoading ? (
@@ -99,7 +100,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
         </Row>
       ) : (
         <Row>
-          <Col sm={2} className='p-0'>
+          <Col sm={sideBarSize} className='p-0'>
             <MainSideBar
               history={history}
               location={location}
@@ -108,8 +109,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
               followedUsers={followedUsers}
             />
           </Col>
-          <Col className='m-0'>
-            {path === "/dash" ? (
+          {path === "/dash" ? (
+            <Col className='m-0'>
               <DashboardPage
                 user={user}
                 categories={categories}
@@ -120,10 +121,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 location={location}
                 setErrorMessage={setErrorMessage}
               />
-            ) : // : path === "/stats" ? (
-            //   <Stats />
-            // ) :
-            path === "/tasks-add-new" ? (
+            </Col>
+          ) : // : path === "/stats" ? (
+          //   <Stats />
+          // ) :
+          path === "/tasks-add-new" ? (
+            <Col className='m-0'>
               <AddTaskPage
                 user={user}
                 categories={categories}
@@ -132,32 +135,44 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 location={location}
                 setErrorMessage={setErrorMessage}
               />
-            ) : path === "/tasks" ? (
+            </Col>
+          ) : path === "/tasks" ? (
+            <Col className='m-0'>
               <TasksPage user={user} categories={categories} />
-            ) : // path === "/tasks-schedule" ? (
-            //   <TasksSchedule />
-            // ) : path === "/quests" ? (
-            //   <Quests />
-            // ) : path === "/inventory" ? (
-            //   <Inventory />
-            // ) :
-            path === "/following" ? (
+            </Col>
+          ) : // path === "/tasks-schedule" ? (
+          //   <TasksSchedule />
+          // ) : path === "/quests" ? (
+          //   <Quests />
+          // ) : path === "/inventory" ? (
+          //   <Inventory />
+          // ) :
+          path === "/following" ? (
+            <Col className='m-0'>
               <FollowingPage followedUsers={followedUsers} />
-            ) : path === "/admin-dash" ? (
+            </Col>
+          ) : path === "/admin-dash" ? (
+            <Col className='m-0 p-0'>
               <AdminPage
                 user={user}
                 features={features}
                 history={history}
                 location={location}
               />
-            ) : path === "/reloading" ? (
+            </Col>
+          ) : path === "/reloading" ? (
+            <Col className='m-0'>
               <SpinnerPage history={history} />
-            ) : path === "/error" ? (
+            </Col>
+          ) : path === "/error" ? (
+            <Col className='m-0'>
               <ErrorPage history={history} errorMessage={errorMessage} />
-            ) : (
+            </Col>
+          ) : (
+            <Col className='m-0'>
               <ErrorPage history={history} />
-            )}
-          </Col>
+            </Col>
+          )}
         </Row>
       )}
     </Container>

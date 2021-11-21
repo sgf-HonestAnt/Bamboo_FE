@@ -1,7 +1,6 @@
 .dashboard {
   min-height: 100vh;
   max-height: 100vh;
-  overflow-y: scroll;
 }
 .dashboard__left-col {
   min-height: 90vh;

@@ -12,6 +12,7 @@ import {
   ANY_CAT,
   NO_DEADLINE,
   OVERDUE,
+  TASKS,
 } from "../../utils/constants";
 import {
   getDayMonthYearAsString,
@@ -140,7 +141,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
         <h5>
           There {data.total && data.total < 2 ? "is" : "are"}{" "}
           {data.total ? data.total : 0}{" "}
-          {data.total && data.total < 2 ? "task" : "tasks"} to perform
+          {data.total && data.total < 2 ? "task" : TASKS} to perform
         </h5>
         {/*********** ALL TASKS ***********/}
         {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? (

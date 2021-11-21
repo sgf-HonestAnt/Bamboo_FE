@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import { currentFeaturesInt, taskInt, userInt } from "../../typings/interfaces";
 import { getUsersAsAdmin } from "../../utils/f_getUsers";
 import AdminNavbar from "../../pages__components/Page_Admin_c/AdminNavbar";
 import {
+  NotificationsTableHeading,
   TasksTableHeading,
   UsersTableHeading,
 } from "../../pages__components/Page_Admin_c/TableHeadings";
@@ -12,6 +13,9 @@ import UsersRow from "../../pages__components/Page_Admin_c/UsersRow";
 import "./styles.css";
 import { getAllTasks } from "../../utils/f_getTasks";
 import TasksRow from "../../pages__components/Page_Admin_c/TasksRow";
+import { NOTIFICATIONS, TASKS, USERS } from "../../utils/constants";
+import NotificationsRow from "../../pages__components/Page_Admin_c/NotificationsRow";
+import { Link } from "react-router-dom";
 
 type AdminPageProps = {
   user: userInt; // to ensure admin role
@@ -21,15 +25,25 @@ type AdminPageProps = {
 };
 const AdminPage = (props: AdminPageProps) => {
   const { user, features, history, location } = props;
+  const signedInId = user._id
   const [users, setUsers] = useState<userInt[] | never>([]);
   const [tasks, setTasks] = useState<taskInt[] | never>([]);
-  const [form, setForm] = useState({ dropdown: "Users", search: "" });
+  const [notifications, setNotifications] = useState<string[]>([]);
+  const [form, setForm] = useState({ dropdown: USERS, id: "", search: "" });
+  const username = users.filter((u) => u._id === form.id)[0]?.username;
   let tasksData;
+  const resetForm = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setForm({ dropdown: USERS, id: "", search: "" });
+  };
   const loadAdmin = async () => {
-    const usersData = await getUsersAsAdmin(form.search);
-    tasksData = await getAllTasks(form.search);
+    const usersData = await getUsersAsAdmin(form.id);
+    tasksData = await getAllTasks(form.id);
     setUsers(usersData);
     setTasks(tasksData.tasks);
+    form.dropdown === NOTIFICATIONS &&
+      users.length > 0 &&
+      setNotifications(users.filter((u) => u._id === form.id)[0].notification);
   };
   useEffect(() => {
     loadAdmin();
@@ -38,6 +52,9 @@ const AdminPage = (props: AdminPageProps) => {
     console.log(location.pathname);
   }, [location.pathname]);
   console.log(form);
+  console.log("users=>", users);
+  console.log("tasks=>", tasks);
+  console.log("notif=>", notifications);
   return !user.admin ? (
     <Container fluid>
       <Row className='admin-page' id='denied'>
@@ -50,20 +67,33 @@ const AdminPage = (props: AdminPageProps) => {
     <Container fluid>
       <Row>
         <Col sm='12' className='p-0 m-0'>
-          <AdminNavbar user={user} form={form} setForm={setForm} />
+          <AdminNavbar
+            user={user}
+            username={username}
+            users={users}
+            tasks={tasks}
+            form={form}
+            setForm={setForm}
+          />
         </Col>
       </Row>
       <Row>
         <Table striped bordered hover>
-          {form.dropdown === "Users" ? (
-            <UsersTableHeading usersNum={users.length} search={form.search} />
+          {form.dropdown === USERS ? (
+            <UsersTableHeading />
+          ) : form.dropdown === TASKS ? (
+            <TasksTableHeading />
           ) : (
-            <TasksTableHeading tasksNum={tasks.length} search={form.search} />
+            <NotificationsTableHeading />
           )}
           <tbody>
-            {form.dropdown === "Users"
-              ? users.map((u) => (
+            {form.dropdown === USERS && form.id.length > 0 ? (
+              users
+                .filter((u) => u._id === form.id)
+                .map((u, i) => (
                   <UsersRow
+                    key={i}
+                    signedInId={signedInId}
                     _id={u._id}
                     first_name={u.first_name}
                     last_name={u.last_name}
@@ -81,8 +111,34 @@ const AdminPage = (props: AdminPageProps) => {
                     setForm={setForm}
                   />
                 ))
-              : tasks.map((t) => (
+            ) : form.dropdown === USERS ? (
+              users.map((u, i) => (
+                <UsersRow
+                  key={i}
+                  signedInId={signedInId}
+                  _id={u._id}
+                  first_name={u.first_name}
+                  last_name={u.last_name}
+                  bio={u.bio}
+                  username={u.username}
+                  email={u.email}
+                  admin={u.admin}
+                  avatar={u.avatar}
+                  level={u.level}
+                  xp={u.xp}
+                  notification={u.notification}
+                  createdAt={u.createdAt}
+                  updatedAt={u.updatedAt}
+                  form={form}
+                  setForm={setForm}
+                />
+              ))
+            ) : form.dropdown === TASKS && form.id.length > 0 ? (
+              tasks
+                .filter((t) => t.createdBy === form.id)
+                .map((t, i) => (
                   <TasksRow
+                    key={i}
                     _id={t._id}
                     title={t.title}
                     desc={t.desc}
@@ -98,7 +154,52 @@ const AdminPage = (props: AdminPageProps) => {
                     form={form}
                     setForm={setForm}
                   />
-                ))}
+                ))
+            ) : form.dropdown === TASKS ? (
+              tasks.map((t, i) => (
+                <TasksRow
+                  key={i}
+                  _id={t._id}
+                  title={t.title}
+                  desc={t.desc}
+                  category={t.category}
+                  image={t.image}
+                  repeats={t.repeats}
+                  type={t.type}
+                  status={t.status}
+                  value={t.value}
+                  createdBy={t.createdBy}
+                  deadline={t.deadline}
+                  _v={t._v}
+                  form={form}
+                  setForm={setForm}
+                />
+              ))
+            ) : users.filter((u) => u._id === form.id).length > 0 ? (
+              users
+                .filter((u) => u._id === form.id)[0]
+                .notification.map((n, i) => (
+                  <NotificationsRow
+                    key={i}
+                    notification={n}
+                    form={form}
+                    setForm={setForm}
+                  />
+                ))
+            ) : (
+              <tr>
+                <td colSpan={4}>
+                  Select a{" "}
+                  <Button
+                    variant='link'
+                    onClick={resetForm}
+                    className='m-0 p-0'>
+                    user
+                  </Button>{" "}
+                  to search for notifications.
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </Row>

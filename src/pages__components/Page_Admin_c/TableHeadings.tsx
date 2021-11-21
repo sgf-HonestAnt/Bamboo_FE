@@ -1,23 +1,22 @@
-type UsersTableHeadingProps = {
-  usersNum: number;
-  search: string;
-};
+import { ICODELETE, ICOEDIT } from "../../utils/icons";
+
+type UsersTableHeadingProps = {};
 export const UsersTableHeading = (props: UsersTableHeadingProps) => {
-  const { usersNum, search } = props;
-  const header =
-    search.length > 0
-      ? `found user _id ${search}`
-      : `found ${usersNum} user${usersNum > 1 ? "s" : ""}`;
   return (
     <>
       <thead>
         <tr>
-          <td colSpan={9}>{header}</td>
-        </tr>
-        <tr>
+          <th>
+            <ICOEDIT />
+          </th>
+          <th>
+            <ICODELETE />
+          </th>
           <th>Id</th>
           <th>Name</th>
           <th>Username</th>
+          <th>Tasks</th>
+          <th>Notifications</th>
           <th>Email</th>
           <th>Role</th>
           <th>Avatar</th>
@@ -29,32 +28,43 @@ export const UsersTableHeading = (props: UsersTableHeadingProps) => {
     </>
   );
 };
-type TasksTableHeadingProps = {
-  tasksNum: number;
-  search: string;
-};
+type TasksTableHeadingProps = {};
 export const TasksTableHeading = (props: TasksTableHeadingProps) => {
-  const { tasksNum, search } = props;
-  const header =
-    tasksNum > 0 && search.length > 0
-      ? `found ${tasksNum} task${
-          tasksNum > 1 ? "s" : ""
-        } belonging to user ${search}`
-      : `found ${tasksNum} task${tasksNum > 1 ? "s" : ""}`;
   return (
     <thead>
       <tr>
-        <td colSpan={9}>{header}</td>
-      </tr>
-      <tr>
+        <th>
+          <ICOEDIT />
+        </th>
+        <th>
+          <ICODELETE />
+        </th>
         <th>Id</th>
         <th>Title</th>
+        <th>Created By</th>
         <th>Description</th>
         <th>Category</th>
         <th>Image</th>
         <th>Value</th>
         <th>Status</th>
         <th>Deadline</th>
+      </tr>
+    </thead>
+  );
+};
+type NotificationsTableHeadingProps = {};
+export const NotificationsTableHeading = (props: NotificationsTableHeadingProps) => {
+  return (
+    <thead>
+      <tr>
+        <th>
+          <ICOEDIT />
+        </th>
+        <th>
+          <ICODELETE />
+        </th>
+        <th>Text</th>
+        <th>Belongs to</th>
       </tr>
     </thead>
   );

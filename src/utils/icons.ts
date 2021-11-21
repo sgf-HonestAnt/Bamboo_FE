@@ -65,6 +65,7 @@ export const ICOSTAR = FiStar;
 export const ICOBELL = FiBell;
 export const ICOBACK = FiCornerUpLeft;
 export const ICOEDIT = FiEdit;
+export const ICODELETE = FiTrash2;
 export const ICOSETTINGS = FiSettings;
 export const ICODOWNRIGHT = FiCornerDownRight;
 

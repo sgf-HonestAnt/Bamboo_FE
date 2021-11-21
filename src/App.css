@@ -18,6 +18,15 @@
 .text-bigger {
   font-size: 1.2rem;
 }
+.text-tinycaps {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: gray;
+  text-transform: uppercase;
+}
+.cursor-point:hover {
+  cursor: pointer;
+}
 .xp {
   padding-left: 5px;
   max-height: 25px;

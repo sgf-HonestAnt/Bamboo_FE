@@ -45,9 +45,11 @@ const MainSideBar = (props: SidebarProps) => {
   // console.log("SETTINGS=>", settings);
   return (
     <div className='main-side-bar'>
-      <div className='main-side-bar__theme'>
-        <Button>theme</Button>
-      </div>
+      {location.pathname !== "/admin-dash" && (
+        <div className='main-side-bar__theme'>
+          <Button>theme</Button>
+        </div>
+      )}
       <div className='main-side-bar__branding my-3'>
         <PandaLogo />
         <h3>Panda</h3>
