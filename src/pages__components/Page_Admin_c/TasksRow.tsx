@@ -1,9 +1,33 @@
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { taskInt } from "../../typings/interfaces";
 import { ICODOWNRIGHT, ICOEDIT } from "../../utils/icons";
 
-const TasksRow = (props: taskInt) => {
-  const { _id, title, createdBy, desc, category, image, value, status, deadline } = props;
+interface TasksRowProps extends taskInt {
+  form: any;
+  setForm: any;
+}
+const TasksRow = (props: TasksRowProps) => {
+  const {
+    _id,
+    title,
+    createdBy,
+    desc,
+    category,
+    image,
+    value,
+    status,
+    deadline,
+    form,
+    setForm,
+  } = props;
+  const handleClick = (e: { preventDefault: () => void; currentTarget: any; }) => {
+    e.preventDefault();
+    const target = e.currentTarget
+    const dropdown = target.value.split(":")[0];
+    const search = target.value.split(":")[1];
+    setForm({ ...form, dropdown, search });
+  };
   return (
     <tr>
       <td className='admin-page__table__td'>
@@ -18,7 +42,12 @@ const TasksRow = (props: taskInt) => {
         {title} <ICOEDIT />
         <div>
           <ICODOWNRIGHT />
-          <Link to=''>created by</Link>&nbsp;
+          <Button
+            variant='link'
+            value={`Users:${createdBy}`}
+            onClick={handleClick}>
+            created by
+          </Button>
           {/* <ICODOWNRIGHT />
           <Link to=''>Notifications</Link> */}
         </div>

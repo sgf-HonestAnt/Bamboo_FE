@@ -7,17 +7,20 @@ export const getUsers = async () => {
     const response = await fetch(url, { method });
     if (response.ok) {
       const users = await response.json();
-      console.log("users=>",users)
+      console.log("users=>", users);
       return users;
     }
   } catch (error) {
     console.log(error);
   }
 };
-export const getUsersAsAdmin = async () => {
+export const getUsersAsAdmin = async (_id: string) => { 
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/${ADMIN}`;
+    const url =
+      _id.length > 0
+        ? `${BE_URL}/${USERS}/${_id}`
+        : `${BE_URL}/${USERS}/${ADMIN}`;
     const method = GET;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -25,8 +28,8 @@ export const getUsersAsAdmin = async () => {
     const response = await fetch(url, { method, headers });
     if (response.ok) {
       const users = await response.json();
-      console.log("users=>",users)
-      return users;
+      console.log("users=>", users);
+      return _id.length > 0 ? [users] : users;
     }
   } catch (error) {
     console.log(error);

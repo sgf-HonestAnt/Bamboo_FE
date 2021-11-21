@@ -27,9 +27,10 @@ export const getTaskByDeadline = async (par: string | null) => {
   );
   return filtered;
 };
-export const getAllTasks = async () => {
+export const getAllTasks = async (_id: string) => {
   try {
-    const url = `${BE_URL}/${TASKS}/query`;
+    const criteria = _id.length>0?`?createdBy=${_id}` : ""
+    const url = `${BE_URL}/${TASKS}/query${criteria}`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",

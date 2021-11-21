@@ -26,8 +26,8 @@ const AdminPage = (props: AdminPageProps) => {
   const [form, setForm] = useState({ dropdown: "Users", search: "" });
   let tasksData;
   const loadAdmin = async () => {
-    const usersData = await getUsersAsAdmin();
-    tasksData = await getAllTasks();
+    const usersData = await getUsersAsAdmin(form.search);
+    tasksData = await getAllTasks(form.search);
     setUsers(usersData);
     setTasks(tasksData.tasks);
   };
@@ -37,8 +37,7 @@ const AdminPage = (props: AdminPageProps) => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  console.log(users);
-  console.log(tasks);
+  console.log(form);
   return !user.admin ? (
     <Container fluid>
       <Row className='admin-page' id='denied'>
@@ -56,7 +55,11 @@ const AdminPage = (props: AdminPageProps) => {
       </Row>
       <Row>
         <Table striped bordered hover>
-          {form.dropdown === "Users" ? <UsersTableHeading /> : <TasksTableHeading />}
+          {form.dropdown === "Users" ? (
+            <UsersTableHeading usersNum={users.length} search={form.search} />
+          ) : (
+            <TasksTableHeading tasksNum={tasks.length} search={form.search} />
+          )}
           <tbody>
             {form.dropdown === "Users"
               ? users.map((u) => (
@@ -74,6 +77,8 @@ const AdminPage = (props: AdminPageProps) => {
                     notification={u.notification}
                     createdAt={u.createdAt}
                     updatedAt={u.updatedAt}
+                    form={form}
+                    setForm={setForm}
                   />
                 ))
               : tasks.map((t) => (
@@ -90,6 +95,8 @@ const AdminPage = (props: AdminPageProps) => {
                     createdBy={t.createdBy}
                     deadline={t.deadline}
                     _v={t._v}
+                    form={form}
+                    setForm={setForm}
                   />
                 ))}
           </tbody>

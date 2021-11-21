@@ -19,7 +19,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
     });
   };
   return (
-    <Navbar bg='light' expand="lg">
+    <Navbar bg='light' expand='lg'>
       <Navbar.Brand href='#home'>Welcome, {user.username}</Navbar.Brand>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
       <Navbar.Collapse id='basic-navbar-nav'>
@@ -33,10 +33,13 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                     {d}
                   </option>
                 ))}
-                <option value='' disabled>---</option>
+                <option value='' disabled>
+                  ---
+                </option>
                 <option value='Some other link'>Some other link</option>
               </Form.Control>
             </Form.Group>
+            REFRESH FORM
           </Nav>
           <div className='admin-page__form-search'>
             <FormControl type='text' placeholder='Search' className='mr-sm-2' />

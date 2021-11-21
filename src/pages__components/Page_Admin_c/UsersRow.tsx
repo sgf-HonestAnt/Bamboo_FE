@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { userInt } from "../../typings/interfaces";
 import { ICODOWNRIGHT, ICOEDIT } from "../../utils/icons";
 
-const UsersRow = (props: userInt) => {
+interface UsersRowProps extends userInt {
+  form: any;
+  setForm: any;
+}
+const UsersRow = (props: UsersRowProps) => {
   const {
     _id,
     first_name,
@@ -14,7 +19,16 @@ const UsersRow = (props: userInt) => {
     level,
     xp,
     createdAt,
+    form,
+    setForm,
   } = props;
+  const handleClick = (e: { preventDefault: () => void; currentTarget: any; }) => {
+    e.preventDefault();
+    const target = e.currentTarget
+    const dropdown = target.value.split(":")[0];
+    const search = target.value.split(":")[1];
+    setForm({ ...form, dropdown, search });
+  };
   return (
     <tr>
       <td className='admin-page__table__td'>
@@ -29,9 +43,17 @@ const UsersRow = (props: userInt) => {
         {first_name} {last_name} <ICOEDIT />
         <div>
           <ICODOWNRIGHT />
-          <Link to=''>Tasks</Link>&nbsp;
+          <Button variant='link' value={`Tasks:${_id}`} onClick={handleClick}>
+            Tasks
+          </Button>
+          &nbsp;
           <ICODOWNRIGHT />
-          <Link to=''>Notifications</Link>
+          <Button
+            variant='link'
+            value={`Notifications:${_id}`}
+            onClick={handleClick}>
+            Notifications
+          </Button>
         </div>
       </td>
       <td>
@@ -44,7 +66,9 @@ const UsersRow = (props: userInt) => {
         {admin ? "Admin" : "General"} <ICOEDIT />
       </td>
       <td>
-        <div><img src={avatar} alt='' className="admin-page__table__img"/></div> 
+        <div>
+          <img src={avatar} alt='' className='admin-page__table__img' />
+        </div>
         <Link to={avatar}>Link</Link> <ICOEDIT />
       </td>
       <td>
