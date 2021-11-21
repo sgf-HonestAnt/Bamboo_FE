@@ -7,7 +7,7 @@ import {
   FILL_ACHIEVEMENTS_ERROR,
   FILL_ACHIEVEMENTS_LOADING,
   SET_SUPERLIST,
-} from "../../utils/constants";
+} from "../../utils/appConstants";
 
 export const setSuperlist = (superlist: string[]) => ({
   type: SET_SUPERLIST,

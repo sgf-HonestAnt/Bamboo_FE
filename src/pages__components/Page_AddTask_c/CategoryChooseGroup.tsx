@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
-import { TASK_CATEGORIES } from "../../utils/constants";
+import { TASK_CATEGORIES } from "../../utils/appConstants";
 
 type CategoryChooseGroupProps = {
   form: setTaskInt;

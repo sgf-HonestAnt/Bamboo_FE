@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
-import { ICODOWNRIGHT } from "../../utils/icons";
-import { DeleteButton, EditButton } from "../../utils/buttons";
-import { USERS } from "../../utils/constants";
+import { ICODOWNRIGHT } from "../../utils/appIcons";
+import { DeleteButton, EditButton } from "../../utils/appButtons";
+import { USERS } from "../../utils/appConstants";
 
 interface NotificationsRowProps {
   notification?: string;

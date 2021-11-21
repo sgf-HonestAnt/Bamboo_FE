@@ -3,7 +3,7 @@ import {
   getFirstLastDayOfMonth,
   getMonthByIndex,
   getNumberOfDaysInMonth,
-} from "../../utils/f_getDatesTimes";
+} from "../../utils/f_dates";
 
 type DashCalenCardProps = {};
 

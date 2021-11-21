@@ -13,8 +13,8 @@ import {
   TASK_STATUS_TYPES,
   TASK_VALUE_NUMS,
   WILD_NUM,
-} from "../../utils/constants";
-import { AddNewTaskButton } from "../../utils/buttons";
+} from "../../utils/appConstants";
+import { AddNewTaskButton } from "../../utils/appButtons";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
 import "./styles.css";
 

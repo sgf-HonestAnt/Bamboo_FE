@@ -1,9 +1,9 @@
 import { Button } from "react-bootstrap";
 import { userInt } from "../../typings/interfaces";
-import { ICODOWNRIGHT } from "../../utils/icons";
+import { ICODOWNRIGHT } from "../../utils/appIcons";
 import { AiFillStar } from "react-icons/ai";
-import { DeleteButton, EditButton } from "../../utils/buttons";
-import { NOTIFICATIONS, TASKS } from "../../utils/constants";
+import { DeleteButton, EditButton } from "../../utils/appButtons";
+import { NOTIFICATIONS, TASKS } from "../../utils/appConstants";
 
 interface UsersRowProps extends userInt {
   signedInId: string | undefined;

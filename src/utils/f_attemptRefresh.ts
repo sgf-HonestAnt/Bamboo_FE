@@ -1,12 +1,13 @@
 import { History } from "history";
 import { setRefreshToken, setUserError } from "../redux/actions/user";
-import { BE_URL, POST, REFRESH, SESSION, USERS } from "./constants";
+import { BE_URL, POST, REFRESH, SESSION, USERS } from "./appConstants";
 
 const attemptRefresh = async (
   history: History<unknown> | string[],
   token: string | undefined
 ) => {
   try {
+    // NOT IN USE // NOT IN USE // NOT IN USE
     const url = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };

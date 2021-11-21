@@ -6,7 +6,7 @@ import {
   FILL_TASKS,
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
-} from "../../utils/constants";
+} from "../../utils/appConstants";
 
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,

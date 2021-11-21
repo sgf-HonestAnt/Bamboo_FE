@@ -14,9 +14,9 @@ import RepeatsGroup from "../../pages__components/Page_AddTask_c/RepeatsGroup";
 import RepeatsOtherGroup from "../../pages__components/Page_AddTask_c/RepeatsOtherGroup";
 import SharedWithGroup from "../../pages__components/Page_AddTask_c/SharedWithGroup";
 import SharedWithChooseGroup from "../../pages__components/Page_AddTask_c/SharedWithChooseGroup";
-import attemptPostTask from "../../utils/funcs/postTask";
-import { getMinMaxDateAsString } from "../../utils/f_getDatesTimes";
-import { NEVER } from "../../utils/constants";
+import {attemptPostTask} from "../../utils/f_tasks";
+import { getMinMaxDateAsString } from "../../utils/f_dates";
+import { NEVER } from "../../utils/appConstants";
 import "./styles.css";
 
 type AddTaskPageProps = {

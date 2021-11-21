@@ -1,4 +1,4 @@
-import { ICODELETE, ICOEDIT } from "../../utils/icons";
+import { ICODELETE, ICOEDIT } from "../../utils/appIcons";
 
 type UsersTableHeadingProps = {};
 export const UsersTableHeading = (props: UsersTableHeadingProps) => {

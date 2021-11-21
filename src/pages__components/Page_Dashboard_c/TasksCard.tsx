@@ -3,20 +3,20 @@ import { Form, Button, Modal } from "react-bootstrap";
 import { History, Location } from "history";
 import { useDispatch } from "react-redux";
 import { setTaskInt, taskInt, userInt } from "../../typings/interfaces";
-import attemptCompleteTasks from "../../utils/funcs/complete";
+import { attemptCompleteTasks } from "../../utils/f_tasks";
 import {
   getDayMonthYearAsString,
   getMinMaxDateAsString,
-} from "../../utils/f_getDatesTimes";
-import attemptPostTask from "../../utils/funcs/postTask";
+} from "../../utils/f_dates";
+import {attemptPostTask} from "../../utils/f_tasks";
 import { fillTasksAction } from "../../redux/actions/tasks";
-import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/constants";
-import { BULB, ICOCIRCLE, ICOCLOCK, ICOSAVE } from "../../utils/icons";
+import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/appConstants";
+import { BULB, ICOCIRCLE, ICOCLOCK, ICOSAVE } from "../../utils/appIcons";
 import {
   AddNewTaskButton,
   CompleteButton,
   SubmitButton,
-} from "../../utils/buttons";
+} from "../../utils/appButtons";
 
 type DashTasksCardProps = {
   tasks: taskInt[];
@@ -28,7 +28,8 @@ type DashTasksCardProps = {
   setErrorMessage: any;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { tasks, today, user, history, location, categories, setErrorMessage } = props;
+  const { tasks, today, user, history, location, categories, setErrorMessage } =
+    props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
   // add today tasks
@@ -121,14 +122,13 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         <Form onSubmit={handleSubmitComplete}>
           <div>Tick to complete</div>
           {tasks.slice(0, 3).map((t, i) => {
-            const clock =
-            t.deadline?.includes(today) ? ( 
-                <ICOCLOCK className='icon-urgent' />
-              ) : t.deadline ? (
-                <ICOCLOCK className='icon-semi-urgent' />
-              ) : (
-                <ICOCIRCLE />
-              );
+            const clock = t.deadline?.includes(today) ? (
+              <ICOCLOCK className='icon-urgent' />
+            ) : t.deadline ? (
+              <ICOCLOCK className='icon-semi-urgent' />
+            ) : (
+              <ICOCIRCLE />
+            );
             return (
               <Form.Group key={i} controlId={t._id}>
                 <div className='mb-0'>

@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw } from "react-icons/fi";
-import { ICOBACK, ICODELETE, ICOEDIT } from "./icons";
+import { ICOBACK, ICODELETE, ICOEDIT } from "./appIcons";
 
 type ButtonProps = {
   label?: string | null;

@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { Form, FormControl } from "react-bootstrap";
-import { SubmitButton } from "../../utils/buttons";
+import { publicUserInt } from "../../typings/interfaces";
+import { SubmitButton } from "../../utils/appButtons";
+import { getUserByQuery } from "../../utils/f_users";
 
-type DashSearchProps = {};
-
+type ResultProps = {
+  found: boolean;
+  user: publicUserInt | null;
+  message: string;
+};
+type DashSearchProps = {
+  search: string;
+  setSearch: any;
+};
 const DashSearch = (props: DashSearchProps) => {
-  //   const {} = props;
-  const [search, setSearch] = useState("");
+  const { search, setSearch } = props;
+  const [result, setResult] = useState<ResultProps>({
+    found: false,
+    user: null,
+    message: "No user found",
+  });
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setSearch(value);
   };
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(search);
+    const { publicUsers } = await getUserByQuery(`/^${search}$/i`);
+    if (publicUsers.length > 0) {
+      setResult({ found: true, user: publicUsers[0], message: "User found:" });
+    } else setResult({ found: true, user: null, message: "No user found" });
   };
   return (
     <div className='dashboard__search-bar m-2'>
@@ -27,6 +43,23 @@ const DashSearch = (props: DashSearchProps) => {
         />
         <SubmitButton />
       </Form>
+      {result.found && result.user ? (
+        <>
+          <div>{result.message}</div>
+          <div>
+            <img
+              src={result.user?.avatar}
+              alt=''
+              className='dashboard__search-bar__avatar'
+            />
+            {result.user?.username}
+          </div>
+        </>
+      ) : result.found ? (
+        <div>{result.message}</div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

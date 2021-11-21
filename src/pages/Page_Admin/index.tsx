@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import { currentFeaturesInt, taskInt, userInt } from "../../typings/interfaces";
-import { getUsersAsAdmin } from "../../utils/f_getUsers";
+import { getUsersAsAdmin } from "../../utils/f_users";
 import AdminNavbar from "../../pages__components/Page_Admin_c/AdminNavbar";
 import {
   NotificationsTableHeading,
@@ -11,9 +11,9 @@ import {
 } from "../../pages__components/Page_Admin_c/TableHeadings";
 import UsersRow from "../../pages__components/Page_Admin_c/UsersRow";
 import "./styles.css";
-import { getAllTasks } from "../../utils/f_getTasks";
+import { getAllTasks } from "../../utils/f_tasks";
 import TasksRow from "../../pages__components/Page_Admin_c/TasksRow";
-import { NOTIFICATIONS, TASKS, USERS } from "../../utils/constants";
+import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 import NotificationsRow from "../../pages__components/Page_Admin_c/NotificationsRow";
 import { Link } from "react-router-dom";
 

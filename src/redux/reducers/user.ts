@@ -6,7 +6,7 @@ import {
   FILL_USER_ERROR,
   FILL_USER_LOADING,
   SET_REFRESH_TOKEN,
-} from "../../utils/constants";
+} from "../../utils/appConstants";
 
 const currentUserReducer = (
   state = initialState.currentUser,

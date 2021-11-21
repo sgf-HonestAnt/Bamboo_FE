@@ -50,6 +50,7 @@ export const getDayMonthYearAsString = (datePar: Date) => {
   return `${day}, ${date}${dateEnd} ${month} ${year}`;
 };
 export const getFirstLastDayOfMonth = (date: Date) => {
+  // get the first and last day of specific month
   const year = date.getFullYear();
   const firstDay = new Date(year, 1, 1).getDay();
   const numberOfDays = getNumberOfDaysInMonth(date);
@@ -57,6 +58,7 @@ export const getFirstLastDayOfMonth = (date: Date) => {
   return {firstDay, lastDay};
 };
 export const getNumberOfDaysInMonth = (date: Date) => {
+  // get number of days in specific month
   const month = getMonthByIndex(date);
   const year = date.getFullYear();
   const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;

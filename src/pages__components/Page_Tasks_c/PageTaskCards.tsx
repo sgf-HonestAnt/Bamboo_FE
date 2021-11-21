@@ -1,6 +1,6 @@
 import { Row, Col, Card } from "react-bootstrap";
 import { taskInt, userInt } from "../../typings/interfaces";
-import { ICOCLOCK, ICOCIRCLE } from "../../utils/icons";
+import { ICOCLOCK, ICOCIRCLE } from "../../utils/appIcons";
 import {
   COMPLETED,
   AWAITED,
@@ -13,14 +13,14 @@ import {
   NO_DEADLINE,
   OVERDUE,
   TASKS,
-} from "../../utils/constants";
+} from "../../utils/appConstants";
 import {
   getDayMonthYearAsString,
   getSelectedDateAsString,
-} from "../../utils/f_getDatesTimes";
+} from "../../utils/f_dates";
 import { useEffect, useState } from "react";
-import fetchTasksByQuery from "../../utils/funcs/fetchTasksByQuery";
-import getIcon from "../../utils/funcs/f_getIcon";
+import { getTasksPageTasksQuery } from "../../utils/f_tasks";
+import getIcon from "../../utils/f_getIcon";
 
 type FilterForm = {
   tasksToShow: string | null;
@@ -40,9 +40,9 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   const { form, user } = props;
   const { tasksToShow, categoryToShow, statusToShow, valueToShow } = form;
   const [data, setData] = useState<any>([]); // {total, tasks}
-  // set these after fetchTasksByQuery
+  // set these after getTasksPageTasksQuery
   //let selectedOverdue; // {tasks, total}
-  // includes tasks with a deadline prior to today (tasks are sorted by deadline when in fetchTasksByQuery)
+  // includes tasks with a deadline prior to today (tasks are sorted by deadline when in getTasksPageTasksQuery)
   //let selectedToday; // {tasks, total} // INCLUDE "DUE NOW" STRING IN DEADLINE FOR DISPLAY
   // includes deadline today [criteria] and all overdue tasks
   //let selectedTomorrow; // {tasks, total} // INCLUDE "DUE SOON" STRING IN DEADLINE FOR DISPLAY
@@ -96,7 +96,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
     const { deadline, category, status, value } = setCriteria();
     const criteria = `${deadline}${category}${status}${value}createdBy=${user._id}`;
     console.log(criteria);
-    const fetchedData = await fetchTasksByQuery(criteria);
+    const fetchedData = await getTasksPageTasksQuery(criteria);
     if (tasksToShow) {
       const firstIndex = fetchedData.tasks.findIndex(
         (t: taskInt) => t.deadline?.slice(0, 10) === todayAsString
@@ -116,7 +116,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
       ? setData({ tasks: overdueTasks, total: overdueTasks.length })
       : setData(fetchedData);
     console.log("OVERDUE=>", overdueTasks);
-    console.log("OVERDUE=>",overdueTasks[0]?._id);
+    console.log("OVERDUE=>", overdueTasks[0]?._id);
   };
   useEffect(() => {
     loadPageTaskCards();
@@ -146,7 +146,7 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
         {/*********** ALL TASKS ***********/}
         {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? (
           tasks?.map((t: taskInt, i: number) => {
-            console.log(t._id)
+            console.log(t._id);
             const overdue = overdueTasks.find((task) => task === t); //"6197b2665068c1db0d52eac0"
             // find this and fix it at next session!
             console.log(overdue);

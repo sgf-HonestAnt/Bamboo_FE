@@ -1,10 +1,11 @@
 import { Dispatch } from "redux";
-import { ACHIEVEMENTS, BE_URL, POST } from "./constants";
+import { ACHIEVEMENTS, BE_URL, POST } from "./appConstants";
 
-// 💡ADD ACHIEVEMENT TO REDUX UNTIL THE NEXT FETCH IS PERFORMED!
-const postAchievement = async (item: string, dispatch: Dispatch<any>) => {
+export const attemptPostAchievement = async (item: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
+    // post an achievement
+    // 💡 push achievement to list so it shows up straightaway!
     console.log("ATTEMPTING TO POST AN ACHIEVEMENT")
     const url = `${BE_URL}/${ACHIEVEMENTS}/me`;
     const method = POST;
@@ -17,12 +18,8 @@ const postAchievement = async (item: string, dispatch: Dispatch<any>) => {
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
         console.log("NOW LOAD ACHIEVEMENTS")
-      // const updated = await response.json();
-      // console.log("response was ok", updated);
-      // dispatch(loadTasksAction(true));
     }
   } catch (error) {
     console.log(error);
   }
 };
-export default postAchievement;

@@ -8,8 +8,8 @@ import {
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import { CAKE1, ICOSETTINGS } from "../../utils/icons";
-import { getTasks } from "../../utils/f_getTasks";
+import { CAKE1, ICOSETTINGS } from "../../utils/appIcons";
+import { getTasks } from "../../utils/f_tasks";
 import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
 import PandaLogo from "../../pages__components/App/Logo";
@@ -66,7 +66,11 @@ const MainSideBar = (props: SidebarProps) => {
             <Link to='/dash'>dashboard</Link>
             <Link to='tasks-add-new'>add new</Link>
             <Link to='/tasks'>tasks ({taskNum})</Link>
-            <Link to='/following'>following ({numOfUsers})</Link>
+            {numOfUsers > 0 ? (
+              <Link to='/following'>following ({numOfUsers})</Link>
+            ) : (
+              <div>following 0</div>
+            )}
             <Button variant='link' onClick={logout}>
               log out
             </Button>

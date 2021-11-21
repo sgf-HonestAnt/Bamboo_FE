@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { followedUserInt } from "../../typings/interfaces";
-import getUserRole from "../../utils/f_getUserRole";
+import { getUserRole } from "../../utils/f_users";
 import BambooPoints from "../App/XP";
-import { ICOACTIVITY, ICORELATE } from "../../utils/icons";
-import { EditButton } from "../../utils/buttons";
+import { ICOACTIVITY, ICORELATE } from "../../utils/appIcons";
+import { EditButton } from "../../utils/appButtons";
 
 type DashProfileCardProps = {
   followedUsers: followedUserInt[];

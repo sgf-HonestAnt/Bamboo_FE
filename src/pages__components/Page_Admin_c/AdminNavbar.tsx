@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { taskInt, userInt } from "../../typings/interfaces";
-import { ResetButton } from "../../utils/buttons";
-import { FEATURES, NOTIFICATIONS, TASKS, USERS } from "../../utils/constants";
+import { ResetButton } from "../../utils/appButtons";
+import { FEATURES, NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 
 type AdminNavbarProps = {
   user: userInt;

@@ -1,7 +1,8 @@
-import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "../constants";
-import { ICOSTAR } from "../icons";
+import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "./appConstants";
+import { ICOSTAR } from "./appIcons";
 
 const getIcon = (category: string) => {
+  // return category icons
   console.log(category)
   const index = TASK_CATEGORIES.findIndex(
     (cat) => cat.toLowerCase() === category.toLowerCase()

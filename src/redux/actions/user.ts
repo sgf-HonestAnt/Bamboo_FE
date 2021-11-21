@@ -6,8 +6,8 @@ import {
   FILL_USER,
   FILL_USER_ERROR,
   FILL_USER_LOADING,
-} from "../../utils/constants";
-import { SET_REFRESH_TOKEN } from "../../utils/constants";
+} from "../../utils/appConstants";
+import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
 
 export const setUserError = (boolean: boolean) => ({
   type: FILL_USER_ERROR,

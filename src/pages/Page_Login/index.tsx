@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { SubmitButton } from "../../utils/buttons";
-import { BE_URL, USERS, SESSION, POST, GET } from "../../utils/constants";
+import { SubmitButton } from "../../utils/appButtons";
+import { BE_URL, USERS, SESSION, POST, GET } from "../../utils/appConstants";
 import { setRefreshToken } from "../../redux/actions/user";
 import "./styles.css";
 

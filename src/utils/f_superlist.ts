@@ -1,10 +1,11 @@
 import { Dispatch } from "redux";
-import { setSuperlist } from "../../redux/actions/achievements";
-import { achievementInt } from "../../typings/interfaces";
-import { congrats } from "../constants";
-import { getCurrDateTimeAsString } from "../f_getDatesTimes";
+import { setSuperlist } from "../redux/actions/achievements";
+import { achievementInt } from "../typings/interfaces";
+import { congrats } from "./appConstants";
+import { getCurrDateTimeAsString } from "./f_dates";
 
-const createList = async (
+const createSuperlist = async (
+  // create list of achievements with randomised congrats
   list: achievementInt[],
   username: string,
   dispatch: Dispatch<any>
@@ -23,4 +24,4 @@ const createList = async (
   dispatch(setSuperlist(super_list));
 };
 
-export default createList;
+export default createSuperlist;

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
-import { BackToDashButtonCol, SubmitButtonCol } from "../../utils/buttons";
-import { THEMES } from "../../utils/constants";
-import { ICOEDIT } from "../../utils/icons";
+import { BackToDashButtonCol, SubmitButtonCol } from "../../utils/appButtons";
+import { THEMES } from "../../utils/appConstants";
+import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";
 import ImageUploader from "../../pages__components/Page_Settings_c/ImageUploader";
 

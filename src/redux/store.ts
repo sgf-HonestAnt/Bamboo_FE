@@ -17,7 +17,7 @@ import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
 import currentSettingsReducer from "./reducers/settings";
 import currentFeaturesReducer from "./reducers/features";
-import { LIGHT_MODE } from "../utils/constants";
+import { LIGHT_MODE } from "../utils/appConstants";
 
 declare global {
   interface Window {

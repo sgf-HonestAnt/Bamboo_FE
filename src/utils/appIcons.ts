@@ -17,6 +17,7 @@ import {
   FiAtSign,
   FiBell,
   FiBriefcase,
+  FiCheckSquare,
   FiCircle,
   FiClock,
   FiCoffee,
@@ -30,21 +31,24 @@ import {
   FiImage,
   FiKey,
   FiMaximize,
-  FiTrash2,
+  FiRotateCcw,
   FiSave,
   FiSearch,
   FiSettings,
   FiShoppingCart,
   FiSliders,
+  FiSmile,
   FiStar,
   FiSun,
+  FiTrash2,
   FiTruck,
   FiUmbrella,
   FiUser,
   FiUsers,
   FiUserPlus,
   FiWatch,
-} from "react-icons/fi";
+  FiXSquare,
+} from "react-icons/fi"; 
 // ********** CATEGORIES **********
 export const ICOURGENT = FiFlag;
 export const ICOHOUSE = FiHome;
@@ -56,6 +60,11 @@ export const ICOFIT = FiDribbble;
 export const ICOPETS = FaDog;
 export const ICOWELLNESS = FiHeart;
 export const ICOEMPTY = FiMaximize;
+// ********** NOTIFICATIONS **********
+export const ICOCHECK = FiCheckSquare;
+export const ICOCROSS = FiXSquare;
+export const ICOSMILE = FiSmile;
+export const ICOROTATE = FiRotateCcw;
 // ********** GENERAL **********
 export const ICOSAVE = FiSave;
 export const ICOACTIVITY = FiActivity;

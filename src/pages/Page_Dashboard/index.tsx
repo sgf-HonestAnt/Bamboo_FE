@@ -17,9 +17,9 @@ import DashAlertCard from "../../pages__components/Page_Dashboard_c/AlertCard";
 import DashChallCard from "../../pages__components/Page_Dashboard_c/ChallengeCard";
 import DashSearch from "../../pages__components/Page_Dashboard_c/DashSearch";
 import DashAchievCard from "../../pages__components/Page_Dashboard_c/Achievements";
-import createList from "../../utils/funcs/list";
-import { getSelectedDateAsString } from "../../utils/f_getDatesTimes";
-import { getTaskByQuery, getTaskByDeadline } from "../../utils/f_getTasks";
+import createSuperlist from "../../utils/f_superlist";
+import { getSelectedDateAsString } from "../../utils/f_dates";
+import { getTaskByQuery, getTaskByDeadline } from "../../utils/f_tasks";
 import "./styles.css";
 
 type DashboardPageProps = {
@@ -45,6 +45,7 @@ const DashboardPage = (props: DashboardPageProps) => {
     setErrorMessage,
   } = props;
   const [tasks, setTasks] = useState([]);
+  const [search, setSearch] = useState("")
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
   const { list, superlist } = achievements;
@@ -74,7 +75,7 @@ const DashboardPage = (props: DashboardPageProps) => {
       const date_b = new Date(b.createdAt).getTime();
       return date_b - date_a;
     });
-    await createList(super_list, user.username, dispatch);
+    await createSuperlist(super_list, user.username, dispatch);
     // 🖐️ in future make only last x achievements display for each user, and get achievements sorted by date
   };
   useEffect(() => {
@@ -129,7 +130,7 @@ const DashboardPage = (props: DashboardPageProps) => {
       <Col sm={3} className='dashboard__right-col'>
         <Row>
           <Col className='p-1'>
-            <DashSearch />
+            <DashSearch search={search} setSearch={setSearch} />
             <DashAchievCard superlist={superlist} />
           </Col>
         </Row>

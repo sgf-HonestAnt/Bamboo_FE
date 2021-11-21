@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { setRefreshToken } from "../../redux/actions/user";
-import { SubmitButton } from "../../utils/buttons";
-import { BE_URL, USERS, REGISTER, POST } from "../../utils/constants";
+import { SubmitButton } from "../../utils/appButtons";
+import { BE_URL, USERS, REGISTER, POST } from "../../utils/appConstants";
 import "./styles.css"; 
 
 const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
