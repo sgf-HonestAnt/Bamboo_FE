@@ -1,3 +1,7 @@
+.main-page {
+  background-color: var(--main-bg);
+  color: var(--main-text);
+}
 .main-page__spinner {
   min-height: 100vh;
   max-height: 100vh;
@@ -6,8 +10,8 @@
   align-items: center;
 }
 .icon-urgent {
-  color: red;
+  color: var(--code-red);
 }
 .icon-semi-urgent {
-  color: blue;
+  color: var(--code-blue);
 }

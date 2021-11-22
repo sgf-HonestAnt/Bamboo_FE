@@ -1,14 +1,31 @@
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 :root {
-  --main-bg: #f6e5ff;
-  --sidebar-bg: #98ffa9;
-  --awaited-color: rgba(255, 0, 0, 0.1);
-  --progress-color: rgba(255, 165, 0, 0.1);
-  --completed-color: rgba(0, 128, 0, 0.1);
+  --main-bg: #8ee4af;
+  --sidebar-bg: #379683;
+  --main-text: #05386b;
+  --sidebar-text: #edf5e1;
+  --button-bg: #5cd895;
+  --code-red: red;
+  --code-blue: blue;
+}
+#theme-light {
+  --main-bg: #8ee4af;
+  --sidebar-bg: #379683;
+  --main-text: #05386b;
+  --sidebar-text: #edf5e1;
+  --button-bg: #5cd895;
+  --code-red: red;
+  --code-blue: blue;
+}
+#theme-dark {
+  --main-bg: #05386b;
+  --sidebar-bg: #379683;
+  --main-text: #edf5e1;
 }
 .App {
-  background-color: var(--main-bg);
+  /* background-color: var(--main-bg);
+  color: var(--main-text); */
   font-family: "Ubuntu", sans-serif;
   font-size: 1rem;
   font-weight: 400;

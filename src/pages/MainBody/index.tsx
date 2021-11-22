@@ -35,9 +35,10 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const achievements = state.currentAchievements;
   const features = state.currentFeatures;
   const settings = state.currentSettings;
-  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
   const path = location.pathname;
+  const [errorMessage, setErrorMessage] = useState("");
+  const [theme, setTheme] = useState("theme-light");
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
@@ -81,8 +82,9 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
   const sideBarSize = location.pathname === "/admin-dash" ? 1 : 2;
+  console.log(theme);
   return (
-    <Container fluid className='main-page m-0'>
+    <Container fluid className="main-page m-0" id={theme}>
       {loading || mainLoading ? (
         <Row className='main-page__spinner'>
           <Spinner animation='grow' />
@@ -107,6 +109,8 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
               user={user}
               settings={settings}
               followedUsers={followedUsers}
+              theme={theme}
+              setTheme={setTheme}
             />
           </Col>
           {path === "/dash" ? (

@@ -32,12 +32,3 @@
 }
 .tasks-page__tasks-row__single-task {
 }
-.tasks-page__tasks-row__single-task.awaited {
-  background-color: var(--awaited-color);
-}
-.tasks-page__tasks-row__single-task.completed {
-  background-color: var(--completed-color);
-}
-.tasks-page__tasks-row__single-task.in-progress {
-  background-color: var(--progress-color);
-}

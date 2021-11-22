@@ -1,9 +1,13 @@
 .main-side-bar {
   background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
   min-height: 100vh;
   display: flex;
   padding: 0 10px;
   flex-direction: column;
+}
+.main-side-bar a, .main-side-bar .btn-link {
+  color: var(--sidebar-text);
 }
 .main-side-bar__theme {
 }
@@ -30,7 +34,4 @@
   display: block;
 }
 .main-side-bar__settings {
-}
-.main-side-bar__credits {
-  background-color: thistle;
 }

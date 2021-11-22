@@ -20,10 +20,13 @@ type SidebarProps = {
   user: userInt;
   settings: currentSettingsInt;
   followedUsers: followedUserInt[];
+  theme: string;
+  setTheme: any;
 };
 
 const MainSideBar = (props: SidebarProps) => {
-  const { history, location, user, settings, followedUsers } = props;
+  const { history, location, user, settings, followedUsers, theme, setTheme } =
+    props;
   const [taskNum, setTaskNum] = useState(0);
   const [loading, setLoading] = useState(true);
   const numOfUsers = followedUsers.length;
@@ -38,6 +41,9 @@ const MainSideBar = (props: SidebarProps) => {
     await attemptLogout();
     history.push("/session-closed");
   };
+  const handleClick = () => {
+    setTheme(theme === "theme-light" ? "theme-dark" : "theme-light");
+  };
   useEffect(() => {
     loadSidebar();
     setLoading(false);
@@ -47,7 +53,7 @@ const MainSideBar = (props: SidebarProps) => {
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
         <div className='main-side-bar__theme'>
-          <Button>theme</Button>
+          <Button onClick={handleClick}>theme</Button> 
         </div>
       )}
       <div className='main-side-bar__branding my-3'>
@@ -80,7 +86,7 @@ const MainSideBar = (props: SidebarProps) => {
               <ICOSETTINGS />
             </Button>
           </div>
-          <div className='main-side-bar__credits mt-5'>
+          {/* <div className='main-side-bar__credits mt-5'>
             Icons made by{" "}
             <a href='https://www.freepik.com' title='Freepik'>
               Freepik
@@ -89,7 +95,7 @@ const MainSideBar = (props: SidebarProps) => {
             <a href='https://www.flaticon.com/' title='Flaticon'>
               www.flaticon.com
             </a>
-          </div>
+          </div> */}
         </>
       ) : (
         <div className='main-side-bar__links'>
