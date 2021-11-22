@@ -25,7 +25,7 @@ type AdminPageProps = {
 };
 const AdminPage = (props: AdminPageProps) => {
   const { user, features, history, location } = props;
-  const signedInId = user._id
+  const signedInId = user._id;
   const [users, setUsers] = useState<userInt[] | never>([]);
   const [tasks, setTasks] = useState<taskInt[] | never>([]);
   const [notifications, setNotifications] = useState<string[]>([]);
@@ -56,15 +56,15 @@ const AdminPage = (props: AdminPageProps) => {
   console.log("tasks=>", tasks);
   console.log("notif=>", notifications);
   return !user.admin ? (
-    <Container fluid>
-      <Row className='admin-page' id='denied'>
+    <Container fluid className='admin-page'>
+      <Row id='denied'>
         <Col sm={6}>
           <h1>Access Denied</h1>
         </Col>
       </Row>
     </Container>
   ) : (
-    <Container fluid>
+    <Container fluid className='admin-page'>
       <Row>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
@@ -79,12 +79,14 @@ const AdminPage = (props: AdminPageProps) => {
       </Row>
       <Row>
         <Table striped bordered hover>
-          {form.dropdown === USERS ? (
+          {form.dropdown === USERS && users.length > 0 ? (
             <UsersTableHeading />
-          ) : form.dropdown === TASKS ? (
+          ) : form.dropdown === TASKS && tasks.length > 0 ? (
             <TasksTableHeading />
-          ) : (
+          ) : form.dropdown === NOTIFICATIONS && notifications.length > 0 ? (
             <NotificationsTableHeading />
+          ) : (
+            <></>
           )}
           <tbody>
             {form.dropdown === USERS && form.id.length > 0 ? (

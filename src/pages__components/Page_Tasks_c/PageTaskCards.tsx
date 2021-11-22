@@ -17,6 +17,7 @@ import {
 import {
   getDayMonthYearAsString,
   getSelectedDateAsString,
+  getShortDateAsString,
 } from "../../utils/f_dates";
 import { useEffect, useState } from "react";
 import { getTasksPageTasksQuery } from "../../utils/f_tasks";
@@ -40,23 +41,8 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
   const { form, user } = props;
   const { tasksToShow, categoryToShow, statusToShow, valueToShow } = form;
   const [data, setData] = useState<any>([]); // {total, tasks}
-  // set these after getTasksPageTasksQuery
-  //let selectedOverdue; // {tasks, total}
-  // includes tasks with a deadline prior to today (tasks are sorted by deadline when in getTasksPageTasksQuery)
-  //let selectedToday; // {tasks, total} // INCLUDE "DUE NOW" STRING IN DEADLINE FOR DISPLAY
-  // includes deadline today [criteria] and all overdue tasks
-  //let selectedTomorrow; // {tasks, total} // INCLUDE "DUE SOON" STRING IN DEADLINE FOR DISPLAY
-  // includes deadline tomorrow [criteria]
-  //let selectedNoDeadline; // {tasks, total} <=== THIS IS THE TROUBLESOME ONE, AS I CANNOT QUERY BY DEADLINE NULL, IF I COULD THEN THE FILTERING WOULD BE SIMPLER. INCLUDE "OVERDUE" STRING IN DEADLINE FOR DISPLAY
-  // includes !deadline [fetchTasksByDeadline(null)]
-  //let selectedAll; // {tasks, total}
-  // all deadline types selected [criteria ""]
-
-  // data must always look like {tasks:[{}], total: 100}
-
   let dueAndFutureTasks: taskInt[] = [];
   let overdueTasks: taskInt[] = [];
-
   // get dates to filter tasks
   const today = new Date();
   const tomorrow = new Date(today);
@@ -143,12 +129,11 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
           {data.total ? data.total : 0}{" "}
           {data.total && data.total < 2 ? "task" : TASKS} to perform
         </h5>
-        {/*********** ALL TASKS ***********/}
-        {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? (
+        {data.total && data.total > 0 && tasksToShow === ALL_TASKS ? ( // ALL TASKS
           tasks?.map((t: taskInt, i: number) => {
             console.log(t._id);
+            t.deadline && getShortDateAsString(t.deadline);
             const overdue = overdueTasks.find((task) => task === t); //"6197b2665068c1db0d52eac0"
-            // find this and fix it at next session!
             console.log(overdue);
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(todayAsString) ? (
@@ -164,31 +149,20 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             ) : (
               ""
             );
-            // const statusClass =
-            //   t.status === AWAITED
-            //     ? "tasks-page__tasks-row__single-task awaited"
-            //     : t.status === COMPLETED
-            //     ? "tasks-page__tasks-row__single-task completed"
-            //     : "tasks-page__tasks-row__single-task in-progress";
             return (
               <div key={i}>
-                {/* <div className='tasks-page__tasks-row__category'>
-                  {icon} {t.category}
-                </div> */}
                 <div>
-                  {icon} {t.title} ({t.value}XP) due{" "}
-                  {t.deadline ? t.deadline.slice(0, 10) : "any time"} {clock}
-                  {/* <Button variant='light' className='ml-1 my-1 px-2'>
-                    <FiWatch />
-                  </Button>
-                  <Button variant='light' className='ml-1 my-1 px-2'>
-                    <FiCheck />
-                  </Button> */}
+                  {icon} {t.title} ({t.value}XP)
+                </div>
+                <div>{t.desc} {t.category}</div>
+                <div>
+                  {t.deadline ? getShortDateAsString(t.deadline) : "any time"}{" "}
+                  {clock}
                 </div>
               </div>
             );
           })
-        ) : total && total > 0 ? (
+        ) : total && total > 0 ? ( // TODAY/TOMORROW/NO DEADLINE/OVERDUE
           tasks?.map((t: taskInt, i: number) => {
             const icon = getIcon(t.category);
             const clock = t.deadline?.includes(todayAsString) ? (
@@ -198,22 +172,13 @@ const PageTaskCards = (props: PageTaskCardsProps) => {
             ) : (
               <ICOCIRCLE />
             );
-            // const statusClass =
-            //   t.status === AWAITED
-            //     ? "tasks-page__tasks-row__single-task awaited"
-            //     : t.status === COMPLETED
-            //     ? "tasks-page__tasks-row__single-task completed"
-            //     : "tasks-page__tasks-row__single-task in-progress";
             return (
               <div key={i}>
-                {icon} {t.title} ({t.value}XP) due{" "}
-                {t.deadline ? t.deadline.slice(0, 10) : "any time"} {clock}
-                {/* <Button variant='light' className='ml-1 my-1 px-2'>
-                  <FiWatch />
-                </Button>
-                <Button variant='light' className='ml-1 my-1 px-2'>
-                  <FiCheck />
-                </Button> */}
+                {icon} {t.title} ({t.value}XP) due HOHO
+                {t.deadline
+                  ? getShortDateAsString(t.deadline)
+                  : "any time"}{" "}
+                {clock}
               </div>
             );
           })

@@ -55,7 +55,7 @@ export const getFirstLastDayOfMonth = (date: Date) => {
   const firstDay = new Date(year, 1, 1).getDay();
   const numberOfDays = getNumberOfDaysInMonth(date);
   const lastDay = new Date(year, 1, numberOfDays).getDay();
-  return {firstDay, lastDay};
+  return { firstDay, lastDay };
 };
 export const getNumberOfDaysInMonth = (date: Date) => {
   // get number of days in specific month
@@ -86,6 +86,13 @@ export const getCurrDateTimeAsString = (ach: achievementInt) => {
   return `${weekday}, ${date} ${month} @ ${time.split(":")[0]}:${
     time.split(":")[1]
   } ${zone}`;
+};
+export const getShortDateAsString = (datePar: any) => {
+  const dateAsDate = new Date(datePar);
+  const day = getDayByIndex(dateAsDate);
+  const date = dateAsDate.getDate();
+  const month = getMonthByIndex(dateAsDate);
+  return `${day.slice(0, 3)}, ${date} ${month.slice(0, 3)}`;
 };
 export const getSelectedDateAsString = (dateAsDate: {
   // date string for tasks looks like `2021-11-15`
