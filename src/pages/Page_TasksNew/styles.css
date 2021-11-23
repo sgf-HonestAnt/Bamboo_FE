@@ -1,0 +1,17 @@
+.tasks-page{}
+.tasks-page__list{
+    margin: 8px;
+    border: 1px solid var(--sidebar-bg);
+    border-radius: 2px;
+}
+.tasks-page__list-title{
+    padding: 8px;
+    font-weight: 700;
+}
+.tasks-page__list-task{
+    padding: 8px;
+    border: 1px solid var(--sidebar-bg);
+    border-radius: 2px;
+    margin-bottom: 8px;
+    background-color: var(--sidebar-bg);
+}

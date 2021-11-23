@@ -97,9 +97,11 @@ export const TASK_VALUES = [
   "may take a bit more effort to complete",
   "difficult, so I'll look forward to my reward",
 ];
+export const ANY_VAL = "Any Value"
 export const ANY_CAT = "Any Category";
 export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
+export const ANY_DUE = "Any Due Date"
 export const TODAY = "Today";
 export const TOMORROW = "Tomorrow";
 export const YESTERDAY = "Yesterday"

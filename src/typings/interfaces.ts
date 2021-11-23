@@ -144,3 +144,13 @@ export interface setTaskInt {
   sharedWith: string[];
   deadline: string;
 }
+export interface listForBeautifulDnd {
+  id: string;
+  title: string;
+  taskIds: string[];
+}
+export interface beautifulDnD {
+  tasks: (taskInt|undefined)[]; 
+  lists: listForBeautifulDnd[];
+  listOrder: string[];
+}

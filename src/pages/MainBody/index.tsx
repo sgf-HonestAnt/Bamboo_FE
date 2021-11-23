@@ -20,6 +20,7 @@ import ErrorPage from "../Page_Error";
 import SpinnerPage from "../Page_Spinner";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
+import NewTasksPage from "../Page_TasksNew";
 
 const MainBody = ({ history, location, match }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
@@ -82,9 +83,9 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
   const sideBarSize = location.pathname === "/admin-dash" ? 1 : 2;
-  console.log(theme);
+  // console.log(theme);
   return (
-    <Container fluid className="main-page m-0" id={theme}>
+    <Container fluid className='main-page m-0' id={theme}>
       {loading || mainLoading ? (
         <Row className='main-page__spinner'>
           <Spinner animation='grow' />
@@ -140,9 +141,14 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
                 setErrorMessage={setErrorMessage}
               />
             </Col>
-          ) : path === "/tasks" ? (
+          ) : // : path === "/tasks" ? (
+          //   <Col className='m-0'>
+          //     <TasksPage user={user} categories={categories} />
+          //   </Col>
+          // )
+          path === "/tasks" ? (
             <Col className='m-0'>
-              <TasksPage user={user} categories={categories} />
+              <NewTasksPage user={user} tasks={tasks} /> 
             </Col>
           ) : // path === "/tasks-schedule" ? (
           //   <TasksSchedule />
