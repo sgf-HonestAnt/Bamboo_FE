@@ -3,6 +3,32 @@ import {
   Draggable,
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
+import {
+  FINANCE,
+  FITNESS,
+  HOUSEHOLD,
+  NONE,
+  PETS,
+  RELATIONSHIPS,
+  SHOPPING,
+  URGENT,
+  WELLBEING,
+  WORK,
+} from "../../utils/appConstants";
+import getIcon from "../../utils/f_getIcon";
+import {
+  ICOEMPTY,
+  ICOFINANCE,
+  ICOFIT,
+  ICOHOUSE,
+  ICOPETS,
+  ICORELATE,
+  ICOSHOP,
+  ICOSTAR,
+  ICOURGENT,
+  ICOWELLNESS,
+  ICOWORK,
+} from "../../utils/appIcons";
 
 type DraggableTaskProps = {
   task: taskInt | undefined;
@@ -25,17 +51,53 @@ const DraggableTask = (props: DraggableTaskProps) => {
     <Draggable draggableId={task!._id} index={i}>
       {(provided, snapshot) => {
         // console.log(snapshot);
+        const taskClass =
+          task!.category === URGENT
+            ? "tasks-page__list-task urgent"
+            : "tasks-page__list-task";
+        const icon =
+          task!.category === URGENT ? (
+            <ICOURGENT />
+          ) : task!.category === HOUSEHOLD ? (
+            <ICOHOUSE />
+          ) : task!.category === SHOPPING ? (
+            <ICOSHOP />
+          ) : task!.category === WORK ? (
+            <ICOWORK />
+          ) : task!.category === RELATIONSHIPS ? (
+            <ICORELATE />
+          ) : task!.category === FINANCE ? (
+            <ICOFINANCE />
+          ) : task!.category === FITNESS ? (
+            <ICOFIT />
+          ) : task!.category === PETS ? (
+            <ICOPETS />
+          ) : task!.category === WELLBEING ? (
+            <ICOWELLNESS />
+          ) : task!.category === NONE ? (
+            <ICOEMPTY />
+          ) : (
+            <ICOSTAR />
+          );
         return (
           <div
             {...provided.draggableProps}
             // {...provided.dragHandleProps} // move to seperate element if we want to drag by specific handle!
             ref={provided.innerRef}
             // isDragging={snapshot.isDragging}
-            className='tasks-page__list-task'
+            className={taskClass}
             // className={snapshot.isDragging?'tasks-page__list-task':'tasks-page__list-task__dragging'}
             key={i}>
             <Handle dragHandleProps={provided.dragHandleProps} />
-            <span>{task!.title}</span>
+            <div>
+              <div>
+                {icon}
+                <span className="pl-1">
+                  {task!.title} ({task!.value}XP)
+                </span>
+              </div>
+              <div>{task!.desc}</div>
+            </div>
           </div>
         );
       }}

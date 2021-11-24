@@ -148,7 +148,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
           // )
           path === "/tasks" ? (
             <Col className='m-0'>
-              <NewTasksPage user={user} tasks={tasks} /> 
+              <NewTasksPage user={user} tasks={tasks} history={history} /> 
             </Col>
           ) : // path === "/tasks-schedule" ? (
           //   <TasksSchedule />

@@ -110,6 +110,13 @@ const DashboardPage = (props: DashboardPageProps) => {
               categories={categories}
               setErrorMessage={setErrorMessage}
             />
+            {/* 
+            🌈 BEFORE FINAL DEPLOYMENT
+            Default Tasks "Solve World Hunger", "Brush Your Teeth", and "Buy Groceries" 
+            Initial walk through shows you how to complete "Solve World Hunger"
+            Change "Brush Your Teeth" to a DAILY task
+            And add friends. ("You'll notice that "" is shared with AdminPanda. Try adding our second admin, BigBear, here...")
+            */}
             <DashCalenCard />
           </Col>
         </Row>

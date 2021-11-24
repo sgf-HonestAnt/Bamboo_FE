@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { History, Location } from "history";
 import {
   beautifulDnD,
   currentTasksInt,
@@ -15,10 +16,10 @@ import NewTasksContainer from "../../pages__components/Page_TasksNew_c/NewTasksC
 type NewTasksPageProps = {
   user: userInt;
   tasks: currentTasksInt;
+  history: History<unknown> | string[];
 };
-
 const NewTasksPage = (props: NewTasksPageProps) => {
-  const { user, tasks } = props;
+  const { user, tasks, history } = props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
@@ -30,7 +31,7 @@ const NewTasksPage = (props: NewTasksPageProps) => {
         categories={categories}
         setTaskList={setTaskList}
       />
-      <NewTasksContainer taskList={taskList} />
+      <NewTasksContainer taskList={taskList} history={history} />
     </Container>
   );
 };

@@ -1,16 +1,20 @@
 import { Row } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { History, Location } from "history";
+import { useDispatch } from "react-redux";
 import { beautifulDnD, taskInt } from "../../typings/interfaces";
 import { DragDropContext } from "react-beautiful-dnd";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 import DroppableList from "./DroppableList";
+import { attemptUpdateTask } from "../../utils/f_tasks";
 
 type NewTasksContainerProps = {
   taskList: taskInt[];
+  history: History<unknown> | string[];
 };
-
 const NewTasksContainer = (props: NewTasksContainerProps) => {
-  const { taskList } = props;
+  const { taskList, history } = props;
+  const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
     lists: [],
@@ -98,6 +102,7 @@ const NewTasksContainer = (props: NewTasksContainerProps) => {
       console.log("newData=>", newData);
       // set initial data to match clone
       setInitialData(newData);
+      // update Task Order in our strings?
     } else {
       // ********** if task moved to different list ********** //
       const startTaskIds = Array.from(start!.taskIds);
@@ -126,7 +131,14 @@ const NewTasksContainer = (props: NewTasksContainerProps) => {
       console.log("newDataIsSame", newData === initialData);
       // set initial data to match clone
       setInitialData(newData);
+      updateTaskStatus(draggableId, finish!.id);
+      setTimeout(() => {
+        history.push("/tasks");
+      }, 1000);
     }
+  };
+  const updateTaskStatus = async (draggableId: string, status: string) => {
+    await attemptUpdateTask(draggableId, { status }, dispatch);
   };
   useEffect(() => {
     console.log("CHANGED!");
@@ -144,7 +156,7 @@ const NewTasksContainer = (props: NewTasksContainerProps) => {
           );
           return <DroppableList key={listId!} list={list!} tasks={tasks!} />;
         })}
-      </DragDropContext> 
+      </DragDropContext>
     </Row>
   );
 };
