@@ -7,23 +7,25 @@ type DroppableListProps = {
   list: listForBeautifulDnd; 
   tasks: (taskInt|undefined)[]; 
 };
-
 const DroppableList = (props: DroppableListProps) => {
   const { list, tasks } = props;
   return (
     <Col sm={12} md={6} lg={4} className='p-1'>
-      <div className='tasks-page__list p-4'>
+      <div className='tasks-page__list p-2'>
         <div className='tasks-page__list-title'>{list.title}</div>
         <Droppable droppableId={list.id}>
-          {(provided) => ( 
+          {(provided, snapshot) => {
+            // console.log(snapshot)
+            return( 
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
+              // isDraggingOver={snapshot.isDraggingOver}
             >
               {tasks.map((task, i) => <DraggableTask key={task!._id} task={task} i={i} />)}
               {provided.placeholder}
             </div>
-          )}
+          )}}
         </Droppable>
       </div>
     </Col>
