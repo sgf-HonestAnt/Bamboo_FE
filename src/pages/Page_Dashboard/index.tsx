@@ -45,7 +45,7 @@ const DashboardPage = (props: DashboardPageProps) => {
     setErrorMessage,
   } = props;
   const [tasks, setTasks] = useState([]);
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
   const { list, superlist } = achievements;
@@ -83,14 +83,12 @@ const DashboardPage = (props: DashboardPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Row className='dashboard p-2'>
-      <Col sm={12}>
-        <div>APP-NAME</div>
-      </Col>
-      <Col sm={8} className='dashboard__left-col'>
+    <Row className='dashboard p-2 mt-5'>
+      <Col sm={12} lg={8} className='dashboard__left-col'>
         <Row>
           <Col sm={6} className='p-1'>
             <DashProfileCard
+              history={history}
               followedUsers={followedUsers}
               avatar={avatar}
               username={username}
@@ -134,10 +132,15 @@ const DashboardPage = (props: DashboardPageProps) => {
           </Col>
         </Row>
       </Col>
-      <Col sm={3} className='dashboard__right-col'>
+      <Col sm={12} lg={4} className='dashboard__right-col'>
         <Row>
           <Col className='p-1'>
-            <DashSearch user_id={_id} followedUsers={followedUsers} search={search} setSearch={setSearch} />
+            <DashSearch
+              user_id={_id}
+              followedUsers={followedUsers}
+              search={search}
+              setSearch={setSearch}
+            />
             <DashAchievCard superlist={superlist} />
           </Col>
         </Row>

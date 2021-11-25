@@ -1,4 +1,5 @@
 import { RouteComponentProps } from "react-router-dom";
+// import { BarLoader } from 'react-css-loaders';
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
@@ -51,7 +52,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     } else {
       const username = await checkToken(refreshToken, history, location);
       if (username) {
-        dispatch(fillUserAction(accessToken));
+        dispatch(fillUserAction(accessToken)); 
         dispatch(fillTasksAction());
         dispatch(fillAchievementsAction());
         dispatch(fillFeaturesAction());
@@ -88,7 +89,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     <Container fluid className='main-page m-0' id={theme}>
       {loading || mainLoading ? (
         <Row className='main-page__spinner'>
-          <Spinner animation='grow' />
+          {/* <BarLoader color="red" /> */}
         </Row>
       ) : path === "/user-settings" ? (
         <Row>

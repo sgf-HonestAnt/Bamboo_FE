@@ -175,7 +175,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
     <Row className='add-task-page p-2'>
       <Col sm={6}>
         <img src="http://www.keystonetrust.org.uk/wp-content/uploads/2020/06/placeholder-image-1.png" alt="" style={{height: "200px"}} />   
-        <Form
+        <Form 
           // noValidate
           // validated={validated}
           onSubmit={handleSubmit}>

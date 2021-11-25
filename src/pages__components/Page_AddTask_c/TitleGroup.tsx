@@ -5,7 +5,7 @@ type TitleGroupProps = {
   form: setTaskInt;
   changeSettings: any;
 };
-const TitleGroup = (props: TitleGroupProps) => {
+const TitleGroup = (props: TitleGroupProps) => { 
   const { form, changeSettings } = props;
   return (
     <Form.Group controlId='title' className="py-2">

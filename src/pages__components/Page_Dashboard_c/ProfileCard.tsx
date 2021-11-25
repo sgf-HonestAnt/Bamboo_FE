@@ -1,11 +1,16 @@
 import { Link } from "react-router-dom";
 import { followedUserInt } from "../../typings/interfaces";
-import { getUserRole } from "../../utils/f_users";
+import { History } from "history";
+import { useDispatch } from "react-redux";
+import { attemptUpdateUser, getUserRole } from "../../utils/f_users";
 import BambooPoints from "../App/XP";
 import { ICOACTIVITY, ICORELATE } from "../../utils/appIcons";
-import { EditButton } from "../../utils/appButtons";
+import { Form } from "react-bootstrap";
+import { useState } from "react";
+import { fillUserAction } from "../../redux/actions/user";
 
 type DashProfileCardProps = {
+  history: History<unknown> | string[];
   followedUsers: followedUserInt[];
   avatar: string;
   username: string;
@@ -16,7 +21,18 @@ type DashProfileCardProps = {
 };
 
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const { followedUsers, avatar, username, admin, bio, level, xp } = props;
+  const { followedUsers, avatar, username, admin, bio, level, xp } =
+    props;
+  const dispatch = useDispatch();
+  const [newBio, setNewBio] = useState(bio);
+  const handleChange = (e: { target: { value: any } }) => {
+    setNewBio(e.target.value);
+  };
+  const handleSubmit = async () => {
+    console.log(newBio);
+    await attemptUpdateUser({ bio: newBio });
+    dispatch(fillUserAction());
+  };
   const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-1'>
@@ -37,9 +53,17 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <div className='dashboard__profile-card__holder-xp'>
         {xp} <BambooPoints />
       </div>
-      <div>
-        {bio} <EditButton handleClick={null} />
-      </div>
+      <Form
+        className='dashboard__profile-card__form mx-5 p-0'
+        onSubmit={handleSubmit}>
+        <Form.Control
+          required
+          type='text'
+          value={newBio}
+          placeholder={newBio}
+          className='dashboard__profile-card__bio mt-2'
+          onChange={handleChange}></Form.Control>
+      </Form>
       <div className='dashboard__profile-card__stats'>
         <div>
           <ICOACTIVITY />

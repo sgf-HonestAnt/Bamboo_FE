@@ -55,3 +55,7 @@
   color: red;
   font-weight: 700;
 }
+.small-button {
+  width: 20px;
+  height: 20px;
+}

@@ -19,8 +19,9 @@ export const setRefreshToken = (token: string) => ({
   payload: token,
 });
 
-export const fillUserAction = (token: string) => {
+export const fillUserAction = (tokenPar?: string) => {
   return async (dispatch: AppDispatch, getState: any) => {
+    const token = tokenPar || localStorage.getItem("token");
     try {
       const url = `${BE_URL}/${USERS}/me`;
       const method = GET;

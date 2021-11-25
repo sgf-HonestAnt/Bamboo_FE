@@ -1,3 +1,4 @@
+import { userUpdateType } from "../typings/types";
 import { BE_URL, GET, PUT, USERS, ADMIN } from "./appConstants";
 
 export const getUsers = async () => {
@@ -14,7 +15,7 @@ export const getUsers = async () => {
   } catch (error) {
     console.log(error);
   }
-};
+}; 
 export const getUserByQuery = async (query: string) => {
   try {
     const queryIsEmail = query.includes("@");
@@ -89,3 +90,18 @@ export const clearNotifications = async (notification: string[]) => {
     console.log(error);
   }
 };
+export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const body = JSON.stringify(bodyPar);
+    await fetch(url, { method, headers, body });
+  } catch (error) {
+    console.log(error);
+  }
+}

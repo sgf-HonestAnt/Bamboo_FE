@@ -4,6 +4,7 @@ import { ICOBACK, ICODELETE, ICOEDIT, ICOROTATE } from "./appIcons";
 
 type ButtonProps = {
   label?: string | null;
+  className?: string
   handleClick: any;
 };
 export const ClearNotification = (props: ButtonProps) => (
@@ -12,7 +13,7 @@ export const ClearNotification = (props: ButtonProps) => (
   </Button>
 );
 export const EditButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0' onClick={props.handleClick}>
+  <Button variant='link' className='m-0 p-0 small-button' onClick={props.handleClick}>
     {props.label} <ICOEDIT />
   </Button>
 );
