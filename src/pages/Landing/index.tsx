@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { PandaSleep } from "../../pages__components/App/Pandas";
+import { PandaSleep } from "../../pages__components/Pandas";
 import "./styles.css";
 
 const LandingPage = ({ location }: RouteComponentProps) => {

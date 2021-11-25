@@ -127,8 +127,9 @@ export const WILD_STR =
 export const WILD_NUM = 4242424242;
 // congratulations
 export const congrats = [
-  "🖐️High five!",
-  "😃Well done!",
-  "😍Amazing!",
-  "✊Fist bump!",
+  "|🖐️High five",
+  "|😃Well done",
+  "|😍Amazing",
+  "|✊Fist bump",
 ];
+export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];

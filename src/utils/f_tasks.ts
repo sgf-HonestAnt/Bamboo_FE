@@ -5,7 +5,8 @@ import { setTaskInt, taskInt } from "../typings/interfaces";
 import { taskUpdateType } from "../typings/types";
 import { BE_URL, GET, POST, PUT, TASKS, COMPLETED, ME } from "./appConstants";
 import checkToken from "./f_checkToken";
-import {attemptPostAchievement} from "./f_achievements";
+import { attemptPostAchievement } from "./f_achievements";
+import { fillAchievementsAction } from "../redux/actions/achievements";
 
 export const getTask = async (id: string) => {
   // get single task belonging to the user
@@ -122,7 +123,7 @@ export const attemptPostTask = async (
       const method = POST;
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
       };
       const body = JSON.stringify(form);
       const response = await fetch(url, { method, headers, body });
@@ -179,10 +180,11 @@ export const attemptUpdateTask = async (
     if (response.ok) {
       if (status === COMPLETED) {
         console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
-        const { title } = await getTask(id);
-        await attemptPostAchievement(title, dispatch);
+        const { title, category } = await getTask(id);
+        await attemptPostAchievement(title, category, dispatch);
       }
       dispatch(loadTasksAction(true));
+      dispatch(fillAchievementsAction());
     }
   } catch (error) {
     console.log(error);

@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { ACHIEVEMENTS, BE_URL, POST } from "./appConstants";
 
-export const attemptPostAchievement = async (item: string, dispatch: Dispatch<any>) => {
+export const attemptPostAchievement = async (item: string, category: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
     // post an achievement
@@ -13,7 +13,7 @@ export const attemptPostAchievement = async (item: string, dispatch: Dispatch<an
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    const body = JSON.stringify({item});
+    const body = JSON.stringify({item, category});
     console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {

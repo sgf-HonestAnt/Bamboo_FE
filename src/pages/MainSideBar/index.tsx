@@ -12,7 +12,7 @@ import { CAKE1, ICOSETTINGS } from "../../utils/appIcons";
 import { getTasks } from "../../utils/f_tasks";
 import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
-import PandaLogo from "../../pages__components/App/Logo";
+import PandaLogo from "../../pages__components/Logo";
 
 type SidebarProps = {
   history: History<unknown> | string[];

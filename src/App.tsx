@@ -7,11 +7,11 @@ import {
   RouteComponentProps,
   Redirect,
 } from "react-router-dom";
-import MainBody from "./pages/MainBody";
-import LoginPage from "./pages/Page_Login";
-import RegisterPage from "./pages/Page_Register";
-import SettingsPage from "./pages/Page_Settings";
-import LogoutPage from "./pages/Page_Logout";
+import MainBody from "./pages/Main";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register"; 
+import SettingsPage from "./pages/Settings";
+import LogoutPage from "./pages/Logout";
 import LandingPage from "./pages/Landing";
 
 function App() {
@@ -21,9 +21,9 @@ function App() {
         <Switch>
           <Route
             exact
-            path='/register'
+            path='/landing-page'
             render={(routerProps: RouteComponentProps) => (
-              <RegisterPage {...routerProps} />
+              <LandingPage {...routerProps} />
             )}
           />
           <Route
@@ -33,7 +33,14 @@ function App() {
               <LoginPage {...routerProps} />
             )}
           />
-           <Route
+          <Route
+            exact
+            path='/register'
+            render={(routerProps: RouteComponentProps) => (
+              <RegisterPage {...routerProps} />
+            )}
+          />
+          <Route
             exact
             path='/session-closed'
             render={(routerProps: RouteComponentProps) => (
@@ -44,13 +51,6 @@ function App() {
           <Route exact path='/'>
             <Redirect to='/dash' />
           </Route>
-          <Route
-            exact
-            path='/landing-page'
-            render={(routerProps: RouteComponentProps) => (
-              <LandingPage {...routerProps} />
-            )}
-          />
           <Route
             exact
             path='/dash'

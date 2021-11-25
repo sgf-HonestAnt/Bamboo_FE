@@ -63,11 +63,17 @@
   width: 20px;
   height: 20px;
 }
+.link-button {
+  color: var(--main-text) !important;
+  text-decoration: underline !important;
+}
 .btn-light {
   background-color: var(--button-bg) !important;
   border: var(--button-bg) !important;
 }
-.btn-light:hover, .btn-light:focus, .btn-light:focus-visible {
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:focus-visible {
   background-color: var(--button-alt) !important;
   color: var(--sidebar-text) !important;
   box-shadow: none !important;

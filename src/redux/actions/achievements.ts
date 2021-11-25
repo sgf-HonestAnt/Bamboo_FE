@@ -13,7 +13,6 @@ export const setSuperlist = (superlist: string[]) => ({
   type: SET_SUPERLIST,
   payload: { superlist, loading: true },
 });
-
 export const fillAchievementsAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {

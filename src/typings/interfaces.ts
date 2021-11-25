@@ -104,6 +104,7 @@ export interface achievementInt {
   // GET achievements/me, GET users/me, GET achievements/:id
   username: string;
   item: string;
+  category: string;
   createdAt: string;
   _id: string;
 }
