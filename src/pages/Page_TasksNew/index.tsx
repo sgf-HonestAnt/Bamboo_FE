@@ -11,7 +11,8 @@ import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 import { DragDropContext } from "react-beautiful-dnd";
 import DroppableList from "../../pages__components/Page_TasksNew_c/DroppableList";
 import TasksFilterRow from "../../pages__components/Page_TasksNew_c/TasksFilterRow";
-import NewTasksContainer from "../../pages__components/Page_TasksNew_c/NewTasksContainer";
+import DragDropContainer from "../../pages__components/Page_TasksNew_c/DragDropContainer";
+import { ICOURGENT } from "../../utils/appIcons";
 
 type NewTasksPageProps = {
   user: userInt;
@@ -30,8 +31,14 @@ const NewTasksPage = (props: NewTasksPageProps) => {
         allTasks={allTasks}
         categories={categories}
         setTaskList={setTaskList}
+        history={history}
       />
-      <NewTasksContainer taskList={taskList} history={history} />
+      <div className='red'>
+        <ICOURGENT />
+        Make this flawless filter, prettify styling, add param for if date
+        given, dash calendar will link to this.
+      </div>
+      <DragDropContainer taskList={taskList} history={history} />
     </Container>
   );
 };

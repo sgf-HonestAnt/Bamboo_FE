@@ -14,7 +14,7 @@ import {
   TASK_VALUE_NUMS,
   WILD_NUM,
 } from "../../utils/appConstants";
-import { AddNewTaskButton } from "../../utils/appButtons";
+import { AddNewTaskButton } from "../../pages__components/App/Buttons";
 import PageTaskCards from "../../pages__components/Page_Tasks_c/PageTaskCards";
 import "./styles.css";
 

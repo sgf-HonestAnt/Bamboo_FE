@@ -1,22 +1,26 @@
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 :root {
-  --main-bg: #8ee4af;
-  --sidebar-bg: #379683;
-  --main-text: #05386b;
-  --sidebar-text: #edf5e1;
-  --button-bg: #5cd895;
-  --code-red: red;
-  --code-blue: blue;
+  --main-bg: #ccc;
+  --sidebar-bg: #747474;
+  --main-text: #041008;
+  --sidebar-text: #ccc;
+  --button-bg: #b4b4b4;
+  --button-alt: #5b5b5b;
+  --code-red: rgba(255, 0, 0, 0.8);
+  --code-yellow: rgba(255, 255, 0, 0.8);
+  --code-blue: rgba(0, 0, 255, 0.8);
 }
 #theme-light {
-  --main-bg: #8ee4af;
-  --sidebar-bg: #379683;
-  --main-text: #05386b;
-  --sidebar-text: #edf5e1;
-  --button-bg: #5cd895;
-  --code-red: red;
-  --code-blue: blue;
+  --main-bg: #ccc;
+  --sidebar-bg: #747474;
+  --main-text: #041008;
+  --sidebar-text: #ccc;
+  --button-bg: #b4b4b4;
+  --button-alt: #5b5b5b;
+  --code-red: rgba(255, 0, 0, 0.8);
+  --code-yellow: rgba(255, 255, 0, 0.8);
+  --code-blue: rgba(0, 0, 255, 0.8);
 }
 #theme-dark {
   --main-bg: #05386b;
@@ -24,8 +28,8 @@
   --main-text: #edf5e1;
 }
 .App {
-  /* background-color: var(--main-bg);
-  color: var(--main-text); */
+  background-color: var(--main-bg);
+  color: var(--main-text);
   font-family: "Ubuntu", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -53,9 +57,18 @@
 }
 .red {
   color: red;
-  font-weight: 700;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
 .small-button {
   width: 20px;
   height: 20px;
+}
+.btn-light {
+  background-color: var(--button-bg) !important;
+  border: var(--button-bg) !important;
+}
+.btn-light:hover, .btn-light:focus, .btn-light:focus-visible {
+  background-color: var(--button-alt) !important;
+  color: var(--sidebar-text) !important;
+  box-shadow: none !important;
 }

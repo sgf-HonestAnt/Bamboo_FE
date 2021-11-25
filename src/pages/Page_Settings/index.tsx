@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
-import { BackToDashButtonCol, SubmitButtonCol } from "../../utils/appButtons";
+import { BackToDashButtonCol, SubmitButtonCol } from "../../pages__components/App/Buttons";
 import { THEMES } from "../../utils/appConstants";
 import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";

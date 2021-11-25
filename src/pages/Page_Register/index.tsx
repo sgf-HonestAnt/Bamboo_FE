@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { setRefreshToken } from "../../redux/actions/user";
-import { SubmitButton } from "../../utils/appButtons";
+import { SubmitButton } from "../../pages__components/App/Buttons";
 import { BE_URL, USERS, REGISTER, POST } from "../../utils/appConstants";
 import "./styles.css"; 
 

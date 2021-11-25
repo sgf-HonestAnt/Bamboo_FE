@@ -1,4 +1,5 @@
 import { Key } from "react";
+import { ICOURGENT } from "../../utils/appIcons";
 import {
   getFirstLastDayOfMonth,
   getMonthByIndex,
@@ -58,7 +59,8 @@ const DashCalenCard = (props: DashCalenCardProps) => {
   }
   return (
     <div className='dashboard__calendar-card m-2'>
-      <div className='dashboard__calendar-card__month-line'>{month}</div>
+      <div className='dashboard__card-header'>{month}</div>
+      <div className='red'><ICOURGENT/>Show number of tasks per day, and when click, go to tasks for that day</div>
       <div className='dashboard__calendar-card__line'>
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
           <div key={i} className='dashboard__calendar-card__box-empty'>

@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
 import { taskInt } from "../../typings/interfaces";
 import { ICODOWNRIGHT } from "../../utils/appIcons";
-import { DeleteButton, EditButton } from "../../utils/appButtons";
+import { DeleteButton, EditButton } from "../App/Buttons";
 import { USERS } from "../../utils/appConstants";
 
 interface TasksRowProps extends taskInt {

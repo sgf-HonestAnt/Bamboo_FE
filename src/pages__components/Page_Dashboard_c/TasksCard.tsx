@@ -8,15 +8,17 @@ import {
   getDayMonthYearAsString,
   getMinMaxDateAsString,
 } from "../../utils/f_dates";
-import {attemptPostTask} from "../../utils/f_tasks";
+import { attemptPostTask } from "../../utils/f_tasks";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/appConstants";
-import { BULB, ICOCIRCLE, ICOCLOCK, ICOSAVE } from "../../utils/appIcons";
 import {
-  AddNewTaskButton,
-  CompleteButton,
-  SubmitButton,
-} from "../../utils/appButtons";
+  BULB,
+  ICOCIRCLE,
+  ICOCLOCK,
+  ICOSAVE,
+  ICOURGENT,
+} from "../../utils/appIcons";
+import { AddNewTaskButton, CompleteButton, SubmitButton } from "../App/Buttons";
 
 type DashTasksCardProps = {
   tasks: taskInt[];
@@ -112,7 +114,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   };
   return (
     <div className='dashboard__tasks-card m-2'>
-      <div>{dayMonthYearAsString}</div>
+      <div className='dashboard__card-header'>{dayMonthYearAsString}</div>
       {tasks.length < 1 ? (
         <>
           <div>No tasks awaited today!</div>
@@ -121,6 +123,10 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       ) : (
         <Form onSubmit={handleSubmitComplete}>
           <div>Tick to complete</div>
+          <div className='red'>
+            <ICOURGENT /> 
+            Make draggable into Complete droppable
+          </div>
           {tasks.slice(0, 3).map((t, i) => {
             const clock = t.deadline?.includes(today) ? (
               <ICOCLOCK className='icon-urgent' />
@@ -146,9 +152,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
             );
           })}
           <div>{tasks.length > 3 ? `+ ${tasks.length - 3} more` : ""}</div>
-          <Button variant='light' className='mb-3 mr-1' onClick={handleShow}>
-            Add new
-          </Button>
+          <AddNewTaskButton handleClick={handleShow} />
           <CompleteButton />
         </Form>
       )}

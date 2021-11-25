@@ -83,10 +83,10 @@ const DashboardPage = (props: DashboardPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Row className='dashboard p-2 mt-5'>
+    <Row className='dashboard p-3 mt-3'>
       <Col sm={12} lg={8} className='dashboard__left-col'>
         <Row>
-          <Col sm={6} className='p-1'>
+          <Col sm={6} className='p-0'>
             <DashProfileCard
               history={history}
               followedUsers={followedUsers}
@@ -97,8 +97,9 @@ const DashboardPage = (props: DashboardPageProps) => {
               level={level}
               xp={xp}
             />
+            <DashChallCard features={features} />
           </Col>
-          <Col sm={6} className='p-1'>
+          <Col sm={6} className='p-0'>
             <DashTasksCard
               tasks={tasks}
               today={today}
@@ -116,31 +117,20 @@ const DashboardPage = (props: DashboardPageProps) => {
             And add friends. ("You'll notice that "" is shared with AdminPanda. Try adding our second admin, BigBear, here...")
             */}
             <DashCalenCard />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={12} className='p-1'>
             <DashTipsCard />
-          </Col>
-        </Row>
-        <Row>
-          <Col sm={6} className='p-1'>
-            <DashAlertCard notification={notification} history={history} />
-          </Col>
-          <Col sm={6} className='p-1'>
-            <DashChallCard features={features} />
           </Col>
         </Row>
       </Col>
       <Col sm={12} lg={4} className='dashboard__right-col'>
         <Row>
-          <Col className='p-1'>
+          <Col className='p-0'>
             <DashSearch
               user_id={_id}
               followedUsers={followedUsers}
               search={search}
               setSearch={setSearch}
             />
+            <DashAlertCard notification={notification} history={history} />
             <DashAchievCard superlist={superlist} />
           </Col>
         </Row>

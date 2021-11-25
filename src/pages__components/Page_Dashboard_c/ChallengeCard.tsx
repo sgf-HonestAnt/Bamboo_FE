@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { currentFeaturesInt, featureInt } from "../../typings/interfaces";
+import { ICOURGENT } from "../../utils/appIcons";
 import { getMonthByIndex } from "../../utils/f_dates";
 
 type DashChallCardProps = {
@@ -20,10 +21,13 @@ const DashChallCard = (props: DashChallCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
   return (
-    <div className='dashboard__challenge-card'>
+    <div className='dashboard__challenge-card m-2'>
       {/* For now, just show first feature with matched month */}
       {/* {featureList < 1 && } */}
-      <Card.Title>Featured Challenge</Card.Title>
+      <div className='dashboard__card-header'>
+        Featured Challenge
+      </div>
+      <div className='red'><ICOURGENT/>These need to be written</div>
       {featureList.length > 0 ? (
         <>
           {featureList[0].image && (

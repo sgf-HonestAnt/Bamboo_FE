@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { SubmitButton } from "../../utils/appButtons";
-import { BE_URL, USERS, SESSION, POST, GET } from "../../utils/appConstants";
-import { setRefreshToken } from "../../redux/actions/user";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { attemptLoginUser } from "../../utils/f_users";
+import { SubmitButton } from "../../pages__components/App/Buttons";
 import "./styles.css";
 
 const LoginPage = ({ history, location, match }: RouteComponentProps) => {
@@ -21,64 +20,25 @@ const LoginPage = ({ history, location, match }: RouteComponentProps) => {
       [id]: value,
     });
   };
-  const findUsernameByEmail = async (email: string) => {
-    try {
-      const url = `${BE_URL}/${USERS}?email=${email}`;
-      const method = GET;
-      const response = await fetch(url, { method });
-      if (response.ok) {
-        const {publicUsers} = await response.json()
-        return publicUsers[0].username
-      }
-    } catch {}
-  };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    try {
-      console.log("🗝️attempt login!");
-      const username = !form.username.includes("@")
-        ? form.username
-        : await findUsernameByEmail(form.username);
-      const password = form.password;
-      const url = `${BE_URL}/${USERS}/${SESSION}`;
-      const method = POST;
-      const headers = { "Content-Type": "application/json" };
-      const body = JSON.stringify({ username, password });
-      const response = await fetch(url, { method, headers, body });
-      if (response.ok) {
-        const { accessToken, refreshToken } = await response.json();
-        setTimeout(() => {
-          localStorage.setItem("token", accessToken);
-        }, 1000);
-        setTimeout(() => {
-          dispatch(setRefreshToken(refreshToken));
-        }, 1000);
-        setTimeout(() => {
-          history.push("/");
-        }, 1000);
-      } else {
-        console.log("😥TROUBLE LOGGING IN");
-        history.push("/login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await attemptLoginUser(form, history, dispatch); 
   };
   useEffect(() => {
-    console.log(location.pathname);
+    console.log(location.pathname); // "/login"
   }, [location.pathname]);
   console.log(form);
   return (
     <Container fluid>
       <Row className='login-form px-5'>
-        <Col sm={6} className="px-5 login-form__col">
+        <Col sm={4} className='px-5 login-form__col'>
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} controlId='username'>
               <Form.Label column sm='12'>
                 Email or username
               </Form.Label>
-              <Col sm='6'>
+              <Col sm='12'>
                 <Form.Control
                   type='text'
                   value={form.username}
@@ -91,7 +51,7 @@ const LoginPage = ({ history, location, match }: RouteComponentProps) => {
               <Form.Label column sm='12'>
                 Password
               </Form.Label>
-              <Col sm='6'>
+              <Col sm='12'>
                 <Form.Control
                   type='password'
                   value={form.password}

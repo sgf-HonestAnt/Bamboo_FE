@@ -42,7 +42,7 @@ function App() {
           />
           {/* "/" PATH REDIRECTS TO "/dash" */}
           <Route exact path='/'>
-            <Redirect to='/landing-page' />
+            <Redirect to='/dash' />
           </Route>
           <Route
             exact

@@ -18,6 +18,7 @@ import {attemptPostTask} from "../../utils/f_tasks";
 import { getMinMaxDateAsString } from "../../utils/f_dates";
 import { NEVER } from "../../utils/appConstants";
 import "./styles.css";
+import { ICOURGENT } from "../../utils/appIcons";
 
 type AddTaskPageProps = {
   user: userInt;
@@ -88,7 +89,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
       dispatch(fillTasksAction());
       setTimeout(() => {
         history.push("/tasks");
-      }, 1000);
+      }, 500);
     } catch (e) {
       console.log("ERROR CREATING NEW TASK", e);
       setErrorMessage("ERROR CREATING NEW TASK");
@@ -174,6 +175,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
+      <div className='red'><ICOURGENT/>Make this a modal that fills in automatically the date (if clicked in from "/dash") or the task details (if clicked in from "/admin-dash" or from a task card)</div>
         <img src="http://www.keystonetrust.org.uk/wp-content/uploads/2020/06/placeholder-image-1.png" alt="" style={{height: "200px"}} />   
         <Form 
           // noValidate

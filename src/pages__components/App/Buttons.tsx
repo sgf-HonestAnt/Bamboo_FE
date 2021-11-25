@@ -1,11 +1,11 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw } from "react-icons/fi";
-import { ICOBACK, ICODELETE, ICOEDIT, ICOROTATE } from "./appIcons";
+import { ICOBACK, ICODELETE, ICOEDIT, ICOROTATE } from "../../utils/appIcons";
 
 type ButtonProps = {
   label?: string | null;
   className?: string
-  handleClick: any;
+  handleClick?: any;
 };
 export const ClearNotification = (props: ButtonProps) => (
   <Button variant='link' className='mb-3 mr-1' onClick={props.handleClick}>
@@ -22,9 +22,9 @@ export const DeleteButton = (props: ButtonProps) => (
     {props.label} <ICODELETE />
   </Button>
 );
-export const AddNewTaskButton = () => (
-  <Button variant='light' className='mb-3 mr-1' href='tasks-add-new'>
-    <FiPlus />
+export const AddNewTaskButton = (props: ButtonProps) => (
+  <Button variant='light' className='mb-3 mr-1' onClick={props.handleClick}>
+    <FiPlus />Add Task
   </Button>
 );
 export const ResetButton = (props: ButtonProps) => (

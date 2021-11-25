@@ -16,6 +16,7 @@ import TasksRow from "../../pages__components/Page_Admin_c/TasksRow";
 import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 import NotificationsRow from "../../pages__components/Page_Admin_c/NotificationsRow";
 import { Link } from "react-router-dom";
+import { ICOURGENT } from "../../utils/appIcons";
 
 type AdminPageProps = {
   user: userInt; // to ensure admin role
@@ -66,6 +67,10 @@ const AdminPage = (props: AdminPageProps) => {
   ) : (
     <Container fluid className='admin-page'>
       <Row>
+        <div className='red'>
+          <ICOURGENT />
+          add delete and edit function
+        </div>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
             user={user}

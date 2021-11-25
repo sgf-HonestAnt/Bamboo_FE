@@ -1,9 +1,10 @@
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 import { useState } from "react";
+import { History, Location } from "history";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
 import { beautifulDnD, taskInt } from "../../typings/interfaces";
-import { AddNewTaskButton } from "../../utils/appButtons";
+import { AddNewTaskButton } from "../App/Buttons";
 import {
   ANY_CAT,
   ANY_DUE,
@@ -15,10 +16,11 @@ type TasksFilterRowProps = {
   allTasks: (taskInt | undefined)[];
   categories: string[];
   setTaskList: any;
+  history: History<unknown> | string[];
 };
 
 const TasksFilterRow = (props: TasksFilterRowProps) => {
-  const { allTasks, categories, setTaskList } = props;
+  const { allTasks, categories, setTaskList, history } = props;
   const [filter, setFilter] = useState({
     dueDate: ANY_DUE,
     category: ANY_CAT,
@@ -26,11 +28,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   });
   const [tasks, setTasks] = useState(allTasks);
   const handleReset = () => {
-    setFilter({
-      dueDate: ANY_DUE,
-      category: ANY_CAT,
-      value: ANY_VAL,
-    });
+    history.push("/tasks")
   };
   const handleChange = (e: { target: { id: any; value: any } }) => {
     // this filter needs fixing, as works only sporadically

@@ -2,7 +2,7 @@ import { Button } from "react-bootstrap";
 import { userInt } from "../../typings/interfaces";
 import { ICODOWNRIGHT } from "../../utils/appIcons";
 import { AiFillStar } from "react-icons/ai";
-import { DeleteButton, EditButton } from "../../utils/appButtons";
+import { DeleteButton, EditButton } from "../App/Buttons";
 import { NOTIFICATIONS, TASKS } from "../../utils/appConstants";
 
 interface UsersRowProps extends userInt {

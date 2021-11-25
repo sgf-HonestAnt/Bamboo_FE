@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { followedUserInt, publicUserInt } from "../../typings/interfaces";
-import { SubmitButton } from "../../utils/appButtons";
+import { SubmitButton } from "../App/Buttons";
 import { requestFollow } from "../../utils/f_follows";
 import { getUserByQuery } from "../../utils/f_users";
 
@@ -51,12 +51,12 @@ const DashSearch = (props: DashSearchProps) => {
     }
   };
   return (
-    <div className='dashboard__search-bar m-2'>
-      Find a user
+    <div className='dashboard__search-bar m-2 px-4'>
+      <div className='dashboard__card-header'>Find a User</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
           type='text'
-          placeholder='Search'
+          placeholder='Search by username or email'
           className='mr-sm-2'
           onChange={handleChange}
         />

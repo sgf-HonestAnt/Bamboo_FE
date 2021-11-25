@@ -1,6 +1,55 @@
-import { userUpdateType } from "../typings/types";
-import { BE_URL, GET, PUT, USERS, ADMIN } from "./appConstants";
+import { History } from "history";
+import { Dispatch } from "redux";
+import { setRefreshToken } from "../redux/actions/user";
+import { loginFormProps, userUpdateType } from "../typings/types";
+import { BE_URL, GET, PUT, USERS, ADMIN, SESSION, POST } from "./appConstants";
 
+export const findUsernameByEmail = async (email: string) => {
+  const url = `${BE_URL}/${USERS}?email=${email}`;
+  const method = GET;
+  const response = await fetch(url, { method });
+  if (response.ok) {
+    const { publicUsers } = await response.json();
+    return publicUsers[0].username;
+  } else {
+    return;
+  }
+};
+export const attemptLoginUser = async (
+  form: loginFormProps,
+  history: string[] | History<unknown>,
+  dispatch: Dispatch<any>
+) => {
+  try {
+    console.log("🗝️attempt login!");
+    const username = !form.username.includes("@")
+      ? form.username
+      : await findUsernameByEmail(form.username);
+    const password = form.password;
+    const url = `${BE_URL}/${USERS}/${SESSION}`;
+    const method = POST;
+    const headers = { "Content-Type": "application/json" };
+    const body = JSON.stringify({ username, password });
+    const response = await fetch(url, { method, headers, body });
+    if (response.ok) {
+      const { accessToken, refreshToken } = await response.json();
+      setTimeout(() => {
+        localStorage.setItem("token", accessToken);
+      }, 1000);
+      setTimeout(() => {
+        dispatch(setRefreshToken(refreshToken));
+      }, 1000);
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
+    } else {
+      console.log("😥TROUBLE LOGGING IN");
+      history.push("/login");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
@@ -15,7 +64,7 @@ export const getUsers = async () => {
   } catch (error) {
     console.log(error);
   }
-}; 
+};
 export const getUserByQuery = async (query: string) => {
   try {
     const queryIsEmail = query.includes("@");
@@ -76,15 +125,15 @@ export const clearNotifications = async (notification: string[]) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    console.log(notification)
-    notification.pop()
-    console.log(notification)
-    const body = JSON.stringify({notification});
+    console.log(notification);
+    notification.pop();
+    console.log(notification);
+    const body = JSON.stringify({ notification });
     console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      const data = await response.json()
-      return data
+      const data = await response.json();
+      return data;
     }
   } catch (error) {
     console.log(error);
@@ -104,4 +153,4 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

@@ -4,7 +4,7 @@ import { History } from "history";
 import { useDispatch } from "react-redux";
 import { attemptUpdateUser, getUserRole } from "../../utils/f_users";
 import BambooPoints from "../App/XP";
-import { ICOACTIVITY, ICORELATE } from "../../utils/appIcons";
+import { ICOACTIVITY, ICORELATE, ICOURGENT } from "../../utils/appIcons";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 import { fillUserAction } from "../../redux/actions/user";
@@ -35,7 +35,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className='dashboard__profile-card m-1'>
+    <div className='dashboard__profile-card m-2'>
       <div className='dashboard__profile-card__holder'>
         <img
           className='dashboard__profile-card__holder-img'
@@ -46,7 +46,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           <span>{level}</span>
         </div>
       </div>
-      <div className='dashboard__profile-card__username'>
+      <div className='dashboard__card-header'>
         {username} {admin && "(admin)"}
       </div>
       <div>{role}</div>
@@ -68,6 +68,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         <div>
           <ICOACTIVITY />
         </div>
+        <div className='red'>React Stats package</div>
         <Link to='/stats'>Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>

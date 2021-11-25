@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 import { taskInt } from "../../typings/interfaces";
-import { CompleteTaskButton, ProgressTaskButton } from "../../utils/appButtons";
+import { CompleteTaskButton, ProgressTaskButton } from "../App/Buttons";
 
 type PageTaskButtonWithModalProps = {
   task: taskInt;

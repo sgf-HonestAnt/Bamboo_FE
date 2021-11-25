@@ -116,7 +116,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
             />
           </Col>
           {path === "/dash" ? (
-            <Col className='m-0'>
+            <Col className='m-0 px-4'>
               <DashboardPage
                 user={user}
                 categories={categories}
