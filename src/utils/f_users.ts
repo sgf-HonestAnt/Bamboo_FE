@@ -116,7 +116,7 @@ export const getUserRole = (level: number | null) => {
     ? "Proficient Panda"
     : "Adept";
 };
-export const clearNotifications = async (notification: string[]) => {
+export const clearLastNotification = async (notification: string[]) => {
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -150,6 +150,21 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
     };
     const body = JSON.stringify(bodyPar);
     await fetch(url, { method, headers, body });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const acceptOrReject = async (username: string, action: string) => {
+  const token = localStorage.getItem("token");
+  try {
+    const { publicUsers } = await getUserByQuery(username);
+    const { _id } = publicUsers[0];
+    const url = `${BE_URL}/${USERS}/${action}/${_id}`;
+    const method = POST;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    await fetch(url, { method, headers });
   } catch (error) {
     console.log(error);
   }

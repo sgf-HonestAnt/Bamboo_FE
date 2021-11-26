@@ -49,7 +49,7 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
   return (
     <Container fluid>
       <Row className='registration-form'>
-        <Col sm={6}>
+        <Col sm={4}>
           <h1>Register</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group>

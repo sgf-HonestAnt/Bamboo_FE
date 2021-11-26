@@ -42,7 +42,7 @@
 .text-tinycaps {
   font-size: 0.7rem;
   font-weight: 700;
-  color: gray;
+  color: var(--main-text);
   text-transform: uppercase;
 }
 .cursor-point:hover {

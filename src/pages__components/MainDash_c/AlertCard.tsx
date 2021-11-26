@@ -1,15 +1,8 @@
 import { Card } from "react-bootstrap";
-import { ClearNotification } from "../Buttons";
+import { AcceptButton, ClearNotification, RejectButton } from "../Buttons";
 import { History } from "history";
-import {
-  ICOBELL,
-  ICOCHECK,
-  ICOCROSS,
-  ICOROTATE,
-  ICOSMILE,
-  ICOURGENT,
-} from "../../utils/appIcons";
-import { clearNotifications } from "../../utils/f_users";
+import { ICOBELL, ICOSMILE } from "../../utils/appIcons";
+import { acceptOrReject, clearLastNotification } from "../../utils/f_users";
 import { fillUserAction } from "../../redux/actions/user";
 import { useDispatch } from "react-redux";
 
@@ -17,7 +10,6 @@ type DashAlertCardProps = {
   notification: string[];
   history: History<unknown> | string[];
 };
-
 const DashAlertCard = (props: DashAlertCardProps) => {
   const { notification } = props;
   const dispatch = useDispatch();
@@ -29,8 +21,25 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     notifLength > 0
       ? "m-2 p-2 dashboard__alerts-card has-alert"
       : "m-2 p-2 dashboard__alerts-card";
-  const handleClick = async () => {
-    await clearNotifications(notification);
+  const handleReset = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    await clearLastNotification(notification);
+    dispatch(fillUserAction());
+  };
+  const handleAccept = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const value = recentNotif.split(" ")[0];
+    const action = "accept";
+    console.log(value, action);
+    await acceptOrReject(value, action);
+  };
+  const handleReject = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    const value = recentNotif.split(" ")[0];
+    const action = "reject";
+    console.log(value, action);
+    await acceptOrReject(value, action);
+    await clearLastNotification(notification);
     dispatch(fillUserAction());
   };
   return (
@@ -40,23 +49,19 @@ const DashAlertCard = (props: DashAlertCardProps) => {
           <ICOBELL /> Notifications
         </div>
         {!isReq && notifLength > 0 && (
-          <ClearNotification handleClick={handleClick} />
+          <ClearNotification handleClick={handleReset} />
         )}
       </Card.Title>
       <Card.Text>
         You have {notifLength} notification
         {notifLength > 1 || notifLength === 0 ? "s" : ""}!
       </Card.Text>
-      <div className='red'>
-        <ICOURGENT />
-        Upon function that may add notification, ensure dispatch notification
-      </div>
       <Card.Text>
         {notifLength > 0 && isReq ? (
           <span>
             {recentNotif}, do you accept?
-            <ICOCHECK className='mx-2' />
-            <ICOCROSS className='mx-2' />
+            <AcceptButton handleClick={handleAccept} />
+            <RejectButton handleClick={handleReject} />
           </span>
         ) : notifLength > 0 && isAcc ? (
           <span>

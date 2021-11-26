@@ -21,6 +21,95 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     lists: [],
     listOrder: [],
   });
+  // console.log("initial=>", initialData);
+  const onDragEnd = (result: any) => {
+    const { destination, source, draggableId } = result;
+    // console.log("destination=>", destination);
+    // console.log("source=>", source);
+    // console.log("draggableId=>", draggableId);
+
+    // if task moves outside droppable space
+    if (!destination) {
+      return;
+    }
+    // if task moved to same place as it started
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index == source.index
+    ) {
+      return;
+    }
+
+    // locate start and finish task lists
+    const start = initialData.lists.find((l) => l.id === source.droppableId);
+    // console.log("start list=>", start);
+    const finish = initialData.lists.find(
+      (l) => l.id === destination.droppableId
+    );
+    // console.log("finish list=>", finish);
+
+    // find index of the start list
+    const startIndex = initialData.lists.findIndex((l) => l === start);
+
+    // find index of the finish list
+    const finishIndex = initialData.lists.findIndex((l) => l === finish);
+
+    if (start === finish) {
+      // ********** if task moved to same list ********** //
+      const startTaskIds = Array.from(start!.taskIds);
+      startTaskIds.splice(source.index, 1); // remove task id from array by index
+      startTaskIds.splice(destination.index, 0, draggableId); // add task id into new index of same array
+      // rewrite the list
+      const newStart = {
+        ...start!,
+        taskIds: startTaskIds!,
+      };
+      // replace it inside initialData
+      initialData.lists.splice(startIndex, 1, newStart);
+      // clone initial data
+      const newData = {
+        ...initialData,
+        lists: [...initialData.lists],
+      };
+      // console.log("newData=>", newData);
+      // set initial data to match clone
+      setInitialData(newData);
+      // update Task Order in our strings?
+    } else {
+      // ********** if task moved to different list ********** //
+      const startTaskIds = Array.from(start!.taskIds);
+      startTaskIds.splice(source.index, 1); // remove task id from array by index
+      // rewrite the start list
+      const newStart = {
+        ...start!,
+        taskIds: startTaskIds!,
+      };
+      const finishTaskIds = Array.from(finish!.taskIds);
+      finishTaskIds.splice(destination.index, 0, draggableId); // add task id into new index of different array
+      // rewrite the finish list
+      const newFinish = {
+        ...finish!,
+        taskIds: finishTaskIds!,
+      };
+      // replace lists inside initialData
+      initialData.lists.splice(startIndex, 1, newStart);
+      initialData.lists.splice(finishIndex, 1, newFinish);
+      // clone initial data
+      const newData = {
+        ...initialData,
+        lists: [...initialData.lists],
+      };
+      // console.log("newData=>", newData);
+      // console.log("newDataIsSame", newData === initialData);
+      // set initial data to match clone
+      setInitialData(newData);
+      updateTaskStatus(draggableId, finish!.id);
+      dispatch(fillTasksAction());
+    }
+  };
+  const updateTaskStatus = async (draggableId: string, status: string) => {
+    await attemptUpdateTask(draggableId, { status }, dispatch);
+  };
   useEffect(() => {
     setInitialData({
       tasks: taskList, //[{}]
@@ -50,98 +139,9 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
     });
   }, [taskList]);
-  console.log("initial=>", initialData);
-  const onDragEnd = (result: any) => {
-    const { destination, source, draggableId } = result;
-    console.log("destination=>", destination);
-    console.log("source=>", source);
-    console.log("draggableId=>", draggableId);
-
-    // if task moves outside droppable space
-    if (!destination) {
-      return;
-    }
-    // if task moved to same place as it started
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index == source.index
-    ) {
-      return;
-    }
-
-    // locate start and finish task lists
-    const start = initialData.lists.find((l) => l.id === source.droppableId);
-    console.log("start list=>", start);
-    const finish = initialData.lists.find(
-      (l) => l.id === destination.droppableId
-    );
-    console.log("finish list=>", finish);
-
-    // find index of the start list
-    const startIndex = initialData.lists.findIndex((l) => l === start);
-
-    // find index of the finish list
-    const finishIndex = initialData.lists.findIndex((l) => l === finish);
-
-    if (start === finish) {
-      // ********** if task moved to same list ********** //
-      const startTaskIds = Array.from(start!.taskIds);
-      startTaskIds.splice(source.index, 1); // remove task id from array by index
-      startTaskIds.splice(destination.index, 0, draggableId); // add task id into new index of same array
-      // rewrite the list
-      const newStart = {
-        ...start!,
-        taskIds: startTaskIds!,
-      };
-      // replace it inside initialData
-      initialData.lists.splice(startIndex, 1, newStart);
-      // clone initial data
-      const newData = {
-        ...initialData,
-        lists: [...initialData.lists],
-      };
-      console.log("newData=>", newData);
-      // set initial data to match clone
-      setInitialData(newData);
-      // update Task Order in our strings?
-    } else {
-      // ********** if task moved to different list ********** //
-      const startTaskIds = Array.from(start!.taskIds);
-      startTaskIds.splice(source.index, 1); // remove task id from array by index
-      // rewrite the start list
-      const newStart = {
-        ...start!,
-        taskIds: startTaskIds!,
-      };
-      const finishTaskIds = Array.from(finish!.taskIds);
-      finishTaskIds.splice(destination.index, 0, draggableId); // add task id into new index of different array
-      // rewrite the finish list
-      const newFinish = {
-        ...finish!,
-        taskIds: finishTaskIds!,
-      };
-      // replace lists inside initialData
-      initialData.lists.splice(startIndex, 1, newStart);
-      initialData.lists.splice(finishIndex, 1, newFinish);
-      // clone initial data
-      const newData = {
-        ...initialData,
-        lists: [...initialData.lists],
-      };
-      console.log("newData=>", newData);
-      console.log("newDataIsSame", newData === initialData);
-      // set initial data to match clone
-      setInitialData(newData);
-      updateTaskStatus(draggableId, finish!.id);
-      dispatch(fillTasksAction());
-    }
-  };
-  const updateTaskStatus = async (draggableId: string, status: string) => {
-    await attemptUpdateTask(draggableId, { status }, dispatch);
-  };
-  useEffect(() => {
-    console.log("CHANGED!");
-  }, [initialData]);
+  // useEffect(() => {
+  //   console.log("CHANGED!");
+  // }, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext

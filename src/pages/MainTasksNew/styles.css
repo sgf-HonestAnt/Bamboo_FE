@@ -10,10 +10,10 @@
   background-color: white;
 }
 .tasks-page__list#in_progress {
-  background-color: grey;
+  background-color: white;
 }
 .tasks-page__list#completed {
-  background-color: black;
+  background-color: white;
 }
 .tasks-page__list-title {
   padding: 8px;
@@ -24,12 +24,12 @@
   border: 1px solid var(--sidebar-bg);
   border-radius: 2px;
   margin-bottom: 8px;
-  background-color: var(--sidebar-bg);
+  background-color: white;
   display: flex;
   justify-content: flex-start;
 }
 .tasks-page__list-task.urgent {
-  background-color: var(--code-red);
+  color: var(--code-red);
 }
 .tasks-page__list-task div {
   text-align: left;

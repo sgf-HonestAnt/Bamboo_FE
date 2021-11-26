@@ -201,6 +201,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
           {/* If shows "other", how many days? */}
           {showOther && <RepeatsOtherGroup changeOtherRep={changeOtherRep} />}
           {showShared && <SharedWithChooseGroup changeShared={changeShared} />}
+          {/* DEADLINE! */}
           {/* Is it shared? Y && showSharedWith */}
           {showSharedWith && (
             <SharedWithGroup

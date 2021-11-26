@@ -1,30 +1,29 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { History, Location } from "history";
-import {
-  beautifulDnD,
-  currentTasksInt,
-  userInt,
-} from "../../typings/interfaces";
-import "./styles.css";
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
-import { DragDropContext } from "react-beautiful-dnd";
-import DroppableList from "../../pages__components/MainTasksNew_c/DroppableList";
+import { currentTasksInt, userInt } from "../../typings/interfaces";
 import TasksFilterRow from "../../pages__components/MainTasksNew_c/TasksFilterRow";
 import DragDropContainer from "../../pages__components/MainTasksNew_c/DragDropContainer";
 import { ICOURGENT } from "../../utils/appIcons";
+import "./styles.css";
 
 type NewTasksPageProps = {
   user: userInt;
   tasks: currentTasksInt;
   history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 const NewTasksPage = (props: NewTasksPageProps) => {
-  const { user, tasks, history } = props;
+  const { user, tasks, history, location } = props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
-  console.log(taskList.length);
+  useEffect(() => {
+    console.log(taskList.length)
+  }, [taskList]);
+  useEffect(() => {
+    console.log(location.pathname); // "/tasks"
+  }, [location.pathname]);
   return (
     <Container fluid>
       <TasksFilterRow

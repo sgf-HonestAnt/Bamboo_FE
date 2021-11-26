@@ -1,5 +1,5 @@
 import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
@@ -26,32 +26,39 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     category: ANY_CAT,
     value: ANY_VAL,
   });
-  const [tasks, setTasks] = useState(allTasks);
-  const handleReset = () => {
-    history.push("/tasks")
+  const handleReset = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setFilter({
+      dueDate: ANY_DUE,
+      category: ANY_CAT,
+      value: ANY_VAL,
+    });
+    setTaskList(allTasks);
   };
-  const handleChange = (e: { target: { id: any; value: any } }) => {
+  const handleChange = async (e: { target: { id: any; value: any } }) => {
     // this filter needs fixing, as works only sporadically
     // add dropdown category for date (Any, Overdue, Due Today, Due Tomorrow, No Due Date) and value (Any, ...values)
     const id = e.target.id;
     const value = e.target.value;
-    console.log(id, value);
     setFilter({ ...filter, [id]: value });
-    const filteredTasks =
-      filter.category !== ANY_CAT
-        ? allTasks.filter(
+    filter.category === ANY_CAT
+      ? setTaskList(allTasks)
+      : setTaskList(
+          allTasks.filter(
             (t) => t!.category.toLowerCase() === `${value.toLowerCase()}`
           )
-        : allTasks;
-    setTaskList(filteredTasks);
-    console.log(tasks.length);
+        );
+  };
+  const handleClick = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    history.push("/tasks-add-new");
   };
   return (
     <Row>
       <Col sm={12}>
         <Row>Filter tasks</Row>
         <Row className='tasks-page__filter-row'>
-          <AddNewTaskButton />
+          <AddNewTaskButton handleClick={handleClick} />
           <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
             <FiRefreshCcw />
           </Button>
@@ -77,19 +84,21 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   ---
                 </option>
                 {/* CUSTOM CATEGORIES */}
-                {categories.map(
-                  (cat, i) =>
-                    !TASK_CATEGORIES.includes(
-                      cat!.charAt(0).toUpperCase() + cat!.slice(1)
-                    ) && (
-                      <option
-                        key={i}
-                        value={cat}
-                        selected={filter.category === cat}>
-                        {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
-                      </option>
-                    )
-                )}
+                {categories
+                  .filter((c) => !TASK_CATEGORIES.includes(c))
+                  .map(
+                    (cat, i) =>
+                      !TASK_CATEGORIES.includes(
+                        cat!.charAt(0).toUpperCase() + cat!.slice(1)
+                      ) && (
+                        <option
+                          key={i}
+                          value={cat}
+                          selected={filter.category === cat}>
+                          {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
+                        </option>
+                      )
+                  )}
               </Form.Control>
             </Form.Group>
           </Form>

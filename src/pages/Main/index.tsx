@@ -22,7 +22,7 @@ import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
 import NewTasksPage from "../MainTasksNew";
 
-const MainBody = ({ history, location, match }: RouteComponentProps) => {
+const MainBody = ({ history, location }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
@@ -51,7 +51,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     } else {
       const username = await checkToken(refreshToken, history, location);
       if (username) {
-        dispatch(fillUserAction(accessToken)); 
+        dispatch(fillUserAction(accessToken));
         dispatch(fillTasksAction());
         dispatch(fillAchievementsAction());
         dispatch(fillFeaturesAction());
@@ -83,7 +83,7 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
   const sideBarSizeSm = location.pathname === "/admin-dash" ? 2 : 3;
-  const sideBarSizeMd = location.pathname === "/admin-dash" ? 3 : 4;
+  const sideBarSizeMd = location.pathname === "/admin-dash" ? 1 : 2;
   // console.log(theme);
   return (
     <Container fluid className='main-page m-0' id={theme}>
@@ -149,7 +149,12 @@ const MainBody = ({ history, location, match }: RouteComponentProps) => {
           // )
           path === "/tasks" ? (
             <Col className='m-0'>
-              <NewTasksPage user={user} tasks={tasks} history={history} /> 
+              <NewTasksPage
+                user={user}
+                tasks={tasks}
+                history={history}
+                location={location}
+              />
             </Col>
           ) : // path === "/tasks-schedule" ? (
           //   <TasksSchedule />

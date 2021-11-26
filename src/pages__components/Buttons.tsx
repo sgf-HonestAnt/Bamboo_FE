@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw } from "react-icons/fi";
-import { ICOBACK, ICODELETE, ICOEDIT, ICOROTATE } from "../utils/appIcons";
+import { ICOBACK, ICOCHECK, ICOCROSS, ICODELETE, ICOEDIT, ICOROTATE } from "../utils/appIcons";
 
 type ButtonProps = {
   label?: string | null;
@@ -8,6 +8,16 @@ type ButtonProps = {
   handleClick?: any;
   value?: string;
 };
+export const RejectButton = (props: ButtonProps) => (
+  <Button variant='link' className='m-0 p-0 link-button' onClick={props.handleClick}>
+    <ICOCROSS /> 
+  </Button>
+);
+export const AcceptButton = (props: ButtonProps) => (
+  <Button variant='link' className='m-0 p-0 link-button' onClick={props.handleClick}>
+    <ICOCHECK /> 
+  </Button>
+);
 export const LinkButton = (props: ButtonProps) => (
   <Button variant='link' className='m-0 p-0 link-button' value={props.value} onClick={props.handleClick}>
     {props.label} 

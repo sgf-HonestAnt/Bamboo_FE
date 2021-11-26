@@ -1,16 +1,36 @@
-import { Key } from "react";
+import { Key, useEffect, useState } from "react";
+import { taskInt, userInt } from "../../typings/interfaces";
 import { ICOURGENT } from "../../utils/appIcons";
 import {
   getFirstLastDayOfMonth,
   getMonthByIndex,
   getNumberOfDaysInMonth,
 } from "../../utils/f_dates";
+import { getTasks } from "../../utils/f_tasks";
 
-type DashCalenCardProps = {};
-
+type DashCalenCardProps = { user: userInt };
 const DashCalenCard = (props: DashCalenCardProps) => {
-  //   const {} = props;
-  const month = getMonthByIndex(new Date());
+  const { user } = props;
+  const [tasks, setTasks] = useState([]);
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
+
+  const attemptLoad = async () => {
+    // load tasks with deadline this month
+    const deadline = `${year}-${month + 1}`;
+    console.log(deadline);
+    const data = await getTasks();
+    const { awaited, in_progress } = data;
+    const tasksDueThisMonth = awaited
+      .concat(in_progress)
+      .filter((t: taskInt) => t.deadline !== null);
+    const tasksThisMonth = tasksDueThisMonth.filter(
+      (t: taskInt) => t.deadline!.slice(0, 7) === deadline
+    );
+    console.log(tasksThisMonth);
+    setTasks(tasksThisMonth);
+  };
+
   const numberOfDays = getNumberOfDaysInMonth(new Date());
   const { firstDay, lastDay } = getFirstLastDayOfMonth(new Date());
   // first day being monday for our purposes, if firstDay === Sunday it falls at end of week
@@ -49,18 +69,32 @@ const DashCalenCard = (props: DashCalenCardProps) => {
     weeksArray.push(i);
   }
   for (let i = 1; i < numberOfDays + 1; i++) {
-    daysArray.push(i); // if for e.g. 31 days this month: [1,2,3,4,...29,30,31]
+    if (i < 10) {
+      daysArray.push(`0${i}`);
+    } else {
+      daysArray.push(`${i}`); // if for e.g. 31 days this month: [01,02,03,04,...29,30,31]
+    }
   }
   for (let i = 0; i < addedDays; i++) {
-    daysArray.unshift(0); // if for e.g. first day falls on wednesday: [0,0,1,2,3,4...29,30,31]
+    daysArray.unshift(0); // if for e.g. first day falls on wednesday: [0,0,01,02,03,04...29,30,31]
   }
   for (let i = 0; i < addedDaysAtEnd; i++) {
-    daysArray.push(0); // if for e.g. last day falls on friday: [0,0,1,2,3,4...29,30,31,0,0]
+    daysArray.push(0); // if for e.g. last day falls on friday: [0,0,01,02,03,04...29,30,31,0,0]
   }
+
+  useEffect(() => {
+    attemptLoad();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className='dashboard__calendar-card m-2'>
-      <div className='dashboard__card-header'>{month}</div>
-      <div className='red'><ICOURGENT/>Show number of tasks per day, and when click, go to tasks for that day</div>
+      <div className='dashboard__card-header'>
+        {getMonthByIndex(new Date())}
+      </div>
+      <div className='red'>
+        <ICOURGENT />
+        Show number of tasks per day, and when click, go to tasks for that day
+      </div>
       <div className='dashboard__calendar-card__line'>
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
           <div key={i} className='dashboard__calendar-card__box-empty'>
@@ -75,7 +109,7 @@ const DashCalenCard = (props: DashCalenCardProps) => {
           <div key={i} className='dashboard__calendar-card__line' id={w}>
             {daysArray
               .slice(a, b) //
-              .map((d: number, i: Key | null | undefined) => (
+              .map((d: number | string, i: Key | null | undefined) => (
                 <div
                   key={i}
                   className={
@@ -83,7 +117,22 @@ const DashCalenCard = (props: DashCalenCardProps) => {
                       ? "dashboard__calendar-card__box"
                       : "dashboard__calendar-card__box-empty"
                   }>
-                  {d !== 0 && d}
+                  <div>{d !== 0 && tasks.filter(
+                        (t: taskInt) => t.deadline!.slice(8, 10) === d
+                      ).length < 1 && d}</div>
+                  <div>
+                    {`${
+                      tasks.filter(
+                        (t: taskInt) => t.deadline!.slice(8, 10) === d
+                      ).length > 0
+                        ? `[${
+                            tasks.filter(
+                              (t: taskInt) => t.deadline!.slice(8, 10) === d
+                            ).length
+                          }]`
+                        : ""
+                    }`}
+                  </div>
                 </div>
               ))}
           </div>

@@ -109,7 +109,7 @@ const DashboardPage = (props: DashboardPageProps) => {
             Change "Brush Your Teeth" to a DAILY task
             And add friends. ("You'll notice that "" is shared with AdminPanda. Try adding our second admin, BigBear, here...")
             */}
-            <DashCalenCard />
+            <DashCalenCard user={user} />
             <DashTipsCard />
           </Col>
         </Row>
