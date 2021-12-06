@@ -1,26 +1,43 @@
 import { Button } from "react-bootstrap";
 import { FiPlus, FiRefreshCcw } from "react-icons/fi";
-import { ICOBACK, ICOCHECK, ICOCROSS, ICODELETE, ICOEDIT, ICOROTATE } from "../utils/appIcons";
+import {
+  ICOBACK,
+  ICOCHECK,
+  ICOCROSS,
+  ICODELETE,
+  ICOEDIT,
+  ICOROTATE,
+} from "../utils/appIcons";
 
 type ButtonProps = {
   label?: string | null;
-  className?: string
+  className?: string;
   handleClick?: any;
   value?: string;
 };
 export const RejectButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0 link-button' onClick={props.handleClick}>
-    <ICOCROSS /> 
+  <Button
+    variant='link'
+    className='m-0 p-0 link-button'
+    onClick={props.handleClick}>
+    <ICOCROSS />
   </Button>
 );
 export const AcceptButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0 link-button' onClick={props.handleClick}>
-    <ICOCHECK /> 
+  <Button
+    variant='link'
+    className='m-0 p-0 link-button'
+    onClick={props.handleClick}>
+    <ICOCHECK />
   </Button>
 );
 export const LinkButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0 link-button' value={props.value} onClick={props.handleClick}>
-    {props.label} 
+  <Button
+    variant='link'
+    className='m-0 p-0 link-button'
+    value={props.value}
+    onClick={props.handleClick}>
+    {props.label}
   </Button>
 );
 export const ClearNotification = (props: ButtonProps) => (
@@ -29,7 +46,10 @@ export const ClearNotification = (props: ButtonProps) => (
   </Button>
 );
 export const EditButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0 small-button' onClick={props.handleClick}>
+  <Button
+    variant='link'
+    className='m-0 p-0 small-button'
+    onClick={props.handleClick}>
     {props.label} <ICOEDIT />
   </Button>
 );
@@ -40,7 +60,8 @@ export const DeleteButton = (props: ButtonProps) => (
 );
 export const AddNewTaskButton = (props: ButtonProps) => (
   <Button variant='light' className='mb-3 mr-1' onClick={props.handleClick}>
-    <FiPlus />Add Task
+    <FiPlus />
+    Add Task
   </Button>
 );
 export const ResetButton = (props: ButtonProps) => (
@@ -78,13 +99,13 @@ export const BackToDashButton = () => (
     <ICOBACK />
   </Button>
 );
-export const SubmitButtonCol = () => (
-  <Button variant='light' className='my-1' type='submit'>
-    Submit
+export const SubmitButtonCol = (props: ButtonProps) => (
+  <Button variant='light' className='m-1' type='submit'>
+    {props.label}
   </Button>
 );
-export const BackToDashButtonCol = () => (
-  <Button variant='light' className='my-1' href='/dash'>
-    <ICOBACK />
+export const BackToDashButtonCol = (props: ButtonProps) => (
+  <Button variant='light' className='m-1' onClick={props.handleClick}>
+    <ICOBACK /> {props.label}
   </Button>
 );

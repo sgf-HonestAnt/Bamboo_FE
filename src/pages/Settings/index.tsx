@@ -27,6 +27,8 @@ const SettingsPage = (props: SettingsPageProps) => {
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     avatar: user.avatar,
+    first_name: user.first_name,
+    last_name: user.last_name,
     username: user.username,
     bio: user.bio,
     email: user.email,
@@ -52,15 +54,19 @@ const SettingsPage = (props: SettingsPageProps) => {
       history.push("/dash");
     }
   };
+  const handleReturn = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault()
+    history.push("/dash")
+  }
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleDelete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("DELETE!");
-    const deleted = await attemptDeleteUser()
+    const deleted = await attemptDeleteUser();
     if (deleted?.status === 204) {
-      history.push("/")
+      history.push("/");
     }
   };
   useEffect(() => {
@@ -87,6 +93,36 @@ const SettingsPage = (props: SettingsPageProps) => {
               <Col sm='8'>
                 <Form.Control type='file' size='sm' />
               </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId='first_name'>
+              <Form.Label column sm='4'>
+                first name
+              </Form.Label>
+              <Col sm='8'>
+                <Form.Control
+                  type='text'
+                  value={form.first_name}
+                  onChange={handleChange}
+                  className='settings-page__profile-card__form-control'
+                />
+                {editButton}
+              </Col>
+              {/* <Col sm='2'>{editButton}</Col> */}
+            </Form.Group>
+            <Form.Group as={Row} controlId='last_name'>
+              <Form.Label column sm='4'>
+                last name
+              </Form.Label>
+              <Col sm='8'>
+                <Form.Control
+                  type='text'
+                  value={form.last_name}
+                  onChange={handleChange}
+                  className='settings-page__profile-card__form-control'
+                />
+                {editButton}
+              </Col>
+              {/* <Col sm='2'>{editButton}</Col> */}
             </Form.Group>
             <Form.Group as={Row} controlId='username'>
               <Form.Label column sm='4'>
@@ -144,17 +180,18 @@ const SettingsPage = (props: SettingsPageProps) => {
                 </Form.Control>
               </Col>
             </Form.Group>
-            <BackToDashButtonCol />
-            <SubmitButtonCol />
+            <div className='user-settings-buttons'>
+              <BackToDashButtonCol label="Back to dashboard" handleClick={handleReturn} />
+              <SubmitButtonCol label="Submit changes" />
+            </div>
           </Form>
-          <DeleteButton label="Delete Account" handleClick={handleShow} />
+          {/* the delete account modal */}
+          <DeleteButton label='Delete Account' handleClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Are you sure?</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              This cannot be undone.
-            </Modal.Body>
+            <Modal.Body>This cannot be undone.</Modal.Body>
             <Modal.Footer>
               <Button variant='primary' onClick={handleDelete}>
                 Yes, delete my account

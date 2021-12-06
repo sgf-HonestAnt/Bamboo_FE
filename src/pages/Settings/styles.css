@@ -5,9 +5,10 @@
   justify-content: space-around;
   align-content: center;
 }
-.settings-page__profile-card {}
+.settings-page__profile-card {
+}
 .settings-page__profile-card__profile-img {
-  max-width: 60%;
+  max-width: 40%;
   border-radius: 50%;
 }
 .settings-page__profile-card__form {
@@ -29,4 +30,8 @@
 .settings-page__profile-card__edit-button:hover {
   opacity: 0.1;
   color: inherit;
+}
+.user-settings-buttons {
+  display: flex;
+  justify-content: center;
 }
