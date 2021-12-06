@@ -2,7 +2,16 @@ import { History } from "history";
 import { Dispatch } from "redux";
 import { setRefreshToken } from "../redux/actions/user";
 import { loginFormProps, userUpdateType } from "../typings/types";
-import { BE_URL, GET, PUT, USERS, ADMIN, SESSION, POST } from "./appConstants";
+import {
+  BE_URL,
+  GET,
+  PUT,
+  USERS,
+  ADMIN,
+  SESSION,
+  POST,
+  DELETE,
+} from "./appConstants";
 
 export const findUsernameByEmail = async (email: string) => {
   const url = `${BE_URL}/${USERS}?email=${email}`;
@@ -150,11 +159,11 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
     };
     const body = JSON.stringify(bodyPar);
     const updated = await fetch(url, { method, headers, body });
-    return updated
+    return updated;
   } catch (error) {
     console.log(error);
   }
-}; 
+};
 export const acceptOrReject = async (username: string, action: string) => {
   const token = localStorage.getItem("token");
   try {
@@ -166,6 +175,20 @@ export const acceptOrReject = async (username: string, action: string) => {
       Authorization: `Bearer ${token}`,
     };
     await fetch(url, { method, headers });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const attemptDeleteUser = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = DELETE;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const deleted = await fetch(url, { method, headers });
+    return deleted;
   } catch (error) {
     console.log(error);
   }
