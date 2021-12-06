@@ -2,23 +2,28 @@ import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
-import { BackToDashButtonCol, SubmitButtonCol } from "../../pages__components/Buttons";
+import {
+  BackToDashButtonCol,
+  SubmitButtonCol,
+} from "../../pages__components/Buttons";
 import { THEMES } from "../../utils/appConstants";
 import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";
 import ImageUploader from "../../pages__components/Settings_c/ImageUploader";
-
+import { attemptUpdateUser } from "../../utils/f_users";
+import { fillUserAction } from "../../redux/actions/user";
+import { useDispatch } from "react-redux";
 type SettingsPageProps = {
   history: string[] | History<unknown>;
   location: Location<unknown>;
-  user: userInt; 
+  user: userInt;
   settings: currentSettingsInt;
   // { history, location, match }: RouteComponentProps
 };
-
 const SettingsPage = (props: SettingsPageProps) => {
-  const { user, settings, location } = props;
+  const { history, location, user, settings } = props;
   const { selectedTheme } = settings;
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     avatar: user.avatar,
     username: user.username,
@@ -37,9 +42,14 @@ const SettingsPage = (props: SettingsPageProps) => {
     console.log(value);
     setForm({ ...form, [id]: value });
   };
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(form);
+    const updated = await attemptUpdateUser(form);
+    if (updated?.status === 200) {
+      await dispatch(fillUserAction());
+      history.push("/dash");
+    }
   };
   useEffect(() => {
     console.log(location.pathname);
@@ -53,6 +63,7 @@ const SettingsPage = (props: SettingsPageProps) => {
             alt=''
             className='settings-page__profile-card__profile-img'
           />
+          <div className='red'>Make it possible to change avatar!</div>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
             onSubmit={handleSubmit}>

@@ -55,6 +55,12 @@
 .opaquish {
   opacity: 0.5;
 }
+.hidden {
+  display: none;
+}
+.visible {
+  visibility: visible; 
+}
 .red {
   color: red;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
@@ -62,6 +68,9 @@
 .small-button {
   width: 20px;
   height: 20px;
+}
+.error-bg {
+  background-color: rgba(255, 0, 0, 0.2) !important;
 }
 .link-button {
   color: var(--main-text) !important;

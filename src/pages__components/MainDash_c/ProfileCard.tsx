@@ -8,6 +8,7 @@ import { ICOACTIVITY, ICORELATE, ICOURGENT } from "../../utils/appIcons";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 import { fillUserAction } from "../../redux/actions/user";
+import { EditButton } from "../Buttons";
 
 type DashProfileCardProps = {
   history: History<unknown> | string[];
@@ -21,7 +22,7 @@ type DashProfileCardProps = {
 };
 
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const { followedUsers, avatar, username, admin, bio, level, xp } =
+  const { history, followedUsers, avatar, username, admin, bio, level, xp } =
     props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);
@@ -33,6 +34,10 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     await attemptUpdateUser({ bio: newBio });
     dispatch(fillUserAction());
   };
+  const pushToSettings = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    history.push("/user-settings");
+  }; 
   const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-2'>
@@ -47,7 +52,8 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         </div>
       </div>
       <div className='dashboard__card-header'>
-        {username} {admin && "(admin)"}
+        {username} {admin && "(admin)"}{" "}
+        <EditButton handleClick={pushToSettings} />
       </div>
       <div>{role}</div>
       <div className='dashboard__profile-card__holder-xp'>

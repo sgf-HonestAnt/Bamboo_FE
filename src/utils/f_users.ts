@@ -149,11 +149,12 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
       "Content-Type": "application/json",
     };
     const body = JSON.stringify(bodyPar);
-    await fetch(url, { method, headers, body });
+    const updated = await fetch(url, { method, headers, body });
+    return updated
   } catch (error) {
     console.log(error);
   }
-};
+}; 
 export const acceptOrReject = async (username: string, action: string) => {
   const token = localStorage.getItem("token");
   try {

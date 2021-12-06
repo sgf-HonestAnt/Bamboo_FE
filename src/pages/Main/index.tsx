@@ -45,10 +45,12 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
     if (!accessToken) {
       console.log("⛔NO ACCESS TOKEN");
       history.push("/login");
-    } else if (!refreshToken) {
-      console.log("⛔NO REFRESH TOKEN");
-      history.push("/login");
-    } else {
+    }
+    // else if (!refreshToken) {
+    //   console.log("⛔NO REFRESH TOKEN");
+    //   history.push("/login");
+    // }
+    else {
       const username = await checkToken(refreshToken, history, location);
       if (username) {
         dispatch(fillUserAction(accessToken));
