@@ -24,6 +24,7 @@ import NewTasksPage from "../MainTasksNew";
 
 const MainBody = ({ history, location }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
+  const [sideBarLoading, setSideBarLoading] = useState(false)
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
@@ -32,6 +33,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
   const token = localStorage.getItem("token");
   const { followedUsers, error, loading } = state.currentUser;
   const tasks = state.currentTasks;
+  // const numberOfTasks = tasks.awaited.length + tasks.in_progress.length;
   const categories = tasks.categories;
   const achievements = state.currentAchievements;
   const features = state.currentFeatures;
@@ -77,7 +79,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
   useEffect(() => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mainLoading]);
+  }, [loading]);
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
@@ -111,10 +113,14 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
               history={history}
               location={location}
               user={user}
+              tasks={tasks}
               settings={settings}
               followedUsers={followedUsers}
               theme={theme}
               setTheme={setTheme}
+              // numberOfTasks={numberOfTasks} 
+              sideBarLoading={sideBarLoading}
+              setSideBarLoading={setSideBarLoading}
             />
           </Col>
           {path === "/dash" ? (
@@ -142,6 +148,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
                 history={history}
                 location={location}
                 setErrorMessage={setErrorMessage}
+                setSideBarLoading={setSideBarLoading}
               />
             </Col>
           ) : // : path === "/tasks" ? (
@@ -156,6 +163,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
                 tasks={tasks}
                 history={history}
                 location={location}
+                setSideBarLoading={setSideBarLoading}
               />
             </Col>
           ) : // path === "/tasks-schedule" ? (

@@ -9,16 +9,18 @@ import {
 } from "../../utils/appConstants";
 import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
 
+export const setUserLoading = (boolean: boolean) => ({
+  type: FILL_USER_LOADING,
+  payload: boolean,
+});
 export const setUserError = (boolean: boolean) => ({
   type: FILL_USER_ERROR,
   payload: boolean,
 });
-
 export const setRefreshToken = (token: string) => ({
   type: SET_REFRESH_TOKEN,
   payload: token,
 });
-
 export const fillUserAction = (tokenPar?: string) => {
   return async (dispatch: AppDispatch, getState: any) => {
     const token = tokenPar || localStorage.getItem("token");

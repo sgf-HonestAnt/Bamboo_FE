@@ -22,7 +22,8 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await attemptLoginUser(form, history, dispatch); 
+    await attemptLoginUser(form, history, dispatch);
+    history.push("/");
   };
   useEffect(() => {
     console.log(location.pathname); // "/login"
@@ -42,7 +43,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
                 <Form.Control
                   type='text'
                   value={form.username}
-                  placeholder='Enter email'
+                  placeholder='Enter email or username'
                   onChange={handleChange}
                 />
               </Col>
@@ -55,7 +56,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
                 <Form.Control
                   type='password'
                   value={form.password}
-                  placeholder='Password'
+                  placeholder='Enter password'
                   onChange={handleChange}
                 />
               </Col>

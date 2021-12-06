@@ -8,26 +8,28 @@ import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 import DroppableList from "./DroppableList";
 import { attemptUpdateTask } from "../../utils/f_tasks";
 import { fillTasksAction } from "../../redux/actions/tasks";
+import { setUserLoading } from "../../redux/actions/user";
+import { setTimeout } from "timers";
 
 type DragDropContainerProps = {
   taskList: taskInt[];
   history: History<unknown> | string[];
+  setSideBarLoading: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
-  const { taskList } = props;
+  const { taskList, history, setSideBarLoading } = props;
   const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
     lists: [],
     listOrder: [],
   });
-  // console.log("initial=>", initialData);
-  const onDragEnd = (result: any) => {
+  const loadSideBar = async () => {
+    console.log("LOAD SIDE BAR AT DRAG DROP");
+    await setSideBarLoading(true);
+  };
+  const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
-    // console.log("destination=>", destination);
-    // console.log("source=>", source);
-    // console.log("draggableId=>", draggableId);
-
     // if task moves outside droppable space
     if (!destination) {
       return;
@@ -39,21 +41,16 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     ) {
       return;
     }
-
     // locate start and finish task lists
     const start = initialData.lists.find((l) => l.id === source.droppableId);
     // console.log("start list=>", start);
     const finish = initialData.lists.find(
       (l) => l.id === destination.droppableId
     );
-    // console.log("finish list=>", finish);
-
     // find index of the start list
     const startIndex = initialData.lists.findIndex((l) => l === start);
-
     // find index of the finish list
     const finishIndex = initialData.lists.findIndex((l) => l === finish);
-
     if (start === finish) {
       // ********** if task moved to same list ********** //
       const startTaskIds = Array.from(start!.taskIds);
@@ -71,7 +68,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         ...initialData,
         lists: [...initialData.lists],
       };
-      // console.log("newData=>", newData);
       // set initial data to match clone
       setInitialData(newData);
       // update Task Order in our strings?
@@ -99,12 +95,14 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         ...initialData,
         lists: [...initialData.lists],
       };
-      // console.log("newData=>", newData);
-      // console.log("newDataIsSame", newData === initialData);
       // set initial data to match clone
       setInitialData(newData);
       updateTaskStatus(draggableId, finish!.id);
       dispatch(fillTasksAction());
+      if (newFinish.id === COMPLETED) {
+        // setSideBarLoading(true);
+        dispatch(setUserLoading(true)); // setMainLoading(true)
+      }
     }
   };
   const updateTaskStatus = async (draggableId: string, status: string) => {
@@ -139,9 +137,10 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
     });
   }, [taskList]);
-  // useEffect(() => {
-  //   console.log("CHANGED!");
-  // }, [initialData]);
+  useEffect(() => {
+    console.log("CHANGED!");
+    // history.push("/tasks")
+  }, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext

@@ -13,8 +13,8 @@ type DashAlertCardProps = {
 const DashAlertCard = (props: DashAlertCardProps) => {
   const { notification } = props;
   const dispatch = useDispatch();
-  const notifLength = notification.length;
-  const recentNotif = notification[notification.length - 1];
+  const notifLength = notification!.length;
+  const recentNotif = notification[notifLength - 1];
   const isReq = recentNotif?.includes("has sent you a request");
   const isAcc = recentNotif?.includes("accepted your request");
   const dashClass =

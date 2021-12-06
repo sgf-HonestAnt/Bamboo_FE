@@ -18,42 +18,58 @@ type SidebarProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
   user: userInt;
+  tasks: currentTasksInt;
   settings: currentSettingsInt;
   followedUsers: followedUserInt[];
   theme: string;
   setTheme: any;
+  // numberOfTasks: number; 
+  sideBarLoading: boolean;
+  setSideBarLoading: any;
 };
 
 const MainSideBar = (props: SidebarProps) => {
-  const { history, location, user, settings, followedUsers, theme, setTheme } =
-    props;
+  const {
+    history,
+    location,
+    user,
+    tasks,
+    settings,
+    followedUsers,
+    theme,
+    setTheme,
+    // numberOfTasks,
+    sideBarLoading,
+    setSideBarLoading,
+  } = props;
   const [taskNum, setTaskNum] = useState(0);
-  const [loading, setLoading] = useState(true);
   const numOfUsers = followedUsers.length;
   const loadSidebar = async () => {
-    const tasks = await getTasks();
     if (tasks) {
       const { awaited, in_progress } = tasks;
       setTaskNum(awaited.length + in_progress.length);
-    }
+    } 
   };
   const logout = async () => {
     await attemptLogout();
     history.push("/session-closed");
   };
-  const handleClick = () => {
+  const handleClick = () => { 
     setTheme(theme === "theme-light" ? "theme-dark" : "theme-light");
   };
   useEffect(() => {
+    console.log("LOADING SIDE BAR!")
     loadSidebar();
-    setLoading(false);
-  }, [loading]);
+    setSideBarLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sideBarLoading]);
   // console.log("SETTINGS=>", settings);
+  console.log("tasks at sidebar", tasks.awaited.length + tasks.in_progress.length)
   return (
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
         <div className='main-side-bar__theme'>
-          <Button onClick={handleClick}>theme</Button> 
+          <Button onClick={handleClick}>theme</Button>
         </div>
       )}
       <div className='main-side-bar__branding my-3'>

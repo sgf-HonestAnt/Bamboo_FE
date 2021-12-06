@@ -42,15 +42,12 @@ export const attemptLoginUser = async (
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const { accessToken, refreshToken } = await response.json();
-      setTimeout(() => {
-        localStorage.setItem("token", accessToken);
-      }, 1000);
-      setTimeout(() => {
+      if (refreshToken) {
         dispatch(setRefreshToken(refreshToken));
-      }, 1000);
-      setTimeout(() => {
-        history.push("/");
-      }, 1000);
+      }
+      if (accessToken) {
+        localStorage.setItem("token", accessToken);
+      }
     } else {
       console.log("😥TROUBLE LOGGING IN");
       history.push("/login");

@@ -27,6 +27,7 @@ type AddTaskPageProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
   setErrorMessage: any;
+  setSideBarLoading: any;
 };
 
 const AddTaskPage = (props: AddTaskPageProps) => {
@@ -37,6 +38,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
     history,
     location,
     setErrorMessage,
+    setSideBarLoading,
   } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
@@ -86,7 +88,8 @@ const AddTaskPage = (props: AddTaskPageProps) => {
       );
       console.log("CREATED NEW TASK", _id);
       // setValidated(true);
-      dispatch(fillTasksAction());
+      await dispatch(fillTasksAction());
+      setSideBarLoading(true)
       setTimeout(() => {
         history.push("/tasks");
       }, 500);

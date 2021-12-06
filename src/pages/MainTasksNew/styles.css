@@ -31,6 +31,9 @@
 .tasks-page__list-task.urgent {
   color: var(--code-red);
 }
+.tasks-page__list-task.completed {
+  color: var(--button-bg);
+}
 .tasks-page__list-task div {
   text-align: left;
 }

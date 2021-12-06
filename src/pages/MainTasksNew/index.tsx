@@ -12,15 +12,13 @@ type NewTasksPageProps = {
   tasks: currentTasksInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
+  setSideBarLoading: any;
 };
 const NewTasksPage = (props: NewTasksPageProps) => {
-  const { user, tasks, history, location } = props;
+  const { user, tasks, history, location, setSideBarLoading } = props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
-  useEffect(() => {
-    console.log(taskList.length)
-  }, [taskList]);
   useEffect(() => {
     console.log(location.pathname); // "/tasks"
   }, [location.pathname]);
@@ -34,10 +32,18 @@ const NewTasksPage = (props: NewTasksPageProps) => {
       />
       <div className='red'>
         <ICOURGENT />
-        Make this flawless filter, prettify styling, add param for if date
-        given, dash calendar will link to this.
+        Filter doesn't work. Styling is ugly. Need to add param for if date
+        given. Dash calendar should link to specific day. Investigate the
+        sidebar load which works well with add new task and push "/tasks" but
+        not with move task to completed. When moving task to completed, the
+        sidebar should change without whole page refresh (or else
+        remove the sidebar task number)
       </div>
-      <DragDropContainer taskList={taskList} history={history} />
+      <DragDropContainer
+        taskList={taskList}
+        history={history}
+        setSideBarLoading={setSideBarLoading}
+      />
     </Container>
   );
 };

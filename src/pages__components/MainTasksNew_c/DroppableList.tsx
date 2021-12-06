@@ -3,6 +3,7 @@ import { listForBeautifulDnd, taskInt } from "../../typings/interfaces";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableTask from "./DraggableTask";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
+import NonDraggableTask from "./NonDraggableTask";
 
 type DroppableListProps = {
   list: listForBeautifulDnd;
@@ -23,10 +24,13 @@ const DroppableList = (props: DroppableListProps) => {
                 ref={provided.innerRef}
                 // isDraggingOver={snapshot.isDraggingOver}
               >
-                {list.id !== COMPLETED &&
-                  tasks.map((task, i) => (
-                    <DraggableTask key={task!._id} task={task} i={i} />
-                  ))}
+                {list.id !== COMPLETED
+                  ? tasks.map((task, i) => (
+                      <DraggableTask key={task!._id} task={task} i={i} />
+                    ))
+                  : tasks.map((task, i) => (
+                      <NonDraggableTask key={task!._id} task={task} i={i} />
+                    ))}
                 {provided.placeholder}
               </div>
             );

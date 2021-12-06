@@ -15,7 +15,6 @@ import {
   WELLBEING,
   WORK,
 } from "../../utils/appConstants";
-import getIcon from "../../utils/f_getIcon";
 import {
   ICOEMPTY,
   ICOFINANCE,
