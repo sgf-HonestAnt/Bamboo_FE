@@ -58,13 +58,11 @@ const MainSideBar = (props: SidebarProps) => {
     setTheme(theme === "theme-light" ? "theme-dark" : "theme-light");
   };
   useEffect(() => {
-    console.log("LOADING SIDE BAR!")
     loadSidebar();
     setSideBarLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sideBarLoading]);
   // console.log("SETTINGS=>", settings);
-  console.log("tasks at sidebar", tasks.awaited.length + tasks.in_progress.length)
   return (
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
@@ -86,7 +84,6 @@ const MainSideBar = (props: SidebarProps) => {
           <div className='main-side-bar__links'>
             {user.admin && <Link to='/admin-dash'>admin</Link>}
             <Link to='/dash'>dashboard</Link>
-            <Link to='tasks-add-new'>add new</Link>
             <Link to='/tasks'>tasks ({taskNum})</Link>
             {numOfUsers > 0 ? (
               <Link to='/following'>following ({numOfUsers})</Link>

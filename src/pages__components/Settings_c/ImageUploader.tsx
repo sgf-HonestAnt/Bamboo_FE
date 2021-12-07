@@ -12,7 +12,6 @@ const ImageUploader = () => {
     console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
-  console.log(images)
   return (
     <div className='App'>
       <ImageUploading

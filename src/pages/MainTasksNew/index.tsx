@@ -25,6 +25,7 @@ const NewTasksPage = (props: NewTasksPageProps) => {
   return (
     <Container fluid>
       <TasksFilterRow
+      user={user}
         allTasks={allTasks}
         categories={categories}
         setTaskList={setTaskList}

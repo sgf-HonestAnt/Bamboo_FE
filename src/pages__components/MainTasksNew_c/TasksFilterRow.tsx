@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
-import { beautifulDnD, taskInt } from "../../typings/interfaces";
+import { beautifulDnD, taskInt, userInt } from "../../typings/interfaces";
 import { AddNewTaskButton } from "../Buttons";
 import {
   ANY_CAT,
@@ -11,8 +11,10 @@ import {
   ANY_VAL,
   TASK_CATEGORIES,
 } from "../../utils/appConstants";
+import AddEditTaskModal from "../AddEditTaskModal";
 
 type TasksFilterRowProps = {
+  user: userInt; 
   allTasks: (taskInt | undefined)[];
   categories: string[];
   setTaskList: any;
@@ -20,7 +22,10 @@ type TasksFilterRowProps = {
 };
 
 const TasksFilterRow = (props: TasksFilterRowProps) => {
-  const { allTasks, categories, setTaskList, history } = props;
+  const { user, allTasks, categories, setTaskList, history } = props;
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [filter, setFilter] = useState({
     dueDate: ANY_DUE,
     category: ANY_CAT,
@@ -58,7 +63,13 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       <Col sm={12}>
         <Row>Filter tasks</Row>
         <Row className='tasks-page__filter-row'>
-          <AddNewTaskButton handleClick={handleClick} />
+          <AddNewTaskButton label='Add task' handleClick={handleShow} />
+          <AddEditTaskModal
+            show={show}
+            handleClose={handleClose}
+            user={user}
+            categories={categories}
+          />{" "}
           <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
             <FiRefreshCcw />
           </Button>

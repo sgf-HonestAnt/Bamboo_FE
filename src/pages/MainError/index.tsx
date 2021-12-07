@@ -12,7 +12,7 @@ type ErrorPageProps = {
 const ErrorPage = (props: ErrorPageProps) => {
   // 👏 change this page.
   const { history, errorMessage } = props;
-  const [counter, setCounter] = useState(5);
+  const [counter, setCounter] = useState(3);
   useEffect(() => {
     if (counter === 0) {
       history.push("/");
@@ -20,11 +20,12 @@ const ErrorPage = (props: ErrorPageProps) => {
     setTimeout(() => {
       setCounter(counter - 1);
     }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter]);
   return (
     <Row className='error-page p-1'>
       <Col>
-        {errorMessage && errorMessage}
+        {errorMessage ? errorMessage : <></>}
         <br />
         Attempting redirect to <Link to='/dash'>dashboard</Link> in {counter}
       </Col>

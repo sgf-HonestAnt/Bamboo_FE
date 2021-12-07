@@ -41,6 +41,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-2'>
+      <div>BADGES!</div>
       <div className='dashboard__profile-card__holder'>
         <img
           className='dashboard__profile-card__holder-img'

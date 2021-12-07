@@ -75,6 +75,9 @@ const DashboardPage = (props: DashboardPageProps) => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    console.log(location.pathname)
+  }, [location.pathname]);
   return (
     <Row className='dashboard p-3 mt-3'>
       <Col sm={12} md={10} lg={8} className='dashboard__left-col'>

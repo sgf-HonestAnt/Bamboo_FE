@@ -81,7 +81,6 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
   useEffect(() => {
-    console.log(location.pathname);
   }, [location.pathname]);
   useEffect(() => {
     console.log("🔐", localStorage.getItem("token"));

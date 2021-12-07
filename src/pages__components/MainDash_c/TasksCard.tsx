@@ -19,6 +19,7 @@ import {
   ICOURGENT,
 } from "../../utils/appIcons";
 import { AddNewTaskButton, CompleteButton, SubmitButton } from "../Buttons";
+import AddEditTaskModal from "../AddEditTaskModal";
 
 type DashTasksCardProps = {
   tasks: taskInt[];
@@ -121,7 +122,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         <Form onSubmit={handleSubmitComplete}>
           <div>Tick to complete</div>
           <div className='red'>
-            <ICOURGENT /> 
+            <ICOURGENT />
             Make draggable into Complete droppable
           </div>
           {tasks.slice(0, 3).map((t, i) => {
@@ -149,10 +150,12 @@ const DashTasksCard = (props: DashTasksCardProps) => {
             );
           })}
           <div>{tasks.length > 3 ? `+ ${tasks.length - 3} more` : ""}</div>
-          <AddNewTaskButton handleClick={handleShow} />
           <CompleteButton />
         </Form>
       )}
+      <AddNewTaskButton label='Add task' handleClick={handleShow} />
+      <AddEditTaskModal show={show} handleClose={handleClose} user={user} categories={categories} />
+      {/* <AddNewTaskButton handleClick={handleShow} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add new task</Modal.Title>
@@ -233,13 +236,10 @@ const DashTasksCard = (props: DashTasksCardProps) => {
             <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
               <ICOSAVE />
             </Button>
-            {/* <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
-            Save Changes
-          </Button> */}
           </Form>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

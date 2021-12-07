@@ -60,8 +60,7 @@ export const DeleteButton = (props: ButtonProps) => (
 );
 export const AddNewTaskButton = (props: ButtonProps) => (
   <Button variant='light' className='mb-3 mr-1' onClick={props.handleClick}>
-    <FiPlus />
-    Add Task
+    <FiPlus /> {props.label}
   </Button>
 );
 export const ResetButton = (props: ButtonProps) => (

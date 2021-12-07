@@ -17,17 +17,16 @@ const DashCalenCard = (props: DashCalenCardProps) => {
 
   const attemptLoad = async () => {
     // load tasks with deadline this month
-    const deadline = `${year}-${month + 1}`;
-    console.log(deadline);
+    const currentMonth = `${year}-${month + 1}`;
     const data = await getTasks();
     const { awaited, in_progress } = data;
     const tasksDueThisMonth = awaited
       .concat(in_progress)
       .filter((t: taskInt) => t.deadline !== null);
     const tasksThisMonth = tasksDueThisMonth.filter(
-      (t: taskInt) => t.deadline!.slice(0, 7) === deadline
+      (t: taskInt) => t.deadline!.slice(0, 7) === currentMonth
     );
-    console.log(tasksThisMonth);
+    // console.log(tasksThisMonth); // this isn't working so well...
     setTasks(tasksThisMonth);
   };
 

@@ -20,7 +20,7 @@ import { NEVER } from "../../utils/appConstants";
 import "./styles.css";
 import { ICOURGENT } from "../../utils/appIcons";
 
-type AddTaskPageProps = {
+type AddTaskPageProps = { 
   user: userInt;
   categories: string[];
   followedUsers: followedUserInt[];
