@@ -15,7 +15,7 @@ import { getAllTasks } from "../../utils/f_tasks";
 import TasksRow from "../../pages__components/MainAdmin_c/TasksRow";
 import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 import NotificationsRow from "../../pages__components/MainAdmin_c/NotificationsRow";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { ICOURGENT } from "../../utils/appIcons";
 
 type AdminPageProps = {
@@ -25,7 +25,7 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
-  const { user, features, history, location } = props;
+  const { user, location } = props;
   const signedInId = user._id;
   const [users, setUsers] = useState<userInt[] | never>([]);
   const [tasks, setTasks] = useState<taskInt[] | never>([]);
@@ -48,6 +48,7 @@ const AdminPage = (props: AdminPageProps) => {
   };
   useEffect(() => {
     loadAdmin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     console.log(location.pathname);

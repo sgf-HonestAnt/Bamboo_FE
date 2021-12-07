@@ -9,10 +9,9 @@ import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { Spinner, Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import MainSideBar from "../MainSideBar";
 import DashboardPage from "../MainDash";
-import TasksPage from "../MainTasks";
 import FollowingPage from "../MainFollow";
 import AddTaskPage from "../MainAddTask";
 import SettingsPage from "../Settings";
@@ -24,7 +23,7 @@ import NewTasksPage from "../MainTasksNew";
 
 const MainBody = ({ history, location }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
-  const [sideBarLoading, setSideBarLoading] = useState(false)
+  const [sideBarLoading, setSideBarLoading] = useState(false);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
@@ -81,13 +80,10 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
   useEffect(() => {
-  }, [location.pathname]);
-  useEffect(() => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
   const sideBarSizeSm = location.pathname === "/admin-dash" ? 2 : 3;
   const sideBarSizeMd = location.pathname === "/admin-dash" ? 1 : 2;
-  // console.log(theme);
   return (
     <Container fluid className='main-page m-0' id={theme}>
       {loading || mainLoading ? (
@@ -117,7 +113,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
               followedUsers={followedUsers}
               theme={theme}
               setTheme={setTheme}
-              // numberOfTasks={numberOfTasks} 
+              // numberOfTasks={numberOfTasks}
               sideBarLoading={sideBarLoading}
               setSideBarLoading={setSideBarLoading}
             />
@@ -159,6 +155,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
             <Col className='m-0'>
               <NewTasksPage
                 user={user}
+                followedUsers={followedUsers}
                 tasks={tasks}
                 history={history}
                 location={location}

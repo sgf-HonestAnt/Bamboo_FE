@@ -13,7 +13,7 @@ const FollowingPage = ({ followedUsers }: FollowingPageProps) => {
       {followedUsers?.length < 1 && <p>NO FOLLOWED USERS!</p>}
       {followedUsers?.map((u, i) => (
         <Card key={i} className='following-page__profile-card col-3 m-1'>
-          <Card.Img variant='top' src={u.avatar} />
+          <Card.Img variant='top' src={u.avatar} className="following-page__profile-card__avatar"/>
           <Card.Title>{u.username}</Card.Title>
           <Card.Text>{u.bio}</Card.Text>
           <Button variant='primary'>Go somewhere</Button>

@@ -1,9 +1,8 @@
 import { History, Location } from "history";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Row, Col } from "react-bootstrap";
 import {
-  achievementInt,
   currentAchievementsInt,
   currentFeaturesInt,
   followedUserInt,
@@ -17,16 +16,16 @@ import DashAlertCard from "../../pages__components/MainDash_c/AlertCard";
 import DashChallCard from "../../pages__components/MainDash_c/ChallengeCard";
 import DashSearch from "../../pages__components/MainDash_c/DashSearch";
 import DashAchievCard from "../../pages__components/MainDash_c/Achievements";
-import createSuperlist from "../../utils/f_superlist";
+// import createSuperlist from "../../utils/f_superlist";
 import { getSelectedDateAsString } from "../../utils/f_dates";
 import { getTaskByQuery, getTaskByDeadline } from "../../utils/f_tasks";
-import { useMediaQuery } from "react-responsive";
+// import { useMediaQuery } from "react-responsive";
 import "./styles.css";
 
 type DashboardPageProps = {
   user: userInt;
   categories: string[];
-  achievements: currentAchievementsInt;
+  achievements: currentAchievementsInt; 
   followedUsers: followedUserInt[];
   features: currentFeaturesInt;
   history: History<unknown> | string[];
@@ -47,19 +46,19 @@ const DashboardPage = (props: DashboardPageProps) => {
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
   // media query
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
-  });
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
-  //
+  // const isDesktopOrLaptop = useMediaQuery({
+  //   query: "(min-width: 1224px)",
+  // });
+  // const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+  // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  // const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+  // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  // //
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
-  const { list, superlist } = achievements;
+  // const { list, superlist } = achievements;
   const { _id, username, admin, bio, avatar, level, xp, notification } = user;
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const attemptLoad = async () => {
     // load tasks with no deadline / deadline for today
     const data = await getTaskByQuery(
@@ -100,6 +99,7 @@ const DashboardPage = (props: DashboardPageProps) => {
               tasks={tasks}
               today={today}
               user={user}
+              followedUsers={followedUsers}
               history={history}
               location={location}
               categories={categories}

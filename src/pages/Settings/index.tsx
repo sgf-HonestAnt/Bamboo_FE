@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { History, Location } from "history";
 import { Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
@@ -7,13 +7,14 @@ import {
   DeleteButton,
   SubmitButtonCol,
 } from "../../pages__components/Buttons";
-import { THEMES } from "../../utils/appConstants";
+// import { THEMES } from "../../utils/appConstants";
 import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";
 import ImageUploader from "../../pages__components/Settings_c/ImageUploader";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
 import { fillUserAction } from "../../redux/actions/user";
 import { useDispatch } from "react-redux";
+
 type SettingsPageProps = {
   history: string[] | History<unknown>;
   location: Location<unknown>;
@@ -25,6 +26,7 @@ const SettingsPage = (props: SettingsPageProps) => {
   const { history, location, user, settings } = props;
   const { selectedTheme } = settings;
   const dispatch = useDispatch();
+  const [newAvatar, setNewAvatar] = useState<any>();
   const [form, setForm] = useState({
     avatar: user.avatar,
     first_name: user.first_name,
@@ -32,7 +34,7 @@ const SettingsPage = (props: SettingsPageProps) => {
     username: user.username,
     bio: user.bio,
     email: user.email,
-    theme: selectedTheme,
+    file: "",
   });
   const editButton = (
     <Button variant='link' className='settings-page__profile-card__edit-button'>
@@ -45,19 +47,23 @@ const SettingsPage = (props: SettingsPageProps) => {
     console.log(value);
     setForm({ ...form, [id]: value });
   };
+  const handleChangeAvatar = (avatar: any) => {
+    console.log(avatar);
+    setNewAvatar(avatar);
+  };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(form);
-    const updated = await attemptUpdateUser(form);
+    console.log(newAvatar);
+    const updated = await attemptUpdateUser(form, newAvatar);
     if (updated?.status === 200) {
-      await dispatch(fillUserAction());
+      dispatch(fillUserAction());
       history.push("/dash");
     }
   };
-  const handleReturn = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault()
-    history.push("/dash")
-  }
+  const handleReturn = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    history.push("/dash");
+  };
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -72,27 +78,22 @@ const SettingsPage = (props: SettingsPageProps) => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
+  console.log("avatar=>", newAvatar);
   return (
     <div className='settings-page'>
       <Card className='col-4 my-3'>
         <Card.Body className='settings-page__profile-card'>
-          <img
-            src={user.avatar}
-            alt=''
-            className='settings-page__profile-card__profile-img'
-          />
-          <div className='red'>Make it possible to change avatar!</div>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
             onSubmit={handleSubmit}>
-            <ImageUploader />
-            <Form.Group as={Row} controlId='avatar'>
-              <Form.Label column sm='4'>
-                avatar
-              </Form.Label>
-              <Col sm='8'>
-                <Form.Control type='file' size='sm' />
-              </Col>
+            <ImageUploader
+              avatar={user.avatar}
+              handleChangeAvatar={handleChangeAvatar}
+            />
+            <Form.Group controlId='file'>
+              <Form.Control
+                type='file'
+                onChange={handleChange}></Form.Control>
             </Form.Group>
             <Form.Group as={Row} controlId='first_name'>
               <Form.Label column sm='4'>
@@ -107,7 +108,6 @@ const SettingsPage = (props: SettingsPageProps) => {
                 />
                 {editButton}
               </Col>
-              {/* <Col sm='2'>{editButton}</Col> */}
             </Form.Group>
             <Form.Group as={Row} controlId='last_name'>
               <Form.Label column sm='4'>
@@ -122,7 +122,6 @@ const SettingsPage = (props: SettingsPageProps) => {
                 />
                 {editButton}
               </Col>
-              {/* <Col sm='2'>{editButton}</Col> */}
             </Form.Group>
             <Form.Group as={Row} controlId='username'>
               <Form.Label column sm='4'>
@@ -137,7 +136,6 @@ const SettingsPage = (props: SettingsPageProps) => {
                 />
                 {editButton}
               </Col>
-              {/* <Col sm='2'>{editButton}</Col> */}
             </Form.Group>
             <Form.Group as={Row} controlId='bio'>
               <Form.Label column sm='4'>
@@ -168,21 +166,12 @@ const SettingsPage = (props: SettingsPageProps) => {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='theme' className='pb-2'>
-              <Form.Label column sm='4'>
-                theme
-              </Form.Label>
-              <Col sm='8'>
-                <Form.Control as='select' onChange={handleChange}>
-                  {THEMES.map((t, i) => (
-                    <option key={i}>{t}</option>
-                  ))}
-                </Form.Control>
-              </Col>
-            </Form.Group>
             <div className='user-settings-buttons'>
-              <BackToDashButtonCol label="Back to dashboard" handleClick={handleReturn} />
-              <SubmitButtonCol label="Submit changes" />
+              <BackToDashButtonCol
+                label='Back to dashboard'
+                handleClick={handleReturn}
+              />
+              <SubmitButtonCol label='Submit changes' />
             </div>
           </Form>
           {/* the delete account modal */}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { currentFeaturesInt, featureInt } from "../../typings/interfaces";
 import { ICOURGENT } from "../../utils/appIcons";
 import { getMonthByIndex } from "../../utils/f_dates";

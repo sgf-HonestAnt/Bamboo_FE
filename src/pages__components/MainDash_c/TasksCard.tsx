@@ -1,37 +1,43 @@
 import { useState } from "react";
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { History, Location } from "history";
 import { useDispatch } from "react-redux";
-import { setTaskInt, taskInt, userInt } from "../../typings/interfaces";
+import {
+  followedUserInt,
+  // setTaskInt,
+  taskInt,
+  userInt,
+} from "../../typings/interfaces";
 import { attemptCompleteTasks } from "../../utils/f_tasks";
 import {
   getDayMonthYearAsString,
-  getMinMaxDateAsString,
+  // getMinMaxDateAsString,
 } from "../../utils/f_dates";
-import { attemptPostTask } from "../../utils/f_tasks";
-import { fillTasksAction } from "../../redux/actions/tasks";
-import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/appConstants";
+// import { attemptPostTask } from "../../utils/f_tasks";
+// import { fillTasksAction } from "../../redux/actions/tasks";
+// import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/appConstants";
 import {
-  BULB,
+  // BULB,
   ICOCIRCLE,
   ICOCLOCK,
-  ICOSAVE,
+  // ICOSAVE,
   ICOURGENT,
 } from "../../utils/appIcons";
-import { AddNewTaskButton, CompleteButton, SubmitButton } from "../Buttons";
+import { AddNewTaskButton, CompleteButton } from "../Buttons";
 import AddEditTaskModal from "../AddEditTaskModal";
 
 type DashTasksCardProps = {
   tasks: taskInt[];
   today: string;
   user: userInt;
+  followedUsers: followedUserInt[];
   history: History<unknown> | string[];
   location: Location<unknown>;
   categories: string[];
   setErrorMessage: any;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { tasks, today, user, history, location, categories, setErrorMessage } =
+  const { tasks, today, user, followedUsers, history, location, categories } =
     props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
@@ -39,50 +45,49 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { min } = getMinMaxDateAsString(new Date());
-  const [form, setForm] = useState<setTaskInt>({
-    category: "",
-    title: "",
-    desc: "",
-    value: 0,
-    repeats: "never",
-    sharedWith: [],
-    deadline: min,
-  });
-  const handleChange = (e: { target: { id: any; value: any } }) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    setForm({
-      ...form,
-      [id]: value,
-    });
-  };
-  const handleSubmit = async (e: {
-    currentTarget: any;
-    preventDefault: () => void;
-    stopPropagation: () => void;
-  }) => {
-    e.preventDefault();
-    console.log(form);
-    try {
-      const { _id } = await attemptPostTask(
-        form,
-        refreshToken,
-        history,
-        location,
-        setErrorMessage
-      );
-      console.log("CREATED NEW TASK", _id);
-      dispatch(fillTasksAction());
-      setTimeout(() => {
-        history.push("/");
-      }, 1000);
-    } catch (e) {
-      console.log("ERROR CREATING NEW TASK", e);
-      setErrorMessage("ERROR CREATING NEW TASK");
-      history.push("/error");
-    }
-  };
+  // const { min } = getMinMaxDateAsString(new Date());
+  // const [form, setForm] = useState<setTaskInt>({
+  //   category: "",
+  //   title: "",
+  //   desc: "",
+  //   value: 0,
+  //   repeats: "never",
+  //   sharedWith: [],
+  //   deadline: min,
+  // });
+  // const handleChange = (e: { target: { id: any; value: any } }) => {
+  //   const id = e.target.id;
+  //   const value = e.target.value;
+  //   setForm({
+  //     ...form,
+  //     [id]: value,
+  //   });
+  // };
+  // const handleSubmit = async (e: {
+  //   currentTarget: any;
+  //   preventDefault: () => void;
+  //   stopPropagation: () => void;
+  // }) => {
+  //   e.preventDefault();
+  //   console.log(form);
+  //   try {
+  //     const { _id } = await attemptPostTask(
+  //       form,
+  //       refreshToken,
+  //       history,
+  //       location
+  //     );
+  //     console.log("CREATED NEW TASK", _id);
+  //     dispatch(fillTasksAction());
+  //     setTimeout(() => {
+  //       history.push("/");
+  //     }, 1000);
+  //   } catch (e) {
+  //     console.log("ERROR CREATING NEW TASK", e);
+  //     setErrorMessage("ERROR CREATING NEW TASK");
+  //     history.push("/error");
+  //   }
+  // };
   // complete today task(s)
   const completedTasks: string[] = [];
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
@@ -154,7 +159,15 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         </Form>
       )}
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
-      <AddEditTaskModal show={show} handleClose={handleClose} user={user} categories={categories} />
+      <AddEditTaskModal
+        show={show}
+        handleClose={handleClose}
+        user={user}
+        followedUsers={followedUsers}
+        categories={categories}
+        history={history}
+        location={location}
+      />
       {/* <AddNewTaskButton handleClick={handleShow} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

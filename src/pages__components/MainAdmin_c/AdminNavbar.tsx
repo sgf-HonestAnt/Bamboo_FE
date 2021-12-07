@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 import { taskInt, userInt } from "../../typings/interfaces";
 import { ResetButton } from "../Buttons";
@@ -14,7 +13,7 @@ type AdminNavbarProps = {
 };
 
 const AdminNavbar = (props: AdminNavbarProps) => {
-  const { user, username, users, tasks, form, setForm } = props;
+  const { username, users, tasks, form, setForm } = props;
   const { id } = form;
   const dropdown = [USERS, TASKS, NOTIFICATIONS, FEATURES];
   const changeDropdown = (e: { target: { value: any } }) => {

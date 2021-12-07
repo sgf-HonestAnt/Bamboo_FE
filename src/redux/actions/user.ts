@@ -9,6 +9,10 @@ import {
 } from "../../utils/appConstants";
 import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
 
+export const setUserBio = (bio: string) => ({
+  type: FILL_USER,
+  payload: { bio },
+});
 export const setUserLoading = (boolean: boolean) => ({
   type: FILL_USER_LOADING,
   payload: boolean,

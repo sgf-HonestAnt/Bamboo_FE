@@ -1,18 +1,25 @@
 import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import {
   currentTasksInt,
   currentSettingsInt,
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import { CAKE1, ICOSETTINGS } from "../../utils/appIcons";
-import { getTasks } from "../../utils/f_tasks";
+import { ICOSETTINGS } from "../../utils/appIcons";
+// import { getTasks } from "../../utils/f_tasks";
 import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
 import PandaLogo from "../../pages__components/Logo";
+import { THEMES } from "../../utils/appConstants";
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
+import {
+  changeThemeAction,
+  fillSettingsAction,
+} from "../../redux/actions/settings";
+import { useDispatch } from "react-redux";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -23,18 +30,16 @@ type SidebarProps = {
   followedUsers: followedUserInt[];
   theme: string;
   setTheme: any;
-  // numberOfTasks: number; 
+  // numberOfTasks: number;
   sideBarLoading: boolean;
   setSideBarLoading: any;
 };
-
 const MainSideBar = (props: SidebarProps) => {
   const {
     history,
     location,
     user,
     tasks,
-    settings,
     followedUsers,
     theme,
     setTheme,
@@ -42,20 +47,25 @@ const MainSideBar = (props: SidebarProps) => {
     sideBarLoading,
     setSideBarLoading,
   } = props;
+  const dispatch = useDispatch();
   const [taskNum, setTaskNum] = useState(0);
   const numOfUsers = followedUsers.length;
   const loadSidebar = async () => {
     if (tasks) {
       const { awaited, in_progress } = tasks;
       setTaskNum(awaited.length + in_progress.length);
-    } 
+    }
   };
   const logout = async () => {
     await attemptLogout();
     history.push("/session-closed");
   };
-  const handleClick = () => { 
-    setTheme(theme === "theme-light" ? "theme-dark" : "theme-light");
+  const handleChange = (e: { target: { value: any } }) => {
+    const value = e.target.value;
+    setTheme(value);
+    console.log("dispatch change Theme!", value)
+    dispatch(changeThemeAction(value));
+    // then do a fetch
   };
   useEffect(() => {
     loadSidebar();
@@ -67,7 +77,23 @@ const MainSideBar = (props: SidebarProps) => {
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
         <div className='main-side-bar__theme'>
-          <Button onClick={handleClick}>theme</Button>
+          <Form>
+            <Form.Group controlId='theme' className='pb-2'>
+              <Form.Control
+                as='select'
+                onChange={handleChange}
+                defaultValue={"DEFAULT"}>
+                <option value='DEFAULT' disabled>
+                  Select a theme
+                </option>
+                {THEMES.map((t, i) => (
+                  <option key={i} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Form>
         </div>
       )}
       <div className='main-side-bar__branding my-3'>

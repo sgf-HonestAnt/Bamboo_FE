@@ -1,26 +1,23 @@
 import {
-  MdCleaningServices,
   MdOutlineCake,
   MdOutlineStarBorder,
   MdOutlineStarHalf,
   MdOutlineStar,
 } from "react-icons/md";
-import { RiSunLine, RiCake3Line } from "react-icons/ri";
-import { BsBriefcaseFill } from "react-icons/bs";
-import { BiSwim, BiHeartCircle, BiCoinStack } from "react-icons/bi";
+import { RiCake3Line } from "react-icons/ri";
 import { GiPieSlice } from "react-icons/gi";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { GrAddCircle } from "react-icons/gr";
 import { FaDog } from "react-icons/fa";
 import {
   FiActivity,
-  FiAtSign,
+  // FiAtSign,
   FiBell,
   FiBriefcase,
   FiCheckSquare,
   FiCircle,
   FiClock,
-  FiCoffee,
+  // FiCoffee,
   FiCornerDownRight,
   FiCornerUpLeft,
   FiDribbble,
@@ -28,25 +25,25 @@ import {
   FiFlag,
   FiHeart,
   FiHome,
-  FiImage,
-  FiKey,
+  // FiImage,
+  // FiKey,
   FiMaximize,
   FiRotateCcw,
   FiSave,
-  FiSearch,
+  // FiSearch,
   FiSettings,
   FiShoppingCart,
-  FiSliders,
+  // FiSliders,
   FiSmile,
   FiStar,
-  FiSun,
+  // FiSun,
   FiTrash2,
-  FiTruck,
+  // FiTruck,
   FiUmbrella,
-  FiUser,
+  // FiUser,
   FiUsers,
-  FiUserPlus,
-  FiWatch,
+  // FiUserPlus,
+  // FiWatch,
   FiXSquare,
 } from "react-icons/fi"; 
 // ********** CATEGORIES **********

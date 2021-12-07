@@ -43,6 +43,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
+  console.log(min, max)
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
@@ -84,7 +85,6 @@ const AddTaskPage = (props: AddTaskPageProps) => {
         refreshToken,
         history,
         location,
-        setErrorMessage
       );
       console.log("CREATED NEW TASK", _id);
       // setValidated(true);

@@ -8,7 +8,8 @@
 .settings-page__profile-card {
 }
 .settings-page__profile-card__profile-img {
-  max-width: 40%;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
 }
 .settings-page__profile-card__form {

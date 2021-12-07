@@ -2,7 +2,7 @@ import { Col } from "react-bootstrap";
 import { listForBeautifulDnd, taskInt } from "../../typings/interfaces";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableTask from "./DraggableTask";
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
+import { COMPLETED } from "../../utils/appConstants";
 import NonDraggableTask from "./NonDraggableTask";
 
 type DroppableListProps = {

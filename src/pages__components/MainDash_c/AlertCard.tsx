@@ -13,7 +13,7 @@ type DashAlertCardProps = {
 const DashAlertCard = (props: DashAlertCardProps) => {
   const { notification } = props;
   const dispatch = useDispatch();
-  const notifLength = notification!.length;
+  const notifLength = notification.length;
   const recentNotif = notification[notifLength - 1];
   const isReq = recentNotif?.includes("has sent you a request");
   const isAcc = recentNotif?.includes("accepted your request");
@@ -32,6 +32,8 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     const action = "accept";
     console.log(value, action);
     await acceptOrReject(value, action);
+    await clearLastNotification(notification);
+    dispatch(fillUserAction());
   };
   const handleReject = async (e: { preventDefault: () => void }) => {
     e.preventDefault();

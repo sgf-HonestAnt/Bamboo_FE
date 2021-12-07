@@ -23,9 +23,9 @@
   --code-blue: rgba(0, 0, 255, 0.8);
 }
 #theme-dark {
-  --main-bg: #05386b;
-  --sidebar-bg: #379683;
-  --main-text: #edf5e1;
+  --main-bg: #041008;
+  --sidebar-bg: #747474;
+  --main-text: #ccc;
 }
 .App {
   background-color: var(--main-bg);

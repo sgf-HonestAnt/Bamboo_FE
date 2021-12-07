@@ -1,6 +1,6 @@
 import { History } from "history";
 import { Dispatch } from "redux";
-import { setRefreshToken } from "../redux/actions/user";
+import { setRefreshToken, setUserBio } from "../redux/actions/user";
 import { loginFormProps, userUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -145,17 +145,44 @@ export const clearLastNotification = async (notification: string[]) => {
     console.log(error);
   }
 };
-export const attemptUpdateUser = async (bodyPar: userUpdateType) => {
+export const updateBio = async (bio: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
+    await dispatch(setUserBio(bio));
     const url = `${BE_URL}/${USERS}/me`;
     const method = PUT;
+    const body = JSON.stringify({ bio });
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    const body = JSON.stringify(bodyPar);
     const updated = await fetch(url, { method, headers, body });
+    return updated;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const attemptUpdateUser = async (
+  bodyPar: userUpdateType,
+  avatar: any
+) => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    const formData = new FormData();
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const { first_name, last_name, username, email, bio } = bodyPar;
+    first_name && formData.append("first_name", first_name);
+    last_name && formData.append("last_name", last_name);
+    username && formData.append("username", username);
+    email && formData.append("email", email);
+    bio && formData.append("bio", bio);
+    avatar && formData.append("file", avatar.dataURL);
+    console.log("FORMDATA", formData);
+    const updated = await fetch(url, { method, headers, body: formData });
     return updated;
   } catch (error) {
     console.log(error);

@@ -1,16 +1,44 @@
 import React, { useState } from "react";
-import ImageUploading, { ImageListType } from "react-images-uploading";
+import ImageUploading, {
+  ImageListType,
+  ImageType,
+} from "react-images-uploading";
 
-const ImageUploader = () => {
-  const [images, setImages] = useState([]);
-  const maxNumber = 69;
+type ImageUploaderProps = {
+  avatar: any;
+  handleChangeAvatar: any;
+};
+const ImageUploader = (props: ImageUploaderProps) => {
+  const { avatar, handleChangeAvatar } = props;
+  const [images, setImages] = useState<ImageType[]>([]);
+  const maxNumber = 1;
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
-    setImages(imageList as never[]);
+    setImages(imageList);
+    console.log(images, imageList, addUpdateIndex);
+    handleChangeAvatar(imageList[0].file);
+  };
+  const uploadAvatar = (
+    e: { preventDefault: () => void },
+    clickFunction: any
+  ) => {
+    e.preventDefault();
+    clickFunction();
+  };
+  const updateOrRemoveAvatar = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    clickFunction: {
+      (index: number): void;
+      (index: number): void;
+      (arg0: any): void;
+    },
+    index: number
+  ) => {
+    e.preventDefault();
+    clickFunction(index);
   };
   return (
     <div className='App'>
@@ -18,7 +46,8 @@ const ImageUploader = () => {
         multiple
         value={images}
         onChange={onChange}
-        maxNumber={maxNumber}>
+        maxNumber={maxNumber}
+        dataURLKey='data_url'>
         {({
           imageList,
           onImageUpload,
@@ -30,23 +59,51 @@ const ImageUploader = () => {
         }) => (
           // write your building UI
           <div className='upload__image-wrapper'>
-            <button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}>
-              Click or Drop here
-            </button>
-            &nbsp;
-            <button onClick={onImageRemoveAll}>Remove all images</button>
-            {imageList.map((image, index) => (
-              <div key={index} className='image-item'>
-                <img src={image.dataURL} alt='' width='100' />
-                <div className='image-item__btn-wrapper'>
-                  <button onClick={() => onImageUpdate(index)}>Update</button>
-                  <button onClick={() => onImageRemove(index)}>Remove</button>
-                </div>
+            {imageList.length < 1 && (
+              <>
+                <button
+                  style={isDragging ? { color: "red" } : undefined}
+                  onClick={(e) => uploadAvatar(e, onImageUpload)}
+                  {...dragProps}>
+                  Click or Drop here
+                </button>
+                &nbsp;
+              </>
+            )}
+            {/* <button onClick={onImageRemoveAll}>Remove all images</button> */}
+            {imageList.length < 1 ? (
+              <div className='image-item'>
+                <img
+                  src={avatar}
+                  alt=''
+                  className='settings-page__profile-card__profile-img'
+                />
               </div>
-            ))}
+            ) : (
+              imageList.map((image, index) => (
+                <div key={index} className='image-item'>
+                  <img
+                    src={image.dataURL}
+                    alt=''
+                    className='settings-page__profile-card__profile-img'
+                  />
+                  <div className='image-item__btn-wrapper'>
+                    <button
+                      onClick={(e) =>
+                        updateOrRemoveAvatar(e, onImageUpdate, index)
+                      }>
+                      Update
+                    </button>
+                    <button
+                      onClick={(e) =>
+                        updateOrRemoveAvatar(e, onImageRemove, index)
+                      }>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
       </ImageUploading>

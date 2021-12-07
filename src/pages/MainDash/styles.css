@@ -25,7 +25,8 @@
   position: relative;
 }
 .dashboard__profile-card__holder-img {
-  width: 50%;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
 }
 .dashboard__profile-card__level {

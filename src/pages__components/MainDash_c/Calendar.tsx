@@ -10,7 +10,7 @@ import { getTasks } from "../../utils/f_tasks";
 
 type DashCalenCardProps = { user: userInt };
 const DashCalenCard = (props: DashCalenCardProps) => {
-  const { user } = props;
+  // const { user } = props;
   const [tasks, setTasks] = useState([]);
   const month = new Date().getMonth();
   const year = new Date().getFullYear();

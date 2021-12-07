@@ -1,9 +1,8 @@
-import { AnyAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { History, Location } from "history";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
-import { beautifulDnD, taskInt, userInt } from "../../typings/interfaces";
+import { followedUserInt, taskInt, userInt } from "../../typings/interfaces";
 import { AddNewTaskButton } from "../Buttons";
 import {
   ANY_CAT,
@@ -14,15 +13,17 @@ import {
 import AddEditTaskModal from "../AddEditTaskModal";
 
 type TasksFilterRowProps = {
-  user: userInt; 
+  user: userInt;
+  followedUsers: followedUserInt[];
   allTasks: (taskInt | undefined)[];
   categories: string[];
   setTaskList: any;
   history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 
 const TasksFilterRow = (props: TasksFilterRowProps) => {
-  const { user, allTasks, categories, setTaskList, history } = props;
+  const { user, followedUsers, allTasks, categories, setTaskList, history, location } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -54,10 +55,10 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
           )
         );
   };
-  const handleClick = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    history.push("/tasks-add-new");
-  };
+  // const handleClick = (e: { preventDefault: () => void }) => {
+  //   e.preventDefault();
+  //   history.push("/tasks-add-new");
+  // };
   return (
     <Row>
       <Col sm={12}>
@@ -68,7 +69,10 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             show={show}
             handleClose={handleClose}
             user={user}
+            followedUsers={followedUsers}
             categories={categories}
+            history={history}
+            location={location}
           />{" "}
           <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
             <FiRefreshCcw />

@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "react-bootstrap";
 import {
   achievementInt,
   currentAchievementsInt,
@@ -49,6 +48,7 @@ const DashAchievCard = (props: DashAchievCardProps) => {
   };
   useEffect(() => {
     loadAchievementCard();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className='dashboard__activities m-2 p-2'>

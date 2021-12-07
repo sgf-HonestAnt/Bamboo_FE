@@ -1,7 +1,6 @@
 import { Form } from "react-bootstrap";
 import { setTaskInt } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/appConstants";
-import { PIE } from "../../utils/appIcons";
 import BambooPoints from "../XP";
 
 type ValueGroupProps = {

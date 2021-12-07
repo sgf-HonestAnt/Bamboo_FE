@@ -9,7 +9,6 @@ import DroppableList from "./DroppableList";
 import { attemptUpdateTask } from "../../utils/f_tasks";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import { setUserLoading } from "../../redux/actions/user";
-import { setTimeout } from "timers";
 
 type DragDropContainerProps = {
   taskList: taskInt[];
@@ -17,17 +16,17 @@ type DragDropContainerProps = {
   setSideBarLoading: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
-  const { taskList, history, setSideBarLoading } = props;
+  const { taskList } = props;
   const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
     lists: [],
     listOrder: [],
   });
-  const loadSideBar = async () => {
-    console.log("LOAD SIDE BAR AT DRAG DROP");
-    await setSideBarLoading(true);
-  };
+  // const loadSideBar = async () => {
+  //   console.log("LOAD SIDE BAR AT DRAG DROP");
+  //   await setSideBarLoading(true);
+  // };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
     // if task moves outside droppable space
@@ -37,7 +36,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     // if task moved to same place as it started
     if (
       destination.droppableId === source.droppableId &&
-      destination.index == source.index
+      destination.index === source.index
     ) {
       return;
     }

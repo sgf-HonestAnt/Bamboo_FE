@@ -1,9 +1,12 @@
 import { useState } from "react";
+import { History, Location } from "history";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { userInt } from "../typings/interfaces";
+import { fillTasksAction } from "../redux/actions/tasks";
+import { followedUserInt, userInt } from "../typings/interfaces";
 import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { getMinMaxDateAsString } from "../utils/f_dates";
+import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
 
 type AddEditTaskModalProps = {
@@ -11,7 +14,10 @@ type AddEditTaskModalProps = {
   handleClose: any;
   taskId?: string;
   user: userInt;
+  followedUsers: followedUserInt[];
   categories: string[];
+  history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 type FormProps = {
   title: string;
@@ -23,11 +29,25 @@ type FormProps = {
   repeats: string;
   repeatsOther: number;
   repetitions: string;
+  shared: string;
+  sharedWith: string[];
+  deadline: string;
 };
 const AddEditTaskModal = (props: AddEditTaskModalProps) => {
-  const { show, handleClose, taskId, user, categories } = props;
+  const {
+    show,
+    handleClose,
+    taskId,
+    user,
+    followedUsers,
+    categories,
+    history,
+    location,
+  } = props;
+  const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
+  // console.log(min, max);
   const [form, setForm] = useState<FormProps>({
     title: "",
     value: 0,
@@ -38,10 +58,14 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     repeats: "never",
     repeatsOther: 0,
     repetitions: "0",
+    shared: "no",
+    sharedWith: [],
+    deadline: "",
   });
   const [showNewCat, setShowNewCat] = useState(false);
   const [showRepeatOptions, setShowRepeatOptions] = useState(false);
   const [showOtherRepeat, setShowOtherRepeat] = useState(false);
+  const [showSharedDropdown, setShowSharedDropdown] = useState(false);
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -82,13 +106,33 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         repeats: "monthly",
         repetitions: "12",
       });
+    } else if (id === "shared" && value === "yes") {
+      setShowSharedDropdown(true);
+      setForm({ ...form, shared: "yes" });
+    } else if (id === "sharedWith") {
+      const array = [];
+      array.push(value);
+      setForm({ ...form, sharedWith: array });
     } else {
       setForm({ ...form, [id]: value });
     }
   };
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log(form);
+    try {
+      const { _id } = await attemptPostTask(
+        form,
+        refreshToken,
+        history,
+        location
+      );
+      console.log("CREATED NEW TASK", _id);
+      await dispatch(fillTasksAction());
+      history.push("/tasks");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleCloseModal = () => {
     setForm({
@@ -101,6 +145,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       repeats: "never",
       repeatsOther: 0,
       repetitions: "0",
+      shared: "no",
+      sharedWith: [],
+      deadline: "",
     });
     handleClose();
   };
@@ -325,6 +372,53 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 </Form.Group>
               </Col>
             </Row>
+          )}
+          {!showSharedDropdown ? (
+            <Form.Group controlId='shared'>
+              <Form.Label>Is it shared?</Form.Label>
+              <div className='mb-3'>
+                <Form.Check
+                  inline
+                  label='yes'
+                  name='group1'
+                  type='radio'
+                  value='yes'
+                  onChange={handleChange}
+                />
+                <Form.Check
+                  inline
+                  label='no'
+                  name='group1'
+                  type='radio'
+                  value='no'
+                  onChange={handleChange}
+                />
+              </div>
+            </Form.Group>
+          ) : (
+            <Form.Group controlId='sharedWith'>
+              <Form.Label>Who would you like to share it with?</Form.Label>
+              <Form.Control
+                required
+                as='select'
+                onChange={handleChange}
+                aria-describedby='sharedWithHelpBlock'
+                defaultValue={"DEFAULT"}>
+                <option value='DEFAULT' disabled>
+                  Select a user
+                </option>
+                {followedUsers.map((u) => (
+                  <option key={u._id} value={u._id}>
+                    {u.username}
+                  </option>
+                ))}
+              </Form.Control>
+              {followedUsers.length < 1 && (
+                <Form.Text id='sharedWithHelpBlock' muted>
+                  No one to share with? Add users at the 'following' page.
+                </Form.Text>
+              )}
+            </Form.Group>
           )}
         </Form>
       </Modal.Body>

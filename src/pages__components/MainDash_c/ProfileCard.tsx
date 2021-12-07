@@ -2,12 +2,16 @@ import { Link } from "react-router-dom";
 import { followedUserInt } from "../../typings/interfaces";
 import { History } from "history";
 import { useDispatch } from "react-redux";
-import { attemptUpdateUser, getUserRole } from "../../utils/f_users";
+import { attemptUpdateUser, getUserRole, updateBio } from "../../utils/f_users";
 import BambooPoints from "../XP";
-import { ICOACTIVITY, ICORELATE, ICOURGENT } from "../../utils/appIcons";
+import { ICOACTIVITY, ICORELATE } from "../../utils/appIcons";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
-import { fillUserAction } from "../../redux/actions/user";
+import {
+  fillUserAction,
+  setUserBio,
+  setUserLoading,
+} from "../../redux/actions/user";
 import { EditButton } from "../Buttons";
 
 type DashProfileCardProps = {
@@ -30,14 +34,13 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     setNewBio(e.target.value);
   };
   const handleSubmit = async () => {
-    console.log(newBio);
-    await attemptUpdateUser({ bio: newBio });
-    dispatch(fillUserAction());
+    await updateBio(newBio, dispatch);
+    history.push("/dash");
   };
   const pushToSettings = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     history.push("/user-settings");
-  }; 
+  };
   const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-2'>
@@ -61,7 +64,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         {xp} <BambooPoints />
       </div>
       <Form
-        className='dashboard__profile-card__form mx-5 p-0'
+        className='dashboard__profile-card__form mx-3 p-0'
         onSubmit={handleSubmit}>
         <Form.Control
           required

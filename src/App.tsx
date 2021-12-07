@@ -10,7 +10,7 @@ import {
 import MainBody from "./pages/Main";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register"; 
-import SettingsPage from "./pages/Settings";
+// import SettingsPage from "./pages/Settings";
 import LogoutPage from "./pages/Logout";
 import LandingPage from "./pages/Landing";
 

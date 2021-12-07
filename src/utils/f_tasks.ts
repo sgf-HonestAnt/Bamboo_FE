@@ -111,8 +111,7 @@ export const attemptPostTask = async (
   form: setTaskInt,
   refreshToken: string | undefined,
   history: string[] | History<unknown>,
-  location: Location<unknown> | undefined,
-  setErrorMessage: any
+  location: Location<unknown> | undefined
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -126,6 +125,7 @@ export const attemptPostTask = async (
         Authorization: `Bearer ${token}`,
       };
       const body = JSON.stringify(form);
+      console.log(body)
       const response = await fetch(url, { method, headers, body });
       const newTask = await response.json();
       return newTask;

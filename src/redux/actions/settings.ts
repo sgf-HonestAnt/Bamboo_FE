@@ -9,6 +9,11 @@ import {
   FILL_SETTINGS_LOADING,
 } from "../../utils/appConstants";
 
+export const changeThemeAction = (selectedTheme: string) => ({
+  type: FILL_SETTINGS,
+  payload: selectedTheme,
+});
+
 export const fillSettingsAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
