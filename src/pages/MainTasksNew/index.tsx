@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { History, Location } from "history";
 import { currentTasksInt, followedUserInt, userInt } from "../../typings/interfaces";
-import TasksFilterRow from "../../pages__components/MainTasksNew_c/TasksFilterRow";
-import DragDropContainer from "../../pages__components/MainTasksNew_c/DragDropContainer";
+import TasksFilterRow from "./Components/TasksFilterRow";
+import DragDropContainer from "./Components/DragDropContainer";
 import { ICOURGENT } from "../../utils/appIcons";
 import "./styles.css";
 

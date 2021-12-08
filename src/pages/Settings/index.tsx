@@ -6,11 +6,11 @@ import {
   BackToDashButtonCol,
   DeleteButton,
   SubmitButtonCol,
-} from "../../pages__components/Buttons";
+} from "../../pages__SharedComponents/Buttons";
 // import { THEMES } from "../../utils/appConstants";
 import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";
-import ImageUploader from "../../pages__components/Settings_c/ImageUploader";
+import ImageUploader from "./Components/ImageUploader";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
 import { fillUserAction } from "../../redux/actions/user";
 import { useDispatch } from "react-redux";

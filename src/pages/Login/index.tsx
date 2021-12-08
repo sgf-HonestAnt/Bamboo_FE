@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { attemptLoginUser } from "../../utils/f_users";
-import { SubmitButton } from "../../pages__components/Buttons";
+import { SubmitButton } from "../../pages__SharedComponents/Buttons";
 import "./styles.css";
 
 const LoginPage = ({ history, location }: RouteComponentProps) => {

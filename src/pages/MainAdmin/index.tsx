@@ -3,18 +3,18 @@ import { History, Location } from "history";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
 import { currentFeaturesInt, taskInt, userInt } from "../../typings/interfaces";
 import { getUsersAsAdmin } from "../../utils/f_users";
-import AdminNavbar from "../../pages__components/MainAdmin_c/AdminNavbar";
+import AdminNavbar from "./Components/AdminNavbar";
 import {
   NotificationsTableHeading,
   TasksTableHeading,
   UsersTableHeading,
-} from "../../pages__components/MainAdmin_c/TableHeadings";
-import UsersRow from "../../pages__components/MainAdmin_c/UsersRow";
+} from "./Components/TableHeadings";
+import UsersRow from "./Components/UsersRow";
 import "./styles.css";
 import { getAllTasks } from "../../utils/f_tasks";
-import TasksRow from "../../pages__components/MainAdmin_c/TasksRow";
+import TasksRow from "./Components/TasksRow";
 import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
-import NotificationsRow from "../../pages__components/MainAdmin_c/NotificationsRow";
+import NotificationsRow from "./Components/NotificationsRow";
 // import { Link } from "react-router-dom";
 import { ICOURGENT } from "../../utils/appIcons";
 

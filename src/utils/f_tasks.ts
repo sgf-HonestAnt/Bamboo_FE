@@ -3,7 +3,16 @@ import { Dispatch } from "redux";
 import { loadTasksAction } from "../redux/actions/tasks";
 import { setTaskInt, taskInt } from "../typings/interfaces";
 import { taskUpdateType } from "../typings/types";
-import { BE_URL, GET, POST, PUT, TASKS, COMPLETED, ME } from "./appConstants";
+import {
+  BE_URL,
+  GET,
+  POST,
+  PUT,
+  TASKS,
+  COMPLETED,
+  ME,
+  DELETE,
+} from "./appConstants";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
 import { fillAchievementsAction } from "../redux/actions/achievements";
@@ -125,7 +134,7 @@ export const attemptPostTask = async (
         Authorization: `Bearer ${token}`,
       };
       const body = JSON.stringify(form);
-      console.log(body)
+      console.log(body);
       const response = await fetch(url, { method, headers, body });
       const newTask = await response.json();
       return newTask;
@@ -197,4 +206,22 @@ export const getCategories = async (tasks: taskInt[]) => {
     !array.includes(tasks[i].category) && array.push(tasks[i].category);
   }
   return array;
+};
+export const removeSelfFromTask = async (taskId: string, dispatch: Dispatch<any>) => {
+  const token = localStorage.getItem("token");
+  try {
+    console.log("ATTEMPTING TO DELETE SELF FROM TASK", taskId);
+    const url = `${BE_URL}/${TASKS}/remove/${taskId}`;
+    const method = DELETE;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await fetch(url, { method, headers });
+    if (response.ok) {
+      dispatch(loadTasksAction(true));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  // remove/t_id
 };

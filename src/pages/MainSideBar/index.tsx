@@ -12,7 +12,7 @@ import { ICOSETTINGS } from "../../utils/appIcons";
 // import { getTasks } from "../../utils/f_tasks";
 import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
-import PandaLogo from "../../pages__components/Logo";
+import PandaLogo from "../../pages__SharedComponents/Logo";
 import { THEMES } from "../../utils/appConstants";
 import {
   changeThemeAction,

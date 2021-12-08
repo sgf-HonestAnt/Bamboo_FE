@@ -8,14 +8,14 @@ import {
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
-import DashProfileCard from "../../pages__components/MainDash_c/ProfileCard";
-import DashTasksCard from "../../pages__components/MainDash_c/TasksCard";
-import DashCalenCard from "../../pages__components/MainDash_c/Calendar";
-import DashTipsCard from "../../pages__components/MainDash_c/DashTipsCard";
-import DashAlertCard from "../../pages__components/MainDash_c/AlertCard";
-import DashChallCard from "../../pages__components/MainDash_c/ChallengeCard";
-import DashSearch from "../../pages__components/MainDash_c/DashSearch";
-import DashAchievCard from "../../pages__components/MainDash_c/Achievements";
+import DashProfileCard from "./Components/ProfileCard";
+import DashTasksCard from "./Components/TasksCard";
+import DashCalenCard from "./Components/Calendar";
+import DashTipsCard from "./Components/DashTipsCard";
+import DashAlertCard from "./Components/AlertCard";
+import DashChallCard from "./Components/ChallengeCard";
+import DashSearch from "./Components/DashSearch";
+import DashAchievCard from "./Components/Achievements";
 // import createSuperlist from "../../utils/f_superlist";
 import { getSelectedDateAsString } from "../../utils/f_dates";
 import { getTaskByQuery, getTaskByDeadline } from "../../utils/f_tasks";
@@ -25,7 +25,7 @@ import "./styles.css";
 type DashboardPageProps = {
   user: userInt;
   categories: string[];
-  achievements: currentAchievementsInt; 
+  achievements: currentAchievementsInt;
   followedUsers: followedUserInt[];
   features: currentFeaturesInt;
   history: History<unknown> | string[];
@@ -75,7 +75,7 @@ const DashboardPage = (props: DashboardPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    console.log(location.pathname)
+    console.log(location.pathname);
   }, [location.pathname]);
   return (
     <Row className='dashboard p-3 mt-3'>
@@ -126,7 +126,11 @@ const DashboardPage = (props: DashboardPageProps) => {
               search={search}
               setSearch={setSearch}
             />
-            <DashAlertCard notification={notification} history={history} />
+            <DashAlertCard
+              followedUsers={followedUsers}
+              notification={notification}
+              history={history}
+            />
             <DashAchievCard
               followedUsers={followedUsers}
               achievements={achievements}

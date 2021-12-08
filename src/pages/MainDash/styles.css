@@ -19,28 +19,7 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
-}
-.dashboard__profile-card__holder {
-  position: relative;
-}
-.dashboard__profile-card__holder-img {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-}
-.dashboard__profile-card__level {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: gold;
-  border: 1px dashed black;
-  border-radius: 50%;
-  min-height: 30px;
-  min-width: 30px;
-  top: 0;
-  right: 25%;
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__profile-card__username {
   font-size: 20px;
@@ -89,7 +68,7 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__tasks-card__text-muted {
   color: #6c757d;
@@ -104,7 +83,7 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__calendar-card__line {
   display: flex;
@@ -128,7 +107,7 @@
   padding: 10px;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__search-bar form {
   display: flex;
@@ -140,7 +119,7 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
   overflow-y: scroll;
   max-height: 70vh;
 }
@@ -148,13 +127,13 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__alerts-card {
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__alerts-card.has-alert {
   background-color: var(--code-yellow);
@@ -163,7 +142,7 @@
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__challenge-card__img {
   max-width: 90%;

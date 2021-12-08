@@ -171,7 +171,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
           // ) :
           path === "/following" ? (
             <Col className='m-0'>
-              <FollowingPage followedUsers={followedUsers} />
+              <FollowingPage user={user} followedUsers={followedUsers} />
             </Col>
           ) : path === "/admin-dash" ? (
             <Col className='m-0 p-0'>
