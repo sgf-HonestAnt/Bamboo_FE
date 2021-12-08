@@ -164,7 +164,7 @@ export const updateBio = async (bio: string, dispatch: Dispatch<any>) => {
 };
 export const attemptUpdateUser = async (
   bodyPar: userUpdateType,
-  avatar: any
+  file: any
 ) => {
   const token = localStorage.getItem("token");
   try {
@@ -180,9 +180,10 @@ export const attemptUpdateUser = async (
     username && formData.append("username", username);
     email && formData.append("email", email);
     bio && formData.append("bio", bio);
-    avatar && formData.append("file", avatar.dataURL);
-    console.log("FORMDATA", formData);
+    file && formData.append("avatar", file); 
     const updated = await fetch(url, { method, headers, body: formData });
+    const updatedAsJSON = await updated.json();
+    console.log(updatedAsJSON);
     return updated;
   } catch (error) {
     console.log(error);

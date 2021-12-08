@@ -1,4 +1,4 @@
-import { useState, useEffect, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
 import { currentSettingsInt, userInt } from "../../typings/interfaces";
@@ -23,8 +23,8 @@ type SettingsPageProps = {
   // { history, location, match }: RouteComponentProps
 };
 const SettingsPage = (props: SettingsPageProps) => {
-  const { history, location, user, settings } = props;
-  const { selectedTheme } = settings;
+  const { history, location, user } = props;
+  // const { selectedTheme } = settings;
   const dispatch = useDispatch();
   const [newAvatar, setNewAvatar] = useState<any>();
   const [form, setForm] = useState({
@@ -48,8 +48,8 @@ const SettingsPage = (props: SettingsPageProps) => {
     setForm({ ...form, [id]: value });
   };
   const handleChangeAvatar = (avatar: any) => {
-    console.log(avatar);
-    setNewAvatar(avatar);
+    setNewAvatar(avatar.file);
+    console.log(newAvatar);
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -91,9 +91,7 @@ const SettingsPage = (props: SettingsPageProps) => {
               handleChangeAvatar={handleChangeAvatar}
             />
             <Form.Group controlId='file'>
-              <Form.Control
-                type='file'
-                onChange={handleChange}></Form.Control>
+              <Form.Control type='file' onChange={handleChange}></Form.Control>
             </Form.Group>
             <Form.Group as={Row} controlId='first_name'>
               <Form.Label column sm='4'>

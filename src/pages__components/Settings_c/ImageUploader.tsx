@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import ImageUploading, {
-  ImageListType,
-  ImageType,
-} from "react-images-uploading";
+import ImageUploading, { ImageListType } from "react-images-uploading";
 
 type ImageUploaderProps = {
   avatar: any;
@@ -10,16 +7,16 @@ type ImageUploaderProps = {
 };
 const ImageUploader = (props: ImageUploaderProps) => {
   const { avatar, handleChangeAvatar } = props;
-  const [images, setImages] = useState<ImageType[]>([]);
+  const [images, setImages] = useState([]);
   const maxNumber = 1;
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    setImages(imageList);
-    console.log(images, imageList, addUpdateIndex);
-    handleChangeAvatar(imageList[0].file);
+    setImages(imageList as never[]);
+    // console.log(images, imageList, addUpdateIndex);
+    handleChangeAvatar(imageList[0]);
   };
   const uploadAvatar = (
     e: { preventDefault: () => void },
@@ -47,7 +44,7 @@ const ImageUploader = (props: ImageUploaderProps) => {
         value={images}
         onChange={onChange}
         maxNumber={maxNumber}
-        dataURLKey='data_url'>
+        >
         {({
           imageList,
           onImageUpload,

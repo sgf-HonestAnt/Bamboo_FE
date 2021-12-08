@@ -2,16 +2,16 @@ import { Link } from "react-router-dom";
 import { followedUserInt } from "../../typings/interfaces";
 import { History } from "history";
 import { useDispatch } from "react-redux";
-import { attemptUpdateUser, getUserRole, updateBio } from "../../utils/f_users";
+import { getUserRole, updateBio } from "../../utils/f_users";
 import BambooPoints from "../XP";
 import { ICOACTIVITY, ICORELATE } from "../../utils/appIcons";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
-import {
-  fillUserAction,
-  setUserBio,
-  setUserLoading,
-} from "../../redux/actions/user";
+// import {
+//   fillUserAction,
+//   setUserBio,
+//   setUserLoading,
+// } from "../../redux/actions/user";
 import { EditButton } from "../Buttons";
 
 type DashProfileCardProps = {

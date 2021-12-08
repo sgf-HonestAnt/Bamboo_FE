@@ -14,10 +14,9 @@ import attemptLogout from "../../utils/f_attemptLogout";
 import "./styles.css";
 import PandaLogo from "../../pages__components/Logo";
 import { THEMES } from "../../utils/appConstants";
-import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 import {
   changeThemeAction,
-  fillSettingsAction,
+  // fillSettingsAction,
 } from "../../redux/actions/settings";
 import { useDispatch } from "react-redux";
 
@@ -41,7 +40,7 @@ const MainSideBar = (props: SidebarProps) => {
     user,
     tasks,
     followedUsers,
-    theme,
+    // theme,
     setTheme,
     // numberOfTasks,
     sideBarLoading,
