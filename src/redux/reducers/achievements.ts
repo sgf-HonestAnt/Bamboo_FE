@@ -5,7 +5,9 @@ import {
   FILL_ACHIEVEMENTS,
   FILL_ACHIEVEMENTS_ERROR,
   FILL_ACHIEVEMENTS_LOADING,
-} from "../../utils/constants";
+  SET_NEW_ACHIEVEMENT,
+  SET_SUPERLIST,
+} from "../../utils/appConstants";
 
 const currentAchievementsReducer = (
   state = initialState.currentAchievements,
@@ -26,6 +28,16 @@ const currentAchievementsReducer = (
       return {
         ...state,
         error: action.payload,
+      };
+    case SET_SUPERLIST:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case SET_NEW_ACHIEVEMENT:
+      return {
+        ...state,
+        list: action.payload,
       };
     default:
       return state;

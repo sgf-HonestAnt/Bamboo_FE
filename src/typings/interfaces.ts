@@ -7,12 +7,12 @@ export interface reduxStateInt {
   currentSettings: currentSettingsInt;
   currentFeatures: currentFeaturesInt;
 }
-
 export interface currentSettingsInt {
+  loading: boolean;
+  error: boolean;
   // GET users/me/settings
   selectedTheme: themeType;
 }
-
 export interface currentUserInt {
   loading: boolean;
   error: boolean;
@@ -30,26 +30,42 @@ export interface userInt {
   avatar: string;
   bio: string;
   level: number | null;
-  xp: number | null;
-  admin?: boolean; // required false
+  xp: number;
+  total_xp: number; // total cumulative xp
+  admin?: boolean;
+  notification: string[];
   createdAt: string;
   updatedAt: string;
   refreshToken?: string;
+  followedUsers?: {
+    accepted: string[];
+    rejected: string[];
+    requested: string[];
+    response_awaited: string[];
+  };
 }
 export interface currentTasksInt {
+  loading: boolean;
+  error: boolean;
   // GET tasks/me
   _id: string;
+  categories: string[];
   completed: taskInt[];
   awaited: taskInt[];
   in_progress: taskInt[];
 }
 export interface currentAchievementsInt {
+  loading: boolean;
+  error: boolean;
   // GET achievements/me
   _id: string;
   user: string; // user
   list: achievementInt[];
+  superlist: string[];
 }
 export interface currentFeaturesInt {
+  loading: boolean;
+  error: boolean;
   // GET features
   links: number | null;
   total: number | null;
@@ -71,6 +87,7 @@ export interface followedUserInt {
   bio: string;
   level: number;
   xp: number;
+  total_xp: number;
   achievements: achievementInt[];
 }
 export interface publicUserInt {
@@ -84,7 +101,9 @@ export interface publicUserInt {
 }
 export interface achievementInt {
   // GET achievements/me, GET users/me, GET achievements/:id
+  username: string;
   item: string;
+  category: string;
   createdAt: string;
   _id: string;
 }
@@ -95,6 +114,7 @@ export interface taskInt {
   title: string;
   image: string;
   desc: string;
+  repeats: string;
   type: taskType | string;
   value: number;
   createdBy: string; // user id
@@ -110,6 +130,27 @@ export interface featureInt {
   descrip: string;
   level: number;
   value: number;
+  image?: string;
   createdAt: string;
   updatedAt: string;
+}
+export interface setTaskInt {
+  // for adding a task
+  category: string;
+  title: string;
+  desc: string;
+  value: number;
+  repeats: string;
+  sharedWith: string[];
+  deadline: string;
+}
+export interface listForBeautifulDnd {
+  id: string;
+  title: string;
+  taskIds: string[];
+}
+export interface beautifulDnD {
+  tasks: (taskInt | undefined)[];
+  lists: listForBeautifulDnd[];
+  listOrder: string[]; 
 }

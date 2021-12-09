@@ -7,33 +7,50 @@ import {
   RouteComponentProps,
   Redirect,
 } from "react-router-dom";
-import MainBody from "./pages/MainBody";
-import Login from "./pages/Page_Login";
+import MainBody from "./pages/Main";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register"; 
+// import SettingsPage from "./pages/Settings";
+import LogoutPage from "./pages/Logout";
+import LandingPage from "./pages/Landing";
 
 function App() {
   return (
     <div className='App'>
       <Router>
         <Switch>
-          {/* <Route
+          <Route
             exact
-            path='/register'
+            path='/landing-page'
             render={(routerProps: RouteComponentProps) => (
-              <RegistrationPage {...routerProps} />
+              <LandingPage {...routerProps} />
             )}
-          /> */}
+          />
           <Route
             exact
             path='/login'
             render={(routerProps: RouteComponentProps) => (
-              <Login {...routerProps} />
+              <LoginPage {...routerProps} />
+            )}
+          />
+          <Route
+            exact
+            path='/register'
+            render={(routerProps: RouteComponentProps) => (
+              <RegisterPage {...routerProps} />
+            )}
+          />
+          <Route
+            exact
+            path='/session-closed'
+            render={(routerProps: RouteComponentProps) => (
+              <LogoutPage {...routerProps} />
             )}
           />
           {/* "/" PATH REDIRECTS TO "/dash" */}
           <Route exact path='/'>
             <Redirect to='/dash' />
           </Route>
-          {/* DASHBOARD */}
           <Route
             exact
             path='/dash'
@@ -57,15 +74,22 @@ function App() {
               <MainPageTemplate {...routerProps} />
             )}
           /> */}
-          {/* TASKS BY TASKS */}
-          {/* <Route
+          {/* TASKS */}
+          <Route
             exact
             path='/tasks'
             render={(routerProps: RouteComponentProps) => (
-              <MainPageTemplate {...routerProps} />
+              <MainBody {...routerProps} />
             )}
-          /> */}
-          {/* TASKS BY SCHEDULE */}
+          />
+          {/* SETTINGS */}
+          <Route
+            exact
+            path='/user-settings'
+            render={(routerProps: RouteComponentProps) => (
+              <MainBody {...routerProps} />
+            )}
+          />
           {/* <Route
             exact
             path='/tasks-schedule'
@@ -101,7 +125,7 @@ function App() {
           <Route
             render={(routerProps: RouteComponentProps) => (
               <MainBody {...routerProps} />
-            )} 
+            )}
           />
         </Switch>
       </Router>

@@ -6,8 +6,18 @@ import {
   FILL_ACHIEVEMENTS,
   FILL_ACHIEVEMENTS_ERROR,
   FILL_ACHIEVEMENTS_LOADING,
-} from "../../utils/constants";
+  SET_SUPERLIST,
+  SET_NEW_ACHIEVEMENT,
+} from "../../utils/appConstants";
 
+export const setSuperlist = (superlist: string[]) => ({
+  type: SET_SUPERLIST,
+  payload: { superlist, loading: true },
+});
+export const setNewAchievement = (achievements: string[]) => ({
+  type: SET_NEW_ACHIEVEMENT,
+  payload: achievements,
+});
 export const fillAchievementsAction = () => {
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
@@ -35,7 +45,6 @@ export const fillAchievementsAction = () => {
           type: FILL_ACHIEVEMENTS,
           payload,
         });
-        console.log(`🥔achievements=${payload.list.length}`);
       } else {
         setTimeout(() => {
           dispatch({
@@ -66,4 +75,3 @@ export const fillAchievementsAction = () => {
     }
   };
 };
-

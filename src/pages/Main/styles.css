@@ -1,0 +1,17 @@
+.main-page {
+  background-color: var(--main-bg);
+  color: var(--main-text);
+}
+.main-page__spinner {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-urgent {
+  color: var(--code-red);
+}
+.icon-semi-urgent {
+  color: var(--code-blue);
+}

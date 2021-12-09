@@ -1,0 +1,33 @@
+.admin-page {
+}
+.admin-page #denied {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.admin-page__form {
+  display: flex;
+  min-width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  /* justify-content: space-around; */
+}
+.admin-page__form-header {
+}
+.admin-page__form-search {
+  display: flex;
+  justify-content: space-between;
+}
+.admin-page__table__td {
+  max-width: 100px;
+}
+.admin-page__table__td div.overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.admin-page__table__img {
+  max-height: 25px;
+}

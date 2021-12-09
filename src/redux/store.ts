@@ -10,14 +10,14 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 import { reduxStateInt } from "../typings/interfaces";
 import { Reducer } from "react";
 import thunk from "redux-thunk";
-//import storage from "redux-persist/lib/storage";
+// import storage from "redux-persist/lib/storage";
 import sessionStorage from "redux-persist/lib/storage/session";
 import currentUserReducer from "./reducers/user";
 import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
 import currentSettingsReducer from "./reducers/settings";
 import currentFeaturesReducer from "./reducers/features";
-import { LIGHT_MODE } from "../utils/constants";
+import { LIGHT_MODE } from "../utils/appConstants";
 
 declare global {
   interface Window {
@@ -35,7 +35,7 @@ export const initialState: reduxStateInt = {
     loading: true,
     error: false,
     // set upon loading with endpoint "/user/me"
-    my_user: {
+    my_user: { 
       _id: "",
       first_name: "",
       last_name: "",
@@ -44,31 +44,43 @@ export const initialState: reduxStateInt = {
       avatar: "",
       bio: "",
       level: null,
-      xp: null,
+      xp: 0,
+      total_xp: 0,
       admin: false,
+      notification: [],
       createdAt: "",
       updatedAt: "",
     },
     followedUsers: [],
   },
   currentTasks: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/tasks/me/"
     _id: "",
+    categories: [],
     completed: [],
     awaited: [],
     in_progress: [],
   },
   currentAchievements: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/achievements/me/"
     _id: "",
     user: "",
     list: [],
+    superlist: [],
   },
   currentSettings: {
+    loading: true,
+    error: false,
     // set upon loading with endpoint "/user/me/settings"
     selectedTheme: LIGHT_MODE,
   },
   currentFeatures: {
+    loading: true,
+    error: false,
     links: 0,
     total: 0,
     features: [],

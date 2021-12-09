@@ -6,7 +6,16 @@ import {
   FILL_USER_ERROR,
   FILL_USER_LOADING,
   SET_REFRESH_TOKEN,
-} from "../../utils/constants";
+  SET_USER_AVATAR,
+  SET_USER_BIO,
+  SET_USER_EMAIL,
+  SET_USER_FIRST_NAME,
+  SET_USER_LEVEL,
+  SET_USER_POINTS,
+  SET_USER_POINTS_TOTAL,
+  SET_USER_USERNAME,
+  SPEND_USER_POINTS,
+} from "../../utils/appConstants";
 
 const currentUserReducer = (
   state = initialState.currentUser,
@@ -28,10 +37,85 @@ const currentUserReducer = (
         ...state,
         error: action.payload,
       };
+    case SET_USER_AVATAR:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          avatar: action.payload,
+        },
+      };
+    case SET_USER_FIRST_NAME:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          first_name: action.payload,
+        },
+      };
+    case SET_USER_USERNAME:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          username: action.payload,
+        },
+      };
+    case SET_USER_BIO:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          bio: action.payload,
+        },
+      };
+    case SET_USER_EMAIL:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          email: action.payload,
+        },
+      };
+    case SET_USER_LEVEL:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          level: action.payload,
+        },
+      };
+    case SET_USER_POINTS:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          xp: action.payload,
+        },
+      };
+    case SET_USER_POINTS_TOTAL:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          total_xp: action.payload,
+        }, 
+      };
+    // case SPEND_USER_POINTS:
+    //   return {
+    //     ...state,
+    //     my_user: {
+    //       ...state.my_user,
+    //       level: action.payload,
+    //     },
+    //   };
     case SET_REFRESH_TOKEN:
       return {
         ...state,
-        refreshToken: action.payload,
+        my_user: {
+          ...state.my_user,
+          refreshToken: action.payload,
+        },
       };
     default:
       return state;

@@ -7,7 +7,12 @@ import {
   FILL_SETTINGS,
   FILL_SETTINGS_ERROR,
   FILL_SETTINGS_LOADING,
-} from "../../utils/constants";
+} from "../../utils/appConstants";
+
+export const changeThemeAction = (selectedTheme: string) => ({
+  type: FILL_SETTINGS,
+  payload: selectedTheme,
+});
 
 export const fillSettingsAction = () => {
   const token = localStorage.getItem("token");
@@ -36,7 +41,6 @@ export const fillSettingsAction = () => {
           type: FILL_SETTINGS,
           payload,
         });
-        console.log(`🥔theme=${payload.selectedTheme}`)
       } else {
         setTimeout(() => {
           dispatch({
@@ -67,4 +71,3 @@ export const fillSettingsAction = () => {
     }
   };
 };
-
