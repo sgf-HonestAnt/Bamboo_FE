@@ -13,12 +13,17 @@ import {
   REMOVE_TASK_FROM_IN_PROGRESS,
   ADD_TASK_TO_COMPLETED,
   REMOVE_TASK_FROM_COMPLETED,
+  SET_NEW_TASK_CATEGORY,
 } from "../../utils/appConstants";
 import { taskInt } from "../../typings/interfaces";
 
 export const setNewTask = (task: taskInt) => ({
   type: SET_NEW_TASK,
   payload: task,
+});
+export const setNewCategory = (categories: string[]) => ({
+  type: SET_NEW_TASK_CATEGORY,
+  payload: categories,
 });
 export const AddTaskToAwaited = (status: taskInt[]) => ({
   type: ADD_TASK_TO_AWAITED,

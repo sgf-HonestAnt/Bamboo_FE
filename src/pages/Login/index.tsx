@@ -28,7 +28,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
   useEffect(() => {
     console.log(location.pathname); // "/login"
   }, [location.pathname]);
-  console.log(form);
+  // console.log(form);
   return (
     <Container fluid>
       <Row className='login-form px-5'>

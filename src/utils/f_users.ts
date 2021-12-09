@@ -65,7 +65,7 @@ export const getUsers = async () => {
     const response = await fetch(url, { method });
     if (response.ok) {
       const users = await response.json();
-      console.log("users=>", users);
+      // console.log("users=>", users);
       return users;
     }
   } catch (error) {
@@ -81,7 +81,7 @@ export const getUserByQuery = async (query: string) => {
     const response = await fetch(url, { method });
     if (response.ok) {
       const users = await response.json();
-      console.log("users=>", users);
+      // console.log("users=>", users);
       return users;
     }
   } catch (error) {
@@ -104,7 +104,7 @@ export const getUsersAsAdmin = async (_id: string) => {
     if (response.ok) {
       const users = await response.json();
       users.refreshToken = undefined;
-      console.log("users=>", users);
+      // console.log("users=>", users);
       return _id.length > 0 ? [users] : users;
     }
   } catch (error) {
@@ -132,11 +132,11 @@ export const clearLastNotification = async (notification: string[]) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    console.log(notification);
+    // console.log(notification);
     notification.pop();
-    console.log(notification);
+    // console.log(notification);
     const body = JSON.stringify({ notification });
-    console.log(body);
+    // console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const data = await response.json();
@@ -204,7 +204,7 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
     file && formData.append("avatar", file);
     const updated = await fetch(url, { method, headers, body: formData });
     const updatedAsJSON = await updated.json();
-    console.log(updatedAsJSON);
+    // console.log(updatedAsJSON);
     return updatedAsJSON;
   } catch (error) {
     console.log(error);

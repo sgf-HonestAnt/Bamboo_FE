@@ -99,7 +99,7 @@ const currentUserReducer = (
         my_user: {
           ...state.my_user,
           total_xp: action.payload,
-        },
+        }, 
       };
     // case SPEND_USER_POINTS:
     //   return {

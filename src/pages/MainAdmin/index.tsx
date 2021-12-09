@@ -66,10 +66,10 @@ const AdminPage = (props: AdminPageProps) => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  console.log(form);
-  console.log("users=>", users);
-  console.log("tasks=>", tasks);
-  console.log("notif=>", notifications);
+  // console.log(form);
+  // console.log("users=>", users);
+  // console.log("tasks=>", tasks);
+  // console.log("notif=>", notifications);
   return !user.admin ? (
     <Container fluid className='admin-page'>
       <Row id='denied'>

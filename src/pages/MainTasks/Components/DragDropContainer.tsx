@@ -26,7 +26,6 @@ type DragDropContainerProps = {
 const DragDropContainer = (props: DragDropContainerProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
-  const { xp, total_xp } = my_user;
   const achievements = state.currentAchievements;
   const currentTasks = state.currentTasks;
   const { taskList, setTaskList, initialData, setInitialData } = props;
@@ -111,15 +110,23 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         destination.droppableId,
         finish!.id
       );
-      // const allTasks = awaited.concat(in_progress, completed);
-      // setTaskList(allTasks);
-      // dispatch(fillTasksAction()); // 👈HERE!
-      if (newFinish.id === COMPLETED) {
-        // ADD BAMBOO POINTS
-        const value = parseInt(draggableId.split("/")[1]);
-        setUserPoints(xp! + value);
-        setUserTotalPoints(total_xp! + value);
-      }
+      // should not need this: see updateTaskStatus function.
+      // if (newFinish.id === COMPLETED) {
+      //   // ADD BAMBOO POINTS
+      //   // console.log("COMPLETING=>", draggableId);
+      //   const value = parseInt(draggableId.split("/")[1]);
+      //   const { xp, total_xp } = my_user;
+      //   console.log(
+      //     "adding this many points to xp",
+      //     value,
+      //     "xp SHOULD be",
+      //     xp + value
+      //   );
+      //   const newXP = xp + value;
+      //   const newTotalXP = total_xp + value;
+      //   setUserPoints(newXP);
+      //   setUserTotalPoints(newTotalXP);
+      // }
     }
   };
   const updateTaskStatus = async (
@@ -128,6 +135,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     destinationStatus: string,
     status: string
   ) => {
+    console.log(draggableId, sourceStatus, destinationStatus, status)
     await attemptUpdateTask(
       draggableId,
       { status },

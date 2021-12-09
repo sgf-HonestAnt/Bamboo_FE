@@ -63,7 +63,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     e.preventDefault();
     const value = recentNotif.split(" ")[0];
     const action = "accept";
-    console.log(value, action);
+    // console.log(value, action);
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
@@ -72,12 +72,12 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     e.preventDefault();
     const value = recentNotif.split(" ")[0];
     const action = "reject";
-    console.log(value, action);
+    // console.log(value, action);
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
-  console.log(recentNotif);
+  // console.log(recentNotif);
   return (
     <div className={dashClass}>
       <Card.Title>

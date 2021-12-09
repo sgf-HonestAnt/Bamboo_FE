@@ -27,7 +27,7 @@ const TasksPage = (props: TasksPageProps) => {
   useEffect(() => {
     console.log(location.pathname); // "/tasks"
   }, [location.pathname]);
-  console.log(initialData)
+  // console.log(initialData);
   return (
     <Container fluid>
       <TasksFilterRow
@@ -36,17 +36,19 @@ const TasksPage = (props: TasksPageProps) => {
         setInitialData={setInitialData}
         history={history}
         location={location}
-      /> 
+      />
       <div className='red'>
         <ICOURGENT />
-        Filter doesn't work. Styling is ugly. Need to add param for if date
-        given. Dash calendar should link to specific day. Investigate the
-        sidebar load which works well with add new task and push "/tasks" but
-        not with move task to completed. When moving task to completed, the
-        sidebar should change without whole page refresh (or else remove the
-        sidebar task number)
+        Styling is ugly. Must be able to filter by category, date, and shared
+        with(?) perhaps also search by title. Oddly the add xp feature and level
+        up feature isn't functioning, check in the morning
       </div>
-      <DragDropContainer initialData={initialData} setInitialData={setInitialData} taskList={taskList} setTaskList={setTaskList} />
+      <DragDropContainer
+        initialData={initialData}
+        setInitialData={setInitialData}
+        taskList={taskList}
+        setTaskList={setTaskList}
+      />
     </Container>
   );
 };

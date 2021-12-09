@@ -23,6 +23,7 @@ type SidebarProps = {
 const MainSideBar = (props: SidebarProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
+  const { level } = my_user
   const { awaited, in_progress } = state.currentTasks;
   const awaitedAndProgressTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
@@ -35,7 +36,7 @@ const MainSideBar = (props: SidebarProps) => {
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setTheme(value);
-    console.log("dispatch change Theme!", value);
+    console.log(value);
     dispatch(changeThemeAction(value));
     // then do a fetch
   };
@@ -70,8 +71,8 @@ const MainSideBar = (props: SidebarProps) => {
         <>
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
-            <br />
-            <span className='text-bigger'>{my_user.username}</span>
+            <div className='text-bigger'>{my_user.username}</div>
+            <div>level {level}</div>
           </div>
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}

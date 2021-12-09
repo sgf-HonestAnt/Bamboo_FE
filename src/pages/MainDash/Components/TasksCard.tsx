@@ -82,7 +82,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   const handleSubmitComplete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(completedTasks);
+    // console.log(completedTasks);
     try {
       await attemptCompleteTasks(
         my_user,

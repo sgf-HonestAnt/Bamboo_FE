@@ -30,8 +30,8 @@ export interface userInt {
   avatar: string;
   bio: string;
   level: number | null;
-  xp: number | null;
-  total_xp: number | null; // total cumulative xp
+  xp: number;
+  total_xp: number; // total cumulative xp
   admin?: boolean;
   notification: string[];
   createdAt: string;

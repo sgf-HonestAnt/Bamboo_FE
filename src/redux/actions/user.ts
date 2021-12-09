@@ -14,6 +14,7 @@ import {
   SET_USER_EMAIL,
   SET_USER_LEVEL,
   SET_USER_POINTS,
+  SET_USER_POINTS_TOTAL,
 } from "../../utils/appConstants";
 import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
 
@@ -50,7 +51,7 @@ export const setUserPoints = (xp: number) => ({
   payload: xp,
 });
 export const setUserTotalPoints = (total_xp: number) => ({
-  type: SET_USER_POINTS,
+  type: SET_USER_POINTS_TOTAL,
   payload: total_xp,
 });
 export const setUserLoading = (boolean: boolean) => ({

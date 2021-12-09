@@ -16,7 +16,7 @@ const attemptRefresh = async (
     if (response.ok) {
       const newTokens = await response.json();
       const { accessToken, refreshToken } = newTokens;
-      console.log(newTokens);
+      // console.log(newTokens);
       localStorage.setItem("token", accessToken);
       setRefreshToken(refreshToken);
       setUserError(false);

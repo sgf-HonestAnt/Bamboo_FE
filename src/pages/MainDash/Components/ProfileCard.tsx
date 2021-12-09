@@ -15,10 +15,8 @@ type DashProfileCardProps = {
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const currentUser: currentUserInt = useAppSelector(
-    (state: reduxStateInt) => state.currentUser
-  );
-  const { followedUsers, my_user } = currentUser;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
   const { avatar, username, admin, bio, level, xp } = my_user;
   const { history } = props;
   const dispatch = useDispatch();
@@ -33,7 +31,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     e.preventDefault();
     if (newBio.length >= 2 && newBio.length <= 20) {
       await updateUserBio(newBio, dispatch);
-      setFormClass(!formClass)
+      setFormClass(!formClass);
       setShowTip(false);
     } else {
       setShowTip(true);

@@ -153,7 +153,7 @@ export const attemptPostTask = async (
         Authorization: `Bearer ${token}`,
       };
       const body = JSON.stringify(form);
-      console.log(body);
+      // console.log(body);
       const response = await fetch(url, { method, headers, body });
       const newTask = await response.json();
       return newTask;
@@ -214,6 +214,7 @@ export const attemptUpdateTask = async (
       if (status === COMPLETED) {
         console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
         const { title, category, value } = responseAsJSON;
+        console.log(value)
         await attemptPostAchievement(title, category, dispatch, achievements);
         setUserPoints(user.xp + value);
         setUserTotalPoints(user.total_xp + value);

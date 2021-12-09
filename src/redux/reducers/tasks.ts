@@ -12,6 +12,7 @@ import {
   REMOVE_TASK_FROM_COMPLETED,
   REMOVE_TASK_FROM_IN_PROGRESS,
   SET_NEW_TASK,
+  SET_NEW_TASK_CATEGORY,
 } from "../../utils/appConstants";
 
 const currentTasksReducer = (
@@ -38,6 +39,11 @@ const currentTasksReducer = (
       return {
         ...state,
         awaited: [...state.awaited, action.payload],
+      };
+    case SET_NEW_TASK_CATEGORY:
+      return {
+        ...state,
+        categories: action.payload,
       };
     case ADD_TASK_TO_AWAITED:
       return {

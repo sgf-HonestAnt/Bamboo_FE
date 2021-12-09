@@ -2,13 +2,19 @@ import { useState } from "react";
 import { History, Location } from "history";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { beautifulDnD, followedUserInt, userInt } from "../typings/interfaces";
+import { useAppSelector } from "../redux/hooks";
+import {
+  beautifulDnD,
+  followedUserInt,
+  reduxStateInt,
+  userInt,
+} from "../typings/interfaces";
 import { setUserLoading } from "../redux/actions/user";
 import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
-import { setNewTask } from "../redux/actions/tasks";
+import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -37,19 +43,19 @@ type FormProps = {
   deadline: string;
 };
 const AddEditTaskModal = (props: AddEditTaskModalProps) => {
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const { categories } = state.currentTasks;
   const {
     show,
     handleClose,
     taskId,
-    user,
-    followedUsers,
-    categories,
     history,
     location,
     initialData,
     setInitialData,
   } = props;
-  const { refreshToken } = user;
+  const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
   // console.log(min, max);
@@ -85,6 +91,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     const value = e.target.value;
     if (id === "category" && value === "new") {
       setShowNewCat(true);
+      setForm({ ...form, [id]: value });
+    } else if (id === "newCategory") {
       setForm({ ...form, [id]: value });
     } else if (id === "repeated" && value === "yes") {
       setForm({
@@ -139,7 +147,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(form);
+    // console.log(form);
     try {
       const newTask = await attemptPostTask(
         form,
@@ -147,9 +155,16 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         history,
         location
       );
-      console.log("CREATED NEW TASK", newTask._id);
-      console.log("NEW!!=>", newTask);
+      // console.log("CREATED NEW TASK", newTask._id);
+      // console.log("NEW!!=>", newTask);
       dispatch(setNewTask(newTask));
+      if (
+        !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
+        !categories.includes(newTask.category.toLowerCase())
+      ) {
+        categories.push(newTask.category.toLowerCase());
+        setNewCategory(categories);
+      }
       if (initialData) {
         // TASKS PAGE
         initialData.tasks.push(newTask); // push new task to list of tasks
@@ -279,9 +294,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     {c}
                   </option>
                 ))}
-                <option value='' disabled>
-                  -------
-                </option>
                 {categories
                   .filter((c) => c !== "none" && !TASK_CATEGORIES.includes(c))
                   .sort()
@@ -296,6 +308,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </option>
                     );
                   })}
+                <option value='' disabled>
+                  -------
+                </option>
                 <option
                   value='new'
                   // selected={form.category === "new"}

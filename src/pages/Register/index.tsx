@@ -95,7 +95,7 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
             });
           }
         } else if (response.status === 409) {
-          console.log(message, available);
+          // console.log(message, available);
           if (message === "USERNAME NOT AVAILABLE") {
             setUsernameError(
               `Selected username unavailable. Try the following: ${available
@@ -145,7 +145,7 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
     });
     setLoginClass("hidden");
   }, [form]);
-  console.log(form);
+  // console.log(form);
   return (
     <Container fluid>
       <Row className='registration-form'>
