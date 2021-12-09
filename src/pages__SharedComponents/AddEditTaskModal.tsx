@@ -2,7 +2,7 @@ import { useState } from "react";
 import { History, Location } from "history";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { followedUserInt, userInt } from "../typings/interfaces";
+import { beautifulDnD, followedUserInt, userInt } from "../typings/interfaces";
 import { setUserLoading } from "../redux/actions/user";
 import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { getMinMaxDateAsString } from "../utils/f_dates";
@@ -19,6 +19,8 @@ type AddEditTaskModalProps = {
   categories: string[];
   history: History<unknown> | string[];
   location: Location<unknown>;
+  initialData?: beautifulDnD;
+  setInitialData?: any;
 };
 type FormProps = {
   title: string;
@@ -44,6 +46,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     categories,
     history,
     location,
+    initialData,
+    setInitialData,
   } = props;
   const { refreshToken } = user;
   const dispatch = useDispatch();
@@ -146,6 +150,17 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       console.log("CREATED NEW TASK", newTask._id);
       console.log("NEW!!=>", newTask);
       dispatch(setNewTask(newTask));
+      if (initialData) {
+        // TASKS PAGE
+        initialData.tasks.push(newTask); // push new task to list of tasks
+        initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
+        const newData = {
+          ...initialData,
+          tasks: [...initialData.tasks!],
+          lists: [...initialData.lists!],
+        };
+        setInitialData(newData);
+      }
       setForm({
         title: "",
         value: 0,

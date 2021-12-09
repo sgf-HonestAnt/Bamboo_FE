@@ -80,7 +80,7 @@ const MainSideBar = (props: SidebarProps) => {
             {numOfUsers > 0 ? (
               <Link to='/following'>following ({numOfUsers})</Link>
             ) : (
-              <div>following 0</div>
+              <div>following (0)</div>
             )}
             <Button variant='link' onClick={logout}>
               log out

@@ -11,7 +11,6 @@ import {
 } from "../../../typings/interfaces";
 import { Row } from "react-bootstrap";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
-import { fillTasksAction } from "../../../redux/actions/tasks";
 import {
   attemptUpdateTask,
   moveTaskBetweenStatus,
@@ -20,7 +19,9 @@ import DroppableList from "./DroppableList";
 
 type DragDropContainerProps = {
   taskList: taskInt[];
-  history: History<unknown> | string[];
+  setTaskList: any;
+  initialData: beautifulDnD;
+  setInitialData: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -28,30 +29,20 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   const { xp, total_xp } = my_user;
   const achievements = state.currentAchievements;
   const currentTasks = state.currentTasks;
-  // const tasks = state.currentTasks;
-  // const { categories, awaited, in_progress, completed } = tasks;
-  // const settings = state.currentSettings;
-  // const { notification } = my_user;
-  // const features = state.currentFeatures;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  const { taskList } = props;
-  console.log(taskList);
+  const { taskList, setTaskList, initialData, setInitialData } = props;
   const dispatch = useDispatch();
-  const [initialData, setInitialData] = useState<beautifulDnD>({
-    tasks: [],
-    lists: [],
-    listOrder: [],
-  });
-  // const loadSideBar = async () => {
-  //   console.log("LOAD SIDE BAR AT DRAG DROP");
-  // };
+  // const [initialData, setInitialData] = useState<beautifulDnD>({
+  //   tasks: [],
+  //   lists: [],
+  //   listOrder: [],
+  // });
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
     // if task moves outside droppable space
     if (!destination) {
       return;
     }
-    // if task moved to same place as it started
+    // if task moves to same place as it started
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -114,12 +105,14 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       };
       // set initial data to match clone
       setInitialData(newData);
-      updateTaskStatus(
+      await updateTaskStatus(
         draggableId.split("/")[0],
         source.droppableId,
         destination.droppableId,
         finish!.id
       );
+      // const allTasks = awaited.concat(in_progress, completed);
+      // setTaskList(allTasks);
       // dispatch(fillTasksAction()); // 👈HERE!
       if (newFinish.id === COMPLETED) {
         // ADD BAMBOO POINTS
@@ -146,7 +139,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     moveTaskBetweenStatus(
       sourceStatus,
       destinationStatus,
-      taskToMove, 
+      taskToMove,
       currentTasks,
       dispatch
     );
@@ -179,6 +172,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       ],
       listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList]);
   useEffect(() => {}, [initialData]);
   return (

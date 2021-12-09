@@ -1,7 +1,7 @@
 import { History, Location } from "history";
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { reduxStateInt } from "../../../typings/interfaces";
+import { beautifulDnD, reduxStateInt } from "../../../typings/interfaces";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
 import { AddNewTaskButton } from "../../../pages__SharedComponents/Buttons";
@@ -15,16 +15,18 @@ import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal"
 
 type TasksFilterRowProps = {
   setTaskList: any;
+  initialData: beautifulDnD;
+  setInitialData: any;
   history: History<unknown> | string[];
   location: Location<unknown>;
-};
+}; 
 const TasksFilterRow = (props: TasksFilterRowProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const tasks = state.currentTasks;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const { setTaskList, history, location } = props;
+  const { setTaskList, initialData, setInitialData, history, location } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -74,6 +76,8 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             categories={categories}
             history={history}
             location={location}
+            initialData={initialData}
+            setInitialData={setInitialData}
           />{" "}
           <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
             <FiRefreshCcw />

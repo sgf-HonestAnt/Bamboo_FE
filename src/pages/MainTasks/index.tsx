@@ -1,42 +1,42 @@
 import { History, Location } from "history";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
-import { reduxStateInt } from "../../typings/interfaces";
+import { beautifulDnD, reduxStateInt, taskInt } from "../../typings/interfaces";
 import { Container } from "react-bootstrap";
 import { ICOURGENT } from "../../utils/appIcons";
 import TasksFilterRow from "./Components/TasksFilterRow";
 import DragDropContainer from "./Components/DragDropContainer";
 import "./styles.css";
 
-type NewTasksPageProps = {
+type TasksPageProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
-const NewTasksPage = (props: NewTasksPageProps) => {
+const TasksPage = (props: TasksPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { my_user, followedUsers } = state.currentUser;
   const tasks = state.currentTasks;
-  const { categories, awaited, in_progress, completed } = tasks;
-  const achievements = state.currentAchievements;
-  // const settings = state.currentSettings;
-  // const { notification } = my_user;
-  // const features = state.currentFeatures;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { selectedTheme } = settings;
-  const { history, location } = props;
+  const { awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const [taskList, setTaskList] = useState(allTasks);
+  const { history, location } = props;
+  const [taskList, setTaskList] = useState<taskInt[]>(allTasks);
+  const [initialData, setInitialData] = useState<beautifulDnD>({
+    tasks: [],
+    lists: [],
+    listOrder: [],
+  });
   useEffect(() => {
     console.log(location.pathname); // "/tasks"
   }, [location.pathname]);
+  console.log(initialData)
   return (
     <Container fluid>
       <TasksFilterRow
         setTaskList={setTaskList}
+        initialData={initialData}
+        setInitialData={setInitialData}
         history={history}
         location={location}
-      />
+      /> 
       <div className='red'>
         <ICOURGENT />
         Filter doesn't work. Styling is ugly. Need to add param for if date
@@ -46,12 +46,9 @@ const NewTasksPage = (props: NewTasksPageProps) => {
         sidebar should change without whole page refresh (or else remove the
         sidebar task number)
       </div>
-      <DragDropContainer
-        taskList={taskList}
-        history={history}
-      />
+      <DragDropContainer initialData={initialData} setInitialData={setInitialData} taskList={taskList} setTaskList={setTaskList} />
     </Container>
   );
 };
 
-export default NewTasksPage;
+export default TasksPage;

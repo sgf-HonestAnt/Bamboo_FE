@@ -1,5 +1,4 @@
 import { RouteComponentProps } from "react-router-dom";
-// import { BarLoader } from 'react-css-loaders';
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
@@ -10,16 +9,15 @@ import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
 import { Container, Row, Col } from "react-bootstrap";
+import SettingsPage from "../Settings";
 import MainSideBar from "../MainSideBar";
 import DashboardPage from "../MainDash";
+import NewTasksPage from "../MainTasks";
 import FollowingPage from "../MainFollow";
-// import AddTaskPage from "../MainAddTask";
-import SettingsPage from "../Settings";
 import AdminPage from "../MainAdmin";
 import ErrorPage from "../MainError";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
-import NewTasksPage from "../MainTasksNew";
 
 const MainBody = ({ history, location }: RouteComponentProps) => {
   const [mainLoading, setMainLoading] = useState(true);
@@ -29,16 +27,13 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
   );
   const { refreshToken } = user;
   const token = localStorage.getItem("token");
-  const { followedUsers, error, loading } = state.currentUser;
+  const { error, loading } = state.currentUser;
   const tasks = state.currentTasks;
-  // const numberOfTasks = tasks.awaited.length + tasks.in_progress.length;
-  const categories = tasks.categories;
   const achievements = state.currentAchievements;
   const features = state.currentFeatures;
   const settings = state.currentSettings;
   const dispatch = useDispatch();
   const path = location.pathname;
-  const [errorMessage, setErrorMessage] = useState("");
   const [theme, setTheme] = useState("theme-light");
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
@@ -136,10 +131,6 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
                 history={history}
                 location={location}
               />
-            </Col>
-          ) : path === "/error" ? (
-            <Col className='m-0'>
-              <ErrorPage history={history} errorMessage={errorMessage} />
             </Col>
           ) : (
             <Col className='m-0'>
