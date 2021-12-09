@@ -23,9 +23,10 @@ type SidebarProps = {
 const MainSideBar = (props: SidebarProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
+  const { awaited, in_progress } = state.currentTasks;
+  const awaitedAndProgressTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
-  const { history, location, setTheme } =
-    props;
+  const { history, location, setTheme } = props;
   const dispatch = useDispatch();
   const logout = async () => {
     await attemptLogout();
@@ -75,7 +76,7 @@ const MainSideBar = (props: SidebarProps) => {
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}
             <Link to='/dash'>dashboard</Link>
-            <Link to='/tasks'>tasks</Link>
+            <Link to='/tasks'>tasks ({awaitedAndProgressTasks.length})</Link>
             {numOfUsers > 0 ? (
               <Link to='/following'>following ({numOfUsers})</Link>
             ) : (
