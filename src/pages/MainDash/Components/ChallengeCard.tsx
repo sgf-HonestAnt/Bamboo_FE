@@ -10,13 +10,6 @@ type DashChallCardProps = {};
 const DashChallCard = (props: DashChallCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state); 
   const features = state.currentFeatures;
-  // const { followedUsers, my_user } = state.currentUser;
-  // const { notification } = my_user;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
   const [featureList, setFeatureList] = useState<featureInt[] | never[]>([]);
   useEffect(() => {
     const currMonth = getMonthByIndex(new Date());

@@ -8,11 +8,6 @@ const DashTipsCard = (props: DashTipsCardProps) => {
   const { level, total_xp } = my_user;
   const tasks = state.currentTasks;
   const { awaited, in_progress } = tasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
   const userHasFollows = followedUsers.length > 0;
   const userIsAhead = followedUsers.find((u) => u.level > level!);
   const newLevelApproaching = (total_xp! + 50) / 250 >= level! + 1;

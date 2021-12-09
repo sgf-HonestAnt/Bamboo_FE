@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { publicUserInt, reduxStateInt } from "../../../typings/interfaces";
+import { currentUserInt, publicUserInt, reduxStateInt } from "../../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "../../../pages__SharedComponents/Buttons";
 import { requestFollow } from "../../../utils/f_follows";
@@ -16,15 +16,9 @@ type DashSearchProps = {
   setSearch: any;
 };
 const DashSearch = (props: DashSearchProps) => {
-  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { followedUsers, my_user } = state.currentUser;
+  const currentUser: currentUserInt = useAppSelector((state: reduxStateInt) => state.currentUser);
+  const { followedUsers, my_user } = currentUser;
   const { _id } = my_user;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
   const { search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,

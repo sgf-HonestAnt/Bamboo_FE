@@ -151,6 +151,7 @@ export const attemptCompleteTasks = async (
   user: userInt,
   taskIds: string[],
   refreshToken: string | undefined,
+  achievements: achievementInt[],
   history: string[] | History<unknown>,
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
@@ -161,7 +162,7 @@ export const attemptCompleteTasks = async (
       for (let i = 0; i < taskIds.length; i++) {
         console.log("ATTEMPTING TO COMPLETE TASK", i);
         const update = { status: "completed" };
-        attemptUpdateTask(taskIds[i], update, user, dispatch);
+        attemptUpdateTask(taskIds[i], update, user, dispatch, achievements);
       }
     }
   } catch (error) {
@@ -175,7 +176,7 @@ export const attemptUpdateTask = async (
   taskUpdate: taskUpdateType,
   user: userInt,
   dispatch: Dispatch<any>,
-  achievements?: achievementInt[],
+  achievements: achievementInt[],
 ) => {
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;

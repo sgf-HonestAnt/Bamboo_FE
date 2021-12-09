@@ -20,12 +20,6 @@ const DashAlertCard = (props: DashAlertCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { notification } = my_user;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
   const dispatch = useDispatch();
   const notifLength = notification.length;
   const recentNotif = notification[notifLength - 1];

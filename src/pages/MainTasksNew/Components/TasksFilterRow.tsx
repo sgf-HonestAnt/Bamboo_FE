@@ -23,12 +23,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   const { my_user, followedUsers } = state.currentUser;
   const tasks = state.currentTasks;
   const { categories, awaited, in_progress, completed } = tasks;
-  // const achievements = state.currentAchievements;
-  // const settings = state.currentSettings;
-  // const { notification } = my_user;
-  // const features = state.currentFeatures;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
   const allTasks = awaited.concat(in_progress, completed);
   const { setTaskList, history, location } = props;
   const [show, setShow] = useState(false);

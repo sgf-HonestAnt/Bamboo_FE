@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
-import { reduxStateInt } from "../../../typings/interfaces";
+import { currentUserInt, reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
 import { ICOACTIVITY, ICORELATE } from "../../../utils/appIcons";
 import { EditButton } from "../../../pages__SharedComponents/Buttons";
@@ -15,16 +15,11 @@ type DashProfileCardProps = {
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { followedUsers, my_user } = state.currentUser;
+  const currentUser: currentUserInt = useAppSelector(
+    (state: reduxStateInt) => state.currentUser
+  );
+  const { followedUsers, my_user } = currentUser;
   const { avatar, username, admin, bio, level, xp } = my_user;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
-  // const { awaited, in_progress } = tasks;
   const { history } = props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);

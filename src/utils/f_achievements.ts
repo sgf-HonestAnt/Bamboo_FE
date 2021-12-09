@@ -26,8 +26,8 @@ export const attemptPostAchievement = async (
     const responseAsJSON = await response.json();
     if (response.ok) {
       console.log("NOW LOAD ACHIEVEMENTS", responseAsJSON);
-      const achievementsList = achievements.push(responseAsJSON);
-      setNewAchievement(achievementsList);
+      // const achievementsList = achievements.push(responseAsJSON);
+      // setNewAchievement(achievementsList);
     }
   } catch (error) {
     console.log(error);

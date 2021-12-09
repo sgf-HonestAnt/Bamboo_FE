@@ -23,15 +23,11 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { refreshToken } = my_user;
+  const achievements = state.currentAchievements.list;
   const tasks = state.currentTasks;
   const categories = tasks.categories;
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const achievements = state.currentAchievements;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
   const { today, history, location } = props;
   const dispatch = useDispatch();
   // add today tasks
@@ -92,10 +88,11 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         my_user,
         completedTasks,
         refreshToken,
+        achievements,
         history,
         location,
         dispatch
-      );
+      ); 
       refreshUserLevel(my_user);
     } catch (e) {
       console.log(e);
@@ -149,7 +146,9 @@ const DashTasksCard = (props: DashTasksCardProps) => {
               </Form.Group>
             );
           })}
-          <div>{allTasks.length > 3 ? `+ ${allTasks.length - 3} more` : ""}</div>
+          <div>
+            {allTasks.length > 3 ? `+ ${allTasks.length - 3} more` : ""}
+          </div>
           {/* <CompleteButton /> */}
         </Form>
       )}

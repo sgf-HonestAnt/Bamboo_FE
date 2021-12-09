@@ -11,10 +11,6 @@ const DashAchievCard = (props: DashAchievCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username } = my_user;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
   const achievements = state.currentAchievements;
   const { list, superlist } = achievements;
   const dispatch = useDispatch();
