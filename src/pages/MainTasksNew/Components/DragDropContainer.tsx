@@ -2,6 +2,7 @@ import { History } from "history";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
+import { setUserPoints, setUserTotalPoints } from "../../../redux/actions/user";
 import { DragDropContext } from "react-beautiful-dnd";
 import {
   beautifulDnD,
@@ -11,23 +12,22 @@ import {
 import { Row } from "react-bootstrap";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
 import { fillTasksAction } from "../../../redux/actions/tasks";
-// import {
-//   setUserLoading,
-//   setUserPoints,
-//   setUserTotalPoints,
-// } from "../../../redux/actions/user";
-import { attemptUpdateTask } from "../../../utils/f_tasks";
+import {
+  attemptUpdateTask,
+  moveTaskBetweenStatus,
+} from "../../../utils/f_tasks";
 import DroppableList from "./DroppableList";
 
 type DragDropContainerProps = {
   taskList: taskInt[];
   history: History<unknown> | string[];
-  setSideBarLoading: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
+  const { xp, total_xp } = my_user;
   const achievements = state.currentAchievements;
+  const currentTasks = state.currentTasks;
   // const tasks = state.currentTasks;
   // const { categories, awaited, in_progress, completed } = tasks;
   // const settings = state.currentSettings;
@@ -35,6 +35,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   // const features = state.currentFeatures;
   // const { avatar, username, admin, bio, level, xp } = my_user;
   const { taskList } = props;
+  console.log(taskList);
   const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
@@ -43,7 +44,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   });
   // const loadSideBar = async () => {
   //   console.log("LOAD SIDE BAR AT DRAG DROP");
-  //   await setSideBarLoading(true);
   // };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
@@ -114,23 +114,41 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       };
       // set initial data to match clone
       setInitialData(newData);
-      updateTaskStatus(draggableId, finish!.id);
-      dispatch(fillTasksAction()); // 👈HERE!
+      updateTaskStatus(
+        draggableId.split("/")[0],
+        source.droppableId,
+        destination.droppableId,
+        finish!.id
+      );
+      // dispatch(fillTasksAction()); // 👈HERE!
       if (newFinish.id === COMPLETED) {
-        // ADD VALUE TO USER BAMBOO POINTS!!!!
-        // NEED TO GET THE POINTS FROM SOMEWHERE!!!!
-        // setUserPoints()
-        // setUserTotalPoints()
+        // ADD BAMBOO POINTS
+        const value = parseInt(draggableId.split("/")[1]);
+        setUserPoints(xp! + value);
+        setUserTotalPoints(total_xp! + value);
       }
     }
   };
-  const updateTaskStatus = async (draggableId: string, status: string) => {
+  const updateTaskStatus = async (
+    draggableId: string,
+    sourceStatus: string,
+    destinationStatus: string,
+    status: string
+  ) => {
     await attemptUpdateTask(
       draggableId,
       { status },
       my_user,
       dispatch,
       achievements.list
+    );
+    const taskToMove = taskList.find((t) => t._id === draggableId);
+    moveTaskBetweenStatus(
+      sourceStatus,
+      destinationStatus,
+      taskToMove, 
+      currentTasks,
+      dispatch
     );
   };
   useEffect(() => {
@@ -162,9 +180,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
     });
   }, [taskList]);
-  useEffect(() => {
-    // history.push("/tasks")
-  }, [initialData]);
+  useEffect(() => {}, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext
@@ -174,7 +190,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         {initialData?.listOrder.map((listId, i) => {
           const list = initialData.lists.find((l) => l.id === listId);
           const tasks = list!.taskIds.map((taskId) =>
-            initialData.tasks!.find((t) => t!._id === taskId)
+            initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
           return <DroppableList key={listId!} list={list!} tasks={tasks!} />;
         })}

@@ -1,7 +1,21 @@
 import { History, Location } from "history";
 import { Dispatch } from "redux";
-import { loadTasksAction } from "../redux/actions/tasks";
-import { achievementInt, setTaskInt, taskInt, userInt } from "../typings/interfaces";
+import {
+  AddTaskToAwaited,
+  AddTaskToCompleted,
+  AddTaskToInProgress,
+  loadTasksAction,
+  RemTaskFromAwaited,
+  RemTaskFromCompleted,
+  RemTaskFromInProgress,
+} from "../redux/actions/tasks";
+import {
+  achievementInt,
+  currentTasksInt,
+  setTaskInt,
+  taskInt,
+  userInt,
+} from "../typings/interfaces";
 import { taskUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -15,7 +29,10 @@ import {
 } from "./appConstants";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
-import { fillAchievementsAction, setNewAchievement } from "../redux/actions/achievements";
+import {
+  fillAchievementsAction,
+  setNewAchievement,
+} from "../redux/actions/achievements";
 import { refreshUserLevel } from "./f_users";
 import { setUserPoints, setUserTotalPoints } from "../redux/actions/user";
 
@@ -176,7 +193,7 @@ export const attemptUpdateTask = async (
   taskUpdate: taskUpdateType,
   user: userInt,
   dispatch: Dispatch<any>,
-  achievements: achievementInt[],
+  achievements: achievementInt[]
 ) => {
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;
@@ -218,6 +235,7 @@ export const getCategories = async (tasks: taskInt[]) => {
 };
 export const removeSelfFromTask = async (
   taskId: string,
+  currentTasks: currentTasksInt,
   dispatch: Dispatch<any>
 ) => {
   const token = localStorage.getItem("token");
@@ -230,10 +248,55 @@ export const removeSelfFromTask = async (
     };
     const response = await fetch(url, { method, headers });
     if (response.ok) {
-      dispatch(loadTasksAction(true));
+      const { awaited, in_progress, completed } = currentTasks;
+      const allTasks = awaited.concat(in_progress, completed);
+      const task = allTasks.find((t) => t._id === taskId);
+      if (task?.status === "awaited") {
+        const index = awaited.indexOf(task);
+        awaited.splice(index, 1);
+        dispatch(RemTaskFromAwaited(awaited));
+      } else if (task?.status === "in_progress") {
+        const index = in_progress.indexOf(task);
+        in_progress.splice(index, 1);
+        dispatch(RemTaskFromInProgress(in_progress));
+      } else if (task?.status === "completed") {
+        const index = completed.indexOf(task);
+        completed.splice(index, 1);
+        dispatch(RemTaskFromCompleted(completed));
+      } else {
+        return;
+      }
     }
   } catch (error) {
     console.log(error);
   }
-  // remove/t_id
+};
+export const moveTaskBetweenStatus = async (
+  source: string,
+  destination: string,
+  task: taskInt | undefined,
+  currentTasks: currentTasksInt,
+  dispatch: Dispatch<any>
+) => {
+  const { awaited, in_progress, completed } = currentTasks;
+  if (destination === "awaited") {
+    awaited.push(task!);
+    dispatch(AddTaskToAwaited(awaited));
+  } else if (destination === "in_progress") {
+    in_progress.push(task!);
+    dispatch(AddTaskToInProgress(in_progress));
+  } else {
+    completed.push(task!);
+    dispatch(AddTaskToCompleted(completed));
+  }
+  if (source === "awaited") {
+    const index = awaited.indexOf(task!);
+    awaited.splice(index, 1);
+    dispatch(RemTaskFromAwaited(awaited));
+  } else {
+    const index = in_progress.indexOf(task!);
+    in_progress.splice(index, 1);
+    dispatch(RemTaskFromInProgress(in_progress));
+  }
+  // Cannot move Completed Tasks back.
 };

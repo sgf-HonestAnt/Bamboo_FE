@@ -2,9 +2,15 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { currentTasksInt } from "../../typings/interfaces";
 import { initialState } from "../store";
 import {
+  ADD_TASK_TO_AWAITED,
+  ADD_TASK_TO_COMPLETED,
+  ADD_TASK_TO_IN_PROGRESS,
   FILL_TASKS,
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
+  REMOVE_TASK_FROM_AWAITED,
+  REMOVE_TASK_FROM_COMPLETED,
+  REMOVE_TASK_FROM_IN_PROGRESS,
   SET_NEW_TASK,
 } from "../../utils/appConstants";
 
@@ -32,6 +38,36 @@ const currentTasksReducer = (
       return {
         ...state,
         awaited: [...state.awaited, action.payload],
+      };
+    case ADD_TASK_TO_AWAITED:
+      return {
+        ...state,
+        awaited: action.payload,
+      };
+    case ADD_TASK_TO_IN_PROGRESS:
+      return {
+        ...state,
+        in_progress: action.payload,
+      };
+    case ADD_TASK_TO_COMPLETED:
+      return {
+        ...state,
+        completed: action.payload,
+      };
+    case REMOVE_TASK_FROM_AWAITED:
+      return {
+        ...state,
+        awaited: action.payload,
+      };
+    case REMOVE_TASK_FROM_IN_PROGRESS:
+      return {
+        ...state,
+        in_progress: action.payload,
+      };
+    case REMOVE_TASK_FROM_COMPLETED:
+      return {
+        ...state,
+        completed: action.payload,
       };
     default:
       return state;

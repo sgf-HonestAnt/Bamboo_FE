@@ -11,7 +11,6 @@ import "./styles.css";
 type NewTasksPageProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
-  setSideBarLoading: any;
 };
 const NewTasksPage = (props: NewTasksPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -25,7 +24,7 @@ const NewTasksPage = (props: NewTasksPageProps) => {
   // const { list, superlist } = achievements;
   // const { avatar, username, admin, bio, level, xp } = my_user;
   // const { selectedTheme } = settings;
-  const { history, location, setSideBarLoading } = props;
+  const { history, location } = props;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
   useEffect(() => {
@@ -50,7 +49,6 @@ const NewTasksPage = (props: NewTasksPageProps) => {
       <DragDropContainer
         taskList={taskList}
         history={history}
-        setSideBarLoading={setSideBarLoading}
       />
     </Container>
   );

@@ -47,7 +47,7 @@ const Handle = (props: HandleProps) => {
 const DraggableTask = (props: DraggableTaskProps) => {
   const { task, i } = props;
   return (
-    <Draggable draggableId={task!._id} index={i}>
+    <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
         // console.log(snapshot);
         const taskClass =

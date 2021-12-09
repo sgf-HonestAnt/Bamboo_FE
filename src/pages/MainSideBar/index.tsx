@@ -1,6 +1,6 @@
 import { History, Location } from "history";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
@@ -19,32 +19,14 @@ type SidebarProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
   setTheme: any;
-  sideBarLoading: boolean;
-  setSideBarLoading: any;
 };
 const MainSideBar = (props: SidebarProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const tasks = state.currentTasks;
-  // const { notification } = my_user;
-  // const achievements = state.currentAchievements;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { selectedTheme } = settings;
-  const { history, location, setTheme, sideBarLoading, setSideBarLoading } =
+  const numOfUsers = followedUsers.length;
+  const { history, location, setTheme } =
     props;
   const dispatch = useDispatch();
-  const [taskNum, setTaskNum] = useState(0);
-  const numOfUsers = followedUsers.length;
-  const loadSidebar = async () => {
-    if (tasks) {
-      const { awaited, in_progress } = tasks;
-      setTaskNum(awaited.length + in_progress.length);
-    }
-  };
   const logout = async () => {
     await attemptLogout();
     history.push("/session-closed");
@@ -56,11 +38,6 @@ const MainSideBar = (props: SidebarProps) => {
     dispatch(changeThemeAction(value));
     // then do a fetch
   };
-  useEffect(() => {
-    loadSidebar();
-    setSideBarLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sideBarLoading]);
   return (
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
@@ -98,7 +75,7 @@ const MainSideBar = (props: SidebarProps) => {
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}
             <Link to='/dash'>dashboard</Link>
-            <Link to='/tasks'>tasks ({taskNum})</Link>
+            <Link to='/tasks'>tasks</Link>
             {numOfUsers > 0 ? (
               <Link to='/following'>following ({numOfUsers})</Link>
             ) : (

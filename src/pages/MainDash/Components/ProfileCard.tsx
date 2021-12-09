@@ -33,6 +33,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     e.preventDefault();
     if (newBio.length >= 2 && newBio.length <= 20) {
       await updateUserBio(newBio, dispatch);
+      setFormClass(!formClass)
       setShowTip(false);
     } else {
       setShowTip(true);

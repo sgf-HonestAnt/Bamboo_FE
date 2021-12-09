@@ -19,6 +19,7 @@ type DashAlertCardProps = {};
 const DashAlertCard = (props: DashAlertCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
+  const { currentTasks } = state
   const { notification } = my_user;
   const dispatch = useDispatch();
   const notifLength = notification.length;
@@ -54,7 +55,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
   };
   const handleRejectTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await removeSelfFromTask(taskId, dispatch);
+    await removeSelfFromTask(taskId, currentTasks, dispatch);
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
