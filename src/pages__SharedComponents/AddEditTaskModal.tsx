@@ -8,6 +8,7 @@ import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
+import { setNewTask } from "../redux/actions/tasks";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -126,7 +127,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setForm({ ...form, shared: "yes" });
     } else if (id === "sharedWith") {
       const array = [];
-      array.push(value); 
+      array.push(value);
       setForm({ ...form, sharedWith: array });
     } else {
       setForm({ ...form, [id]: value });
@@ -136,13 +137,15 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     e.preventDefault();
     console.log(form);
     try {
-      const { _id } = await attemptPostTask(
+      const newTask = await attemptPostTask(
         form,
         refreshToken,
         history,
         location
       );
-      console.log("CREATED NEW TASK", _id);
+      console.log("CREATED NEW TASK", newTask._id);
+      console.log("NEW!!=>", newTask);
+      dispatch(setNewTask(newTask));
       setForm({
         title: "",
         value: 0,
@@ -164,9 +167,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowShared(false);
       setShowSharedDropdown(false);
       handleClose();
-      dispatch(setUserLoading(true));
-      // NEED TO RELOAD
-      history.push("/dash")
     } catch (error) {
       console.log(error);
     }

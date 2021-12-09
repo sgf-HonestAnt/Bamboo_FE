@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { followedUserInt, setTaskInt, userInt } from "../../typings/interfaces";
 import { useDispatch } from "react-redux";
-import { fillTasksAction } from "../../redux/actions/tasks";
+import { fillTasksAction, setNewTask } from "../../redux/actions/tasks";
 import { History, Location } from "history";
 import TitleGroup from "./Components/TitleGroup";
 import ValueGroup from "./Components/ValueGroup";
@@ -14,13 +14,13 @@ import RepeatsGroup from "./Components/RepeatsGroup";
 import RepeatsOtherGroup from "./Components/RepeatsOtherGroup";
 import SharedWithGroup from "./Components/SharedWithGroup";
 import SharedWithChooseGroup from "./Components/SharedWithChooseGroup";
-import {attemptPostTask} from "../../utils/f_tasks";
+import { attemptPostTask } from "../../utils/f_tasks";
 import { getMinMaxDateAsString } from "../../utils/f_dates";
 import { NEVER } from "../../utils/appConstants";
 import { ICOURGENT } from "../../utils/appIcons";
 import "./styles.css";
 
-type AddTaskPageProps = { 
+type AddTaskPageProps = {
   user: userInt;
   categories: string[];
   followedUsers: followedUserInt[];
@@ -43,7 +43,7 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   const { refreshToken } = user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
-  console.log(min, max)
+  console.log(min, max);
   // categories
   const [showCategoryDrop, setShowCategoryDrop] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
@@ -80,16 +80,16 @@ const AddTaskPage = (props: AddTaskPageProps) => {
       //   e.preventDefault();
       //   e.stopPropagation();
       // } else {
-      const { _id } = await attemptPostTask(
+      const newTask = await attemptPostTask(
         form,
         refreshToken,
         history,
-        location,
+        location
       );
-      console.log("CREATED NEW TASK", _id);
+      console.log("CREATED NEW TASK", newTask._id);
       // setValidated(true);
-      await dispatch(fillTasksAction());
-      setSideBarLoading(true)
+      await dispatch(setNewTask(newTask));
+      // setSideBarLoading(true);
       setTimeout(() => {
         history.push("/tasks");
       }, 500);
@@ -178,9 +178,18 @@ const AddTaskPage = (props: AddTaskPageProps) => {
   return (
     <Row className='add-task-page p-2'>
       <Col sm={6}>
-      <div className='red'><ICOURGENT/>Make this a modal that fills in automatically the date (if clicked in from "/dash") or the task details (if clicked in from "/admin-dash" or from a task card)</div>
-        <img src="http://www.keystonetrust.org.uk/wp-content/uploads/2020/06/placeholder-image-1.png" alt="" style={{height: "200px"}} />   
-        <Form 
+        <div className='red'>
+          <ICOURGENT />
+          Make this a modal that fills in automatically the date (if clicked in
+          from "/dash") or the task details (if clicked in from "/admin-dash" or
+          from a task card)
+        </div>
+        <img
+          src='http://www.keystonetrust.org.uk/wp-content/uploads/2020/06/placeholder-image-1.png'
+          alt=''
+          style={{ height: "200px" }}
+        />
+        <Form
           // noValidate
           // validated={validated}
           onSubmit={handleSubmit}>

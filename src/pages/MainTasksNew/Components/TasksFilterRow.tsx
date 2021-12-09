@@ -23,7 +23,15 @@ type TasksFilterRowProps = {
 };
 
 const TasksFilterRow = (props: TasksFilterRowProps) => {
-  const { user, followedUsers, allTasks, categories, setTaskList, history, location } = props;
+  const {
+    user,
+    followedUsers,
+    allTasks,
+    categories,
+    setTaskList,
+    history,
+    location,
+  } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);

@@ -149,7 +149,6 @@ export const clearLastNotification = async (notification: string[]) => {
 export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
-    await dispatch(setUserBio(bio));
     const url = `${BE_URL}/${USERS}/me`;
     const method = PUT;
     const body = JSON.stringify({ bio });
@@ -158,7 +157,10 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
       "Content-Type": "application/json",
     };
     const updated = await fetch(url, { method, headers, body });
-    return updated;
+    if (updated) {
+      dispatch(setUserBio(bio));
+    }
+    return updated; 
   } catch (error) {
     console.log(error);
   }
@@ -203,7 +205,7 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
     const updated = await fetch(url, { method, headers, body: formData });
     const updatedAsJSON = await updated.json();
     console.log(updatedAsJSON);
-    return updated;
+    return updatedAsJSON;
   } catch (error) {
     console.log(error);
   }

@@ -6,8 +6,14 @@ import {
   FILL_TASKS,
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
+  SET_NEW_TASK,
 } from "../../utils/appConstants";
+import { taskInt } from "../../typings/interfaces";
 
+export const setNewTask = (task: taskInt) => ({
+  type: SET_NEW_TASK,
+  payload: task,
+});
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
   payload: true,

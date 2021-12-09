@@ -7,6 +7,7 @@ import {
   currentFeaturesInt,
   currentTasksInt,
   followedUserInt,
+  taskInt,
   userInt,
 } from "../../typings/interfaces";
 import DashProfileCard from "./Components/ProfileCard";
@@ -46,8 +47,9 @@ const DashboardPage = (props: DashboardPageProps) => {
     setErrorMessage,
   } = props;
   const allTasks = props.tasks;
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<taskInt[] | never[]>([]);
   const [search, setSearch] = useState("");
+
   // media query
   // const isDesktopOrLaptop = useMediaQuery({
   //   query: "(min-width: 1224px)",
@@ -57,21 +59,25 @@ const DashboardPage = (props: DashboardPageProps) => {
   // const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
   // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   // //
-  const todayAsDate = new Date();
+
+  const todayAsDate = new Date(); 
   const today = getSelectedDateAsString(todayAsDate);
-  // const { list, superlist } = achievements;
+  const { list, superlist } = achievements;
   const { _id, username, admin, bio, avatar, level, xp, notification } = user;
   // const dispatch = useDispatch();
   const attemptLoad = async () => {
-    // load tasks with no deadline / deadline for today
-    const data = await getTaskByQuery(
-      `deadline=${today}&status=awaited&status=in_progress&sort=deadline,title`,
-      _id
-    );
-    const todayDeadline = data.tasks;
-    const noDeadline = await getTaskByDeadline(null);
-    const tasksForToday = todayDeadline.concat(noDeadline);
-    setTasks(tasksForToday);
+    //   // load tasks with no deadline / deadline for today
+    //   const data = await getTaskByQuery(
+    //     `deadline=${today}&status=awaited&status=in_progress&sort=deadline,title`,
+    //     _id
+    //   );
+    //   const todayDeadline = data.tasks;
+    //   const noDeadline = await getTaskByDeadline(null);
+    //   const tasksForToday = todayDeadline.concat(noDeadline);
+
+    const { awaited, in_progress, completed } = allTasks;
+    const temporaryTasks = awaited.concat(in_progress);
+    setTasks(temporaryTasks);
   };
   useEffect(() => {
     attemptLoad();
@@ -133,7 +139,7 @@ const DashboardPage = (props: DashboardPageProps) => {
               search={search}
               setSearch={setSearch}
             />
-            {notification.length > 0 && (
+            {notification?.length > 0 && (
               <DashAlertCard
                 followedUsers={followedUsers}
                 notification={notification}

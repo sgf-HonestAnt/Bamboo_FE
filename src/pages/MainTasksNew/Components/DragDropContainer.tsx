@@ -8,7 +8,7 @@ import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
 import DroppableList from "./DroppableList";
 import { attemptUpdateTask } from "../../../utils/f_tasks";
 import { fillTasksAction } from "../../../redux/actions/tasks";
-import { setUserLoading } from "../../../redux/actions/user";
+import { setUserLoading, setUserPoints, setUserTotalPoints } from "../../../redux/actions/user";
 
 type DragDropContainerProps = {
   user: userInt;
@@ -100,8 +100,17 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       updateTaskStatus(draggableId, finish!.id);
       dispatch(fillTasksAction());
       if (newFinish.id === COMPLETED) {
-        // setSideBarLoading(true);
-        dispatch(setUserLoading(true)); // setMainLoading(true)
+
+
+
+        // ADD VALUE TO USER BAMBOO POINTS!!!!
+        // NEED TO GET THE POINTS FROM SOMEWHERE!!!!
+        // setUserPoints()
+        // setUserTotalPoints()
+
+
+
+        
       }
     }
   };

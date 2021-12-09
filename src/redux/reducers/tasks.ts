@@ -5,6 +5,7 @@ import {
   FILL_TASKS,
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
+  SET_NEW_TASK,
 } from "../../utils/appConstants";
 
 const currentTasksReducer = (
@@ -26,6 +27,11 @@ const currentTasksReducer = (
       return {
         ...state,
         error: action.payload,
+      };
+    case SET_NEW_TASK:
+      return {
+        ...state,
+        awaited: [...state.awaited, action.payload],
       };
     default:
       return state;

@@ -12,8 +12,16 @@ import { ICOEDIT } from "../../utils/appIcons";
 import "./styles.css";
 import ImageUploader from "./Components/ImageUploader";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
-import { fillUserAction } from "../../redux/actions/user";
+import {
+  setUserEmail,
+  setUserAvatar,
+  setUserBio,
+  setUserFirstName,
+  setUserLastName,
+  setUsername,
+} from "../../redux/actions/user";
 import { useDispatch } from "react-redux";
+import { userUpdateType } from "../../typings/types";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
@@ -50,12 +58,23 @@ const SettingsPage = (props: SettingsPageProps) => {
     setNewAvatar(avatar.file);
     console.log(newAvatar);
   };
+  const handleDispatch = async (updated: userUpdateType) => {
+    user.avatar !== updated.avatar! && dispatch(setUserAvatar(updated.avatar));
+    user.first_name !== updated.first_name! &&
+      dispatch(setUserFirstName(updated.first_name));
+    user.last_name !== updated.last_name! &&
+      dispatch(setUserLastName(updated.last_name));
+    user.username !== updated.username! &&
+      dispatch(setUsername(updated.username));
+    user.bio !== updated.bio! && dispatch(setUserBio(updated.bio));
+    user.email !== updated.email! && dispatch(setUserEmail(updated.email));
+  };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(newAvatar);
     const updated = await attemptUpdateUser(form, newAvatar);
-    if (updated?.status === 200) {
-      dispatch(fillUserAction());
+    console.log(updated);
+    if (updated) {
+      await handleDispatch(updated);
       history.push("/dash");
     }
   };
@@ -137,8 +156,7 @@ const SettingsPage = (props: SettingsPageProps) => {
               </Form.Label>
               <Col sm='8'>
                 <Form.Control
-                  as='textarea'
-                  rows={3}
+                  type="text"
                   value={form.bio}
                   onChange={handleChange}
                   className='settings-page__profile-card__form-control'

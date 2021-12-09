@@ -20,6 +20,9 @@
 }
 .settings-page__profile-card__form-control {
   position: relative;
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; */
 }
 .settings-page__profile-card__edit-button {
   position: absolute;
