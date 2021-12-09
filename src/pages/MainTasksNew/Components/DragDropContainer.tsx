@@ -1,23 +1,40 @@
-import { Row } from "react-bootstrap";
-import { useState, useEffect } from "react";
 import { History } from "history";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { beautifulDnD, taskInt, userInt } from "../../../typings/interfaces";
+import { useAppSelector } from "../../../redux/hooks";
 import { DragDropContext } from "react-beautiful-dnd";
+import {
+  beautifulDnD,
+  reduxStateInt,
+  taskInt,
+} from "../../../typings/interfaces";
+import { Row } from "react-bootstrap";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
-import DroppableList from "./DroppableList";
-import { attemptUpdateTask } from "../../../utils/f_tasks";
 import { fillTasksAction } from "../../../redux/actions/tasks";
-import { setUserLoading, setUserPoints, setUserTotalPoints } from "../../../redux/actions/user";
+// import {
+//   setUserLoading,
+//   setUserPoints,
+//   setUserTotalPoints,
+// } from "../../../redux/actions/user";
+import { attemptUpdateTask } from "../../../utils/f_tasks";
+import DroppableList from "./DroppableList";
 
 type DragDropContainerProps = {
-  user: userInt;
   taskList: taskInt[];
   history: History<unknown> | string[];
   setSideBarLoading: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
-  const { taskList, user } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user } = state.currentUser;
+  const achievements = state.currentAchievements;
+  // const tasks = state.currentTasks;
+  // const { categories, awaited, in_progress, completed } = tasks;
+  // const settings = state.currentSettings;
+  // const { notification } = my_user;
+  // const features = state.currentFeatures;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  const { taskList } = props;
   const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
@@ -98,24 +115,23 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       // set initial data to match clone
       setInitialData(newData);
       updateTaskStatus(draggableId, finish!.id);
-      dispatch(fillTasksAction());
+      dispatch(fillTasksAction()); // 👈HERE!
       if (newFinish.id === COMPLETED) {
-
-
-
         // ADD VALUE TO USER BAMBOO POINTS!!!!
         // NEED TO GET THE POINTS FROM SOMEWHERE!!!!
         // setUserPoints()
         // setUserTotalPoints()
-
-
-
-        
       }
     }
   };
   const updateTaskStatus = async (draggableId: string, status: string) => {
-    await attemptUpdateTask(draggableId, { status }, user, dispatch);
+    await attemptUpdateTask(
+      draggableId,
+      { status },
+      my_user,
+      dispatch,
+      achievements.list
+    );
   };
   useEffect(() => {
     setInitialData({

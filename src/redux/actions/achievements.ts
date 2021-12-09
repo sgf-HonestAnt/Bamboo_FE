@@ -7,11 +7,16 @@ import {
   FILL_ACHIEVEMENTS_ERROR,
   FILL_ACHIEVEMENTS_LOADING,
   SET_SUPERLIST,
+  SET_NEW_ACHIEVEMENT,
 } from "../../utils/appConstants";
 
 export const setSuperlist = (superlist: string[]) => ({
   type: SET_SUPERLIST,
   payload: { superlist, loading: true },
+});
+export const setNewAchievement = (achievements: string[]) => ({
+  type: SET_NEW_ACHIEVEMENT,
+  payload: achievements,
 });
 export const fillAchievementsAction = () => {
   const token = localStorage.getItem("token");

@@ -1,37 +1,34 @@
-import { Link } from "react-router-dom";
-import { followedUserInt } from "../../../typings/interfaces";
 import { History } from "history";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../redux/hooks";
+import { reduxStateInt } from "../../../typings/interfaces";
+import { Form } from "react-bootstrap";
+import { ICOACTIVITY, ICORELATE } from "../../../utils/appIcons";
+import { EditButton } from "../../../pages__SharedComponents/Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/f_users";
 import BambooPoints from "../../../pages__SharedComponents/XP";
-import { ICOACTIVITY, ICORELATE } from "../../../utils/appIcons";
-import { Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-// import {
-//   fillUserAction,
-//   setUserBio,
-//   setUserLoading,
-// } from "../../redux/actions/user";
-import { EditButton } from "../../../pages__SharedComponents/Buttons";
 import ProfileBadge from "../../../pages__SharedComponents/ProfileBadge";
 
 type DashProfileCardProps = {
   history: History<unknown> | string[];
-  followedUsers: followedUserInt[];
-  avatar: string;
-  username: string;
-  admin: boolean | undefined;
-  bio: string;
-  level: number | null;
-  xp: number | null;
 };
-
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const { history, followedUsers, avatar, username, admin, bio, level, xp } =
-    props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { avatar, username, admin, bio, level, xp } = my_user;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const achievements = state.currentAchievements;
+  // const { list, superlist } = achievements;
+  // const { awaited, in_progress } = tasks;
+  const { history } = props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);
-  const [formClass, setFormClass] = useState(false);
+  const [formClass, setFormClass] = useState(false); // WAIT, where do I use setFormClass???
   const [showTip, setShowTip] = useState(false);
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;

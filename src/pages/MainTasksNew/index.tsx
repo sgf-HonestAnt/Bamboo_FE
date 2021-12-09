@@ -1,28 +1,31 @@
-import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import { History, Location } from "history";
-import {
-  currentTasksInt,
-  followedUserInt,
-  userInt,
-} from "../../typings/interfaces";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { reduxStateInt } from "../../typings/interfaces";
+import { Container } from "react-bootstrap";
+import { ICOURGENT } from "../../utils/appIcons";
 import TasksFilterRow from "./Components/TasksFilterRow";
 import DragDropContainer from "./Components/DragDropContainer";
-import { ICOURGENT } from "../../utils/appIcons";
 import "./styles.css";
 
 type NewTasksPageProps = {
-  user: userInt;
-  followedUsers: followedUserInt[];
-  tasks: currentTasksInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
   setSideBarLoading: any;
 };
 const NewTasksPage = (props: NewTasksPageProps) => {
-  const { user, followedUsers, tasks, history, location, setSideBarLoading } =
-    props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const tasks = state.currentTasks;
   const { categories, awaited, in_progress, completed } = tasks;
+  const achievements = state.currentAchievements;
+  // const settings = state.currentSettings;
+  // const { notification } = my_user;
+  // const features = state.currentFeatures;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  // const { selectedTheme } = settings;
+  const { history, location, setSideBarLoading } = props;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
   useEffect(() => {
@@ -31,10 +34,6 @@ const NewTasksPage = (props: NewTasksPageProps) => {
   return (
     <Container fluid>
       <TasksFilterRow
-        user={user}
-        followedUsers={followedUsers}
-        allTasks={allTasks}
-        categories={categories}
         setTaskList={setTaskList}
         history={history}
         location={location}
@@ -49,7 +48,6 @@ const NewTasksPage = (props: NewTasksPageProps) => {
         sidebar task number)
       </div>
       <DragDropContainer
-        user={user}
         taskList={taskList}
         history={history}
         setSideBarLoading={setSideBarLoading}

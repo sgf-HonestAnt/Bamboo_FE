@@ -1,7 +1,7 @@
 import { History, Location } from "history";
 import { Dispatch } from "redux";
 import { loadTasksAction } from "../redux/actions/tasks";
-import { setTaskInt, taskInt, userInt } from "../typings/interfaces";
+import { achievementInt, setTaskInt, taskInt, userInt } from "../typings/interfaces";
 import { taskUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -15,8 +15,9 @@ import {
 } from "./appConstants";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
-import { fillAchievementsAction } from "../redux/actions/achievements";
+import { fillAchievementsAction, setNewAchievement } from "../redux/actions/achievements";
 import { refreshUserLevel } from "./f_users";
+import { setUserPoints, setUserTotalPoints } from "../redux/actions/user";
 
 export const getTask = async (id: string) => {
   // get single task belonging to the user
@@ -173,7 +174,8 @@ export const attemptUpdateTask = async (
   id: string,
   taskUpdate: taskUpdateType,
   user: userInt,
-  dispatch: Dispatch<any>
+  dispatch: Dispatch<any>,
+  achievements?: achievementInt[],
 ) => {
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;
@@ -189,15 +191,17 @@ export const attemptUpdateTask = async (
     const body = JSON.stringify(taskUpdate);
     console.log(body);
     const response = await fetch(url, { method, headers, body });
+    const responseAsJSON = await response.json();
     if (response.ok) {
       if (status === COMPLETED) {
         console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
-        const { title, category } = await getTask(id);
-        await attemptPostAchievement(title, category, dispatch);
+        const { title, category, value } = responseAsJSON;
+        await attemptPostAchievement(title, category, dispatch, achievements);
+        setUserPoints(user.xp + value);
+        setUserTotalPoints(user.total_xp + value);
         refreshUserLevel(user);
       }
-      dispatch(loadTasksAction(true));
-      dispatch(fillAchievementsAction());
+      dispatch(fillAchievementsAction()); // 👈HERE!
     }
   } catch (error) {
     console.log(error);

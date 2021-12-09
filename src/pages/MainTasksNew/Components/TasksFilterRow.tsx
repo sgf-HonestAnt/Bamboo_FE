@@ -1,8 +1,9 @@
-import { useState } from "react";
 import { History, Location } from "history";
+import { useState } from "react";
+import { useAppSelector } from "../../../redux/hooks";
+import { reduxStateInt } from "../../../typings/interfaces";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
-import { followedUserInt, taskInt, userInt } from "../../../typings/interfaces";
 import { AddNewTaskButton } from "../../../pages__SharedComponents/Buttons";
 import {
   ANY_CAT,
@@ -13,25 +14,23 @@ import {
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 
 type TasksFilterRowProps = {
-  user: userInt;
-  followedUsers: followedUserInt[];
-  allTasks: (taskInt | undefined)[];
-  categories: string[];
   setTaskList: any;
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
-
 const TasksFilterRow = (props: TasksFilterRowProps) => {
-  const {
-    user,
-    followedUsers,
-    allTasks,
-    categories,
-    setTaskList,
-    history,
-    location,
-  } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const tasks = state.currentTasks;
+  const { categories, awaited, in_progress, completed } = tasks;
+  // const achievements = state.currentAchievements;
+  // const settings = state.currentSettings;
+  // const { notification } = my_user;
+  // const features = state.currentFeatures;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  const allTasks = awaited.concat(in_progress, completed);
+  const { setTaskList, history, location } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -76,7 +75,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
           <AddEditTaskModal
             show={show}
             handleClose={handleClose}
-            user={user}
+            user={my_user}
             followedUsers={followedUsers}
             categories={categories}
             history={history}

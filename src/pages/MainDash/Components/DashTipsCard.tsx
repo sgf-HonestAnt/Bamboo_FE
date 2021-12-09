@@ -1,23 +1,27 @@
-import {
-  currentTasksInt,
-  followedUserInt,
-  userInt,
-} from "../../../typings/interfaces";
-import { ICOURGENT } from "../../../utils/appIcons";
+import { useAppSelector } from "../../../redux/hooks";
+import { reduxStateInt } from "../../../typings/interfaces";
 
-type DashTipsCardProps = {
-  user: userInt;
-  tasks: currentTasksInt;
-  followedUsers: followedUserInt[];
-};
+type DashTipsCardProps = {};
 const DashTipsCard = (props: DashTipsCardProps) => {
-  const { tasks, user, followedUsers } = props;
-  const { level, total_xp } = user;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { level, total_xp } = my_user;
+  const tasks = state.currentTasks;
   const { awaited, in_progress } = tasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const achievements = state.currentAchievements;
+  // const { list, superlist } = achievements;
   const userHasFollows = followedUsers.length > 0;
   const userIsAhead = followedUsers.find((u) => u.level > level!);
   const newLevelApproaching = (total_xp! + 50) / 250 >= level! + 1;
-  console.log("NEW LEVEL APPROACHING", newLevelApproaching, total_xp! + 50, (total_xp! + 50) / 250)
+  console.log(
+    "NEW LEVEL APPROACHING",
+    newLevelApproaching,
+    total_xp! + 50,
+    (total_xp! + 50) / 250
+  );
   const whyNoTasks = awaited.length + in_progress.length === 0;
   return (
     <div className='dashboard__tips-card m-2'>

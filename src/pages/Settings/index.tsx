@@ -1,17 +1,15 @@
-import { useState, useEffect } from "react";
 import { History, Location } from "history";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../redux/hooks";
+import { reduxStateInt } from "../../typings/interfaces";
 import { Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
-import { currentSettingsInt, userInt } from "../../typings/interfaces";
 import {
   BackToDashButtonCol,
   DeleteButton,
   SubmitButtonCol,
 } from "../../pages__SharedComponents/Buttons";
-// import { THEMES } from "../../utils/appConstants";
 import { ICOEDIT } from "../../utils/appIcons";
-import "./styles.css";
-import ImageUploader from "./Components/ImageUploader";
-import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
 import {
   setUserEmail,
   setUserAvatar,
@@ -20,28 +18,38 @@ import {
   setUserLastName,
   setUsername,
 } from "../../redux/actions/user";
-import { useDispatch } from "react-redux";
 import { userUpdateType } from "../../typings/types";
+import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
+import ImageUploader from "./Components/ImageUploader";
+import "./styles.css";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
   location: Location<unknown>;
-  user: userInt;
-  settings: currentSettingsInt;
-  // { history, location, match }: RouteComponentProps
 };
 const SettingsPage = (props: SettingsPageProps) => {
-  const { history, location, user } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user } = state.currentUser;
+  const { history, location } = props;
+  // const { notification } = my_user;
+  // const achievements = state.currentAchievements;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  // const { awaited, in_progress } = tasks;
   // const { selectedTheme } = settings;
   const dispatch = useDispatch();
   const [newAvatar, setNewAvatar] = useState<any>();
   const [form, setForm] = useState({
-    avatar: user.avatar,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    username: user.username,
-    bio: user.bio,
-    email: user.email,
+    avatar: my_user.avatar,
+    first_name: my_user.first_name,
+    last_name: my_user.last_name,
+    username: my_user.username,
+    bio: my_user.bio,
+    email: my_user.email,
   });
   const editButton = (
     <Button variant='link' className='settings-page__profile-card__edit-button'>
@@ -59,15 +67,16 @@ const SettingsPage = (props: SettingsPageProps) => {
     console.log(newAvatar);
   };
   const handleDispatch = async (updated: userUpdateType) => {
-    user.avatar !== updated.avatar! && dispatch(setUserAvatar(updated.avatar));
-    user.first_name !== updated.first_name! &&
+    my_user.avatar !== updated.avatar! &&
+      dispatch(setUserAvatar(updated.avatar));
+    my_user.first_name !== updated.first_name! &&
       dispatch(setUserFirstName(updated.first_name));
-    user.last_name !== updated.last_name! &&
+    my_user.last_name !== updated.last_name! &&
       dispatch(setUserLastName(updated.last_name));
-    user.username !== updated.username! &&
+    my_user.username !== updated.username! &&
       dispatch(setUsername(updated.username));
-    user.bio !== updated.bio! && dispatch(setUserBio(updated.bio));
-    user.email !== updated.email! && dispatch(setUserEmail(updated.email));
+    my_user.bio !== updated.bio! && dispatch(setUserBio(updated.bio));
+    my_user.email !== updated.email! && dispatch(setUserEmail(updated.email));
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -105,7 +114,7 @@ const SettingsPage = (props: SettingsPageProps) => {
             className='pt-1 pb-3 settings-page__profile-card__form'
             onSubmit={handleSubmit}>
             <ImageUploader
-              avatar={user.avatar}
+              avatar={my_user.avatar}
               handleChangeAvatar={handleChangeAvatar}
             />
             <Form.Group as={Row} controlId='first_name'>
@@ -156,7 +165,7 @@ const SettingsPage = (props: SettingsPageProps) => {
               </Form.Label>
               <Col sm='8'>
                 <Form.Control
-                  type="text"
+                  type='text'
                   value={form.bio}
                   onChange={handleChange}
                   className='settings-page__profile-card__form-control'

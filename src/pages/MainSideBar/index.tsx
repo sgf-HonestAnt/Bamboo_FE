@@ -1,51 +1,41 @@
 import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../redux/hooks";
+import { reduxStateInt } from "../../typings/interfaces";
 import { Button, Form } from "react-bootstrap";
-import {
-  currentTasksInt,
-  currentSettingsInt,
-  followedUserInt,
-  userInt,
-} from "../../typings/interfaces";
 import { ICOSETTINGS } from "../../utils/appIcons";
-// import { getTasks } from "../../utils/f_tasks";
-import attemptLogout from "../../utils/f_attemptLogout";
-import "./styles.css";
-import PandaLogo from "../../pages__SharedComponents/Logo";
 import { THEMES } from "../../utils/appConstants";
 import {
   changeThemeAction,
   // fillSettingsAction,
 } from "../../redux/actions/settings";
-import { useDispatch } from "react-redux";
+import attemptLogout from "../../utils/f_attemptLogout";
+import PandaLogo from "../../pages__SharedComponents/Logo";
+import "./styles.css";
 
 type SidebarProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
-  user: userInt;
-  tasks: currentTasksInt;
-  settings: currentSettingsInt;
-  followedUsers: followedUserInt[];
-  theme: string;
   setTheme: any;
-  // numberOfTasks: number;
   sideBarLoading: boolean;
   setSideBarLoading: any;
 };
 const MainSideBar = (props: SidebarProps) => {
-  const {
-    history,
-    location,
-    user,
-    tasks,
-    followedUsers,
-    // theme,
-    setTheme,
-    // numberOfTasks,
-    sideBarLoading,
-    setSideBarLoading,
-  } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const tasks = state.currentTasks;
+  // const { notification } = my_user;
+  // const achievements = state.currentAchievements;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  // const { selectedTheme } = settings;
+  const { history, location, setTheme, sideBarLoading, setSideBarLoading } =
+    props;
   const dispatch = useDispatch();
   const [taskNum, setTaskNum] = useState(0);
   const numOfUsers = followedUsers.length;
@@ -62,7 +52,7 @@ const MainSideBar = (props: SidebarProps) => {
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setTheme(value);
-    console.log("dispatch change Theme!", value)
+    console.log("dispatch change Theme!", value);
     dispatch(changeThemeAction(value));
     // then do a fetch
   };
@@ -71,7 +61,6 @@ const MainSideBar = (props: SidebarProps) => {
     setSideBarLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sideBarLoading]);
-  // console.log("SETTINGS=>", settings);
   return (
     <div className='main-side-bar'>
       {location.pathname !== "/admin-dash" && (
@@ -104,10 +93,10 @@ const MainSideBar = (props: SidebarProps) => {
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
             <br />
-            <span className='text-bigger'>{user.username}</span>
+            <span className='text-bigger'>{my_user.username}</span>
           </div>
           <div className='main-side-bar__links'>
-            {user.admin && <Link to='/admin-dash'>admin</Link>}
+            {my_user.admin && <Link to='/admin-dash'>admin</Link>}
             <Link to='/dash'>dashboard</Link>
             <Link to='/tasks'>tasks ({taskNum})</Link>
             {numOfUsers > 0 ? (
@@ -124,16 +113,6 @@ const MainSideBar = (props: SidebarProps) => {
               <ICOSETTINGS />
             </Button>
           </div>
-          {/* <div className='main-side-bar__credits mt-5'>
-            Icons made by{" "}
-            <a href='https://www.freepik.com' title='Freepik'>
-              Freepik
-            </a>{" "}
-            from{" "}
-            <a href='https://www.flaticon.com/' title='Flaticon'>
-              www.flaticon.com
-            </a>
-          </div> */}
         </>
       ) : (
         <div className='main-side-bar__links'>

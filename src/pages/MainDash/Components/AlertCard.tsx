@@ -1,24 +1,31 @@
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../redux/hooks";
+import { reduxStateInt } from "../../../typings/interfaces";
 import { Card } from "react-bootstrap";
 import {
   AcceptButton,
   ClearNotification,
   RejectButton,
 } from "../../../pages__SharedComponents/Buttons";
-import { History } from "history";
 import { ICOBELL, ICOSMILE } from "../../../utils/appIcons";
-import { acceptOrRejectUser, clearLastNotification } from "../../../utils/f_users";
-import { fillUserAction } from "../../../redux/actions/user";
-import { useDispatch } from "react-redux";
+import {
+  acceptOrRejectUser,
+  clearLastNotification,
+} from "../../../utils/f_users";
 import { removeSelfFromTask } from "../../../utils/f_tasks";
-import { followedUserInt } from "../../../typings/interfaces";
+import { fillUserAction } from "../../../redux/actions/user"; // 👈HERE!
 
-type DashAlertCardProps = {
-  notification: string[];
-  followedUsers: followedUserInt[];
-  history: History<unknown> | string[];
-};
+type DashAlertCardProps = {};
 const DashAlertCard = (props: DashAlertCardProps) => {
-  const { notification, followedUsers } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { notification } = my_user;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const achievements = state.currentAchievements;
+  // const { list, superlist } = achievements;
   const dispatch = useDispatch();
   const notifLength = notification.length;
   const recentNotif = notification[notifLength - 1];
@@ -44,18 +51,18 @@ const DashAlertCard = (props: DashAlertCardProps) => {
   const handleReset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await clearLastNotification(notification);
-    dispatch(fillUserAction());
+    dispatch(fillUserAction()); // 👈HERE!
   };
   const handleAcceptTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await clearLastNotification(notification);
-    dispatch(fillUserAction());
+    dispatch(fillUserAction()); // 👈HERE!
   };
   const handleRejectTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await removeSelfFromTask(taskId, dispatch);
     await clearLastNotification(notification);
-    dispatch(fillUserAction());
+    dispatch(fillUserAction()); // 👈HERE!
   };
   const handleAccept = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -64,7 +71,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     console.log(value, action);
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
-    dispatch(fillUserAction());
+    dispatch(fillUserAction()); // 👈HERE!
   };
   const handleReject = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -73,7 +80,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     console.log(value, action);
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
-    dispatch(fillUserAction());
+    dispatch(fillUserAction()); // 👈HERE!
   };
   console.log(recentNotif);
   return (

@@ -1,21 +1,32 @@
 import { useState } from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { reduxStateInt } from "../../typings/interfaces";
 import { Row, Card, Button, Modal } from "react-bootstrap";
-import { LinkButton, SendGiftButton } from "../../pages__SharedComponents/Buttons";
+import {
+  LinkButton,
+  SendGiftButton,
+} from "../../pages__SharedComponents/Buttons";
 import ProfileBadge from "../../pages__SharedComponents/ProfileBadge";
 import BambooPoints from "../../pages__SharedComponents/XP";
-import { followedUserInt, userInt } from "../../typings/interfaces";
 import { getUserRole } from "../../utils/f_users";
 import "./styles.css";
 
-type FollowingPageProps = {
-  user: userInt;
-  followedUsers: followedUserInt[];
-};
+type FollowingPageProps = {};
 const FollowingPage = (props: FollowingPageProps) => {
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  // const { notification } = my_user;
+  // const achievements = state.currentAchievements;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  // const { awaited, in_progress } = tasks;
   // include search users by username or email
-  const { user, followedUsers } = props;
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
-  const points = user.xp;
+  const points = my_user.xp;
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setGift({ username: "", userId: "", xp: 0 });
@@ -62,8 +73,9 @@ const FollowingPage = (props: FollowingPageProps) => {
                 <Modal.Title>You have {points} Bamboo Points</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                You need a minimum of 100 Bamboo Points before you can send {gift.username} a
-                gift. Come back later after completing some tasks!
+                You need a minimum of 100 Bamboo Points before you can send{" "}
+                {gift.username} a gift. Come back later after completing some
+                tasks!
               </Modal.Body>
               <Modal.Footer>
                 {/* <Button variant='primary' onClick={handleDelete}>

@@ -1,49 +1,38 @@
-import { useState } from "react";
-import { Form } from "react-bootstrap";
 import { History, Location } from "history";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  followedUserInt,
-  // setTaskInt,
-  taskInt,
-  userInt,
-} from "../../../typings/interfaces";
-import { attemptCompleteTasks } from "../../../utils/f_tasks";
+import { useAppSelector } from "../../../redux/hooks";
+import { reduxStateInt } from "../../../typings/interfaces";
+import { Form } from "react-bootstrap";
+import { ICOCIRCLE, ICOCLOCK, ICOURGENT } from "../../../utils/appIcons";
+import { AddNewTaskButton } from "../../../pages__SharedComponents/Buttons";
 import {
   getDayMonthYearAsString,
   // getMinMaxDateAsString,
 } from "../../../utils/f_dates";
-// import { attemptPostTask } from "../../utils/f_tasks";
-// import { fillTasksAction } from "../../redux/actions/tasks";
-// import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../../utils/appConstants";
-import {
-  // BULB,
-  ICOCIRCLE,
-  ICOCLOCK,
-  // ICOSAVE,
-  ICOURGENT,
-} from "../../../utils/appIcons";
-import {
-  AddNewTaskButton,
-  CompleteButton,
-} from "../../../pages__SharedComponents/Buttons";
-import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import { attemptCompleteTasks } from "../../../utils/f_tasks";
 import { refreshUserLevel } from "../../../utils/f_users";
+import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 
 type DashTasksCardProps = {
-  tasks: taskInt[];
   today: string;
-  user: userInt;
-  followedUsers: followedUserInt[];
   history: History<unknown> | string[];
   location: Location<unknown>;
-  categories: string[];
-  setErrorMessage: any;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
-  const { tasks, today, user, followedUsers, history, location, categories } =
-    props;
-  const { refreshToken } = user;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { refreshToken } = my_user;
+  const tasks = state.currentTasks;
+  const categories = tasks.categories;
+  const { awaited, in_progress } = tasks;
+  const allTasks = awaited.concat(in_progress);
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const achievements = state.currentAchievements;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  const { today, history, location } = props;
   const dispatch = useDispatch();
   // add today tasks
   const [show, setShow] = useState(false);
@@ -82,7 +71,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   //       location
   //     );
   //     console.log("CREATED NEW TASK", _id);
-  //     dispatch(fillTasksAction());
+  //     dispatch(fillTasksAction()); // 👈HERE!
   //     setTimeout(() => {
   //       history.push("/");
   //     }, 1000);
@@ -100,14 +89,14 @@ const DashTasksCard = (props: DashTasksCardProps) => {
     console.log(completedTasks);
     try {
       await attemptCompleteTasks(
-        user,
+        my_user,
         completedTasks,
         refreshToken,
         history,
         location,
         dispatch
       );
-      refreshUserLevel(user);
+      refreshUserLevel(my_user);
     } catch (e) {
       console.log(e);
     }
@@ -124,7 +113,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   return (
     <div className='dashboard__tasks-card m-2'>
       <div className='dashboard__card-header'>{dayMonthYearAsString}</div>
-      {tasks.length < 1 ? (
+      {allTasks.length < 1 ? (
         <>
           <div>No tasks awaited today!</div>
           <AddNewTaskButton />
@@ -136,7 +125,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
             <ICOURGENT />
             Make draggable into Complete droppable
           </div>
-          {tasks.slice(0, 3).map((t, i) => {
+          {allTasks.slice(0, 3).map((t, i) => {
             const clock = t.deadline?.includes(today) ? (
               <ICOCLOCK className='icon-urgent' />
             ) : t.deadline ? (
@@ -160,7 +149,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
               </Form.Group>
             );
           })}
-          <div>{tasks.length > 3 ? `+ ${tasks.length - 3} more` : ""}</div>
+          <div>{allTasks.length > 3 ? `+ ${allTasks.length - 3} more` : ""}</div>
           {/* <CompleteButton /> */}
         </Form>
       )}
@@ -168,97 +157,12 @@ const DashTasksCard = (props: DashTasksCardProps) => {
       <AddEditTaskModal
         show={show}
         handleClose={handleClose}
-        user={user}
+        user={my_user}
         followedUsers={followedUsers}
         categories={categories}
         history={history}
         location={location}
       />
-      {/* <AddNewTaskButton handleClick={handleShow} />
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add new task</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group>
-              <Form.Label>
-                <ul>
-                  <li>Deadline: {min}</li>
-                  <li>Not shared</li>
-                </ul>
-                <div className='dashboard__tasks-card__text-muted'>
-                  <BULB />
-                  If you wish to change these, go to the Add Task page.
-                </div>
-              </Form.Label>
-            </Form.Group>
-            <Form.Group controlId='title'>
-              <Form.Label>What's the name of this task?</Form.Label>
-              <Form.Control
-                required
-                type='text'
-                value={form.title}
-                placeholder='Name the task'
-                onChange={handleChange}></Form.Control>
-            </Form.Group>
-            <Form.Group controlId='value'>
-              <Form.Label>How hard is it?</Form.Label>
-              <Form.Control required as='select' onChange={handleChange}>
-                <option value='' disabled selected>
-                  Select a value
-                </option>
-                {TASK_VALUES.map((script, i) => {
-                  let value = 10 * (i + 1);
-                  return (
-                    <option
-                      key={i}
-                      value={value}
-                      selected={form.value === value}>
-                      {value}XP: {script}
-                    </option>
-                  );
-                })}
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId='category'>
-              <Form.Label>What's the category?</Form.Label>
-              <Form.Control required as='select' onChange={handleChange}>
-                <option value='' disabled selected>
-                  Select a category
-                </option>
-                {TASK_CATEGORIES.map((c, i) => (
-                  <option key={i} selected={form.category === c}>
-                    {c}
-                  </option>
-                ))}
-                {categories
-                  .filter((c) => c !== NONE)
-                  .map((c, i) => (
-                    <option key={i} selected={form.category === c}>
-                      {c}
-                    </option>
-                  ))}
-                <option selected={form.category === NONE}>{NONE}</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group controlId='desc' className='mb-2'>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                required
-                as='textarea'
-                rows={3}
-                placeholder='Provide more details'
-                onChange={handleChange}></Form.Control>
-            </Form.Group>
-            <SubmitButton />
-            <Button variant='light' className='mb-3 mr-1' onClick={handleClose}>
-              <ICOSAVE />
-            </Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal> */}
     </div>
   );
 };

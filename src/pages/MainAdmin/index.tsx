@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import { currentFeaturesInt, taskInt, userInt } from "../../typings/interfaces";
+import { currentFeaturesInt, reduxStateInt, taskInt, userInt } from "../../typings/interfaces";
 import { getUsersAsAdmin } from "../../utils/f_users";
 import AdminNavbar from "./Components/AdminNavbar";
 import {
@@ -17,6 +17,7 @@ import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 import NotificationsRow from "./Components/NotificationsRow";
 // import { Link } from "react-router-dom";
 import { ICOURGENT } from "../../utils/appIcons";
+import { useAppSelector } from "../../redux/hooks";
 
 type AdminPageProps = {
   user: userInt; // to ensure admin role
@@ -25,8 +26,20 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user } = state.currentUser;
+  // const { notification } = my_user;
+  // const achievements = state.currentAchievements;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const { list, superlist } = achievements;
+  // const { avatar, username, admin, bio, level, xp } = my_user;
+  // const { awaited, in_progress } = tasks;
+  // include search users by username or email
   const { user, location } = props;
-  const signedInId = user._id;
+  const signedInId = my_user._id;
   const [users, setUsers] = useState<userInt[] | never>([]);
   const [tasks, setTasks] = useState<taskInt[] | never>([]);
   const [notifications, setNotifications] = useState<string[]>([]);
@@ -74,9 +87,8 @@ const AdminPage = (props: AdminPageProps) => {
         </div>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
-            user={user}
-            username={username}
             users={users}
+            username={username}
             tasks={tasks}
             form={form}
             setForm={setForm}

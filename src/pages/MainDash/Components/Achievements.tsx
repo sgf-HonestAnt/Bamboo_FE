@@ -1,22 +1,21 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  achievementInt,
-  currentAchievementsInt,
-  followedUserInt,
-} from "../../../typings/interfaces";
-import createSuperlist from "../../../utils/f_superlist";
+import { useAppSelector } from "../../../redux/hooks";
+import { achievementInt, reduxStateInt } from "../../../typings/interfaces";
 import { LinkButton } from "../../../pages__SharedComponents/Buttons";
 import { attemptPostAchievement } from "../../../utils/f_achievements";
+import createSuperlist from "../../../utils/f_superlist";
 
-type DashAchievCardProps = {
-  followedUsers: followedUserInt[];
-  achievements: currentAchievementsInt;
-  username: string;
-};
+type DashAchievCardProps = {};
 const DashAchievCard = (props: DashAchievCardProps) => {
-  const { followedUsers, achievements, username } = props;
-  console.log(followedUsers)
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { username } = my_user;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  const achievements = state.currentAchievements;
   const { list, superlist } = achievements;
   const dispatch = useDispatch();
   const loadAchievementCard = async () => {
@@ -35,7 +34,6 @@ const DashAchievCard = (props: DashAchievCardProps) => {
       return date_b - date_a;
     });
     await createSuperlist(super_list, username, dispatch);
-    // 🖐️ in future make only last x achievements display for each user, and get achievements sorted by date
   };
   const handleClick = async (e: {
     preventDefault: () => void;
@@ -44,12 +42,12 @@ const DashAchievCard = (props: DashAchievCardProps) => {
     e.preventDefault();
     const ach = e.target.value;
     const congrats = `${username} sent you a ${ach.split("|")[1]}`;
-    await attemptPostAchievement(congrats, "congrats", dispatch);
+    await attemptPostAchievement(congrats, "congrats", dispatch, list);
     console.log(congrats);
   };
   useEffect(() => {
     loadAchievementCard();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className='dashboard__activities m-2 p-2'>

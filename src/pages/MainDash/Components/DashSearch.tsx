@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useAppSelector } from "../../../redux/hooks";
+import { publicUserInt, reduxStateInt } from "../../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
-import { followedUserInt, publicUserInt } from "../../../typings/interfaces";
 import { SubmitButton } from "../../../pages__SharedComponents/Buttons";
 import { requestFollow } from "../../../utils/f_follows";
 import { getUserByQuery } from "../../../utils/f_users";
@@ -11,13 +12,20 @@ type ResultProps = {
   message: string;
 };
 type DashSearchProps = {
-  user_id: string;
-  followedUsers: followedUserInt[];
   search: string;
   setSearch: any;
 };
 const DashSearch = (props: DashSearchProps) => {
-  const { user_id, followedUsers, search, setSearch } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { followedUsers, my_user } = state.currentUser;
+  const { _id } = my_user;
+  // const tasks = state.currentTasks;
+  // const categories = tasks.categories;
+  // const features = state.currentFeatures;
+  // const settings = state.currentSettings;
+  // const achievements = state.currentAchievements;
+  // const { list, superlist } = achievements;
+  const { search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
     user: null,
@@ -72,7 +80,7 @@ const DashSearch = (props: DashSearchProps) => {
             />
           </div>
           {result.user?.username}{" "}
-          {user_id !== result.user._id &&
+          {_id !== result.user._id &&
             !followedUsers.some((u) => u._id === result.user?._id) && (
               <div>
                 <Button variant='link' onClick={sendRequest}>

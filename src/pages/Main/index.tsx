@@ -13,7 +13,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import MainSideBar from "../MainSideBar";
 import DashboardPage from "../MainDash";
 import FollowingPage from "../MainFollow";
-import AddTaskPage from "../MainAddTask";
+// import AddTaskPage from "../MainAddTask";
 import SettingsPage from "../Settings";
 import AdminPage from "../MainAdmin";
 import ErrorPage from "../MainError";
@@ -93,12 +93,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
       ) : path === "/user-settings" ? (
         <Row>
           <Col sm={12} className='p-0'>
-            <SettingsPage
-              history={history}
-              location={location}
-              user={user}
-              settings={settings}
-            />
+            <SettingsPage history={history} location={location} />
           </Col>
         </Row>
       ) : (
@@ -107,57 +102,20 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
             <MainSideBar
               history={history}
               location={location}
-              user={user}
-              tasks={tasks}
-              settings={settings}
-              followedUsers={followedUsers}
-              theme={theme}
               setTheme={setTheme}
-              // numberOfTasks={numberOfTasks}
               sideBarLoading={sideBarLoading}
               setSideBarLoading={setSideBarLoading}
             />
           </Col>
           {path === "/dash" ? (
             <Col className='m-0 px-4'>
-              <DashboardPage
-                user={user}
-                tasks={tasks}
-                categories={categories}
-                achievements={achievements}
-                followedUsers={followedUsers}
-                features={features}
-                history={history}
-                location={location}
-                setErrorMessage={setErrorMessage}
-              />
+              <DashboardPage history={history} location={location} />
             </Col>
-          ) : // : path === "/stats" ? (
+          ) : // ) : path === "/stats" ? (
           //   <Stats />
-          // ) :
-          path === "/tasks-add-new" ? (
-            <Col className='m-0'>
-              <AddTaskPage
-                user={user}
-                categories={categories}
-                followedUsers={followedUsers}
-                history={history}
-                location={location}
-                setErrorMessage={setErrorMessage}
-                setSideBarLoading={setSideBarLoading}
-              />
-            </Col>
-          ) : // : path === "/tasks" ? (
-          //   <Col className='m-0'>
-          //     <TasksPage user={user} categories={categories} />
-          //   </Col>
-          // )
           path === "/tasks" ? (
             <Col className='m-0'>
               <NewTasksPage
-                user={user}
-                followedUsers={followedUsers}
-                tasks={tasks}
                 history={history}
                 location={location}
                 setSideBarLoading={setSideBarLoading}
@@ -172,7 +130,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
           // ) :
           path === "/following" ? (
             <Col className='m-0'>
-              <FollowingPage user={user} followedUsers={followedUsers} />
+              <FollowingPage />
             </Col>
           ) : path === "/admin-dash" ? (
             <Col className='m-0 p-0'>
