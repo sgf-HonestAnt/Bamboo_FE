@@ -112,6 +112,7 @@ const AdminPage = (props: AdminPageProps) => {
                     avatar={u.avatar}
                     level={u.level}
                     xp={u.xp}
+                    total_xp={u.total_xp} 
                     notification={u.notification}
                     createdAt={u.createdAt}
                     updatedAt={u.updatedAt}
@@ -134,6 +135,7 @@ const AdminPage = (props: AdminPageProps) => {
                   avatar={u.avatar}
                   level={u.level}
                   xp={u.xp}
+                  total_xp={u.total_xp}
                   notification={u.notification}
                   createdAt={u.createdAt}
                   updatedAt={u.updatedAt}
@@ -155,7 +157,7 @@ const AdminPage = (props: AdminPageProps) => {
                     repeats={t.repeats}
                     type={t.type}
                     status={t.status}
-                    value={t.value}
+                    value={t.value} 
                     createdBy={t.createdBy}
                     deadline={t.deadline}
                     _v={t._v}

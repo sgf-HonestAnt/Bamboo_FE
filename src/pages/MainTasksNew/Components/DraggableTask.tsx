@@ -91,11 +91,18 @@ const DraggableTask = (props: DraggableTaskProps) => {
             <div>
               <div>
                 {icon}
-                <span className="pl-1">
+                <span className='pl-1'>
                   {task!.title} ({task!.value}XP)
                 </span>
               </div>
-              <div>{task!.desc}</div>
+              <div>
+                {task!.desc}{" "}
+                {task!.sharedWith &&
+                  task!.sharedWith.length > 1 &&
+                  `Shared with ${task!.sharedWith.length - 1} other user${
+                    task!.sharedWith.length - 1 > 1 ? "s" : ""
+                  }`}
+              </div>
             </div>
           </div>
         );

@@ -1,6 +1,7 @@
 import { History } from "history";
 import { Dispatch } from "redux";
 import { setRefreshToken, setUserBio } from "../redux/actions/user";
+import { userInt } from "../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -145,7 +146,7 @@ export const clearLastNotification = async (notification: string[]) => {
     console.log(error);
   }
 };
-export const updateBio = async (bio: string, dispatch: Dispatch<any>) => {
+export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   const token = localStorage.getItem("token");
   try {
     await dispatch(setUserBio(bio));
@@ -162,10 +163,28 @@ export const updateBio = async (bio: string, dispatch: Dispatch<any>) => {
     console.log(error);
   }
 };
-export const attemptUpdateUser = async (
-  bodyPar: userUpdateType,
-  file: any
+export const AddUserNotification = async (
+  user: userInt,
+  newNotification: string
 ) => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    const { notification } = user;
+    notification.push(newNotification);
+    const body = JSON.stringify({ notification });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const updated = await fetch(url, { method, headers, body });
+    return updated;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -180,7 +199,7 @@ export const attemptUpdateUser = async (
     username && formData.append("username", username);
     email && formData.append("email", email);
     bio && formData.append("bio", bio);
-    file && formData.append("avatar", file); 
+    file && formData.append("avatar", file);
     const updated = await fetch(url, { method, headers, body: formData });
     const updatedAsJSON = await updated.json();
     console.log(updatedAsJSON);
@@ -189,7 +208,55 @@ export const attemptUpdateUser = async (
     console.log(error);
   }
 };
-export const acceptOrReject = async (username: string, action: string) => {
+export const sendUsersNotification = async (notification: string) => {
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/notification`;
+    const method = POST;
+    const body = JSON.stringify({ notification });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const notified = await fetch(url, { method, headers, body });
+    return notified;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const refreshUserLevel = async (user: userInt) => {
+  const token = localStorage.getItem("token");
+  const { username, level, total_xp } = user;
+  // each level corresponds to approximately 5 hard tasks (50)
+  // for e.g., if we have 500 cumulative xp, level should be 2
+  // if we have 550 cumulative xp, level should still be 2
+  if (Math.floor(total_xp! / 250) > level!) {
+    console.log("🕘time to level up", Math.floor(total_xp! / 250));
+    const newLevel = Math.floor(total_xp! / 250);
+    try {
+      const url = `${BE_URL}/${USERS}/me`;
+      const method = PUT;
+      const body = JSON.stringify({ level: newLevel });
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      };
+      const updated = await fetch(url, { method, headers, body });
+      const notification = `${username} levelled up to Level ${newLevel}!`;
+      await AddUserNotification(
+        user,
+        `You levelled up to Level ${newLevel}, ${username}!`
+      );
+      await sendUsersNotification(notification);
+      return updated;
+    } catch (error) {
+      console.log(error);
+    }
+  } else {
+    return;
+  }
+};
+export const acceptOrRejectUser = async (username: string, action: string) => {
   const token = localStorage.getItem("token");
   try {
     const { publicUsers } = await getUserByQuery(username);

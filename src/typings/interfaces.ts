@@ -7,14 +7,12 @@ export interface reduxStateInt {
   currentSettings: currentSettingsInt;
   currentFeatures: currentFeaturesInt;
 }
-
 export interface currentSettingsInt {
   loading: boolean;
   error: boolean;
   // GET users/me/settings
   selectedTheme: themeType;
 }
-
 export interface currentUserInt {
   loading: boolean;
   error: boolean;
@@ -22,7 +20,6 @@ export interface currentUserInt {
   my_user: userInt;
   followedUsers: followedUserInt[];
 }
-
 export interface userInt {
   // GET users/me, GET users/:id
   _id: string;
@@ -34,7 +31,8 @@ export interface userInt {
   bio: string;
   level: number | null;
   xp: number | null;
-  admin?: boolean; // required false
+  total_xp: number | null; // total cumulative xp
+  admin?: boolean;
   notification: string[];
   createdAt: string;
   updatedAt: string;
@@ -89,6 +87,7 @@ export interface followedUserInt {
   bio: string;
   level: number;
   xp: number;
+  total_xp: number;
   achievements: achievementInt[];
 }
 export interface publicUserInt {
@@ -151,7 +150,7 @@ export interface listForBeautifulDnd {
   taskIds: string[];
 }
 export interface beautifulDnD {
-  tasks: (taskInt|undefined)[]; 
+  tasks: (taskInt | undefined)[];
   lists: listForBeautifulDnd[];
-  listOrder: string[];
+  listOrder: string[]; 
 }

@@ -97,7 +97,7 @@ const MainSideBar = (props: SidebarProps) => {
       )}
       <div className='main-side-bar__branding my-3'>
         <PandaLogo />
-        <h3>Panda</h3>
+        <h3>Bamboo</h3>
       </div>
       {location.pathname !== "/admin-dash" ? (
         <>

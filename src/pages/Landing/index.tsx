@@ -13,7 +13,7 @@ const LandingPage = ({ location }: RouteComponentProps) => {
     <Container fluid>
       <Row className='landing-page'>
         <Col sm={4}>
-          <div>Welcome to Panda, the gentle task app.</div>
+          <div>Welcome to Bamboo.</div>
           <div>
             Would you like to <Link to='/login'>log in</Link>?
           </div>

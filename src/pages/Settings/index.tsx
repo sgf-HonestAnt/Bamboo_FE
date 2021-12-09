@@ -34,7 +34,6 @@ const SettingsPage = (props: SettingsPageProps) => {
     username: user.username,
     bio: user.bio,
     email: user.email,
-    file: "",
   });
   const editButton = (
     <Button variant='link' className='settings-page__profile-card__edit-button'>
@@ -90,9 +89,6 @@ const SettingsPage = (props: SettingsPageProps) => {
               avatar={user.avatar}
               handleChangeAvatar={handleChangeAvatar}
             />
-            <Form.Group controlId='file'>
-              <Form.Control type='file' onChange={handleChange}></Form.Control>
-            </Form.Group>
             <Form.Group as={Row} controlId='first_name'>
               <Form.Label column sm='4'>
                 first name

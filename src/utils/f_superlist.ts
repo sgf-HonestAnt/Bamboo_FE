@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import { setSuperlist } from "../redux/actions/achievements";
 import { achievementInt } from "../typings/interfaces";
-import { congrats, LIST_OF_VOWELS } from "./appConstants";
+import { congrats, LIST_OF_VOWELS, NONE } from "./appConstants";
 import { getCurrDateTimeAsString } from "./f_dates";
 
 const createSuperlist = async (
@@ -15,8 +15,8 @@ const createSuperlist = async (
   list.map((ach, i) => {
     const timestamp = getCurrDateTimeAsString(ach);
     const num = i < nice.length ? i : Math.floor(Math.random() * nice.length);
-    const achIsCongrats = ach.item.includes("sent you a")
-    if (!achIsCongrats) {
+    const achIsGift = ach.item.includes("sent you a");
+    if (!achIsGift) {
       return ach.username === username
         ? super_list.push(
             `you completed task: ${ach.item} on ${timestamp}. ${nice[num]}!`
@@ -26,12 +26,12 @@ const createSuperlist = async (
               LIST_OF_VOWELS.some((v) => v === ach.category.split("")[0])
                 ? "an"
                 : "a"
-            } ${ach.category} task on ${timestamp}! Send ${nice[
-              num
-            ].toLowerCase()}`
+            } ${
+              ach.category !== NONE ? ach.category! : ""
+            } task on ${timestamp}!`
           );
     } else {
-      return super_list.push(ach.item)
+      return super_list.push(ach.item);
     }
   });
   dispatch(setSuperlist(super_list));

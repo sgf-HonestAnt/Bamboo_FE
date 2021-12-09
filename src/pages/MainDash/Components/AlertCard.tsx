@@ -6,7 +6,7 @@ import {
 } from "../../../pages__SharedComponents/Buttons";
 import { History } from "history";
 import { ICOBELL, ICOSMILE } from "../../../utils/appIcons";
-import { acceptOrReject, clearLastNotification } from "../../../utils/f_users";
+import { acceptOrRejectUser, clearLastNotification } from "../../../utils/f_users";
 import { fillUserAction } from "../../../redux/actions/user";
 import { useDispatch } from "react-redux";
 import { removeSelfFromTask } from "../../../utils/f_tasks";
@@ -54,6 +54,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
   const handleRejectTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await removeSelfFromTask(taskId, dispatch);
+    await clearLastNotification(notification);
     dispatch(fillUserAction());
   };
   const handleAccept = async (e: { preventDefault: () => void }) => {
@@ -61,7 +62,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     const value = recentNotif.split(" ")[0];
     const action = "accept";
     console.log(value, action);
-    await acceptOrReject(value, action);
+    await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
     dispatch(fillUserAction());
   };
@@ -70,7 +71,7 @@ const DashAlertCard = (props: DashAlertCardProps) => {
     const value = recentNotif.split(" ")[0];
     const action = "reject";
     console.log(value, action);
-    await acceptOrReject(value, action);
+    await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
     dispatch(fillUserAction());
   };

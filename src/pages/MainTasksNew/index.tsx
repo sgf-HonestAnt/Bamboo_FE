@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { History, Location } from "history";
-import { currentTasksInt, followedUserInt, userInt } from "../../typings/interfaces";
+import {
+  currentTasksInt,
+  followedUserInt,
+  userInt,
+} from "../../typings/interfaces";
 import TasksFilterRow from "./Components/TasksFilterRow";
 import DragDropContainer from "./Components/DragDropContainer";
 import { ICOURGENT } from "../../utils/appIcons";
@@ -16,7 +20,8 @@ type NewTasksPageProps = {
   setSideBarLoading: any;
 };
 const NewTasksPage = (props: NewTasksPageProps) => {
-  const { user, followedUsers, tasks, history, location, setSideBarLoading } = props;
+  const { user, followedUsers, tasks, history, location, setSideBarLoading } =
+    props;
   const { categories, awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState(allTasks);
@@ -44,6 +49,7 @@ const NewTasksPage = (props: NewTasksPageProps) => {
         sidebar task number)
       </div>
       <DragDropContainer
+        user={user}
         taskList={taskList}
         history={history}
         setSideBarLoading={setSideBarLoading}

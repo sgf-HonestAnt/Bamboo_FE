@@ -1,7 +1,7 @@
 import { History, Location } from "history";
 import { Dispatch } from "redux";
 import { loadTasksAction } from "../redux/actions/tasks";
-import { setTaskInt, taskInt } from "../typings/interfaces";
+import { setTaskInt, taskInt, userInt } from "../typings/interfaces";
 import { taskUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -16,6 +16,7 @@ import {
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
 import { fillAchievementsAction } from "../redux/actions/achievements";
+import { refreshUserLevel } from "./f_users";
 
 export const getTask = async (id: string) => {
   // get single task belonging to the user
@@ -146,6 +147,7 @@ export const attemptPostTask = async (
 };
 export const attemptCompleteTasks = async (
   // mark task as complete
+  user: userInt,
   taskIds: string[],
   refreshToken: string | undefined,
   history: string[] | History<unknown>,
@@ -158,7 +160,7 @@ export const attemptCompleteTasks = async (
       for (let i = 0; i < taskIds.length; i++) {
         console.log("ATTEMPTING TO COMPLETE TASK", i);
         const update = { status: "completed" };
-        attemptUpdateTask(taskIds[i], update, dispatch);
+        attemptUpdateTask(taskIds[i], update, user, dispatch);
       }
     }
   } catch (error) {
@@ -170,6 +172,7 @@ export const attemptUpdateTask = async (
   // update task status
   id: string,
   taskUpdate: taskUpdateType,
+  user: userInt,
   dispatch: Dispatch<any>
 ) => {
   const token = localStorage.getItem("token");
@@ -191,6 +194,7 @@ export const attemptUpdateTask = async (
         console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
         const { title, category } = await getTask(id);
         await attemptPostAchievement(title, category, dispatch);
+        refreshUserLevel(user);
       }
       dispatch(loadTasksAction(true));
       dispatch(fillAchievementsAction());
@@ -207,7 +211,10 @@ export const getCategories = async (tasks: taskInt[]) => {
   }
   return array;
 };
-export const removeSelfFromTask = async (taskId: string, dispatch: Dispatch<any>) => {
+export const removeSelfFromTask = async (
+  taskId: string,
+  dispatch: Dispatch<any>
+) => {
   const token = localStorage.getItem("token");
   try {
     console.log("ATTEMPTING TO DELETE SELF FROM TASK", taskId);

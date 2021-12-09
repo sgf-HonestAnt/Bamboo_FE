@@ -16,6 +16,7 @@ type DashAchievCardProps = {
 };
 const DashAchievCard = (props: DashAchievCardProps) => {
   const { followedUsers, achievements, username } = props;
+  console.log(followedUsers)
   const { list, superlist } = achievements;
   const dispatch = useDispatch();
   const loadAchievementCard = async () => {
@@ -52,7 +53,6 @@ const DashAchievCard = (props: DashAchievCardProps) => {
   }, []);
   return (
     <div className='dashboard__activities m-2 p-2'>
-      <div className="red">Allowing to send self congrats. Fix!</div>
       <div className='dashboard__card-header'>Achievements</div>
       {superlist?.length < 1 ? (
         <p>

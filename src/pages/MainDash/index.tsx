@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import {
   currentAchievementsInt,
   currentFeaturesInt,
+  currentTasksInt,
   followedUserInt,
   userInt,
 } from "../../typings/interfaces";
@@ -24,6 +25,7 @@ import "./styles.css";
 
 type DashboardPageProps = {
   user: userInt;
+  tasks: currentTasksInt;
   categories: string[];
   achievements: currentAchievementsInt;
   followedUsers: followedUserInt[];
@@ -43,6 +45,7 @@ const DashboardPage = (props: DashboardPageProps) => {
     location,
     setErrorMessage,
   } = props;
+  const allTasks = props.tasks;
   const [tasks, setTasks] = useState([]);
   const [search, setSearch] = useState("");
   // media query
@@ -112,8 +115,12 @@ const DashboardPage = (props: DashboardPageProps) => {
             Change "Brush Your Teeth" to a DAILY task
             And add friends. ("You'll notice that "" is shared with AdminPanda. Try adding our second admin, BigBear, here...")
             */}
-            <DashCalenCard user={user} />
-            <DashTipsCard />
+            {/* <DashCalenCard user={user} /> */}
+            <DashTipsCard
+              tasks={allTasks}
+              user={user}
+              followedUsers={followedUsers}
+            />
           </Col>
         </Row>
       </Col>
@@ -126,11 +133,13 @@ const DashboardPage = (props: DashboardPageProps) => {
               search={search}
               setSearch={setSearch}
             />
-            <DashAlertCard
-              followedUsers={followedUsers}
-              notification={notification}
-              history={history}
-            />
+            {notification.length > 0 && (
+              <DashAlertCard
+                followedUsers={followedUsers}
+                notification={notification}
+                history={history}
+              />
+            )}
             <DashAchievCard
               followedUsers={followedUsers}
               achievements={achievements}

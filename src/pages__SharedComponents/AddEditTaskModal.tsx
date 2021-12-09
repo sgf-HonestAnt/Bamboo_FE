@@ -2,8 +2,8 @@ import { useState } from "react";
 import { History, Location } from "history";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { fillTasksAction } from "../redux/actions/tasks";
 import { followedUserInt, userInt } from "../typings/interfaces";
+import { setUserLoading } from "../redux/actions/user";
 import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
@@ -68,13 +68,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const [showOtherRepeat, setShowOtherRepeat] = useState(false);
   const [showShared, setShowShared] = useState(false);
   const [showSharedDropdown, setShowSharedDropdown] = useState(false);
-  console.log(
-    { showNewCat },
-    { showRepeatOptions },
-    { showOtherRepeat },
-    { showShared },
-    { showSharedDropdown }
-  );
+  // console.log(
+  //   { showNewCat },
+  //   { showRepeatOptions },
+  //   { showOtherRepeat },
+  //   { showShared },
+  //   { showSharedDropdown }
+  // );
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -97,7 +97,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setForm({ ...form, repeated: "no", repeats: "never", repetitions: "0" });
     } else if (id === "repeats" && value === "other") {
       setForm({ ...form, repeatsOther: 2, repetitions: "0" });
-      setShowRepeatOptions(false)
+      setShowRepeatOptions(false);
       setShowOtherRepeat(true);
     } else if (id === "repeats" && value === "daily") {
       setForm({
@@ -126,7 +126,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setForm({ ...form, shared: "yes" });
     } else if (id === "sharedWith") {
       const array = [];
-      array.push(value);
+      array.push(value); 
       setForm({ ...form, sharedWith: array });
     } else {
       setForm({ ...form, [id]: value });
@@ -143,8 +143,30 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         location
       );
       console.log("CREATED NEW TASK", _id);
-      await dispatch(fillTasksAction());
-      history.push("/tasks");
+      setForm({
+        title: "",
+        value: 0,
+        category: "",
+        newCategory: "",
+        desc: " ",
+        repeated: "no",
+        repeats: "never",
+        repeatsOther: 0,
+        repetitions: "0",
+        shared: "no",
+        sharedWith: [],
+        deadline: "",
+      });
+      setShowNewCat(false);
+      setShowRepeat(true);
+      setShowRepeatOptions(false);
+      setShowOtherRepeat(false);
+      setShowShared(false);
+      setShowSharedDropdown(false);
+      handleClose();
+      dispatch(setUserLoading(true));
+      // NEED TO RELOAD
+      history.push("/dash")
     } catch (error) {
       console.log(error);
     }

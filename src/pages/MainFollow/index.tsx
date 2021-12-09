@@ -62,7 +62,7 @@ const FollowingPage = (props: FollowingPageProps) => {
                 <Modal.Title>You have {points} Bamboo Points</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                You need a minimum of 100 Bamboo Points before you can send a
+                You need a minimum of 100 Bamboo Points before you can send {gift.username} a
                 gift. Come back later after completing some tasks!
               </Modal.Body>
               <Modal.Footer>

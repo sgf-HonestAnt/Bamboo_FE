@@ -2,7 +2,7 @@ import { Row } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { History } from "history";
 import { useDispatch } from "react-redux";
-import { beautifulDnD, taskInt } from "../../../typings/interfaces";
+import { beautifulDnD, taskInt, userInt } from "../../../typings/interfaces";
 import { DragDropContext } from "react-beautiful-dnd";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
 import DroppableList from "./DroppableList";
@@ -11,12 +11,13 @@ import { fillTasksAction } from "../../../redux/actions/tasks";
 import { setUserLoading } from "../../../redux/actions/user";
 
 type DragDropContainerProps = {
+  user: userInt;
   taskList: taskInt[];
   history: History<unknown> | string[];
   setSideBarLoading: any;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
-  const { taskList } = props;
+  const { taskList, user } = props;
   const dispatch = useDispatch();
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
@@ -105,7 +106,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     }
   };
   const updateTaskStatus = async (draggableId: string, status: string) => {
-    await attemptUpdateTask(draggableId, { status }, dispatch);
+    await attemptUpdateTask(draggableId, { status }, user, dispatch);
   };
   useEffect(() => {
     setInitialData({
@@ -137,7 +138,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     });
   }, [taskList]);
   useEffect(() => {
-    console.log("CHANGED!");
     // history.push("/tasks")
   }, [initialData]);
   return (

@@ -23,8 +23,12 @@ import {
   // ICOSAVE,
   ICOURGENT,
 } from "../../../utils/appIcons";
-import { AddNewTaskButton, CompleteButton } from "../../../pages__SharedComponents/Buttons";
+import {
+  AddNewTaskButton,
+  CompleteButton,
+} from "../../../pages__SharedComponents/Buttons";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import { refreshUserLevel } from "../../../utils/f_users";
 
 type DashTasksCardProps = {
   tasks: taskInt[];
@@ -95,13 +99,15 @@ const DashTasksCard = (props: DashTasksCardProps) => {
     e.preventDefault();
     console.log(completedTasks);
     try {
-      attemptCompleteTasks(
+      await attemptCompleteTasks(
+        user,
         completedTasks,
         refreshToken,
         history,
         location,
         dispatch
       );
+      refreshUserLevel(user);
     } catch (e) {
       console.log(e);
     }
@@ -125,7 +131,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         </>
       ) : (
         <Form onSubmit={handleSubmitComplete}>
-          <div>Tick to complete</div>
+          <div>Drag here to complete</div>
           <div className='red'>
             <ICOURGENT />
             Make draggable into Complete droppable
@@ -155,7 +161,7 @@ const DashTasksCard = (props: DashTasksCardProps) => {
             );
           })}
           <div>{tasks.length > 3 ? `+ ${tasks.length - 3} more` : ""}</div>
-          <CompleteButton />
+          {/* <CompleteButton /> */}
         </Form>
       )}
       <AddNewTaskButton label='Add task' handleClick={handleShow} />

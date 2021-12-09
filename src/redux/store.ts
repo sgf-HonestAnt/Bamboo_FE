@@ -45,6 +45,7 @@ export const initialState: reduxStateInt = {
       bio: "",
       level: null,
       xp: null,
+      total_xp: null,
       admin: false,
       notification: [],
       createdAt: "",

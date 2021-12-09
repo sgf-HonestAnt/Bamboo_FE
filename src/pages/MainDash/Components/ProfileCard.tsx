@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { followedUserInt } from "../../../typings/interfaces";
 import { History } from "history";
 import { useDispatch } from "react-redux";
-import { getUserRole, updateBio } from "../../../utils/f_users";
+import { getUserRole, updateUserBio } from "../../../utils/f_users";
 import BambooPoints from "../../../pages__SharedComponents/XP";
 import { ICOACTIVITY, ICORELATE } from "../../../utils/appIcons";
 import { Form } from "react-bootstrap";
@@ -35,7 +35,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     setNewBio(e.target.value);
   };
   const handleSubmit = async () => {
-    await updateBio(newBio, dispatch);
+    await updateUserBio(newBio, dispatch);
     history.push("/dash");
   };
   const pushToSettings = async (e: { preventDefault: () => void }) => {

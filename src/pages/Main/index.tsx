@@ -122,6 +122,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
             <Col className='m-0 px-4'>
               <DashboardPage
                 user={user}
+                tasks={tasks}
                 categories={categories}
                 achievements={achievements}
                 followedUsers={followedUsers}
