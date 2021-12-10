@@ -9,7 +9,7 @@ import {
   reduxStateInt,
   userInt,
 } from "../typings/interfaces";
-import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants"; 
+import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
 import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
@@ -297,6 +297,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     {c}
                   </option>
                 ))}
+                <option value='' disabled>
+                  -------
+                </option>
+                <option value={NONE}>{NONE}</option>
                 <option value='' disabled>
                   -------
                 </option>

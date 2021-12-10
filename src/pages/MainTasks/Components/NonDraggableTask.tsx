@@ -67,19 +67,21 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
     await attemptDeleteTask(task!._id);
     const newCompleted = completed.filter((t) => t._id !== task!._id);
     dispatch(RemTaskFromCompleted(newCompleted)); // remove task from tasklist
-    await moveTaskBetweenStatus(
-      "completed",
-      null,
-      task,
-      tasks,
-      // initialData,
-      // setInitialData,
-      dispatch
-    );
-    const newTaskList = taskList.filter((t) => t._id !== task!._id);
-    setTaskList(newTaskList)
-    setShowDeleteMessage(false);
-    // remove task from initialData
+    if (task) {
+      await moveTaskBetweenStatus(
+        "completed",
+        null,
+        task,
+        tasks,
+        // initialData,
+        // setInitialData,
+        dispatch
+      ); 
+      const newTaskList = taskList.filter((t) => t._id !== task._id);
+      setTaskList(newTaskList);
+      setShowDeleteMessage(false);
+      // remove task from initialData
+    }
   };
   const undoDelete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();

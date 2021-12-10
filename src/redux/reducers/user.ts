@@ -13,6 +13,7 @@ import {
   SET_USER_FIRST_NAME,
   SET_USER_LEVEL,
   SET_USER_POINTS,
+  SET_USER_POINTS_AND_COMPLETED,
   SET_USER_POINTS_TOTAL,
   SET_USER_USERNAME,
   SPEND_USER_POINTS,
@@ -86,30 +87,35 @@ const currentUserReducer = (
           level: action.payload,
         },
       };
-    case SET_USER_POINTS:
+    case SET_USER_POINTS_AND_COMPLETED:
       return {
         ...state,
-        my_user: {
-          ...state.my_user,
-          xp: action.payload,
-        },
+        my_user: action.payload,
       };
-    case SET_USER_POINTS_TOTAL:
-      return {
-        ...state,
-        my_user: {
-          ...state.my_user,
-          total_xp: action.payload,
-        },
-      };
-    case SET_USER_COMPLETED_TOTAL:
-      return {
-        ...state,
-        my_user: {
-          ...state.my_user,
-          completed_total: action.payload,
-        },
-      };
+    // case SET_USER_POINTS:
+    //   return {
+    //     ...state,
+    //     my_user: {
+    //       ...state.my_user,
+    //       xp: action.payload,
+    //     },
+    //   };
+    // case SET_USER_POINTS_TOTAL:
+    //   return {
+    //     ...state,
+    //     my_user: {
+    //       ...state.my_user,
+    //       total_xp: action.payload,
+    //     },
+    //   };
+    // case SET_USER_COMPLETED_TOTAL:
+    //   return {
+    //     ...state,
+    //     my_user: {
+    //       ...state.my_user,
+    //       completed_total: action.payload,
+    //     },
+    //   };
     // case SPEND_USER_POINTS:
     //   return {
     //     ...state,

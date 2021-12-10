@@ -48,7 +48,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     category: ANY_CAT,
     value: ANY_VAL,
   });
-  console.log(filter);
+  // console.log(filter);
   const handleReset = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setTaskList(allTasks);
@@ -71,7 +71,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       ? setTaskList(allTasks)
       : setTaskList(filteredTasks);
   };
-  console.log(taskList.length);
   return (
     <Row>
       <Col sm={12}>

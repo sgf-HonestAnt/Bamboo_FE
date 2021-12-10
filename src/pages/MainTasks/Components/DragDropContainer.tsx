@@ -51,16 +51,18 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       setInitialData
     );
     const taskToMove = taskList.find((t) => t._id === draggableId);
-    moveTaskBetweenStatus(
-      sourceStatus,
-      destinationStatus,
-      taskToMove,
-      currentTasks,
-      // initialData,
-      // setInitialData,
-      dispatch
-    );
-  };
+    if (taskToMove) {
+      moveTaskBetweenStatus(
+        sourceStatus,
+        destinationStatus,
+        taskToMove,
+        currentTasks,
+        // initialData,
+        // setInitialData,
+        dispatch
+      );
+    }
+  }; 
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
     // if task moves outside droppable space

@@ -4,9 +4,10 @@ import {
   setRefreshToken,
   setUserBio,
   setUserLevel,
-  setUserPoints,
-  setUserTotalCompleted,
-  setUserTotalPoints,
+  // setUserPoints,
+  setUserPointsAndCompleted,
+  // setUserTotalCompleted,
+  // setUserTotalPoints,
 } from "../redux/actions/user";
 import { userInt } from "../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../typings/types";
@@ -242,9 +243,19 @@ export const refreshUserPoints = async (
   dispatch: Dispatch<any>
 ) => {
   console.log("🙋Refreshing User Points");
-  setUserTotalCompleted(user.total_completed + 1);
-  setUserPoints(user.xp + value);
-  setUserTotalPoints(user.total_xp + value);
+  const { total_completed, total_xp, xp } = user;
+  const newTotalCompleted = total_completed + 1;
+  const newTotalPoints = total_xp + value;
+  const newPoints = xp + value;
+  console.log(newTotalCompleted, newPoints, newTotalPoints);
+  dispatch(
+    setUserPointsAndCompleted({
+      ...user,
+      xp: newPoints,
+      total_xp: newTotalPoints,
+      total_completed: newTotalCompleted,
+    })
+  );
 };
 export const refreshUserLevel = async (
   user: userInt,

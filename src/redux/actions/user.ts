@@ -15,8 +15,11 @@ import {
   SET_USER_LEVEL,
   SET_USER_POINTS,
   SET_USER_POINTS_TOTAL,
+  SET_USER_COMPLETED_TOTAL,
+  SET_USER_POINTS_AND_COMPLETED,
 } from "../../utils/appConstants";
 import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
+import { userInt } from "../../typings/interfaces";
 
 export const setUserAvatar = (avatar: string | undefined) => ({
   type: SET_USER_AVATAR,
@@ -46,6 +49,10 @@ export const setUserLevel = (level: number) => ({
   type: SET_USER_LEVEL,
   payload: level,
 });
+export const setUserPointsAndCompleted = (user: userInt) => ({
+  type: SET_USER_POINTS_AND_COMPLETED,
+  payload: user,
+});
 export const setUserPoints = (xp: number) => ({
   type: SET_USER_POINTS,
   payload: xp,
@@ -55,7 +62,7 @@ export const setUserTotalPoints = (total_xp: number) => ({
   payload: total_xp,
 });
 export const setUserTotalCompleted = (total_completed: number) => ({
-  type: SET_USER_USERNAME,
+  type: SET_USER_COMPLETED_TOTAL,
   payload: total_completed,
 });
 export const setUserLoading = (boolean: boolean) => ({

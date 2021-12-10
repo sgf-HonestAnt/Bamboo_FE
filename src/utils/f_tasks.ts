@@ -299,16 +299,17 @@ export const removeSelfFromTask = async (
 export const moveTaskBetweenStatus = async (
   source: string,
   destination: string | null, // awaited, in_progress, completed, null
-  task: taskInt | undefined,
+  task: taskInt,
   currentTasks: currentTasksInt,
   // initialData: beautifulDnD,
   // setInitialData: any,
   dispatch: Dispatch<any>
 ) => {
   console.log("🙋Changing Task Status / Deleting Completed Task");
+  // Unhandled Rejection (TypeError): Cannot set properties of undefined (setting 'status')
   const { awaited, in_progress, completed } = currentTasks;
   if (destination) {
-    task!.status = destination;
+    task.status = destination;
   }
   if (destination === "awaited") {
     awaited.push(task!);
