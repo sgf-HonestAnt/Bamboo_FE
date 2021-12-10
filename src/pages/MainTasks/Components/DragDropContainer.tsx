@@ -35,6 +35,33 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   //   lists: [],
   //   listOrder: [],
   // });
+  const updateTaskStatus = async (
+    draggableId: string,
+    sourceStatus: string,
+    destinationStatus: string,
+    status: string
+  ) => {
+    console.log(draggableId, sourceStatus, destinationStatus, status);
+    await attemptUpdateTask(
+      draggableId,
+      { status },
+      my_user,
+      dispatch,
+      achievements.list,
+      initialData,
+      setInitialData
+    );
+    const taskToMove = taskList.find((t) => t._id === draggableId);
+    moveTaskBetweenStatus(
+      sourceStatus,
+      destinationStatus,
+      taskToMove,
+      currentTasks,
+      // initialData,
+      // setInitialData,
+      dispatch
+    );
+  };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
     // if task moves outside droppable space
@@ -110,78 +137,8 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         destination.droppableId,
         finish!.id
       );
-      // should not need this: see updateTaskStatus function.
-      // if (newFinish.id === COMPLETED) {
-      //   // ADD BAMBOO POINTS
-      //   // console.log("COMPLETING=>", draggableId);
-      //   const value = parseInt(draggableId.split("/")[1]);
-      //   const { xp, total_xp } = my_user;
-      //   console.log(
-      //     "adding this many points to xp",
-      //     value,
-      //     "xp SHOULD be",
-      //     xp + value
-      //   );
-      //   const newXP = xp + value;
-      //   const newTotalXP = total_xp + value;
-      //   setUserPoints(newXP);
-      //   setUserTotalPoints(newTotalXP);
-      // }
     }
   };
-  const updateTaskStatus = async (
-    draggableId: string,
-    sourceStatus: string,
-    destinationStatus: string,
-    status: string
-  ) => {
-    console.log(draggableId, sourceStatus, destinationStatus, status)
-    await attemptUpdateTask(
-      draggableId,
-      { status },
-      my_user,
-      dispatch,
-      achievements.list
-    );
-    const taskToMove = taskList.find((t) => t._id === draggableId);
-    moveTaskBetweenStatus(
-      sourceStatus,
-      destinationStatus,
-      taskToMove,
-      currentTasks,
-      dispatch
-    );
-  };
-  useEffect(() => {
-    setInitialData({
-      tasks: taskList, //[{}]
-      lists: [
-        {
-          id: AWAITED,
-          title: "To do",
-          taskIds: taskList
-            .filter((t) => t.status === AWAITED)
-            .map((t) => t._id),
-        },
-        {
-          id: IN_PROGRESS,
-          title: "In Progress",
-          taskIds: taskList
-            .filter((t) => t.status === IN_PROGRESS)
-            .map((t) => t._id),
-        },
-        {
-          id: COMPLETED,
-          title: "Completed",
-          taskIds: taskList
-            .filter((t) => t.status === COMPLETED)
-            .map((t) => t._id),
-        },
-      ],
-      listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskList]);
   useEffect(() => {}, [initialData]);
   return (
     <Row className='tasks-page'>
@@ -194,7 +151,17 @@ const DragDropContainer = (props: DragDropContainerProps) => {
           const tasks = list!.taskIds.map((taskId) =>
             initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
-          return <DroppableList key={listId!} list={list!} tasks={tasks!} />;
+          return (
+            <DroppableList
+              key={listId!}
+              list={list!}
+              tasks={tasks!}
+              taskList={taskList}
+              setTaskList={setTaskList}
+              // initialData={initialData}
+              // setInitialData={setInitialData}
+            />
+          );
         })}
       </DragDropContext>
     </Row>

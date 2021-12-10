@@ -14,6 +14,7 @@ import {
 import attemptLogout from "../../utils/f_attemptLogout";
 import PandaLogo from "../../pages__SharedComponents/Logo";
 import "./styles.css";
+import BambooPoints from "../../pages__SharedComponents/XP";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -23,9 +24,9 @@ type SidebarProps = {
 const MainSideBar = (props: SidebarProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { level } = my_user
-  const { awaited, in_progress } = state.currentTasks;
-  const awaitedAndProgressTasks = awaited.concat(in_progress);
+  const { level, xp } = my_user;
+  const { awaited, in_progress, completed } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress, completed);
   const numOfUsers = followedUsers.length;
   const { history, location, setTheme } = props;
   const dispatch = useDispatch();
@@ -71,13 +72,16 @@ const MainSideBar = (props: SidebarProps) => {
         <>
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
-            <div className='text-bigger'>{my_user.username}</div>
+            <div className='text-bigger'><Link to='/dash'>{my_user.username}</Link></div>
             <div>level {level}</div>
+            <div>
+              {xp}
+              <BambooPoints />
+            </div>
           </div>
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}
-            <Link to='/dash'>dashboard</Link>
-            <Link to='/tasks'>tasks ({awaitedAndProgressTasks.length})</Link>
+            <Link to='/tasks'>tasks ({allTasks.length})</Link>
             {numOfUsers > 0 ? (
               <Link to='/following'>following ({numOfUsers})</Link>
             ) : (

@@ -11,6 +11,7 @@ import {
 } from "../redux/actions/tasks";
 import {
   achievementInt,
+  beautifulDnD,
   currentTasksInt,
   setTaskInt,
   taskInt,
@@ -193,7 +194,9 @@ export const attemptUpdateTask = async (
   taskUpdate: taskUpdateType,
   user: userInt,
   dispatch: Dispatch<any>,
-  achievements: achievementInt[]
+  achievements: achievementInt[],
+  initialData?: beautifulDnD,
+  setInitialData?: any
 ) => {
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;
@@ -211,16 +214,37 @@ export const attemptUpdateTask = async (
     const response = await fetch(url, { method, headers, body });
     const responseAsJSON = await response.json();
     if (response.ok) {
+      if (initialData) {
+        setInitialData(initialData);
+      }
       if (status === COMPLETED) {
         console.log("STATUS WAS COMPLETED, LET US POST ACHIEVEMENT FOR", id);
         const { title, category, value } = responseAsJSON;
-        console.log(value)
+        console.log(value);
         await attemptPostAchievement(title, category, dispatch, achievements);
         setUserPoints(user.xp + value);
         setUserTotalPoints(user.total_xp + value);
         refreshUserLevel(user);
       }
       dispatch(fillAchievementsAction()); // 👈HERE!
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const attemptDeleteTask = async (taskId: string) => {
+  // delete single task
+  const token = localStorage.getItem("token");
+  try {
+    console.log("ATTEMPTING TO DELETE TASK", taskId);
+    const url = `${BE_URL}/${TASKS}/me/${taskId}`;
+    const method = DELETE;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const response = await fetch(url, { method, headers });
+    if (response.ok) {
+      return response;
     }
   } catch (error) {
     console.log(error);
@@ -274,30 +298,40 @@ export const removeSelfFromTask = async (
 };
 export const moveTaskBetweenStatus = async (
   source: string,
-  destination: string,
+  destination: string | null, // awaited, in_progress, completed, null
   task: taskInt | undefined,
   currentTasks: currentTasksInt,
+  // initialData: beautifulDnD,
+  // setInitialData: any,
   dispatch: Dispatch<any>
 ) => {
   const { awaited, in_progress, completed } = currentTasks;
+  if (destination) {
+    task!.status = destination;
+  }
   if (destination === "awaited") {
     awaited.push(task!);
     dispatch(AddTaskToAwaited(awaited));
   } else if (destination === "in_progress") {
     in_progress.push(task!);
     dispatch(AddTaskToInProgress(in_progress));
-  } else {
+  } else if (destination === "completed") {
     completed.push(task!);
     dispatch(AddTaskToCompleted(completed));
+  } else {
+    console.log("delete a completed task.");
   }
   if (source === "awaited") {
     const index = awaited.indexOf(task!);
     awaited.splice(index, 1);
     dispatch(RemTaskFromAwaited(awaited));
-  } else {
+  } else if (source === "in_progress") {
     const index = in_progress.indexOf(task!);
     in_progress.splice(index, 1);
     dispatch(RemTaskFromInProgress(in_progress));
+  } else {
+    const index = completed.indexOf(task!);
+    completed.splice(index, 1);
+    dispatch(RemTaskFromCompleted(completed));
   }
-  // Cannot move Completed Tasks back.
 };

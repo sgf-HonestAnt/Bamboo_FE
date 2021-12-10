@@ -1,20 +1,19 @@
-import { useState } from "react";
 import { History, Location } from "history";
-import { Modal, Form, Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hooks";
+import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import {
   beautifulDnD,
   followedUserInt,
   reduxStateInt,
   userInt,
 } from "../typings/interfaces";
-import { setUserLoading } from "../redux/actions/user";
-import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
+import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants"; 
+import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
-import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -285,15 +284,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <option value='DEFAULT' disabled>
                   Select a category
                 </option>
-                {TASK_CATEGORIES.map((c) => (
-                  <option
-                    key={c}
-                    value={c}
-                    //   selected={form.category === c}
-                  >
-                    {c}
-                  </option>
-                ))}
                 {categories
                   .filter((c) => c !== "none" && !TASK_CATEGORIES.includes(c))
                   .sort()
@@ -308,6 +298,15 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </option>
                     );
                   })}
+                {TASK_CATEGORIES.map((c) => (
+                  <option
+                    key={c}
+                    value={c}
+                    //   selected={form.category === c}
+                  >
+                    {c}
+                  </option>
+                ))}
                 <option value='' disabled>
                   -------
                 </option>

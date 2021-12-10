@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { beautifulDnD, reduxStateInt, taskInt } from "../../typings/interfaces";
 import { Container } from "react-bootstrap";
-import { ICOURGENT } from "../../utils/appIcons";
 import TasksFilterRow from "./Components/TasksFilterRow";
 import DragDropContainer from "./Components/DragDropContainer";
 import "./styles.css";
+import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -25,24 +25,45 @@ const TasksPage = (props: TasksPageProps) => {
     listOrder: [],
   });
   useEffect(() => {
-    console.log(location.pathname); // "/tasks"
-  }, [location.pathname]);
-  // console.log(initialData);
+    setInitialData({
+      tasks: taskList, //[{}]
+      lists: [
+        {
+          id: AWAITED,
+          title: "To do",
+          taskIds: taskList
+            .filter((t) => t.status === AWAITED)
+            .map((t) => t._id),
+        },
+        {
+          id: IN_PROGRESS,
+          title: "In Progress",
+          taskIds: taskList
+            .filter((t) => t.status === IN_PROGRESS)
+            .map((t) => t._id),
+        },
+        {
+          id: COMPLETED,
+          title: "Completed",
+          taskIds: taskList
+            .filter((t) => t.status === COMPLETED)
+            .map((t) => t._id),
+        },
+      ],
+      listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [taskList]);
   return (
     <Container fluid>
       <TasksFilterRow
+        taskList={taskList}
         setTaskList={setTaskList}
         initialData={initialData}
         setInitialData={setInitialData}
         history={history}
         location={location}
       />
-      <div className='red'>
-        <ICOURGENT />
-        Styling is ugly. Must be able to filter by category, date, and shared
-        with(?) perhaps also search by title. Oddly the add xp feature and level
-        up feature isn't functioning, check in the morning
-      </div>
       <DragDropContainer
         initialData={initialData}
         setInitialData={setInitialData}
