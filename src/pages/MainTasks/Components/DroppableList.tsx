@@ -14,8 +14,6 @@ type DroppableListProps = {
   tasks: (taskInt | undefined)[];
   taskList: taskInt[];
   setTaskList: any;
-  // initialData: beautifulDnD;
-  // setInitialData: any;
 };
 const DroppableList = (props: DroppableListProps) => {
   const { list, tasks, taskList, setTaskList } = props;
@@ -42,8 +40,6 @@ const DroppableList = (props: DroppableListProps) => {
                         i={i}
                         taskList={taskList}
                         setTaskList={setTaskList}
-                        // initialData={initialData}
-                        // setInitialData={setInitialData}
                       />
                     ))}
                 {provided.placeholder}

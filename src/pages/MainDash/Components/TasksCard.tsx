@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
-import { Form } from "react-bootstrap";
-import { ICOCIRCLE, ICOCLOCK, ICOURGENT } from "../../../utils/appIcons";
+// import { Form } from "react-bootstrap";
+// import { ICOCIRCLE, ICOCLOCK, ICOURGENT } from "../../../utils/appIcons";
 import { AddNewTaskButton } from "../../../pages__SharedComponents/Buttons";
 import {
   getDayMonthYearAsString,
@@ -13,6 +13,7 @@ import {
 import { attemptCompleteTasks } from "../../../utils/f_tasks";
 import { refreshUserLevel } from "../../../utils/f_users";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import MiniDragNDrop from "./MiniDragNDrop";
 
 type DashTasksCardProps = {
   today: string;
@@ -110,47 +111,17 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   return (
     <div className='dashboard__tasks-card m-2'>
       <div className='dashboard__card-header'>{dayMonthYearAsString}</div>
+      <div className="red">FINISH LATER.</div>
       {allTasks.length < 1 ? (
         <>
           <div>No tasks awaited today!</div>
-          <AddNewTaskButton />
         </>
       ) : (
-        <Form onSubmit={handleSubmitComplete}>
-          <div>Drag here to complete</div>
-          <div className='red'>
-            <ICOURGENT />
-            Make draggable into Complete droppable
-          </div>
-          {allTasks.slice(0, 3).map((t, i) => {
-            const clock = t.deadline?.includes(today) ? (
-              <ICOCLOCK className='icon-urgent' />
-            ) : t.deadline ? (
-              <ICOCLOCK className='icon-semi-urgent' />
-            ) : (
-              <ICOCIRCLE />
-            );
-            return (
-              <Form.Group key={i} controlId={t._id}>
-                <div className='mb-0'>
-                  <Form.Check
-                    inline
-                    label={t.title}
-                    name='today'
-                    type='checkbox'
-                    value={t._id}
-                    onChange={handleChangeCompleted}
-                  />
-                  {clock}
-                </div>
-              </Form.Group>
-            );
-          })}
-          <div>
-            {allTasks.length > 3 ? `+ ${allTasks.length - 3} more` : ""}
-          </div>
-          {/* <CompleteButton /> */}
-        </Form>
+        <MiniDragNDrop
+          today={today}
+          handleSubmitComplete={handleSubmitComplete}
+          handleChangeCompleted={handleChangeCompleted}
+        />
       )}
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       <AddEditTaskModal
