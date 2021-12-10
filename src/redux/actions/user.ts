@@ -54,6 +54,10 @@ export const setUserTotalPoints = (total_xp: number) => ({
   type: SET_USER_POINTS_TOTAL,
   payload: total_xp,
 });
+export const setUserTotalCompleted = (total_completed: number) => ({
+  type: SET_USER_USERNAME,
+  payload: total_completed,
+});
 export const setUserLoading = (boolean: boolean) => ({
   type: FILL_USER_LOADING,
   payload: boolean,

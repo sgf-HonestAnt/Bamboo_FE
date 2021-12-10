@@ -35,7 +35,7 @@ export const initialState: reduxStateInt = {
     loading: true,
     error: false,
     // set upon loading with endpoint "/user/me"
-    my_user: { 
+    my_user: {
       _id: "",
       first_name: "",
       last_name: "",
@@ -45,6 +45,7 @@ export const initialState: reduxStateInt = {
       bio: "",
       level: null,
       xp: 0,
+      total_completed: 0,
       total_xp: 0,
       admin: false,
       notification: [],

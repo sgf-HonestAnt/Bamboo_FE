@@ -8,6 +8,7 @@ import {
   SET_REFRESH_TOKEN,
   SET_USER_AVATAR,
   SET_USER_BIO,
+  SET_USER_COMPLETED_TOTAL,
   SET_USER_EMAIL,
   SET_USER_FIRST_NAME,
   SET_USER_LEVEL,
@@ -99,7 +100,15 @@ const currentUserReducer = (
         my_user: {
           ...state.my_user,
           total_xp: action.payload,
-        }, 
+        },
+      };
+    case SET_USER_COMPLETED_TOTAL:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          completed_total: action.payload,
+        },
       };
     // case SPEND_USER_POINTS:
     //   return {

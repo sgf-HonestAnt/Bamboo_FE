@@ -17,7 +17,7 @@ type DashProfileCardProps = {
 const DashProfileCard = (props: DashProfileCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { avatar, username, admin, bio, level, xp } = my_user;
+  const { username, admin, bio, level, xp } = my_user;
   const { history } = props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);
@@ -44,7 +44,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   const role = getUserRole(level);
   return (
     <div className='dashboard__profile-card m-2'>
-      <ProfileBadge avatar={avatar} level={level} />
+      <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {username} {admin && "(admin)"}{" "}
         <EditButton handleClick={pushToSettings} />

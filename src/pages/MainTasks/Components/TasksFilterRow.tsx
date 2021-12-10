@@ -125,7 +125,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             </Form.Group>
           </Form>
           <div className='red'>
-            Fix filter. Fix xp and level up features: compare with task num
+            Fix filter. Fix xp feature: not logging up automatically
           </div>
         </Row>
       </Col>

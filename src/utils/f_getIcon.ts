@@ -3,7 +3,6 @@ import { ICOSTAR } from "./appIcons";
 
 const getIcon = (category: string) => {
   // return category icons
-  // console.log(category)
   const index = TASK_CATEGORIES.findIndex(
     (cat) => cat.toLowerCase() === category.toLowerCase()
   );

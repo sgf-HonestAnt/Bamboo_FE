@@ -39,7 +39,6 @@ const DashAchievCard = (props: DashAchievCardProps) => {
     const ach = e.target.value;
     const congrats = `${username} sent you a ${ach.split("|")[1]}`;
     await attemptPostAchievement(congrats, "congrats", dispatch, list);
-    // console.log(congrats);
   };
   useEffect(() => {
     loadAchievementCard();

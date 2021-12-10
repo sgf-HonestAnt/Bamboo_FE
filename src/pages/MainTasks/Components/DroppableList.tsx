@@ -25,7 +25,6 @@ const DroppableList = (props: DroppableListProps) => {
         <div className='tasks-page__list-title'>{list.title}</div>
         <Droppable droppableId={list.id}>
           {(provided, snapshot) => {
-            // console.log(snapshot)
             return (
               <div
                 {...provided.droppableProps}

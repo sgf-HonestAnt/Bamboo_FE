@@ -15,7 +15,6 @@ const ImageUploader = (props: ImageUploaderProps) => {
   ) => {
     // data for submit
     setImages(imageList as never[]);
-    // console.log(images, imageList, addUpdateIndex);
     handleChangeAvatar(imageList[0]);
   };
   const uploadAvatar = (

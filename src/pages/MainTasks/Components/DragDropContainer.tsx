@@ -41,7 +41,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     destinationStatus: string,
     status: string
   ) => {
-    console.log(draggableId, sourceStatus, destinationStatus, status);
     await attemptUpdateTask(
       draggableId,
       { status },
@@ -77,7 +76,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     }
     // locate start and finish task lists
     const start = initialData.lists.find((l) => l.id === source.droppableId);
-    // console.log("start list=>", start);
     const finish = initialData.lists.find(
       (l) => l.id === destination.droppableId
     );

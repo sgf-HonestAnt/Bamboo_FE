@@ -5,7 +5,7 @@ const attemptLogout = async () => {
   try {
     // end a session, scrubbing refreshToken
     // 💡 when implementing refreshToken again, make sure it is added to the list of used tokens at backend upon logout
-    console.log("🛎️attempt logout!");
+    console.log("🛎️Attempting logout!");
     const url = `${BE_URL}/${USERS}/${SESSION}`;
     const method = DELETE;
     const headers = { Authorization: `Bearer ${token}` };

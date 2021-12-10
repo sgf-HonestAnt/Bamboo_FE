@@ -15,16 +15,6 @@ type FollowingPageProps = {};
 const FollowingPage = (props: FollowingPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  // const { notification } = my_user;
-  // const achievements = state.currentAchievements;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { awaited, in_progress } = tasks;
-  // include search users by username or email
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
   const points = my_user.xp;
   const [show, setShow] = useState(false);
@@ -52,13 +42,19 @@ const FollowingPage = (props: FollowingPageProps) => {
     const xp = e.target.value;
     setGift({ ...gift, xp });
   };
-  console.log(gift);
   return (
     <Row className='following-page p-1'>
       {followedUsers?.length < 1 && <p>NO FOLLOWED USERS!</p>}
       {followedUsers?.map((u, i) => (
         <div key={i} className='following-page__profile-card col-3 m-1'>
-          <ProfileBadge avatar={u.avatar} level={u.level} />
+          <ProfileBadge
+            isMine={false}
+            avatar={u.avatar}
+            level={u.level}
+            total_completed={u.total_completed}
+            total_awaited={u.total_awaited}
+            total_in_progress={u.total_in_progress}
+          />
           {/* <Card.Img variant='top' src={u.avatar} className="following-page__profile-card__avatar"/> */}
           <Card.Title>{u.username}</Card.Title>
           <div>{u.bio}</div>

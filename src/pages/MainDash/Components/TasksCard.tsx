@@ -92,8 +92,8 @@ const DashTasksCard = (props: DashTasksCardProps) => {
         history,
         location,
         dispatch
-      ); 
-      refreshUserLevel(my_user);
+      );
+      refreshUserLevel(my_user, 0, dispatch); // this should be the value of the completed task. not 0...
     } catch (e) {
       console.log(e);
     }

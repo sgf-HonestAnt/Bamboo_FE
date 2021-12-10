@@ -78,13 +78,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const [showOtherRepeat, setShowOtherRepeat] = useState(false);
   const [showShared, setShowShared] = useState(false);
   const [showSharedDropdown, setShowSharedDropdown] = useState(false);
-  // console.log(
-  //   { showNewCat },
-  //   { showRepeatOptions },
-  //   { showOtherRepeat },
-  //   { showShared },
-  //   { showSharedDropdown }
-  // );
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -146,7 +139,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    // console.log(form);
     try {
       const newTask = await attemptPostTask(
         form,
@@ -154,8 +146,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         history,
         location
       );
-      // console.log("CREATED NEW TASK", newTask._id);
-      // console.log("NEW!!=>", newTask);
       dispatch(setNewTask(newTask));
       if (
         !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
@@ -224,7 +214,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     handleClose();
   };
   if (taskId) {
-    console.log(taskId);
+    // console.log(taskId);
   }
   return (
     <Modal show={show} onHide={handleClose}>

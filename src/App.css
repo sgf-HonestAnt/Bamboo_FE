@@ -117,3 +117,19 @@
   top: 0;
   right: 30px;
 }
+.task-badge {
+  border: 1px solid black;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+}
+.task-badge.awaited {
+  background-color: hotpink;
+}
+.task-badge.in-progress {
+  background-color: orange;
+}
+.task-badge.completed {
+  background-color: green;
+}
+

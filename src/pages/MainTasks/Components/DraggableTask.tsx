@@ -49,7 +49,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
-        // console.log(snapshot);
         const taskClass =
           task!.category === URGENT
             ? "tasks-page__list-task urgent"

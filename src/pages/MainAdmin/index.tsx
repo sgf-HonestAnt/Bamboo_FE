@@ -66,10 +66,6 @@ const AdminPage = (props: AdminPageProps) => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  // console.log(form);
-  // console.log("users=>", users);
-  // console.log("tasks=>", tasks);
-  // console.log("notif=>", notifications);
   return !user.admin ? (
     <Container fluid className='admin-page'>
       <Row id='denied'>
@@ -110,7 +106,7 @@ const AdminPage = (props: AdminPageProps) => {
             {form.dropdown === USERS && form.id.length > 0 ? (
               users
                 .filter((u) => u._id === form.id)
-                .map((u, i) => (
+                .map((u, i) => ( 
                   <UsersRow
                     key={i}
                     signedInId={signedInId}
@@ -125,6 +121,7 @@ const AdminPage = (props: AdminPageProps) => {
                     level={u.level}
                     xp={u.xp}
                     total_xp={u.total_xp} 
+                    total_completed={u.total_completed}
                     notification={u.notification}
                     createdAt={u.createdAt}
                     updatedAt={u.updatedAt}
@@ -148,6 +145,7 @@ const AdminPage = (props: AdminPageProps) => {
                   level={u.level}
                   xp={u.xp}
                   total_xp={u.total_xp}
+                  total_completed={u.total_completed}
                   notification={u.notification}
                   createdAt={u.createdAt}
                   updatedAt={u.updatedAt}
