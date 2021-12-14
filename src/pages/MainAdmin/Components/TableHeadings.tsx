@@ -44,7 +44,7 @@ export const TasksTableHeading = (props: TasksTableHeadingProps) => {
         <th>Created By</th>
         <th>Description</th>
         <th>Category</th>
-        <th>Image</th>
+        {/* <th>Image</th> */}
         <th>Value</th>
         <th>Status</th>
         <th>Deadline</th>

@@ -32,6 +32,7 @@ export interface userInt {
   level: number | null;
   xp: number;
   total_xp: number; // total cumulative xp
+  total_completed: number; // total completed tasks
   admin?: boolean;
   notification: string[];
   createdAt: string;
@@ -88,6 +89,9 @@ export interface followedUserInt {
   level: number;
   xp: number;
   total_xp: number;
+  total_completed: number;
+  total_awaited: number;
+  total_in_progress: number;
   achievements: achievementInt[];
 }
 export interface publicUserInt {
@@ -152,5 +156,5 @@ export interface listForBeautifulDnd {
 export interface beautifulDnD {
   tasks: (taskInt | undefined)[];
   lists: listForBeautifulDnd[];
-  listOrder: string[]; 
+  listOrder: string[];
 }

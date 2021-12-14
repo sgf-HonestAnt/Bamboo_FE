@@ -1,4 +1,9 @@
-import { taskInt } from "../../../typings/interfaces";
+import {
+  beautifulDnD,
+  reduxStateInt,
+  taskInt,
+} from "../../../typings/interfaces";
+import { History, Location } from "history";
 import {
   Draggable,
   DraggableProvidedDragHandleProps,
@@ -6,32 +11,30 @@ import {
 import {
   FINANCE,
   FITNESS,
-  HOUSEHOLD,
-  NONE,
-  PETS,
-  RELATIONSHIPS,
-  SHOPPING,
+  SOLO,
   URGENT,
-  WELLBEING,
   WORK,
 } from "../../../utils/appConstants";
 import {
-  ICOEMPTY,
   ICOFINANCE,
   ICOFIT,
-  ICOHOUSE,
-  ICOPETS,
-  ICORELATE,
-  ICOSHOP,
   ICOSTAR,
   ICOURGENT,
-  ICOWELLNESS,
+  ICOUSERS,
   ICOWORK,
 } from "../../../utils/appIcons";
+import { useState } from "react";
+import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import { useAppSelector } from "../../../redux/hooks";
+import { getShortDateAsString } from "../../../utils/f_dates";
 
 type DraggableTaskProps = {
-  task: taskInt | undefined;
+  task: taskInt;
   i: number;
+  initialData: beautifulDnD;
+  setInitialData: any;
+  history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 type HandleProps = {
   dragHandleProps?: DraggableProvidedDragHandleProps | undefined;
@@ -45,36 +48,28 @@ const Handle = (props: HandleProps) => {
   );
 };
 const DraggableTask = (props: DraggableTaskProps) => {
-  const { task, i } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const categories = state.currentTasks.categories;
+  const { task, i, initialData, setInitialData, history, location } = props;
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true);
+  };
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
-        // console.log(snapshot);
-        const taskClass =
-          task!.category === URGENT
-            ? "tasks-page__list-task urgent"
-            : "tasks-page__list-task";
+        const taskClass = `tasks-page__list-task ${task!.status}`;
         const icon =
           task!.category === URGENT ? (
             <ICOURGENT />
-          ) : task!.category === HOUSEHOLD ? (
-            <ICOHOUSE />
-          ) : task!.category === SHOPPING ? (
-            <ICOSHOP />
           ) : task!.category === WORK ? (
             <ICOWORK />
-          ) : task!.category === RELATIONSHIPS ? (
-            <ICORELATE />
           ) : task!.category === FINANCE ? (
             <ICOFINANCE />
           ) : task!.category === FITNESS ? (
             <ICOFIT />
-          ) : task!.category === PETS ? (
-            <ICOPETS />
-          ) : task!.category === WELLBEING ? (
-            <ICOWELLNESS />
-          ) : task!.category === NONE ? (
-            <ICOEMPTY />
           ) : (
             <ICOSTAR />
           );
@@ -90,19 +85,41 @@ const DraggableTask = (props: DraggableTaskProps) => {
             <Handle dragHandleProps={provided.dragHandleProps} />
             <div>
               <div>
-                {icon}
-                <span className='pl-1'>
-                  {task!.title} ({task!.value}XP)
+                <span
+                  onClick={handleShow}
+                  className={`tasks-page__list-task__title ${task!.category}`}>
+                  {icon} {task!.title} ({task!.value}XP)
                 </span>
+                {/* <OpenTaskButton
+                  label={`${task!.title} (${task!.value}XP)`}
+                  handleClick={handleShow}
+                /> */}
               </div>
               <div>
-                {task!.desc}{" "}
-                {task!.sharedWith &&
-                  task!.sharedWith.length > 1 &&
-                  `Shared with ${task!.sharedWith.length - 1} other user${
-                    task!.sharedWith.length - 1 > 1 ? "s" : ""
-                  }`}
+                <span onClick={handleShow}>
+                  {task!.desc} {task!.type === SOLO ? "" : <ICOUSERS />}
+                  {task!.type !== SOLO && ` ${task!.sharedWith!.length} `}
+                </span>
+                {task!.deadline && (
+                  <span>{`${
+                    task!.desc.length > 1 || task!.sharedWith!.length > 1
+                      ? "|"
+                      : ""
+                  } ${getShortDateAsString(task.deadline)}`}</span>
+                )}
               </div>
+              <AddEditTaskModal
+                show={show}
+                handleClose={handleClose}
+                user={my_user}
+                followedUsers={followedUsers}
+                categories={categories}
+                history={history}
+                location={location}
+                initialData={initialData}
+                setInitialData={setInitialData}
+                taskSet={task}
+              />
             </div>
           </div>
         );

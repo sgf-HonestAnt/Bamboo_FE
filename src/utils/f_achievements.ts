@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { setNewAchievement } from "../redux/actions/achievements";
 import { achievementInt } from "../typings/interfaces";
 import { ACHIEVEMENTS, BE_URL, POST } from "./appConstants";
 
@@ -9,11 +8,11 @@ export const attemptPostAchievement = async (
   dispatch: Dispatch<any>,
   achievements: achievementInt[]
 ) => {
+  console.log("🙋Posting New Achievement");
   const token = localStorage.getItem("token");
   try {
     // post an achievement
     // 💡 push achievement to list so it shows up straightaway!
-    console.log("ATTEMPTING TO POST AN ACHIEVEMENT");
     const url = `${BE_URL}/${ACHIEVEMENTS}/me`;
     const method = POST;
     const headers = {
@@ -25,9 +24,7 @@ export const attemptPostAchievement = async (
     const response = await fetch(url, { method, headers, body });
     const responseAsJSON = await response.json();
     if (response.ok) {
-      console.log("NOW LOAD ACHIEVEMENTS", responseAsJSON);
-      // const achievementsList = achievements.push(responseAsJSON);
-      // setNewAchievement(achievementsList);
+      console.log("NOW LOAD ACHIEVEMENTS???", responseAsJSON);
     }
   } catch (error) {
     console.log(error);

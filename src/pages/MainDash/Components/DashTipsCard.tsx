@@ -5,19 +5,20 @@ type DashTipsCardProps = {};
 const DashTipsCard = (props: DashTipsCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { level, total_xp } = my_user;
+  const { username, level, total_xp, total_completed } = my_user;
   const tasks = state.currentTasks;
   const { awaited, in_progress } = tasks;
   const userHasFollows = followedUsers.length > 0;
   const userIsAhead = followedUsers.find((u) => u.level > level!);
   const newLevelApproaching = (total_xp! + 50) / 250 >= level! + 1;
-  console.log(
-    "NEW LEVEL APPROACHING",
-    newLevelApproaching,
-    total_xp! + 50,
-    (total_xp! + 50) / 250
-  );
-  const whyNoTasks = awaited.length + in_progress.length === 0;
+  // console.log(
+  //   "NEW LEVEL APPROACHING",
+  //   newLevelApproaching,
+  //   total_xp! + 50,
+  //   (total_xp! + 50) / 250
+  // );
+  const whyNoTasks =
+    awaited.length + in_progress.length === 0 && total_completed === 0;
   return (
     <div className='dashboard__tips-card m-2'>
       <div className='dashboard__card-header'>Hints</div>
@@ -34,7 +35,7 @@ const DashTipsCard = (props: DashTipsCardProps) => {
         </div>
       ) : newLevelApproaching ? (
         <div>
-          <strong>Gooo, team!</strong> You're just a task or two away from
+          <strong>{username},</strong> you're just a task or two away from
           levelling up. Check your lists and find a task to complete now!
         </div>
       ) : userIsAhead ? (

@@ -25,14 +25,6 @@ const DashboardPage = (props: DashboardPageProps) => {
   const { my_user } = state.currentUser;
   const { notification } = my_user;
   const { history, location } = props;
-  // const achievements = state.currentAchievements;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { awaited, in_progress } = tasks;
   const [search, setSearch] = useState("");
   // ****************************MEDIA********************************************
   // const isDesktopOrLaptop = useMediaQuery({

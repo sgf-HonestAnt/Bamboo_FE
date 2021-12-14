@@ -20,7 +20,6 @@ const NotificationsRow = (props: NotificationsRowProps) => {
     const id = target.value.split(":")[1];
     setForm({ ...form, dropdown, id });
   };
-  // console.log("=>", form.id);
   return (
     <tr>
       <td>

@@ -28,7 +28,6 @@ const DashCalenCard = (props: DashCalenCardProps) => {
     const tasksThisMonth = tasksDueThisMonth.filter(
       (t: taskInt) => t.deadline!.slice(0, 7) === currentMonth
     );
-    // console.log(tasksThisMonth); // this isn't working so well...
     setTasks(tasksThisMonth);
   };
 

@@ -9,6 +9,7 @@ const checkToken = async (
 ) => {
   try {
     // check token still valid. If not, push to "/login"
+    console.log("🙋Checking Token");
     const access = localStorage.getItem("token");
     const url = `${BE_URL}/${USERS}/test`;
     const method = GET;
@@ -17,11 +18,9 @@ const checkToken = async (
     };
     const response = await fetch(url, { method, headers });
     if (response.ok) {
-      console.log("🗝️CHECKED TOKEN");
       const { username } = await response.json();
       return username;
     } else {
-      console.log("⏰TOKEN EXPIRED");
       history.push("/login");
     }
   } catch (e) {

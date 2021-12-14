@@ -1,7 +1,15 @@
 import { History } from "history";
 import { Dispatch } from "redux";
-import { setRefreshToken, setUserBio } from "../redux/actions/user";
-import { userInt } from "../typings/interfaces";
+import {
+  setRefreshToken,
+  setUserBio,
+  setUserLevel,
+  // setUserPoints,
+  setUserPointsAndCompleted,
+  // setUserTotalCompleted,
+  // setUserTotalPoints,
+} from "../redux/actions/user";
+import { followedUserInt, userInt } from "../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -15,6 +23,7 @@ import {
 } from "./appConstants";
 
 export const findUsernameByEmail = async (email: string) => {
+  console.log("🙋Finding Username By Email");
   const url = `${BE_URL}/${USERS}?email=${email}`;
   const method = GET;
   const response = await fetch(url, { method });
@@ -31,7 +40,7 @@ export const attemptLoginUser = async (
   dispatch: Dispatch<any>
 ) => {
   try {
-    console.log("🗝️attempt login!");
+    console.log("🗝️Attempting login!");
     const username = !form.username.includes("@")
       ? form.username
       : await findUsernameByEmail(form.username);
@@ -60,12 +69,12 @@ export const attemptLoginUser = async (
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
+    console.log("🙋Getting Public User Info");
     const url = `${BE_URL}/${USERS}?limit=25`;
     const method = GET;
     const response = await fetch(url, { method });
     if (response.ok) {
       const users = await response.json();
-      // console.log("users=>", users);
       return users;
     }
   } catch (error) {
@@ -74,6 +83,7 @@ export const getUsers = async () => {
 };
 export const getUserByQuery = async (query: string) => {
   try {
+    console.log("🙋Getting User By Email or Username");
     const queryIsEmail = query.includes("@");
     const criteria = queryIsEmail ? `email=${query}` : `username=${query}`;
     const url = `${BE_URL}/${USERS}?${criteria}`;
@@ -81,7 +91,6 @@ export const getUserByQuery = async (query: string) => {
     const response = await fetch(url, { method });
     if (response.ok) {
       const users = await response.json();
-      // console.log("users=>", users);
       return users;
     }
   } catch (error) {
@@ -90,6 +99,7 @@ export const getUserByQuery = async (query: string) => {
 };
 export const getUsersAsAdmin = async (_id: string) => {
   // get all users as admin - all info except refresh token
+  console.log("🙋Getting Users As Admin");
   const token = localStorage.getItem("token");
   try {
     const url =
@@ -104,7 +114,6 @@ export const getUsersAsAdmin = async (_id: string) => {
     if (response.ok) {
       const users = await response.json();
       users.refreshToken = undefined;
-      // console.log("users=>", users);
       return _id.length > 0 ? [users] : users;
     }
   } catch (error) {
@@ -113,6 +122,7 @@ export const getUsersAsAdmin = async (_id: string) => {
 };
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
+  console.log("🙋Getting User Role");
   return !level || level === null || level < 5
     ? "Newbie!"
     : level > 5 && level < 15
@@ -124,6 +134,7 @@ export const getUserRole = (level: number | null) => {
     : "Adept";
 };
 export const clearLastNotification = async (notification: string[]) => {
+  console.log("🙋Clearing Last Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -132,11 +143,8 @@ export const clearLastNotification = async (notification: string[]) => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    // console.log(notification);
     notification.pop();
-    // console.log(notification);
     const body = JSON.stringify({ notification });
-    // console.log(body);
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
       const data = await response.json();
@@ -147,6 +155,7 @@ export const clearLastNotification = async (notification: string[]) => {
   }
 };
 export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
+  console.log("🙋Updating User Bio");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -160,7 +169,7 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
     if (updated) {
       dispatch(setUserBio(bio));
     }
-    return updated; 
+    return updated;
   } catch (error) {
     console.log(error);
   }
@@ -169,6 +178,7 @@ export const AddUserNotification = async (
   user: userInt,
   newNotification: string
 ) => {
+  console.log("🙋Adding User Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -187,6 +197,7 @@ export const AddUserNotification = async (
   }
 };
 export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
+  console.log("🙋Updating My User");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -204,13 +215,13 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
     file && formData.append("avatar", file);
     const updated = await fetch(url, { method, headers, body: formData });
     const updatedAsJSON = await updated.json();
-    // console.log(updatedAsJSON);
     return updatedAsJSON;
   } catch (error) {
     console.log(error);
   }
 };
 export const sendUsersNotification = async (notification: string) => {
+  console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/notification`;
@@ -226,15 +237,39 @@ export const sendUsersNotification = async (notification: string) => {
     console.log(error);
   }
 };
-export const refreshUserLevel = async (user: userInt) => {
+export const refreshUserPoints = async (
+  user: userInt,
+  value: number,
+  dispatch: Dispatch<any>
+) => {
+  console.log("🙋Refreshing User Points");
+  const { total_completed, total_xp, xp } = user;
+  const newTotalCompleted = total_completed + 1;
+  const newTotalPoints = total_xp + value;
+  const newPoints = xp + value;
+  console.log(newTotalCompleted, newPoints, newTotalPoints);
+  dispatch(
+    setUserPointsAndCompleted({
+      ...user,
+      xp: newPoints,
+      total_xp: newTotalPoints,
+      total_completed: newTotalCompleted,
+    })
+  );
+};
+export const refreshUserLevel = async (
+  user: userInt,
+  value: number,
+  dispatch: Dispatch<any>
+) => {
+  console.log("🙋Refreshing User Level");
   const token = localStorage.getItem("token");
   const { username, level, total_xp } = user;
   // each level corresponds to approximately 5 hard tasks (50)
   // for e.g., if we have 500 cumulative xp, level should be 2
   // if we have 550 cumulative xp, level should still be 2
-  if (Math.floor(total_xp! / 250) > level!) {
-    console.log("🕘time to level up", Math.floor(total_xp! / 250));
-    const newLevel = Math.floor(total_xp! / 250);
+  if (Math.floor((total_xp! + value) / 250) > level!) {
+    const newLevel = Math.floor((total_xp! + value) / 250);
     try {
       const url = `${BE_URL}/${USERS}/me`;
       const method = PUT;
@@ -250,6 +285,7 @@ export const refreshUserLevel = async (user: userInt) => {
         `You levelled up to Level ${newLevel}, ${username}!`
       );
       await sendUsersNotification(notification);
+      dispatch(setUserLevel(newLevel));
       return updated;
     } catch (error) {
       console.log(error);
@@ -259,6 +295,7 @@ export const refreshUserLevel = async (user: userInt) => {
   }
 };
 export const acceptOrRejectUser = async (username: string, action: string) => {
+  console.log("🙋Accepting/Rejecting Follow");
   const token = localStorage.getItem("token");
   try {
     const { publicUsers } = await getUserByQuery(username);
@@ -274,6 +311,7 @@ export const acceptOrRejectUser = async (username: string, action: string) => {
   }
 };
 export const attemptDeleteUser = async () => {
+  console.log("🙋Deleting My User");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -285,5 +323,14 @@ export const attemptDeleteUser = async () => {
     return deleted;
   } catch (error) {
     console.log(error);
+  }
+};
+export const getUsernameById = (
+  followedUsers: followedUserInt[],
+  userId: string
+) => {
+  const user = followedUsers.find((user) => user._id === userId);
+  if (user) {
+    return user.username;
   }
 };

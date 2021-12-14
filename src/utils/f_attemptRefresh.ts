@@ -7,6 +7,7 @@ const attemptRefresh = async (
   token: string | undefined
 ) => {
   try {
+    console.log("🙋Refreshing Token");
     // NOT IN USE // NOT IN USE // NOT IN USE
     const url = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
     const method = POST;

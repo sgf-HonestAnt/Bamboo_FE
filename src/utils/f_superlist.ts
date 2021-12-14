@@ -10,6 +10,7 @@ const createSuperlist = async (
   username: string,
   dispatch: Dispatch<any>
 ) => {
+  console.log("🙋Creating Achievement SuperList");
   let super_list: string[] = [];
   let nice: string[] = congrats;
   list.map((ach, i) => {

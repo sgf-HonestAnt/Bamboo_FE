@@ -1,20 +1,29 @@
-import { useState } from "react";
 import { History, Location } from "history";
-import { Modal, Form, Button, Row, Col } from "react-bootstrap";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/hooks";
+import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 import {
   beautifulDnD,
   followedUserInt,
   reduxStateInt,
+  taskInt,
   userInt,
 } from "../typings/interfaces";
-import { setUserLoading } from "../redux/actions/user";
-import { TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
-import { getMinMaxDateAsString } from "../utils/f_dates";
+import {
+  NEVER,
+  NONE,
+  TASK_CATEGORIES,
+  TASK_VALUES,
+} from "../utils/appConstants";
+import { setNewCategory, setNewTask } from "../redux/actions/tasks";
+import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
-import { setNewCategory, setNewTask } from "../redux/actions/tasks";
+import { getUsernameById } from "../utils/f_users";
+import { XButton } from "./Buttons";
+import { ICOUSER } from "../utils/appIcons";
+import { setUserLoading } from "../redux/actions/user";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -27,6 +36,7 @@ type AddEditTaskModalProps = {
   location: Location<unknown>;
   initialData?: beautifulDnD;
   setInitialData?: any;
+  taskSet: taskInt | null;
 };
 type FormProps = {
   title: string;
@@ -54,38 +64,42 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     location,
     initialData,
     setInitialData,
+    taskSet,
   } = props;
+  // console.log(taskSet);
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
-  // console.log(min, max);
   const [form, setForm] = useState<FormProps>({
-    title: "",
-    value: 0,
-    category: "",
+    title: taskSet ? taskSet.title : "",
+    value: taskSet ? taskSet.value : 0,
+    category: taskSet ? taskSet.category : "",
     newCategory: "",
-    desc: " ",
+    desc: taskSet ? taskSet.desc : " ",
     repeated: "no",
-    repeats: "never",
+    repeats: taskSet ? taskSet.repeats : "never",
     repeatsOther: 0,
     repetitions: "0",
     shared: "no",
-    sharedWith: [],
-    deadline: "",
+    sharedWith: taskSet ? taskSet.sharedWith! : [],
+    deadline: taskSet ? taskSet.deadline! : "",
   });
+  // const [sharedUsers, setSharedUsers] = useState<string[]>([])
   const [showNewCat, setShowNewCat] = useState(false);
   const [showRepeat, setShowRepeat] = useState(true);
   const [showRepeatOptions, setShowRepeatOptions] = useState(false);
   const [showOtherRepeat, setShowOtherRepeat] = useState(false);
   const [showShared, setShowShared] = useState(false);
   const [showSharedDropdown, setShowSharedDropdown] = useState(false);
-  // console.log(
-  //   { showNewCat },
-  //   { showRepeatOptions },
-  //   { showOtherRepeat },
-  //   { showShared },
-  //   { showSharedDropdown }
-  // );
+  const removeUserFromShared = (e: {
+    preventDefault: () => void;
+    target: { value: any };
+  }) => {
+    e.preventDefault();
+    const value = e.target.value;
+    const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
+    setForm({ ...form, sharedWith: updatedSharedUsers });
+  };
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -138,8 +152,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowSharedDropdown(true);
       setForm({ ...form, shared: "yes" });
     } else if (id === "sharedWith") {
-      const array = [];
-      array.push(value);
+      const array = form.sharedWith;
+      array.push(value.split("/")[0]);
       setForm({ ...form, sharedWith: array });
     } else {
       setForm({ ...form, [id]: value });
@@ -147,7 +161,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    // console.log(form);
     try {
       const newTask = await attemptPostTask(
         form,
@@ -155,8 +168,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         history,
         location
       );
-      // console.log("CREATED NEW TASK", newTask._id);
-      // console.log("NEW!!=>", newTask);
       dispatch(setNewTask(newTask));
       if (
         !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
@@ -176,6 +187,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         };
         setInitialData(newData);
       }
+      const { repeats, repeatsOther } = form;
       setForm({
         title: "",
         value: 0,
@@ -197,6 +209,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowShared(false);
       setShowSharedDropdown(false);
       handleClose();
+      if (repeatsOther !== 0 || repeats !== "never") {
+        console.log("TRYING TO REFRESH");
+        dispatch(setUserLoading(true));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -225,8 +241,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     handleClose();
   };
   if (taskId) {
-    console.log(taskId);
+    // console.log(taskId);
   }
+  // console.log(taskSet);
+  console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header>
@@ -240,7 +258,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               type='text'
               value={form.title}
-              placeholder='for e.g. "Solve World Hunger"'
+              placeholder={
+                form.title ? form.title : 'for e.g. "Solve World Hunger"'
+              }
               onChange={handleChange}
             />
           </Form.Group>
@@ -252,7 +272,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               as='select'
               onChange={handleChange}
-              defaultValue={"DEFAULT"}
+              defaultValue={taskSet ? taskSet.value : "DEFAULT"}
               aria-describedby='valueHelpBlock'>
               <option value='DEFAULT' disabled>
                 Select a value
@@ -281,19 +301,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 required
                 as='select'
                 onChange={handleChange}
-                defaultValue={"DEFAULT"}>
+                defaultValue={taskSet ? taskSet.category : "DEFAULT"}>
                 <option value='DEFAULT' disabled>
                   Select a category
                 </option>
-                {TASK_CATEGORIES.map((c) => (
-                  <option
-                    key={c}
-                    value={c}
-                    //   selected={form.category === c}
-                  >
-                    {c}
-                  </option>
-                ))}
                 {categories
                   .filter((c) => c !== "none" && !TASK_CATEGORIES.includes(c))
                   .sort()
@@ -308,6 +319,19 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </option>
                     );
                   })}
+                {TASK_CATEGORIES.map((c) => (
+                  <option
+                    key={c}
+                    value={c}
+                    //   selected={form.category === c}
+                  >
+                    {c}
+                  </option>
+                ))}
+                <option value='' disabled>
+                  -------
+                </option>
+                <option value={NONE}>{NONE}</option>
                 <option value='' disabled>
                   -------
                 </option>
@@ -337,11 +361,60 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               as='textarea'
               rows={2}
-              placeholder='for e.g. "Put food before trade, find balance with nature&apos;s systems"'
+              placeholder={
+                taskSet
+                  ? taskSet.desc
+                  : 'for e.g. "Put food before trade, find balance with nature&apos;s systems"'
+              }
               onChange={handleChange}
             />
           </Form.Group>
-          {showRepeat ? (
+          {!taskSet && (
+            <Form.Group controlId='deadline' className='py-2'>
+              <Form.Label>Give it a deadline (optional)</Form.Label>
+              <Form.Control
+                type='date'
+                min={min}
+                max={max}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          )}
+          {taskSet ? (
+            <ul>
+              {taskSet.repeats === NEVER ? (
+                <li>This task is never repeated.</li>
+              ) : (
+                <li>This task is repeated {taskSet.repeats}.</li>
+              )}
+              {taskSet.deadline ? (
+                <li>
+                  This task is due on {getShortDateAsString(taskSet.deadline)}
+                </li>
+              ) : (
+                <li>This task is due any time.</li>
+              )}
+              {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
+                <>
+                  <li>Any edits you make will be shared with</li>
+                  <div className='ml-3'>
+                    {taskSet.sharedWith
+                      .filter((id) => id !== my_user._id)
+                      .map((id, i) => {
+                        const username = getUsernameById(followedUsers, id);
+                        return (
+                          <div key={i}>
+                            <ICOUSER /> {username}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </>
+              ) : (
+                <li>This task is not shared.</li>
+              )}
+            </ul>
+          ) : showRepeat ? (
             <Form.Group controlId='repeated'>
               <Form.Label>Does it repeat?</Form.Label>
               <div className='mb-3'>
@@ -473,17 +546,34 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           ) : showSharedDropdown ? (
             <Form.Group controlId='sharedWith'>
               <Form.Label>Who would you like to share it with?</Form.Label>
+              {form.sharedWith.length > 0 && (
+                <Form.Text>
+                  {form.sharedWith.map((id) => {
+                    const username = getUsernameById(followedUsers, id);
+                    return (
+                      <span className='mr-3' key={id}>
+                        {username}{" "}
+                        <XButton
+                          value={id}
+                          handleClick={removeUserFromShared}
+                        />
+                      </span>
+                    );
+                  })}
+                </Form.Text>
+              )}
               <Form.Control
                 required
                 as='select'
                 onChange={handleChange}
                 aria-describedby='sharedWithHelpBlock'
-                defaultValue={"DEFAULT"}>
+                defaultValue={["DEFAULT"]}
+                multiple>
                 <option value='DEFAULT' disabled>
                   Select a user
                 </option>
                 {followedUsers.map((u) => (
-                  <option key={u._id} value={u._id}>
+                  <option key={u._id} value={`${u._id}/${u.username}`}>
                     {u.username}
                   </option>
                 ))}

@@ -16,6 +16,17 @@ type ButtonProps = {
   value?: string | number;
   variant?: string;
 };
+export const XButton = (props: ButtonProps) => (
+  <>
+    <Button
+      variant='link'
+      className='x-btn'
+      value={props.value}
+      onClick={props.handleClick}>
+      x
+    </Button>
+  </>
+);
 export const RejectButton = (props: ButtonProps) => (
   <Button
     variant='link'
@@ -34,9 +45,7 @@ export const AcceptButton = (props: ButtonProps) => (
 );
 export const LinkButton = (props: ButtonProps) => (
   <Button
-    className={
-      !props.variant ? "m-0 p-0 btn-link" : `btn-${props.variant}`
-    }
+    className={!props.variant ? "m-0 p-0 btn-link" : `btn-${props.variant}`}
     value={props.value}
     onClick={props.handleClick}>
     {props.label}
@@ -60,8 +69,18 @@ export const DeleteButton = (props: ButtonProps) => (
     {props.label} <ICODELETE />
   </Button>
 );
+export const OpenTaskButton = (props: ButtonProps) => (
+  <Button variant='link' className='m-0 p-0' onClick={props.handleClick}>
+    {props.label}
+  </Button>
+);
+export const DeleteTaskButton = (props: ButtonProps) => (
+  <Button variant='link' onClick={props.handleClick}>
+    <ICODELETE />
+  </Button>
+);
 export const AddNewTaskButton = (props: ButtonProps) => (
-  <Button variant='light' className='mb-3 mr-1' onClick={props.handleClick}>
+  <Button variant='light' className='mr-1' onClick={props.handleClick}>
     <FiPlus /> {props.label}
   </Button>
 );

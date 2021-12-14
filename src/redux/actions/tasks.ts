@@ -14,6 +14,7 @@ import {
   ADD_TASK_TO_COMPLETED,
   REMOVE_TASK_FROM_COMPLETED,
   SET_NEW_TASK_CATEGORY,
+  DELETE_TASK,
 } from "../../utils/appConstants";
 import { taskInt } from "../../typings/interfaces";
 
@@ -49,6 +50,12 @@ export const RemTaskFromCompleted = (status: taskInt[]) => ({
   type: REMOVE_TASK_FROM_COMPLETED,
   payload: status,
 });
+// delete if unnecessary
+export const DeleteTask = (completed: taskInt[]) => ({
+  type: DELETE_TASK,
+  payload: completed,
+});
+//
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
   payload: true,

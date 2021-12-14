@@ -59,12 +59,10 @@ const SettingsPage = (props: SettingsPageProps) => {
   const handleChange = (e: { target: { value: any; id: any } }) => {
     const value = e.target.value;
     const id = e.target.id;
-    // console.log(value);
     setForm({ ...form, [id]: value });
   };
   const handleChangeAvatar = (avatar: any) => {
     setNewAvatar(avatar.file);
-    // console.log(newAvatar);
   };
   const handleDispatch = async (updated: userUpdateType) => {
     my_user.avatar !== updated.avatar! &&
@@ -81,7 +79,6 @@ const SettingsPage = (props: SettingsPageProps) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const updated = await attemptUpdateUser(form, newAvatar);
-    // console.log(updated);
     if (updated) {
       await handleDispatch(updated);
       history.push("/dash");
@@ -96,7 +93,6 @@ const SettingsPage = (props: SettingsPageProps) => {
   const handleShow = () => setShow(true);
   const handleDelete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    // console.log("DELETE!");
     const deleted = await attemptDeleteUser();
     if (deleted?.status === 204) {
       history.push("/");
@@ -105,7 +101,6 @@ const SettingsPage = (props: SettingsPageProps) => {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  // console.log("avatar=>", newAvatar);
   return (
     <div className='settings-page'>
       <Card className='col-4 my-3'>
@@ -196,7 +191,7 @@ const SettingsPage = (props: SettingsPageProps) => {
             </div>
           </Form>
           {/* the delete account modal */}
-          <DeleteButton label='Delete Account' handleClick={handleShow} />
+          <DeleteButton label='Delete My Account' handleClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Are you sure?</Modal.Title>
