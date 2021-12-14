@@ -1,15 +1,4 @@
-import {
-  ICOEMPTY,
-  ICOFINANCE,
-  ICOFIT,
-  ICOHOUSE,
-  ICOPETS,
-  ICORELATE,
-  ICOSHOP,
-  ICOURGENT,
-  ICOWELLNESS,
-  ICOWORK,
-} from "./appIcons";
+import { ICOFINANCE, ICOFIT, ICOURGENT, ICOWORK } from "./appIcons";
 // ********** CRUD **********
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
@@ -33,7 +22,7 @@ export const SET_USER_USERNAME = "SET_USER_USERNAME";
 export const SET_USER_BIO = "SET_USER_BIO";
 export const SET_USER_EMAIL = "SET_USER_EMAIL";
 export const SET_USER_LEVEL = "SET_USER_LEVEL";
-export const SET_USER_POINTS_AND_COMPLETED = "SET_USER_POINTS_AND_COMPLETED"
+export const SET_USER_POINTS_AND_COMPLETED = "SET_USER_POINTS_AND_COMPLETED";
 export const SET_USER_POINTS = "SET_USER_POINTS";
 export const SET_USER_POINTS_TOTAL = "SET_USER_POINTS_TOTAL";
 export const SET_USER_COMPLETED_TOTAL = "SET_USER_COMPLETED_TOTAL";
@@ -90,30 +79,8 @@ export const FITNESS = "fitness";
 export const PETS = "pets";
 export const WELLBEING = "wellbeing";
 export const NONE = "none";
-export const TASK_CATEGORIES = [
-  URGENT,
-  // HOUSEHOLD,
-  // SHOPPING,
-  WORK,
-  // RELATIONSHIPS,
-  FINANCE,
-  FITNESS,
-  // PETS,
-  // WELLBEING,
-  // NONE,
-];
-export const TASK_CATEGORY_ICONS = [
-  ICOURGENT,
-  ICOHOUSE,
-  ICOSHOP,
-  ICOWORK,
-  ICORELATE,
-  ICOFINANCE,
-  ICOFIT,
-  ICOPETS,
-  ICOWELLNESS,
-  ICOEMPTY,
-];
+export const TASK_CATEGORIES = [URGENT, WORK, FINANCE, FITNESS];
+export const TASK_CATEGORY_ICONS = [ICOURGENT, ICOWORK, ICOFINANCE, ICOFIT];
 // task repetition
 export const NEVER = "never";
 export const DAILY = "daily";

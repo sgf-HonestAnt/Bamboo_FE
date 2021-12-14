@@ -10,13 +10,24 @@ import {
   taskInt,
   userInt,
 } from "../typings/interfaces";
-import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
-import { setNewCategory, setNewTask } from "../redux/actions/tasks";
-import { getMinMaxDateAsString } from "../utils/f_dates";
+import {
+  NEVER,
+  NONE,
+  TASK_CATEGORIES,
+  TASK_VALUES,
+} from "../utils/appConstants";
+import {
+  fillTasksAction,
+  setNewCategory,
+  setNewTask,
+} from "../redux/actions/tasks";
+import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
 import { getUsernameById } from "../utils/f_users";
 import { XButton } from "./Buttons";
+import { ICOUSER } from "../utils/appIcons";
+import { setUserLoading } from "../redux/actions/user";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -65,18 +76,18 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const { min, max } = getMinMaxDateAsString(new Date());
   // console.log(min, max);
   const [form, setForm] = useState<FormProps>({
-    title: `${taskSet ? taskSet.title : ""}`,
+    title: taskSet ? taskSet.title : "",
     value: taskSet ? taskSet.value : 0,
-    category: `${taskSet ? taskSet.category : ""}`,
+    category: taskSet ? taskSet.category : "",
     newCategory: "",
-    desc: `${taskSet ? taskSet.desc : " "}`,
+    desc: taskSet ? taskSet.desc : " ",
     repeated: "no",
-    repeats: `${taskSet ? taskSet.repeats : "never"}`,
+    repeats: taskSet ? taskSet.repeats : "never",
     repeatsOther: 0,
     repetitions: "0",
     shared: "no",
     sharedWith: taskSet ? taskSet.sharedWith! : [],
-    deadline: "",
+    deadline: taskSet ? taskSet.deadline! : "",
   });
   // const [sharedUsers, setSharedUsers] = useState<string[]>([])
   const [showNewCat, setShowNewCat] = useState(false);
@@ -202,6 +213,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowShared(false);
       setShowSharedDropdown(false);
       handleClose();
+      if (newTask.repeatsOther !== 0) {
+        console.log("TRYING TO REFRESH")
+        dispatch(setUserLoading(true));
+      }
     } catch (error) {
       console.log(error);
     }
@@ -232,6 +247,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
+  // console.log(taskSet);
   console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
@@ -246,7 +262,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               type='text'
               value={form.title}
-              placeholder='for e.g. "Solve World Hunger"'
+              placeholder={
+                form.title ? form.title : 'for e.g. "Solve World Hunger"'
+              }
               onChange={handleChange}
             />
           </Form.Group>
@@ -356,22 +374,39 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
             />
           </Form.Group>
           {taskSet ? (
-            <>
-              <div className='my-2'>
-                This task is repeated: {taskSet.repeats}{" "}
-              </div>
-              {taskSet.sharedWith && taskSet.sharedWith.length > 1 && (
+            <ul>
+              {taskSet.repeats === NEVER ? (
+                <li>This task is never repeated.</li>
+              ) : (
+                <li>This task is repeated {taskSet.repeats}.</li>
+              )}
+              {taskSet.deadline ? (
+                <li>
+                  This task is due on {getShortDateAsString(taskSet.deadline)}
+                </li>
+              ) : (
+                <li>This task is due any time.</li>
+              )}
+              {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
                 <>
-                  <div>Note! Any edits you make will be shared with:</div>
+                  <li>Any edits you make will be shared with</li>
                   <div className='ml-3'>
-                    {taskSet.sharedWith.map((id, i) => {
-                      const username = getUsernameById(followedUsers, id);
-                      return <div key={i}>{username}</div>;
-                    })}
+                    {taskSet.sharedWith
+                      .filter((id) => id !== my_user._id)
+                      .map((id, i) => {
+                        const username = getUsernameById(followedUsers, id);
+                        return (
+                          <div key={i}>
+                            <ICOUSER /> {username}
+                          </div>
+                        );
+                      })}
                   </div>
                 </>
+              ) : (
+                <li>This task is not shared.</li>
               )}
-            </>
+            </ul>
           ) : showRepeat ? (
             <Form.Group controlId='repeated'>
               <Form.Label>Does it repeat?</Form.Label>

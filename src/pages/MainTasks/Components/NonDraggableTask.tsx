@@ -1,38 +1,18 @@
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { useDispatch } from "react-redux";
-import {
-  reduxStateInt,
-  taskInt,
-} from "../../../typings/interfaces";
+import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import {
   AcceptButton,
   DeleteTaskButton,
   RejectButton,
 } from "../../../pages__SharedComponents/Buttons";
+import { FINANCE, FITNESS, URGENT, WORK } from "../../../utils/appConstants";
 import {
-  FINANCE,
-  FITNESS,
-  HOUSEHOLD,
-  NONE,
-  PETS,
-  RELATIONSHIPS,
-  SHOPPING,
-  URGENT,
-  WELLBEING,
-  WORK,
-} from "../../../utils/appConstants";
-import {
-  ICOEMPTY,
   ICOFINANCE,
   ICOFIT,
-  ICOHOUSE,
-  ICOPETS,
-  ICORELATE,
-  ICOSHOP,
   ICOSTAR,
   ICOURGENT,
-  ICOWELLNESS,
   ICOWORK,
 } from "../../../utils/appIcons";
 import {
@@ -75,7 +55,7 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
         // initialData,
         // setInitialData,
         dispatch
-      ); 
+      );
       const newTaskList = taskList.filter((t) => t._id !== task._id);
       setTaskList(newTaskList);
       setShowDeleteMessage(false);
@@ -89,24 +69,12 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
   const icon =
     task!.category === URGENT ? (
       <ICOURGENT />
-    ) : task!.category === HOUSEHOLD ? (
-      <ICOHOUSE />
-    ) : task!.category === SHOPPING ? (
-      <ICOSHOP />
     ) : task!.category === WORK ? (
       <ICOWORK />
-    ) : task!.category === RELATIONSHIPS ? (
-      <ICORELATE />
     ) : task!.category === FINANCE ? (
       <ICOFINANCE />
     ) : task!.category === FITNESS ? (
       <ICOFIT />
-    ) : task!.category === PETS ? (
-      <ICOPETS />
-    ) : task!.category === WELLBEING ? (
-      <ICOWELLNESS />
-    ) : task!.category === NONE ? (
-      <ICOEMPTY />
     ) : (
       <ICOSTAR />
     );

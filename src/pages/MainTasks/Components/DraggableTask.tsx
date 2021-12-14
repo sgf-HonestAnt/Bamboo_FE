@@ -11,30 +11,19 @@ import {
 import {
   FINANCE,
   FITNESS,
-  HOUSEHOLD,
-  NONE,
-  PETS,
-  RELATIONSHIPS,
-  SHOPPING,
+  SOLO,
   URGENT,
-  WELLBEING,
   WORK,
 } from "../../../utils/appConstants";
 import {
-  ICOEMPTY,
   ICOFINANCE,
   ICOFIT,
-  ICOHOUSE,
-  ICOPETS,
-  ICORELATE,
-  ICOSHOP,
   ICOSTAR,
   ICOURGENT,
-  ICOWELLNESS,
+  ICOUSERS,
   ICOWORK,
 } from "../../../utils/appIcons";
 import { useState } from "react";
-import { OpenTaskButton } from "../../../pages__SharedComponents/Buttons";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
 
@@ -68,31 +57,16 @@ const DraggableTask = (props: DraggableTaskProps) => {
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
-        const taskClass =
-          task!.category === URGENT
-            ? "tasks-page__list-task urgent"
-            : "tasks-page__list-task";
+        const taskClass = `tasks-page__list-task ${task!.status}`;
         const icon =
           task!.category === URGENT ? (
             <ICOURGENT />
-          ) : task!.category === HOUSEHOLD ? (
-            <ICOHOUSE />
-          ) : task!.category === SHOPPING ? (
-            <ICOSHOP />
           ) : task!.category === WORK ? (
             <ICOWORK />
-          ) : task!.category === RELATIONSHIPS ? (
-            <ICORELATE />
           ) : task!.category === FINANCE ? (
             <ICOFINANCE />
           ) : task!.category === FITNESS ? (
             <ICOFIT />
-          ) : task!.category === PETS ? (
-            <ICOPETS />
-          ) : task!.category === WELLBEING ? (
-            <ICOWELLNESS />
-          ) : task!.category === NONE ? (
-            <ICOEMPTY />
           ) : (
             <ICOSTAR />
           );
@@ -108,19 +82,21 @@ const DraggableTask = (props: DraggableTaskProps) => {
             <Handle dragHandleProps={provided.dragHandleProps} />
             <div>
               <div>
-                {icon}
-                <OpenTaskButton
+                <span
+                  onClick={handleShow}
+                  className={`tasks-page__list-task__title ${task!.category}`}>
+                  {icon} {task!.title} ({task!.value}XP)
+                </span>
+                {/* <OpenTaskButton
                   label={`${task!.title} (${task!.value}XP)`}
                   handleClick={handleShow}
-                />
+                /> */}
               </div>
               <div>
-                {task!.desc}{" "}
-                {task!.sharedWith &&
-                  task!.sharedWith.length > 1 &&
-                  `Shared with ${task!.sharedWith.length - 1} other user${
-                    task!.sharedWith.length - 1 > 1 ? "s" : ""
-                  }`}
+                <span onClick={handleShow}>
+                  {task!.desc} {task!.type === SOLO ? "" : <ICOUSERS />}
+                  {task!.type !== SOLO && ` ${task!.sharedWith!.length}`}
+                </span>
               </div>
               <AddEditTaskModal
                 show={show}

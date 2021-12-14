@@ -21,7 +21,7 @@ import {
   ICOFIT,
   ICOHOUSE,
   ICOPETS,
-  ICORELATE,
+  ICOUSERS,
   ICOSHOP,
   ICOSTAR,
   ICOURGENT,
@@ -60,7 +60,7 @@ const MiniDraggableTask = (props: MiniDraggableTaskProps) => {
           ) : task!.category === WORK ? (
             <ICOWORK />
           ) : task!.category === RELATIONSHIPS ? (
-            <ICORELATE />
+            <ICOUSERS />
           ) : task!.category === FINANCE ? (
             <ICOFINANCE />
           ) : task!.category === FITNESS ? (

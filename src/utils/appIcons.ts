@@ -40,7 +40,7 @@ import {
   FiTrash2,
   // FiTruck,
   FiUmbrella,
-  // FiUser,
+  FiUser,
   FiUsers,
   // FiUserPlus,
   // FiWatch,
@@ -51,12 +51,13 @@ export const ICOURGENT = FiFlag;
 export const ICOHOUSE = FiHome;
 export const ICOSHOP = FiShoppingCart;
 export const ICOWORK = FiBriefcase;
-export const ICORELATE = FiUsers;
 export const ICOFINANCE = FiUmbrella;
 export const ICOFIT = FiDribbble;
 export const ICOPETS = FaDog;
 export const ICOWELLNESS = FiHeart;
 export const ICOEMPTY = FiMaximize;
+export const ICOUSER = FiUser;
+export const ICOUSERS = FiUsers; 
 // ********** NOTIFICATIONS **********
 export const ICOCHECK = FiCheckSquare;
 export const ICOCROSS = FiXSquare;

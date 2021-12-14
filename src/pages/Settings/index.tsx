@@ -191,7 +191,7 @@ const SettingsPage = (props: SettingsPageProps) => {
             </div>
           </Form>
           {/* the delete account modal */}
-          <DeleteButton label='Delete Account' handleClick={handleShow} />
+          <DeleteButton label='Delete My Account' handleClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
               <Modal.Title>Are you sure?</Modal.Title>

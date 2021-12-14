@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
-import { ICOACTIVITY, ICORELATE } from "../../../utils/appIcons";
+import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../../../pages__SharedComponents/Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/f_users";
 import BambooPoints from "../../../pages__SharedComponents/XP";
@@ -86,7 +86,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         <Link to='/stats'>Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
-        <ICORELATE className='mr-1' />
+        <ICOUSERS className='mr-1' />
         Following: <Link to='/following'>{followedUsers.length}</Link>
       </div>
     </div>
