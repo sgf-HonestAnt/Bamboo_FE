@@ -49,10 +49,7 @@ const MiniDraggableTask = (props: MiniDraggableTaskProps) => {
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
-        const taskClass =
-          task!.category === URGENT
-            ? "miniDnD__list-task urgent"
-            : "miniDnD__list-task";
+        const taskClass = `miniDnD__list-task ${task!.status} ${task!.category}`; 
         const icon =
           task!.category === URGENT ? (
             <ICOURGENT />
@@ -87,12 +84,12 @@ const MiniDraggableTask = (props: MiniDraggableTaskProps) => {
             // className={snapshot.isDragging?'miniDnD__list-task':'miniDnD__list-task__dragging'}
             key={i}>
             <Handle dragHandleProps={provided.dragHandleProps} />
-            <div>
+            <div className="miniDnD__list-task__task-detail">
               <div>
                 {icon}
                 <span className='pl-1'>
-                  {task!.title} ({task!.value}XP)
-                </span> 
+                  {task!.title} ({task!.value}XP) [{task!.status}]
+                </span>
               </div>
               <div>
                 {task!.desc}{" "}

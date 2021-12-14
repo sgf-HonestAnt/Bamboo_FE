@@ -1,8 +1,7 @@
-import { History } from "history";
-import { useState, useEffect } from "react";
+import { History, Location } from "history";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
-import { setUserPoints, setUserTotalPoints } from "../../../redux/actions/user";
 import { DragDropContext } from "react-beautiful-dnd";
 import {
   beautifulDnD,
@@ -10,7 +9,6 @@ import {
   taskInt,
 } from "../../../typings/interfaces";
 import { Row } from "react-bootstrap";
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
 import {
   attemptUpdateTask,
   moveTaskBetweenStatus,
@@ -22,13 +20,15 @@ type DragDropContainerProps = {
   setTaskList: any;
   initialData: beautifulDnD;
   setInitialData: any;
+  history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 const DragDropContainer = (props: DragDropContainerProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const achievements = state.currentAchievements;
   const currentTasks = state.currentTasks;
-  const { taskList, setTaskList, initialData, setInitialData } = props;
+  const { taskList, setTaskList, initialData, setInitialData, history, location } = props;
   const dispatch = useDispatch();
   // const [initialData, setInitialData] = useState<beautifulDnD>({
   //   tasks: [],
@@ -158,8 +158,10 @@ const DragDropContainer = (props: DragDropContainerProps) => {
               tasks={tasks!}
               taskList={taskList}
               setTaskList={setTaskList}
-              // initialData={initialData}
-              // setInitialData={setInitialData}
+              initialData={initialData}
+              setInitialData={setInitialData}
+              history={history}
+              location={location}
             />
           );
         })}

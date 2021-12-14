@@ -65,6 +65,9 @@
   color: red;
   font-family: "Comic Sans MS", "Comic Sans", cursive;
 }
+.yellow {
+  background-color: yellow !important;
+}
 .tiny-round {
   width: 50px;
   height: 50px;
@@ -75,6 +78,11 @@
 .small-button {
   width: 20px;
   height: 20px;
+}
+.btn-link.x-btn {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 0.5px solid black;
+  border-radius: 50%;
 }
 .error-bg {
   background-color: rgba(255, 0, 0, 0.2) !important;
@@ -132,4 +140,3 @@
 .task-badge.completed {
   background-color: green;
 }
-

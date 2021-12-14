@@ -1,6 +1,5 @@
 import { History, Location } from "history";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";

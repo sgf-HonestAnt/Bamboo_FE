@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { setNewAchievement } from "../redux/actions/achievements";
 import { achievementInt } from "../typings/interfaces";
 import { ACHIEVEMENTS, BE_URL, POST } from "./appConstants";
 

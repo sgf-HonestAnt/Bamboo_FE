@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import {
   beautifulDnD,
@@ -16,7 +16,6 @@ import {
   TASK_CATEGORIES,
 } from "../../../utils/appConstants";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
-import { ICOURGENT } from "../../../utils/appIcons";
 
 type TasksFilterRowProps = {
   taskList: taskInt[];
@@ -31,14 +30,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   const { my_user, followedUsers } = state.currentUser;
   const tasks = state.currentTasks;
   const { categories, awaited, in_progress, completed } = tasks;
-  const {
-    taskList,
-    setTaskList,
-    initialData,
-    setInitialData,
-    history,
-    location,
-  } = props;
+  const { setTaskList, initialData, setInitialData, history, location } = props;
   const allTasks = awaited.concat(in_progress, completed);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -72,10 +64,10 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       : setTaskList(filteredTasks);
   };
   return (
-    <Row>
+    <Row className='yellow'>
       <Col sm={12}>
-        <Row>Filter tasks</Row>
-        <Row className='tasks-page__filter-row'>
+        <Row className='m-0 p-1'>Filter tasks</Row>
+        <Row className='tasks-page__filter-row m-0 p-1'>
           <AddNewTaskButton label='Add task' handleClick={handleShow} />
           <AddEditTaskModal
             show={show}
@@ -87,12 +79,13 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             location={location}
             initialData={initialData}
             setInitialData={setInitialData}
+            taskSet={null}
           />{" "}
-          <Button variant='light' className='mb-3 mr-1' onClick={handleReset}>
+          <Button variant='light' className='mr-1' onClick={handleReset}>
             <FiRefreshCcw />
           </Button>
           <Form>
-            <Form.Group controlId='category' className='mb-3 mr-1'>
+            <Form.Group controlId='category' className='mr-1'>
               <Form.Control
                 required
                 as='select'
@@ -123,9 +116,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
               </Form.Control>
             </Form.Group>
           </Form>
-          <div className='red'>
-            Fix filter. Fix xp feature: not logging up automatically
-          </div>
         </Row>
       </Col>
     </Row>

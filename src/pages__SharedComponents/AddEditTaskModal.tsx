@@ -7,6 +7,7 @@ import {
   beautifulDnD,
   followedUserInt,
   reduxStateInt,
+  taskInt,
   userInt,
 } from "../typings/interfaces";
 import { NONE, TASK_CATEGORIES, TASK_VALUES } from "../utils/appConstants";
@@ -14,6 +15,8 @@ import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
+import { getUsernameById } from "../utils/f_users";
+import { XButton } from "./Buttons";
 
 type AddEditTaskModalProps = {
   show: any;
@@ -26,6 +29,7 @@ type AddEditTaskModalProps = {
   location: Location<unknown>;
   initialData?: beautifulDnD;
   setInitialData?: any;
+  taskSet: taskInt | null;
 };
 type FormProps = {
   title: string;
@@ -53,31 +57,43 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     location,
     initialData,
     setInitialData,
+    taskSet,
   } = props;
+  // console.log(taskSet);
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
   // console.log(min, max);
   const [form, setForm] = useState<FormProps>({
-    title: "",
-    value: 0,
-    category: "",
+    title: `${taskSet ? taskSet.title : ""}`,
+    value: taskSet ? taskSet.value : 0,
+    category: `${taskSet ? taskSet.category : ""}`,
     newCategory: "",
-    desc: " ",
+    desc: `${taskSet ? taskSet.desc : " "}`,
     repeated: "no",
-    repeats: "never",
+    repeats: `${taskSet ? taskSet.repeats : "never"}`,
     repeatsOther: 0,
     repetitions: "0",
     shared: "no",
-    sharedWith: [],
+    sharedWith: taskSet ? taskSet.sharedWith! : [],
     deadline: "",
   });
+  // const [sharedUsers, setSharedUsers] = useState<string[]>([])
   const [showNewCat, setShowNewCat] = useState(false);
   const [showRepeat, setShowRepeat] = useState(true);
   const [showRepeatOptions, setShowRepeatOptions] = useState(false);
   const [showOtherRepeat, setShowOtherRepeat] = useState(false);
   const [showShared, setShowShared] = useState(false);
   const [showSharedDropdown, setShowSharedDropdown] = useState(false);
+  const removeUserFromShared = (e: {
+    preventDefault: () => void;
+    target: { value: any };
+  }) => {
+    e.preventDefault();
+    const value = e.target.value;
+    const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
+    setForm({ ...form, sharedWith: updatedSharedUsers });
+  };
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
@@ -130,8 +146,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowSharedDropdown(true);
       setForm({ ...form, shared: "yes" });
     } else if (id === "sharedWith") {
-      const array = [];
-      array.push(value);
+      const array = form.sharedWith;
+      array.push(value.split("/")[0]);
       setForm({ ...form, sharedWith: array });
     } else {
       setForm({ ...form, [id]: value });
@@ -216,6 +232,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
+  console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header>
@@ -241,7 +258,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               as='select'
               onChange={handleChange}
-              defaultValue={"DEFAULT"}
+              defaultValue={taskSet ? taskSet.value : "DEFAULT"}
               aria-describedby='valueHelpBlock'>
               <option value='DEFAULT' disabled>
                 Select a value
@@ -270,7 +287,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 required
                 as='select'
                 onChange={handleChange}
-                defaultValue={"DEFAULT"}>
+                defaultValue={taskSet ? taskSet.category : "DEFAULT"}>
                 <option value='DEFAULT' disabled>
                   Select a category
                 </option>
@@ -330,11 +347,32 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               required
               as='textarea'
               rows={2}
-              placeholder='for e.g. "Put food before trade, find balance with nature&apos;s systems"'
+              placeholder={
+                taskSet
+                  ? taskSet.desc
+                  : 'for e.g. "Put food before trade, find balance with nature&apos;s systems"'
+              }
               onChange={handleChange}
             />
           </Form.Group>
-          {showRepeat ? (
+          {taskSet ? (
+            <>
+              <div className='my-2'>
+                This task is repeated: {taskSet.repeats}{" "}
+              </div>
+              {taskSet.sharedWith && taskSet.sharedWith.length > 1 && (
+                <>
+                  <div>Note! Any edits you make will be shared with:</div>
+                  <div className='ml-3'>
+                    {taskSet.sharedWith.map((id, i) => {
+                      const username = getUsernameById(followedUsers, id);
+                      return <div key={i}>{username}</div>;
+                    })}
+                  </div>
+                </>
+              )}
+            </>
+          ) : showRepeat ? (
             <Form.Group controlId='repeated'>
               <Form.Label>Does it repeat?</Form.Label>
               <div className='mb-3'>
@@ -466,17 +504,34 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           ) : showSharedDropdown ? (
             <Form.Group controlId='sharedWith'>
               <Form.Label>Who would you like to share it with?</Form.Label>
+              {form.sharedWith.length > 0 && (
+                <Form.Text>
+                  {form.sharedWith.map((id) => {
+                    const username = getUsernameById(followedUsers, id);
+                    return (
+                      <span className='mr-3' key={id}>
+                        {username}{" "}
+                        <XButton
+                          value={id}
+                          handleClick={removeUserFromShared}
+                        />
+                      </span>
+                    );
+                  })}
+                </Form.Text>
+              )}
               <Form.Control
                 required
                 as='select'
                 onChange={handleChange}
                 aria-describedby='sharedWithHelpBlock'
-                defaultValue={"DEFAULT"}>
+                defaultValue={["DEFAULT"]}
+                multiple>
                 <option value='DEFAULT' disabled>
                   Select a user
                 </option>
                 {followedUsers.map((u) => (
-                  <option key={u._id} value={u._id}>
+                  <option key={u._id} value={`${u._id}/${u.username}`}>
                     {u.username}
                   </option>
                 ))}

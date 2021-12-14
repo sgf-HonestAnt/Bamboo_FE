@@ -4,7 +4,6 @@ import {
   AddTaskToAwaited,
   AddTaskToCompleted,
   AddTaskToInProgress,
-  loadTasksAction,
   RemTaskFromAwaited,
   RemTaskFromCompleted,
   RemTaskFromInProgress,

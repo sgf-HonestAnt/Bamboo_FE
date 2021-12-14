@@ -1,7 +1,7 @@
 import { Col } from "react-bootstrap";
 import { listForBeautifulDnd, taskInt } from "../../../typings/interfaces";
 import { Droppable } from "react-beautiful-dnd";
-import { COMPLETED } from "../../../utils/appConstants";
+import { AWAITED, IN_PROGRESS, COMPLETED } from "../../../utils/appConstants";
 import MiniDraggableTask from "./MiniDraggableTask";
 import MiniNonDraggableTask from "./MiniNonDraggableTask";
 
@@ -14,19 +14,19 @@ type MiniDroppableListProps = {
 const MiniDroppableList = (props: MiniDroppableListProps) => {
   const { list, tasks, miniTasks, setMiniTasks } = props;
   return (
-    <Col sm={12} className='p-1'>
+    <Col sm={12} className='px-1 py-0'>
       <div
-        className={
+        className={`miniDnD__list ${
           list.title.toLowerCase() === COMPLETED
-            ? "miniDnD__list completed p-2"
-            : "miniDnD__list p-2"
-        }
+            ? COMPLETED
+            : list.title.toLowerCase() === "to do"
+            ? AWAITED
+            : IN_PROGRESS
+        }`}
         id={list.id}>
-        <div className='miniDnD__list-title'>
-          {list.title.toLowerCase() !== COMPLETED
-            ? list.title
-            : "Completed"}
-        </div>
+        {list.title.toLowerCase() === COMPLETED && (
+          <div className='miniDnD__list-title'>Mark As Complete</div>
+        )}
         <Droppable droppableId={list.id}>
           {(provided, snapshot) => {
             return (

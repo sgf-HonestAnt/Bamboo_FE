@@ -69,6 +69,8 @@ const TasksPage = (props: TasksPageProps) => {
         setInitialData={setInitialData}
         taskList={taskList}
         setTaskList={setTaskList}
+        history={history}
+        location={location}
       />
     </Container>
   );

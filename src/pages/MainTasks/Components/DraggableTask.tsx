@@ -1,4 +1,9 @@
-import { taskInt } from "../../../typings/interfaces";
+import {
+  beautifulDnD,
+  reduxStateInt,
+  taskInt,
+} from "../../../typings/interfaces";
+import { History, Location } from "history";
 import {
   Draggable,
   DraggableProvidedDragHandleProps,
@@ -28,10 +33,18 @@ import {
   ICOWELLNESS,
   ICOWORK,
 } from "../../../utils/appIcons";
+import { useState } from "react";
+import { OpenTaskButton } from "../../../pages__SharedComponents/Buttons";
+import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import { useAppSelector } from "../../../redux/hooks";
 
 type DraggableTaskProps = {
   task: taskInt | undefined;
   i: number;
+  initialData: beautifulDnD;
+  setInitialData: any;
+  history: History<unknown> | string[];
+  location: Location<unknown>;
 };
 type HandleProps = {
   dragHandleProps?: DraggableProvidedDragHandleProps | undefined;
@@ -45,7 +58,13 @@ const Handle = (props: HandleProps) => {
   );
 };
 const DraggableTask = (props: DraggableTaskProps) => {
-  const { task, i } = props;
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { my_user, followedUsers } = state.currentUser;
+  const categories = state.currentTasks.categories;
+  const { task, i, initialData, setInitialData, history, location } = props;
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
@@ -90,9 +109,10 @@ const DraggableTask = (props: DraggableTaskProps) => {
             <div>
               <div>
                 {icon}
-                <span className='pl-1'>
-                  {task!.title} ({task!.value}XP)
-                </span>
+                <OpenTaskButton
+                  label={`${task!.title} (${task!.value}XP)`}
+                  handleClick={handleShow}
+                />
               </div>
               <div>
                 {task!.desc}{" "}
@@ -102,6 +122,18 @@ const DraggableTask = (props: DraggableTaskProps) => {
                     task!.sharedWith.length - 1 > 1 ? "s" : ""
                   }`}
               </div>
+              <AddEditTaskModal
+                show={show}
+                handleClose={handleClose}
+                user={my_user}
+                followedUsers={followedUsers}
+                categories={categories}
+                history={history}
+                location={location}
+                initialData={initialData}
+                setInitialData={setInitialData}
+                taskSet={task ? task : null}
+              />
             </div>
           </div>
         );

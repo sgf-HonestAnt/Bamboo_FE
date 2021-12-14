@@ -9,7 +9,7 @@ import {
   // setUserTotalCompleted,
   // setUserTotalPoints,
 } from "../redux/actions/user";
-import { userInt } from "../typings/interfaces";
+import { followedUserInt, userInt } from "../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../typings/types";
 import {
   BE_URL,
@@ -323,5 +323,14 @@ export const attemptDeleteUser = async () => {
     return deleted;
   } catch (error) {
     console.log(error);
+  }
+};
+export const getUsernameById = (
+  followedUsers: followedUserInt[],
+  userId: string
+) => {
+  const user = followedUsers.find((user) => user._id === userId);
+  if (user) {
+    return user.username;
   }
 };

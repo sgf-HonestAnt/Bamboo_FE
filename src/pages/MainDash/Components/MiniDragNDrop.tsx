@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { beautifulDnD, reduxStateInt } from "../../../typings/interfaces";
+import {
+  beautifulDnD,
+  reduxStateInt,
+  taskInt,
+} from "../../../typings/interfaces";
 // import { Form } from "react-bootstrap";
 // import { ICOCIRCLE, ICOCLOCK } from "../../../utils/appIcons";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../../utils/appConstants";
@@ -11,6 +15,7 @@ type MiniDragNDropProps = {
   today: string;
   handleSubmitComplete: any;
   handleChangeCompleted: any;
+  allTasks: taskInt[];
 };
 const MiniDragNDrop = (props: MiniDragNDropProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -162,13 +167,11 @@ const MiniDragNDrop = (props: MiniDragNDropProps) => {
                 // initialData={initialData}
                 // setInitialData={setInitialData}
               />
-              <div>
-                {allTasks.length > 3 ? `+ ${allTasks.length - 3} more` : ""}
-              </div>
             </>
           );
         })}
       </DragDropContext>
+      {allTasks.length > 3 && <div>+ {allTasks.length - 3} more</div>}
     </>
   );
 };
