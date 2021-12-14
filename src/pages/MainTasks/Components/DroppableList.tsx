@@ -21,8 +21,16 @@ type DroppableListProps = {
   location: Location<unknown>;
 };
 const DroppableList = (props: DroppableListProps) => {
-  const { list, tasks, taskList, setTaskList, initialData, setInitialData, history, location } =
-    props;
+  const {
+    list,
+    tasks,
+    taskList,
+    setTaskList,
+    initialData,
+    setInitialData,
+    history,
+    location,
+  } = props;
   return (
     <Col sm={12} md={6} lg={4} className='p-1'>
       <div className='tasks-page__list p-2' id={list.id}>
@@ -39,7 +47,7 @@ const DroppableList = (props: DroppableListProps) => {
                   ? tasks.map((task, i) => (
                       <DraggableTask
                         key={task!._id}
-                        task={task}
+                        task={task!}
                         i={i}
                         initialData={initialData}
                         setInitialData={setInitialData}

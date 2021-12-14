@@ -91,8 +91,9 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
           </span>
           {showDeleteMessage && (
             <div>
-              This task will be deleted. <br />
-              Are you sure?
+              This task will be deleted permanently, although your 'completed' total
+              will not change. <br />
+              Continue? <br />
               <AcceptButton handleClick={handleDelete} />
               <RejectButton handleClick={undoDelete} />
             </div>

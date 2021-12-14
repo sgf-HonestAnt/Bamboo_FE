@@ -26,9 +26,10 @@ import {
 import { useState } from "react";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
+import { getShortDateAsString } from "../../../utils/f_dates";
 
 type DraggableTaskProps = {
-  task: taskInt | undefined;
+  task: taskInt;
   i: number;
   initialData: beautifulDnD;
   setInitialData: any;
@@ -53,7 +54,9 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const { task, i, initialData, setInitialData, history, location } = props;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true);
+  };
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
@@ -95,8 +98,15 @@ const DraggableTask = (props: DraggableTaskProps) => {
               <div>
                 <span onClick={handleShow}>
                   {task!.desc} {task!.type === SOLO ? "" : <ICOUSERS />}
-                  {task!.type !== SOLO && ` ${task!.sharedWith!.length}`}
+                  {task!.type !== SOLO && ` ${task!.sharedWith!.length} `}
                 </span>
+                {task!.deadline && (
+                  <span>{`${
+                    task!.desc.length > 1 || task!.sharedWith!.length > 1
+                      ? "|"
+                      : ""
+                  } ${getShortDateAsString(task.deadline)}`}</span>
+                )}
               </div>
               <AddEditTaskModal
                 show={show}
@@ -108,7 +118,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 location={location}
                 initialData={initialData}
                 setInitialData={setInitialData}
-                taskSet={task ? task : null}
+                taskSet={task}
               />
             </div>
           </div>

@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import { currentFeaturesInt, reduxStateInt, taskInt, userInt } from "../../typings/interfaces";
+import {
+  currentFeaturesInt,
+  reduxStateInt,
+  taskInt,
+  userInt,
+} from "../../typings/interfaces";
 import { getUsersAsAdmin } from "../../utils/f_users";
 import AdminNavbar from "./Components/AdminNavbar";
 import {
@@ -15,7 +20,6 @@ import { getAllTasks } from "../../utils/f_tasks";
 import TasksRow from "./Components/TasksRow";
 import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
 import NotificationsRow from "./Components/NotificationsRow";
-// import { Link } from "react-router-dom";
 import { ICOURGENT } from "../../utils/appIcons";
 import { useAppSelector } from "../../redux/hooks";
 
@@ -28,15 +32,6 @@ type AdminPageProps = {
 const AdminPage = (props: AdminPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
-  // const { notification } = my_user;
-  // const achievements = state.currentAchievements;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { awaited, in_progress } = tasks;
   // include search users by username or email
   const { user, location } = props;
   const signedInId = my_user._id;
@@ -61,7 +56,7 @@ const AdminPage = (props: AdminPageProps) => {
   };
   useEffect(() => {
     loadAdmin();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     console.log(location.pathname);
@@ -106,7 +101,7 @@ const AdminPage = (props: AdminPageProps) => {
             {form.dropdown === USERS && form.id.length > 0 ? (
               users
                 .filter((u) => u._id === form.id)
-                .map((u, i) => ( 
+                .map((u, i) => (
                   <UsersRow
                     key={i}
                     signedInId={signedInId}
@@ -120,7 +115,7 @@ const AdminPage = (props: AdminPageProps) => {
                     avatar={u.avatar}
                     level={u.level}
                     xp={u.xp}
-                    total_xp={u.total_xp} 
+                    total_xp={u.total_xp}
                     total_completed={u.total_completed}
                     notification={u.notification}
                     createdAt={u.createdAt}
@@ -167,7 +162,7 @@ const AdminPage = (props: AdminPageProps) => {
                     repeats={t.repeats}
                     type={t.type}
                     status={t.status}
-                    value={t.value} 
+                    value={t.value}
                     createdBy={t.createdBy}
                     deadline={t.deadline}
                     _v={t._v}

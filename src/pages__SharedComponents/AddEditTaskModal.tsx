@@ -16,11 +16,7 @@ import {
   TASK_CATEGORIES,
   TASK_VALUES,
 } from "../utils/appConstants";
-import {
-  fillTasksAction,
-  setNewCategory,
-  setNewTask,
-} from "../redux/actions/tasks";
+import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
@@ -74,7 +70,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const { min, max } = getMinMaxDateAsString(new Date());
-  // console.log(min, max);
   const [form, setForm] = useState<FormProps>({
     title: taskSet ? taskSet.title : "",
     value: taskSet ? taskSet.value : 0,
@@ -192,6 +187,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         };
         setInitialData(newData);
       }
+      const { repeats, repeatsOther } = form;
       setForm({
         title: "",
         value: 0,
@@ -213,8 +209,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       setShowShared(false);
       setShowSharedDropdown(false);
       handleClose();
-      if (newTask.repeatsOther !== 0) {
-        console.log("TRYING TO REFRESH")
+      if (repeatsOther !== 0 || repeats !== "never") {
+        console.log("TRYING TO REFRESH");
         dispatch(setUserLoading(true));
       }
     } catch (error) {
@@ -373,6 +369,17 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               onChange={handleChange}
             />
           </Form.Group>
+          {!taskSet && (
+            <Form.Group controlId='deadline' className='py-2'>
+              <Form.Label>Give it a deadline (optional)</Form.Label>
+              <Form.Control
+                type='date'
+                min={min}
+                max={max}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          )}
           {taskSet ? (
             <ul>
               {taskSet.repeats === NEVER ? (

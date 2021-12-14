@@ -1,7 +1,10 @@
 import { Button } from "react-bootstrap";
 import { taskInt } from "../../../typings/interfaces";
 import { ICODOWNRIGHT } from "../../../utils/appIcons";
-import { DeleteButton, EditButton } from "../../../pages__SharedComponents/Buttons";
+import {
+  DeleteButton,
+  EditButton,
+} from "../../../pages__SharedComponents/Buttons";
 import { USERS } from "../../../utils/appConstants";
 
 interface TasksRowProps extends taskInt {
@@ -33,7 +36,7 @@ const TasksRow = (props: TasksRowProps) => {
         onClick={() => {
           navigator.clipboard.writeText(props._id);
         }}>
-        <div className="overflow">{props._id}</div>
+        <div className='overflow'>{props._id}</div>
         <div className='text-tinycaps'>copy</div>
       </td>
       <td>{props.title}</td>
@@ -46,12 +49,12 @@ const TasksRow = (props: TasksRowProps) => {
           <ICODOWNRIGHT />
         </Button>
       </td>
-      <td>{props.desc}</td>
+      <td>{props.desc.length > 1 ? props.desc : "..."}</td>
       <td>{props.category} </td>
-      <td>
+      {/* <td>
         <img src={props.image} alt='' className='admin-page__table__img' />
-      </td>
-      <td>{props.value}</td>
+      </td> */}
+      <td>{props.value}XP</td>
       <td>{props.status}</td>
       <td>{props.deadline ? props.deadline.slice(0, 10) : "none"}</td>
     </tr>
