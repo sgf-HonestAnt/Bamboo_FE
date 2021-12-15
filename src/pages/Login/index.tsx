@@ -8,12 +8,15 @@ import "./styles.css";
 
 const LoginPage = ({ history, location }: RouteComponentProps) => {
   const dispatch = useDispatch();
+  const [showFailed, setShowFailed] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
+  const formClass = showFailed ? "login-form__failed-text" : "";
   const handleChange = async (e: {
     preventDefault: () => void;
     target: { id: any; value: any };
   }) => {
     e.preventDefault();
+    setShowFailed(false);
     const { id, value } = e.target;
     setForm({
       ...form,
@@ -22,8 +25,12 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await attemptLoginUser(form, history, dispatch);
-    history.push("/");
+    const loggedIn = await attemptLoginUser(form, history, dispatch);
+    if (loggedIn) {
+      history.push("/");
+    } else {
+      setShowFailed(true);
+    }
   };
   useEffect(() => {
     console.log(location.pathname); // "/login"
@@ -44,6 +51,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
                   value={form.username}
                   placeholder='Enter email or username'
                   onChange={handleChange}
+                  className={formClass}
                 />
               </Col>
             </Form.Group>
@@ -57,12 +65,17 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
                   value={form.password}
                   placeholder='Enter password'
                   onChange={handleChange}
+                  className={formClass}
                 />
               </Col>
             </Form.Group>
-            <Form.Group>
-              <Link to='/register'>Register instead</Link>{" "}
-            </Form.Group>
+            {showFailed ? (
+              <div className='my-2 login-form__failed-text'>Login failed.</div>
+            ) : (
+              <div>
+                <Link to='/register'>Register instead?</Link>
+              </div>
+            )}
             <SubmitButton />
           </Form>
         </Col>

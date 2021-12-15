@@ -9,3 +9,9 @@
 .login-form__col {
   text-align: left;
 }
+.login-form__failed-text {
+  color: red;
+}
+.form-control.login-form__failed-text {
+  color: red !important;
+}

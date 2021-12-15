@@ -20,7 +20,7 @@ import { setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
 import { attemptPostTask } from "../utils/f_tasks";
 import BambooPoints from "./XP";
-import { getUsernameById } from "../utils/f_users";
+import { getAvatarById, getUsernameById } from "../utils/f_users";
 import { XButton } from "./Buttons";
 import { ICOUSER } from "../utils/appIcons";
 import { setUserLoading } from "../redux/actions/user";
@@ -69,8 +69,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   // console.log(taskSet);
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
+  const avatar =
+    taskSet && taskSet.createdBy !== my_user._id
+      ? getAvatarById(followedUsers, taskSet.createdBy)
+      : my_user.avatar;
   const { min, max } = getMinMaxDateAsString(new Date());
-  const [form, setForm] = useState<FormProps>({
+  const defaultForm = {
     title: taskSet ? taskSet.title : "",
     value: taskSet ? taskSet.value : 0,
     category: taskSet ? taskSet.category : "",
@@ -83,7 +87,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     shared: "no",
     sharedWith: taskSet ? taskSet.sharedWith! : [],
     deadline: taskSet ? taskSet.deadline! : "",
-  });
+  };
+  const [form, setForm] = useState<FormProps>(defaultForm);
+  const [changed, setChanged] = useState(false);
   // const [sharedUsers, setSharedUsers] = useState<string[]>([])
   const [showNewCat, setShowNewCat] = useState(false);
   const [showRepeat, setShowRepeat] = useState(true);
@@ -103,6 +109,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
+    setChanged(true);
     if (id === "category" && value === "new") {
       setShowNewCat(true);
       setForm({ ...form, [id]: value });
@@ -188,20 +195,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         setInitialData(newData);
       }
       const { repeats, repeatsOther } = form;
-      setForm({
-        title: "",
-        value: 0,
-        category: "",
-        newCategory: "",
-        desc: " ",
-        repeated: "no",
-        repeats: "never",
-        repeatsOther: 0,
-        repetitions: "0",
-        shared: "no",
-        sharedWith: [],
-        deadline: "",
-      });
+      setForm(defaultForm);
+      setChanged(false);
       setShowNewCat(false);
       setShowRepeat(true);
       setShowRepeatOptions(false);
@@ -216,6 +211,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleDelete = () => {
+    console.log("OK");
   };
   const handleCloseModal = () => {
     setForm({
@@ -394,6 +392,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               ) : (
                 <li>This task is due any time.</li>
               )}
+              <li>
+                <img src={avatar} alt='' className='x-tiny-round' />
+                {taskSet.createdBy !== my_user._id
+                  ? getUsernameById(followedUsers, taskSet.createdBy)
+                  : "You"}{" "}
+                created this task.
+              </li>
               {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
                 <>
                   <li>Any edits you make will be shared with</li>
@@ -588,11 +593,28 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
             <></>
           )}
         </Form>
+        <Button variant='secondary' onClick={handleDelete}>
+          Delete task
+        </Button>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='primary' onClick={handleSubmit}>
-          Save task
-        </Button>
+        {taskSet && !changed ? (
+          <Button variant='primary' onClick={handleSubmit} disabled>
+            Edit task
+          </Button>
+        ) : taskSet ? (
+          <Button variant='primary' onClick={handleSubmit}>
+            Edit task
+          </Button>
+        ) : !changed ? (
+          <Button variant='primary' onClick={handleSubmit} disabled>
+            Save task
+          </Button>
+        ) : (
+          <Button variant='primary' onClick={handleSubmit}>
+            Save task
+          </Button>
+        )}
         <Button variant='secondary' onClick={handleCloseModal}>
           Go back
         </Button>
