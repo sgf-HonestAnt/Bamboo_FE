@@ -10,6 +10,9 @@ import {
   // getMinMaxDateAsString,
 } from "../../../utils/f_dates";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import UrgentTasks from "./UrgentTasks";
+import { Row, Col } from "react-bootstrap";
+import TodayTasks from "./TodayTasks";
 // import MiniDragNDrop from "./MiniDragNDrop";
 
 type DashTasksCardProps = {
@@ -111,15 +114,23 @@ const DashTasksCard = (props: DashTasksCardProps) => {
           <AddNewTaskButton label='Add task' handleClick={handleShow} />
         </>
       ) : (
-        <>
+        <Row>
           {/* <MiniDragNDrop
             today={today}
             handleSubmitComplete={handleSubmitComplete}
             handleChangeCompleted={handleChangeCompleted}
             allTasks={allTasks}
           /> */}
-          <AddNewTaskButton label='Add task' handleClick={handleShow} />
-        </>
+          <Col sm={6}>
+            <UrgentTasks />
+          </Col>
+          <Col sm={6}>
+            <TodayTasks />
+          </Col>
+          <Col sm={6}>
+            <AddNewTaskButton label='Add task' handleClick={handleShow} />
+          </Col>
+        </Row>
       )}
       <AddEditTaskModal
         show={show}

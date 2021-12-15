@@ -36,7 +36,7 @@ import {
   // FiSliders,
   FiSmile,
   FiStar,
-  // FiSun,
+  FiSun,
   FiTrash2,
   // FiTruck,
   FiUmbrella,
@@ -64,6 +64,7 @@ export const ICOCROSS = FiXSquare;
 export const ICOSMILE = FiSmile;
 export const ICOROTATE = FiRotateCcw;
 // ********** GENERAL **********
+export const ICOSUN = FiSun;
 export const ICOSAVE = FiSave;
 export const ICOACTIVITY = FiActivity;
 export const ICOCLOCK = FiClock;
