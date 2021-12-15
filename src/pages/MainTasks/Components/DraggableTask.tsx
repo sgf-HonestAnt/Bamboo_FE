@@ -23,7 +23,7 @@ import {
   ICOUSERS,
   ICOWORK,
 } from "../../../utils/appIcons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
 import { getShortDateAsString } from "../../../utils/f_dates";
@@ -57,6 +57,9 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const handleShow = () => {
     setShow(true);
   };
+  useEffect(() => {
+    setShow(false);
+  }, [initialData]);
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
@@ -97,9 +100,14 @@ const DraggableTask = (props: DraggableTaskProps) => {
               </div>
               <div>
                 <span onClick={handleShow}>
-                  {task!.desc} {task!.type === SOLO ? "" : <ICOUSERS />}
-                  {task!.type !== SOLO && ` ${task!.sharedWith!.length} `}
-                </span>
+                  {task!.desc}{" "}
+                  {task!.type === SOLO || task!.sharedWith!.length < 2 ? (
+                    ""
+                  ) : (
+                    <ICOUSERS />
+                  )}
+                  {task!.sharedWith!.length > 1 && task!.sharedWith!.length}
+                </span> 
                 {task!.deadline && (
                   <span>{`${
                     task!.desc.length > 1 || task!.sharedWith!.length > 1

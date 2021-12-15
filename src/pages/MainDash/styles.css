@@ -103,6 +103,10 @@
   font-size: 80%;
   font-weight: 400;
 }
+.dashboard__tasks-card__task-box {
+  border: 1px solid black;
+  border-radius: 5px;
+}
 .dashboard__tasks-card__tasks {
   display: flex;
 }

@@ -13,6 +13,8 @@ import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal"
 import UrgentTasks from "./UrgentTasks";
 import { Row, Col } from "react-bootstrap";
 import TodayTasks from "./TodayTasks";
+import TotalTasks from "./TotalTasks";
+import CompletedTasks from "./CompletedTasks";
 // import MiniDragNDrop from "./MiniDragNDrop";
 
 type DashTasksCardProps = {
@@ -114,23 +116,29 @@ const DashTasksCard = (props: DashTasksCardProps) => {
           <AddNewTaskButton label='Add task' handleClick={handleShow} />
         </>
       ) : (
-        <Row>
-          {/* <MiniDragNDrop
+        <>
+          <Row>
+            {/* <MiniDragNDrop
             today={today}
             handleSubmitComplete={handleSubmitComplete}
             handleChangeCompleted={handleChangeCompleted}
             allTasks={allTasks}
           /> */}
-          <Col sm={6}>
-            <UrgentTasks />
-          </Col>
-          <Col sm={6}>
-            <TodayTasks />
-          </Col>
-          <Col sm={6}>
-            <AddNewTaskButton label='Add task' handleClick={handleShow} />
-          </Col>
-        </Row>
+            <Col sm={6}>
+              <UrgentTasks />
+            </Col>
+            <Col sm={6}>
+              <TodayTasks />
+            </Col>
+            <Col sm={6}>
+              <TotalTasks />
+            </Col>
+            <Col sm={6}>
+              <CompletedTasks />
+            </Col>
+          </Row>
+          <AddNewTaskButton label='Add task' handleClick={handleShow} />
+        </>
       )}
       <AddEditTaskModal
         show={show}

@@ -22,6 +22,7 @@ import {
   WORK,
   FINANCE,
   FITNESS,
+  TEAM,
 } from "../utils/appConstants";
 import { EditTask, setNewCategory, setNewTask } from "../redux/actions/tasks";
 import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
@@ -301,17 +302,56 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const handleDelete = () => {
     setShowWarning(true);
   };
+  const removeTaskFromInitialData = async () => {
+    if (initialData) {
+      console.log(initialData);
+      const updatedInitialDataTasks = initialData.tasks.filter(
+        (task) => task?._id !== taskSet!._id
+      );
+      console.log("updated data.tasks=>", updatedInitialDataTasks);
+      const listIndex = initialData.lists.findIndex(
+        (list) => list.id === taskSet!.status
+      );
+      console.log("index=>", listIndex);
+      const indexedList = initialData.lists[listIndex];
+      console.log("list=>", indexedList);
+      const updatedTaskIds = indexedList.taskIds.filter(
+        (id) => id !== taskSet!._id
+      );
+      console.log(
+        "updated taskIds=>",
+        updatedTaskIds,
+        "should not include=>",
+        taskSet!._id
+      );
+      const updatedList = {
+        ...indexedList,
+        taskIds: updatedTaskIds,
+      };
+      console.log("Updated list=>", updatedList);
+      const updatedInitialDataLists = initialData.lists 
+      updatedInitialDataLists[listIndex] = updatedList
+      console.log("updatedInitialDataLists=>", updatedInitialDataLists);
+      const newData = {
+        ...initialData,
+        tasks: [...updatedInitialDataTasks!],
+        lists: [...updatedInitialDataLists!],
+      };
+      console.log(newData);
+      setInitialData(newData);
+    }
+  };
   const deleteTask = async () => {
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
-      dispatch(setUserLoading(true)); // 👈HERE!
+      await removeTaskFromInitialData();
       handleClose();
     }
   };
   const removeSelf = async () => {
     if (taskSet) {
       await removeSelfFromTask(taskSet._id, currentTasks, dispatch);
-      dispatch(setUserLoading(true)); // 👈HERE!
+      await removeTaskFromInitialData();
       handleClose();
     }
   };
@@ -565,6 +605,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         You will only accrue Bamboo Points if you complete it.
                       </li>
                     </>
+                  ) : taskSet.type === TEAM ? (
+                    <li>This task is no longer shared because other users have removed themselves.</li>
                   ) : (
                     <li>This task is not shared.</li>
                   )}

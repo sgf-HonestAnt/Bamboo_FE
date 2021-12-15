@@ -1,20 +1,21 @@
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
-import { URGENT } from "../../../utils/appConstants";
-import { ICOURGENT } from "../../../utils/appIcons";
 
-const UrgentTasks = () => {
+const TotalTasks = () => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const tasks = state.currentTasks;
+  const { total_completed } = state.currentUser.my_user;
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
-  const numOfUrgentTasks = allTasks.filter((task) => task.category === URGENT).length
+  const numOfTotalTasks = allTasks.length;
   return (
     <div className="m-2 p-1 dashboard__tasks-card__task-box">
-      <ICOURGENT />
-      {numOfUrgentTasks} urgent task{numOfUrgentTasks===1?"":"s"}
+      {/* <ICOURGENT /> */}
+      you currently have {numOfTotalTasks} task{numOfTotalTasks === 1 ? "" : "s"} to complete:<br />
+      {awaited.length} awaited, {in_progress.length} in progress
+      {/* ({total_completed} completed) */}
     </div>
   );
 };
 
-export default UrgentTasks;
+export default TotalTasks;
