@@ -20,12 +20,12 @@ import { taskUpdateType } from "../typings/types";
 import {
   BE_URL,
   GET,
-  POST,
   PUT,
   TASKS,
   COMPLETED,
   ME,
   DELETE,
+  POST,
 } from "./appConstants";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
@@ -136,20 +136,21 @@ export const getTasksPageTasksQuery = async (criteria: string) => {
     console.log(error);
   }
 };
-export const attemptPostTask = async (
+export const attemptPostOrEditTask = async (
   // post new task
   form: setTaskInt,
   refreshToken: string | undefined,
+  method: string,
+  t_id: string | null,
   history: string[] | History<unknown>,
   location: Location<unknown> | undefined
 ) => {
   try {
-    console.log("✏️Posting New Task");
+    console.log("✏️Posting or Editing New Task");
     const token = localStorage.getItem("token");
     const username = await checkToken(refreshToken, history, location);
     if (username) {
-      const url = `${BE_URL}/${TASKS}/${ME}`;
-      const method = POST;
+      const url = method === POST ? `${BE_URL}/${TASKS}/${ME}` : `${BE_URL}/${TASKS}/${ME}/${t_id}`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
