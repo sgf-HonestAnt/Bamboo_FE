@@ -32,7 +32,7 @@ const DroppableList = (props: DroppableListProps) => {
     location,
   } = props;
   return (
-    <Col sm={12} md={6} lg={4} className='p-1'>
+    <Col sm={12} md={6} lg={4} className='p-1'> {/* 🔨 FIX NEEDED: tasks should be in date order */}
       <div className='tasks-page__list p-2' id={list.id}>
         <div className='tasks-page__list-title'>{list.title}</div>
         <Droppable droppableId={list.id}>

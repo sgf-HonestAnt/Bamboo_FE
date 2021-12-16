@@ -30,6 +30,7 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
+  console.log("FIX NEEDED ON ADMINPAGE") // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email

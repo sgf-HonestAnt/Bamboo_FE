@@ -51,16 +51,17 @@ export const attemptLoginUser = async (
     const body = JSON.stringify({ username, password });
     const response = await fetch(url, { method, headers, body });
     if (response.ok) {
-      const { accessToken, refreshToken } = await response.json();
+      const responseAsJSON = await response.json();
+      const { accessToken, refreshToken } = responseAsJSON;
       if (refreshToken) {
         dispatch(setRefreshToken(refreshToken));
       }
       if (accessToken) {
         localStorage.setItem("token", accessToken);
       }
+      return responseAsJSON
     } else {
       console.log("😥TROUBLE LOGGING IN");
-      history.push("/login");
     }
   } catch (error) {
     console.log(error);
@@ -332,5 +333,14 @@ export const getUsernameById = (
   const user = followedUsers.find((user) => user._id === userId);
   if (user) {
     return user.username;
+  }
+};
+export const getAvatarById = (
+  followedUsers: followedUserInt[],
+  userId: string
+) => {
+  const user = followedUsers.find((user) => user._id === userId);
+  if (user) {
+    return user.avatar;
   }
 };

@@ -12,6 +12,7 @@ type ProfileBadgeProps = {
   total_in_progress?: number;
 };
 const ProfileBadge = (props: ProfileBadgeProps) => {
+  console.log("FIX NEEDED ON PROFILEBADGE") // 🔨 FIX NEEDED: STYLING
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const {
     isMine,

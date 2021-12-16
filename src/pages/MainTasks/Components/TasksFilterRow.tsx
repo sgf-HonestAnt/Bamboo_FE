@@ -12,10 +12,17 @@ import { AddNewTaskButton } from "../../../pages__SharedComponents/Buttons";
 import {
   ANY_CAT,
   ANY_DUE,
+  ANY_TYPE,
   ANY_VAL,
+  TASKS_TO_SHOW,
   TASK_CATEGORIES,
+  TASK_TYPES,
+  TASK_VALUE_NUMS,
+  TODAY,
+  TOMORROW,
 } from "../../../utils/appConstants";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
+import { getSelectedDateAsString } from "../../../utils/f_dates";
 
 type TasksFilterRowProps = {
   taskList: taskInt[];
@@ -24,49 +31,68 @@ type TasksFilterRowProps = {
   setInitialData: any;
   history: History<unknown> | string[];
   location: Location<unknown>;
+  filter: any;
+  setFilter: any;
 };
 const TasksFilterRow = (props: TasksFilterRowProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const tasks = state.currentTasks;
   const { categories, awaited, in_progress, completed } = tasks;
-  const { setTaskList, initialData, setInitialData, history, location } = props;
+  const {
+    setTaskList,
+    initialData,
+    setInitialData,
+    history,
+    location,
+    filter,
+    setFilter,
+    // query,
+    // setQuery,
+  } = props;
   const allTasks = awaited.concat(in_progress, completed);
+  const [selectDate, setSelectDate] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [filter, setFilter] = useState({
-    dueDate: ANY_DUE,
-    category: ANY_CAT,
-    value: ANY_VAL,
-  });
-  // console.log(filter);
   const handleReset = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setTaskList(allTasks);
     setFilter({
-      dueDate: ANY_DUE,
-      category: ANY_CAT,
-      value: ANY_VAL,
+      due: ANY_DUE,
+      cat: ANY_CAT,
+      val: ANY_VAL,
+      type: ANY_TYPE,
     });
+    setSelectDate(false);
+    // 🔨 FIX NEEDED: DOES NOT RESET FORM
   };
   const handleChange = async (e: { target: { id: any; value: any } }) => {
     // add dropdown category for date (Any, Overdue, Due Today, Due Tomorrow, No Due Date) and value (Any, ...values)
     const id = e.target.id;
     const value = e.target.value;
-    setFilter({ ...filter, [id]: value });
-    console.log("ATTEMPTING HANDLECHANGE", id, value);
-    const filteredTasks = allTasks.filter(
-      (t) => t!.category.toLowerCase() === `${value.toLowerCase()}`
-    );
-    filter.category === ANY_CAT
-      ? setTaskList(allTasks)
-      : setTaskList(filteredTasks);
+    if (id !== "due") {
+      await setFilter({ ...filter, [id]: value });
+    } else {
+      if (value === TODAY) {
+        const today = getSelectedDateAsString(new Date());
+        await setFilter({ ...filter, [id]: today });
+      } else if (value === TOMORROW) {
+        const today = new Date();
+        const newToday = new Date(today);
+        newToday.setDate(newToday.getDate() + 1);
+        const tomorrow = getSelectedDateAsString(newToday);
+        await setFilter({ ...filter, [id]: tomorrow });
+      } else if (value === "Select date") {
+        setSelectDate(true);
+      } else {
+        await setFilter({ ...filter, [id]: value });
+      }
+    }
   };
   return (
-    <Row className='yellow'>
+    <Row className='pt-4'>
       <Col sm={12}>
-        <Row className='m-0 p-1'>Filter tasks</Row>
         <Row className='tasks-page__filter-row m-0 p-1'>
           <AddNewTaskButton label='Add task' handleClick={handleShow} />
           <AddEditTaskModal
@@ -85,13 +111,12 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             <FiRefreshCcw />
           </Button>
           <Form>
-            <Form.Group controlId='category' className='mr-1'>
+            <Form.Group controlId='cat' className='mr-1'>
               <Form.Control
-                required
                 as='select'
                 defaultValue={ANY_CAT}
                 onChange={handleChange}>
-                <option value={ANY_CAT}>{ANY_CAT}</option>
+                <option value={ANY_CAT}>Filter by Category</option>
                 <option value='' disabled>
                   ---
                 </option>
@@ -115,6 +140,70 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                 ))}
               </Form.Control>
             </Form.Group>
+            <Form.Group controlId='val' className='mr-1'>
+              <Form.Control
+                as='select'
+                defaultValue={ANY_VAL}
+                onChange={handleChange}>
+                <option value={ANY_VAL}>Filter by Value</option>
+                <option value='' disabled>
+                  ---
+                </option>
+                {/* PRE-SET VALUES */}
+                {TASK_VALUE_NUMS.map((value, i) => {
+                  return (
+                    <option key={i} value={value}>
+                      {value}XP
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId='type' className='mr-1'>
+              <Form.Control
+                as='select'
+                defaultValue={ANY_TYPE}
+                onChange={handleChange}>
+                <option value={ANY_TYPE}>Filter by Type</option>
+                <option value='' disabled>
+                  ---
+                </option>
+                {/* PRE-SET VALUES */}
+                {TASK_TYPES.map((type, i) => {
+                  return (
+                    <option key={i} value={type}>
+                      {type}
+                    </option>
+                  );
+                })}
+              </Form.Control>
+            </Form.Group>
+            {!selectDate ? (
+              <Form.Group controlId='due' className='mr-1'>
+                <Form.Control
+                  as='select'
+                  defaultValue={ANY_DUE}
+                  onChange={handleChange}>
+                  <option value={ANY_DUE}>Filter by Deadline</option>
+                  <option value='' disabled>
+                    ---
+                  </option>
+                  {/* PRE-SET VALUES */}
+                  {TASKS_TO_SHOW.map((type, i) => {
+                    return (
+                      <option key={i} value={type}>
+                        {type}
+                      </option>
+                    );
+                  })}
+                  <option value='Select date'>Select date</option>
+                </Form.Control>
+              </Form.Group>
+            ) : (
+              <Form.Group controlId='due' className='mr-1'>
+                <Form.Control type='date' onChange={handleChange} />
+              </Form.Group>
+            )}
           </Form>
         </Row>
       </Col>

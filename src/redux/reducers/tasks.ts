@@ -6,6 +6,7 @@ import {
   ADD_TASK_TO_COMPLETED,
   ADD_TASK_TO_IN_PROGRESS,
   DELETE_TASK,
+  EDIT_TASK,
   FILL_TASKS,
   FILL_TASKS_ERROR,
   FILL_TASKS_LOADING,
@@ -80,6 +81,11 @@ const currentTasksReducer = (
       return {
         ...state,
         completed: action.payload,
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;

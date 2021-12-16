@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import MainBody from "./pages/Main";
 import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/Register"; 
+import RegisterPage from "./pages/Register";
 // import SettingsPage from "./pages/Settings";
 import LogoutPage from "./pages/Logout";
 import LandingPage from "./pages/Landing";
@@ -76,7 +76,6 @@ function App() {
           /> */}
           {/* TASKS */}
           <Route
-            exact
             path='/tasks'
             render={(routerProps: RouteComponentProps) => (
               <MainBody {...routerProps} />

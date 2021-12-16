@@ -21,6 +21,7 @@ type DashboardPageProps = {
   location: Location<unknown>;
 };
 const DashboardPage = (props: DashboardPageProps) => {
+  console.log("FIX NEEDED ON DASHBOARDPAGE") // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { notification } = my_user;
@@ -37,8 +38,8 @@ const DashboardPage = (props: DashboardPageProps) => {
   // ****************************MEDIA********************************************
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
-  // const dispatch = useDispatch();
   const attemptLoad = async () => {
+    // dispatch(setUserLoading(true)); // 👈HERE!
     //   // load tasks with no deadline / deadline for today
     //   const data = await getTaskByQuery(
     //     `deadline=${today}&status=awaited&status=in_progress&sort=deadline,title`,
