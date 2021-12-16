@@ -21,6 +21,7 @@ type DashboardPageProps = {
   location: Location<unknown>;
 };
 const DashboardPage = (props: DashboardPageProps) => {
+  console.log("FIX NEEDED ON DASHBOARDPAGE") // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { notification } = my_user;

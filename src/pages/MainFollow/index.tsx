@@ -84,7 +84,7 @@ const FollowingPage = (props: FollowingPageProps) => {
             </Modal>
           ) : (
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
+              <Modal.Header> {/* 🔨 FIX NEEDED: implement gift-giving feature! */}
                 {gift.xp === 0 ? (
                   <Modal.Title>
                     You have {points} Bamboo Points To Give

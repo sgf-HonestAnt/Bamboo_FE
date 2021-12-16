@@ -9,8 +9,6 @@ const TodayTasks = () => {
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
   const today = getSelectedDateAsString(new Date())
-  console.log(today)
-  console.log(allTasks)
   const numOfTodayTasks = allTasks.filter((task) => task.deadline?.slice(0,10) === today).length
   return (
     <div className="m-2 p-1 dashboard__tasks-card__task-box">

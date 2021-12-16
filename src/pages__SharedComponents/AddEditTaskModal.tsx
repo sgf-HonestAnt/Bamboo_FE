@@ -231,7 +231,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     } else {
       try {
         if (form.category === "") {
-          // 👈 <---- CATEGORY CHECK HERE
+          // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST (CHECK HERE)
           setForm({ ...form, category: "none" });
         }
         const method = taskSet ? PUT : POST;
@@ -329,8 +329,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         taskIds: updatedTaskIds,
       };
       console.log("Updated list=>", updatedList);
-      const updatedInitialDataLists = initialData.lists 
-      updatedInitialDataLists[listIndex] = updatedList
+      const updatedInitialDataLists = initialData.lists;
+      updatedInitialDataLists[listIndex] = updatedList;
       console.log("updatedInitialDataLists=>", updatedInitialDataLists);
       const newData = {
         ...initialData,
@@ -494,11 +494,11 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               {!showNewCat ? (
                 <Form.Group controlId='category'>
                   <Form.Label>What's the category?</Form.Label>
-                  {!taskSet && ( // 👈 <---- CATEGORY CHECK HERE
-                    <div className='red'>
-                      ERROR WHEN NOT CHOOSING A CATEGORY AND ATTEMPTING TO POST
-                    </div>
-                  )}
+                  {!taskSet &&
+                    console.log(
+                      "FIX NEEDED ON ADDEDITTASKMODAL"
+                    ) // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
+                  }
                   <Form.Control
                     required
                     as='select'
@@ -606,7 +606,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </li>
                     </>
                   ) : taskSet.type === TEAM ? (
-                    <li>This task is no longer shared because other users have removed themselves.</li>
+                    <li>
+                      This task is no longer shared because other users have
+                      removed themselves.
+                    </li>
                   ) : (
                     <li>This task is not shared.</li>
                   )}

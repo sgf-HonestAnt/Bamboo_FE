@@ -65,7 +65,8 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       val: ANY_VAL,
       type: ANY_TYPE,
     });
-    setSelectDate(false);
+    setSelectDate(false);    
+    // 🔨 FIX NEEDED: DOES NOT RESET FORM
   };
   const handleChange = async (e: { target: { id: any; value: any } }) => {
     // add dropdown category for date (Any, Overdue, Due Today, Due Tomorrow, No Due Date) and value (Any, ...values)
@@ -84,6 +85,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
         const tomorrow = getSelectedDateAsString(newToday);
         await setFilter({ ...filter, [id]: tomorrow });
       } else if (value === OVERDUE) {
+        console.log("FIX NEEDED ON TASKSFILTERROW") // 🔨 FIX NEEDED
         // https://daily-dev-tips.com/posts/vanilla-javascript-check-if-date-is-in-the-past/
       } else if (value === "Select date") {
         setSelectDate(true);

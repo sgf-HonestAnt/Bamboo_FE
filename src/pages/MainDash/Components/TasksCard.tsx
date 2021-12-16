@@ -23,6 +23,7 @@ type DashTasksCardProps = {
   location: Location<unknown>;
 };
 const DashTasksCard = (props: DashTasksCardProps) => {
+  console.log("FIX NEEDED ON DASHTASKSCARD") // 🔨 FIX NEEDED: Change how this card looks! 
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const tasks = state.currentTasks;

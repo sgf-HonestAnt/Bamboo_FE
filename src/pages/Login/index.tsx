@@ -56,6 +56,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId='password'>
+              {/* 🔨 FIX NEEDED: implement password rules! */}
               <Form.Label column sm='12'>
                 Password
               </Form.Label>

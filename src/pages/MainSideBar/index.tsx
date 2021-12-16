@@ -21,6 +21,7 @@ type SidebarProps = {
   setTheme: any;
 };
 const MainSideBar = (props: SidebarProps) => {
+  console.log("FIX NEEDED ON MAINSIDEBAR") // 🔨 FIX NEEDED: STYLE AND IMPLEMENT THEMES!
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { level, xp } = my_user;
