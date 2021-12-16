@@ -7,11 +7,16 @@ const UrgentTasks = () => {
   const tasks = state.currentTasks;
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
-  const numOfUrgentTasks = allTasks.filter((task) => task.category === URGENT).length
-  return (
-    <div className="m-2 p-1 dashboard__tasks-card__task-box">
-      {numOfUrgentTasks} task{numOfUrgentTasks===1?" is":"s are"} marked urgent
+  const numOfUrgentTasks = allTasks.filter(
+    (task) => task.category === URGENT
+  ).length;
+  return numOfUrgentTasks > 0 ? (
+    <div className='m-2 p-1 dashboard__tasks-card__task-box'>
+      {numOfUrgentTasks} task{numOfUrgentTasks === 1 ? "" : "s"} marked
+      urgent
     </div>
+  ) : (
+    <></>
   );
 };
 

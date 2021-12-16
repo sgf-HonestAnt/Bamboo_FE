@@ -32,8 +32,9 @@ const TodayTasks = () => {
   }, []);
   return (
     <div className='m-2 p-1 dashboard__tasks-card__task-box'>
-      {numOfTodayTasks + overdueTasks.length} task{numOfTodayTasks === 1 ? " is" : "s are"}{" "}
-      due now with {overdueTasks.length} overdue
+      {numOfTodayTasks + overdueTasks.length} task
+      {numOfTodayTasks === 1 ? "" : "s"} due now{" "}
+      {overdueTasks.length > 0 && `with ${overdueTasks.length} overdue`}
     </div>
   );
 };
