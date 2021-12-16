@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import {  useState } from "react";
+import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import {
   beautifulDnD,
@@ -14,7 +14,6 @@ import {
   ANY_DUE,
   ANY_TYPE,
   ANY_VAL,
-  OVERDUE,
   TASKS_TO_SHOW,
   TASK_CATEGORIES,
   TASK_TYPES,
@@ -65,7 +64,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       val: ANY_VAL,
       type: ANY_TYPE,
     });
-    setSelectDate(false);    
+    setSelectDate(false);
     // 🔨 FIX NEEDED: DOES NOT RESET FORM
   };
   const handleChange = async (e: { target: { id: any; value: any } }) => {
@@ -84,9 +83,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
         newToday.setDate(newToday.getDate() + 1);
         const tomorrow = getSelectedDateAsString(newToday);
         await setFilter({ ...filter, [id]: tomorrow });
-      } else if (value === OVERDUE) {
-        console.log("FIX NEEDED ON TASKSFILTERROW") // 🔨 FIX NEEDED
-        // https://daily-dev-tips.com/posts/vanilla-javascript-check-if-date-is-in-the-past/
       } else if (value === "Select date") {
         setSelectDate(true);
       } else {
@@ -95,7 +91,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     }
   };
   return (
-    <Row className="pt-4">
+    <Row className='pt-4'>
       <Col sm={12}>
         <Row className='tasks-page__filter-row m-0 p-1'>
           <AddNewTaskButton label='Add task' handleClick={handleShow} />
@@ -196,7 +192,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   {TASKS_TO_SHOW.map((type, i) => {
                     return (
                       <option key={i} value={type}>
-                        {type} 
+                        {type}
                       </option>
                     );
                   })}

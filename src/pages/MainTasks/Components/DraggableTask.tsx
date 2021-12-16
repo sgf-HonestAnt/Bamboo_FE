@@ -107,13 +107,16 @@ const DraggableTask = (props: DraggableTaskProps) => {
                     <ICOUSERS />
                   )}
                   {task!.sharedWith!.length > 1 && task!.sharedWith!.length}
-                </span> 
+                </span>
                 {task!.deadline && (
-                  <span>{`${
-                    task!.desc.length > 1 || task!.sharedWith!.length > 1
-                      ? "|"
-                      : ""
-                  } ${getShortDateAsString(task.deadline)}`}</span>
+                  <span>
+                    {`${
+                      task!.desc.length > 1 || task!.sharedWith!.length > 1
+                        ? "|"
+                        : ""
+                    } ${getShortDateAsString(task.deadline)}`}{" "}
+                    {task.deadline.slice(0, 4)}
+                  </span>
                 )}
               </div>
               <AddEditTaskModal

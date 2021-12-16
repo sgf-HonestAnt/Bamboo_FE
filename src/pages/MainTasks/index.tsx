@@ -14,8 +14,10 @@ import {
   COMPLETED,
   IN_PROGRESS,
   ANY_TYPE,
+  OVERDUE,
 } from "../../utils/appConstants";
 import { getTaskByQuery, getTasks } from "../../utils/f_tasks";
+import { isDatePast } from "../../utils/f_dates";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -29,21 +31,27 @@ const TasksPage = (props: TasksPageProps) => {
   const allTasks = awaited.concat(in_progress, completed);
   const { history, location } = props;
   const [taskList, setTaskList] = useState<taskInt[]>(allTasks);
-  // FILTER
   const [filter, setFilter] = useState({
     due: ANY_DUE,
     cat: ANY_CAT,
     val: ANY_VAL,
     type: ANY_TYPE,
   });
-  // QUERY
-  // const [query, setQuery] = useState("");
-  // BEAUTIFUL DND
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
     lists: [],
     listOrder: [],
   });
+  const filterTasksOverdue = async (updatedTasks: taskInt[]) => {
+    let overdueTasks: taskInt[] = [];
+    const tasksWithDeadlines = updatedTasks.filter(
+      (task: taskInt) => task.deadline !== null
+    );
+    if (tasksWithDeadlines) {
+      overdueTasks = await isDatePast(tasksWithDeadlines);
+    }
+    setTaskList(overdueTasks);
+  };
   const retrieveTasks = async (query?: string) => {
     const data = query
       ? await getTaskByQuery(query, my_user._id)
@@ -51,11 +59,20 @@ const TasksPage = (props: TasksPageProps) => {
     let updatedTasks;
     if (query) {
       updatedTasks = data.tasks;
-      setTaskList(updatedTasks);
+      if (filter.due === OVERDUE) {
+        filterTasksOverdue(updatedTasks);
+      } else {
+        setTaskList(updatedTasks);
+      }
     } else {
       const { awaited, in_progress, completed } = data;
       updatedTasks = awaited.concat(in_progress, completed);
       setTaskList(updatedTasks);
+      if (filter.due === OVERDUE) {
+        filterTasksOverdue(updatedTasks);
+      } else {
+        setTaskList(updatedTasks);
+      }
     }
   };
   useEffect(() => {
@@ -91,7 +108,10 @@ const TasksPage = (props: TasksPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [taskList]);
   useEffect(() => {
-    const dueQuery = filter.due !== ANY_DUE ? `deadline=${filter.due}&` : "";
+    const dueQuery =
+      filter.due !== ANY_DUE && filter.due !== OVERDUE
+        ? `deadline=${filter.due}&`
+        : "";
     const catQuery = filter.cat !== ANY_CAT ? `category=${filter.cat}&` : "";
     const valQuery = filter.val !== ANY_VAL ? `value=${filter.val}&` : "";
     const typeQuery = filter.type !== ANY_TYPE ? `type=${filter.type}&` : "";
@@ -100,6 +120,7 @@ const TasksPage = (props: TasksPageProps) => {
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  console.log(filter);
   return (
     <Container fluid>
       <TasksFilterRow
