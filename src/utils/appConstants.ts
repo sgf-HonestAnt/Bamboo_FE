@@ -62,13 +62,16 @@ export const FILL_SETTINGS = "FILL_SETTINGS";
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];
+
 export const SOLO = "solo";
 export const TEAM = "team";
 export const TASK_TYPES = [SOLO, TEAM];
+
 export const AWAITED = "awaited";
 export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
+
 export const URGENT = "urgent";
 export const HOUSEHOLD = "home";
 export const SHOPPING = "shopping";
@@ -99,18 +102,23 @@ export const TASK_VALUES = [
   "may take a bit more effort to complete",
   "difficult, so I'll look forward to my reward",
 ];
+
 export const ANY_VAL = "Any Value";
 export const ANY_CAT = "Any Category";
 export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
 export const ANY_DUE = "Any Due Date";
-export const TODAY = "Today";
-export const TOMORROW = "Tomorrow";
+export const ANY_TYPE = "Any Type"
+
 export const YESTERDAY = "Yesterday";
 export const ALL_TASKS = "All Tasks";
-export const OVERDUE = "Overdue";
 export const NO_DEADLINE = "No Deadline";
-export const TASKS_TO_SHOW = [TODAY, TOMORROW, NO_DEADLINE, OVERDUE, ALL_TASKS];
+
+export const TODAY = "Today";
+export const TOMORROW = "Tomorrow";
+export const OVERDUE = "Overdue";
+export const TASKS_TO_SHOW = [TODAY, TOMORROW, OVERDUE];
+
 // other
 export const ANY = "any";
 export const WILD_STR =

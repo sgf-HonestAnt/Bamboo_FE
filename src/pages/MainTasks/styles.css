@@ -1,7 +1,9 @@
-/* .tasks-page {
+.tasks-page {
 }
 .tasks-page__filter-row form {
-} */
+  display: flex;
+  justify-content: flex-start;
+}
 .tasks-page__list {
   margin: 8px;
   border: 1px solid var(--sidebar-bg);

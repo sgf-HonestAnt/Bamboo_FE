@@ -15,8 +15,6 @@ import DashChallCard from "./Components/ChallengeCard";
 import DashSearch from "./Components/DashSearch";
 import DashAchievCard from "./Components/Achievements";
 import "./styles.css";
-import { useDispatch } from "react-redux";
-import { setUserLoading } from "../../redux/actions/user";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -39,7 +37,6 @@ const DashboardPage = (props: DashboardPageProps) => {
   // ****************************MEDIA********************************************
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
-  const dispatch = useDispatch(); 
   const attemptLoad = async () => {
     // dispatch(setUserLoading(true)); // 👈HERE!
     //   // load tasks with no deadline / deadline for today

@@ -215,7 +215,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(form);
+    // console.log(form);
     if (form.title.length < 3) {
       setChanged(false);
       setTitleHelp({
