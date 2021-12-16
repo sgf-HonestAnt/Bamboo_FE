@@ -1,20 +1,41 @@
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { reduxStateInt } from "../../../typings/interfaces";
-import { ICOSUN } from "../../../utils/appIcons";
-import { getSelectedDateAsString } from "../../../utils/f_dates";
+import { reduxStateInt, taskInt } from "../../../typings/interfaces";
+import {
+  filterTasksByOverdue,
+  getSelectedDateAsString,
+} from "../../../utils/f_dates";
 
 const TodayTasks = () => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const tasks = state.currentTasks;
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
-  const today = getSelectedDateAsString(new Date())
-  const numOfTodayTasks = allTasks.filter((task) => task.deadline?.slice(0,10) === today).length
+  const today = getSelectedDateAsString(new Date());
+  const [overdueTasks, setOverdueTasks] = useState<taskInt[]>([]);
+  const findIfTasksOverdue = async () => {
+    let array: taskInt[] = [];
+    const tasksWithDeadlines = allTasks.filter(
+      (task: taskInt) => task.deadline !== null
+    );
+    if (tasksWithDeadlines) {
+      array = await filterTasksByOverdue(tasksWithDeadlines);
+    }
+    setOverdueTasks(array);
+  };
+  const numOfTodayTasks = allTasks.filter(
+    (task) => task.deadline?.slice(0, 10) === today
+  ).length;
+  useEffect(() => {
+    findIfTasksOverdue();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
-    <div className="m-2 p-1 dashboard__tasks-card__task-box">
-      <ICOSUN /> {numOfTodayTasks} task{numOfTodayTasks===1?"":"s"} today
+    <div className='m-2 p-1 dashboard__tasks-card__task-box'>
+      {numOfTodayTasks + overdueTasks.length} task{numOfTodayTasks === 1 ? " is" : "s are"}{" "}
+      due now with {overdueTasks.length} overdue
     </div>
   );
-}; 
+};
 
 export default TodayTasks;

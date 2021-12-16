@@ -11,11 +11,13 @@ import {
 import {
   FINANCE,
   FITNESS,
+  OVERDUE,
   SOLO,
   URGENT,
   WORK,
 } from "../../../utils/appConstants";
 import {
+  ICOCLOCK,
   ICOFINANCE,
   ICOFIT,
   ICOSTAR,
@@ -26,7 +28,11 @@ import {
 import { useEffect, useState } from "react";
 import AddEditTaskModal from "../../../pages__SharedComponents/AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
-import { getShortDateAsString } from "../../../utils/f_dates";
+import {
+  checkTaskOverdue,
+  getSelectedDateAsString,
+  getShortDateAsString,
+} from "../../../utils/f_dates";
 
 type DraggableTaskProps = {
   task: taskInt;
@@ -52,12 +58,21 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const { my_user, followedUsers } = state.currentUser;
   const categories = state.currentTasks.categories;
   const { task, i, initialData, setInitialData, history, location } = props;
+  const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
   };
+  const checkIfTaskIsOverdue = async () => {
+    const today = getSelectedDateAsString(new Date());
+    const boolean = task.deadline
+      ? await checkTaskOverdue(today, task.deadline.slice(0, 10))
+      : false;
+    setTaskIsOverdue(boolean);
+  };
   useEffect(() => {
+    checkIfTaskIsOverdue();
     setShow(false);
   }, [initialData]);
   return (
@@ -74,7 +89,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
           ) : task!.category === FITNESS ? (
             <ICOFIT />
           ) : (
-            <ICOSTAR />
+            ""
           );
         return (
           <div
@@ -91,6 +106,11 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 <span
                   onClick={handleShow}
                   className={`tasks-page__list-task__title ${task!.category}`}>
+                  {taskIsOverdue && (
+                    <span style={{ color: "red" }}>
+                      <ICOCLOCK />
+                    </span>
+                  )}
                   {icon} {task!.title} ({task!.value}XP)
                 </span>
                 {/* <OpenTaskButton

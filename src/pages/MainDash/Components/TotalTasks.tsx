@@ -10,7 +10,7 @@ const TotalTasks = () => {
   return (
     <div className="m-2 p-1 dashboard__tasks-card__task-box">
       {/* <ICOURGENT /> */}
-      you currently have {numOfTotalTasks} task{numOfTotalTasks === 1 ? "" : "s"} to complete:<br />
+      you have {numOfTotalTasks} task{numOfTotalTasks === 1 ? "" : "s"} to complete:<br />
       {awaited.length} awaited, {in_progress.length} in progress
     </div>
   );

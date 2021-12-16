@@ -44,6 +44,9 @@
 .tasks-page__list-task.completed {
   color: var(--button-bg);
 }
+.tasks-page__list-task.overdue {
+  background-color: red !important;
+}
 .tasks-page__list-task div {
   text-align: left;
 }

@@ -17,7 +17,7 @@ import {
   OVERDUE,
 } from "../../utils/appConstants";
 import { getTaskByQuery, getTasks } from "../../utils/f_tasks";
-import { isDatePast } from "../../utils/f_dates";
+import { filterTasksByOverdue } from "../../utils/f_dates";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -48,7 +48,7 @@ const TasksPage = (props: TasksPageProps) => {
       (task: taskInt) => task.deadline !== null
     );
     if (tasksWithDeadlines) {
-      overdueTasks = await isDatePast(tasksWithDeadlines);
+      overdueTasks = await filterTasksByOverdue(tasksWithDeadlines);
     }
     setTaskList(overdueTasks);
   };

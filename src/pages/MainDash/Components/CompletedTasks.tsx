@@ -8,8 +8,8 @@ const CompletedTasks = () => {
   return (
     <div className="m-2 p-1 dashboard__tasks-card__task-box">
       {/* <ICOURGENT /> */}
-      so far, you have completed {total_completed} tasks and accrued {total_xp}
-      <BambooPoints />
+      you have completed {total_completed} tasks and accrued {total_xp}
+      <BambooPoints /> so far
     </div>
   );
 };

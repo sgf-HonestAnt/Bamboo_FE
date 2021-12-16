@@ -154,24 +154,33 @@ export const getMinMaxDateAsString = (datePar: Date) => {
   };
 };
 ///////////////////////////////////////////////////////////////////
-export const isDatePast = async (tasks: taskInt[]) => {
+export const filterTasksByOverdue = async (tasks: taskInt[]) => {
   let array: taskInt[] = [];
   for (let i = 0; i < tasks.length; i++) {
     const date1 = getSelectedDateAsString(new Date());
     const date2 = tasks[i].deadline!.slice(0, 10);
-    const year1 = date1.slice(0, 4);
-    const month1 = date1.slice(5, 7);
-    const day1 = date1.slice(8, 10);
-    const year2 = date2.slice(0, 4);
-    const month2 = date2.slice(5, 7);
-    const day2 = date2.slice(8, 10);
-    if (
-      year1 > year2 ||
-      (year1 >= year2 && month1 > month2) ||
-      (year1 >= year2 && month1 >= month2 && day1 > day2)
-    ) {
+    const taskIsOverdue = await checkTaskOverdue(date1, date2);
+    if (taskIsOverdue) {
       array.push(tasks[i]);
     }
   }
   return array;
+};
+///////////////////////////////////////////////////////////////////
+export const checkTaskOverdue = async (date1: string, date2: string) => {
+  const year1 = date1.slice(0, 4);
+  const month1 = date1.slice(5, 7);
+  const day1 = date1.slice(8, 10);
+  const year2 = date2.slice(0, 4);
+  const month2 = date2.slice(5, 7);
+  const day2 = date2.slice(8, 10);
+  if (
+    year1 > year2 ||
+    (year1 >= year2 && month1 > month2) ||
+    (year1 >= year2 && month1 >= month2 && day1 > day2)
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 };
