@@ -13,13 +13,13 @@ import {
   clearLastNotification,
 } from "../../../utils/f_users";
 import { removeSelfFromTask } from "../../../utils/f_tasks";
-import { fillUserAction } from "../../../redux/actions/user"; // 👈HERE!
+import { fillUserAction } from "../../../redux/actions/user";
 
-type DashAlertCardProps = {};
-const DashAlertCard = (props: DashAlertCardProps) => {
+type DashNotificationsProps = {};
+const DashNotifications = (props: DashNotificationsProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { currentTasks } = state
+  const { currentTasks } = state;
   const { notification } = my_user;
   const dispatch = useDispatch();
   const notifLength = notification.length;
@@ -117,4 +117,4 @@ const DashAlertCard = (props: DashAlertCardProps) => {
   );
 };
 
-export default DashAlertCard;
+export default DashNotifications;

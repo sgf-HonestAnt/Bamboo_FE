@@ -11,7 +11,6 @@ import {
 import {
   FINANCE,
   FITNESS,
-  OVERDUE,
   SOLO,
   URGENT,
   WORK,
@@ -20,7 +19,6 @@ import {
   ICOCLOCK,
   ICOFINANCE,
   ICOFIT,
-  ICOSTAR,
   ICOURGENT,
   ICOUSERS,
   ICOWORK,
@@ -74,6 +72,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   useEffect(() => {
     checkIfTaskIsOverdue();
     setShow(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>

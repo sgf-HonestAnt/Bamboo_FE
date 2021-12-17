@@ -2,11 +2,7 @@
   min-height: 100vh;
   max-height: 100vh;
 }
-.dashboard__left-col {
-  min-height: 90vh;
-  max-height: 90vh;
-}
-.dashboard__right-col {
+.dashboard__left-col, .dashboard__right-col {
   min-height: 90vh;
   max-height: 90vh;
 }

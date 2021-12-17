@@ -1,6 +1,11 @@
+import { History } from "history";
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { currentUserInt, publicUserInt, reduxStateInt } from "../../../typings/interfaces";
+import {
+  currentUserInt,
+  publicUserInt,
+  reduxStateInt,
+} from "../../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "../../../pages__SharedComponents/Buttons";
 import { requestFollow } from "../../../utils/f_follows";
@@ -12,19 +17,26 @@ type ResultProps = {
   message: string;
 };
 type DashSearchProps = {
+  history: History<unknown> | string[];
   search: string;
   setSearch: any;
 };
 const DashSearch = (props: DashSearchProps) => {
-  const currentUser: currentUserInt = useAppSelector((state: reduxStateInt) => state.currentUser);
+  const currentUser: currentUserInt = useAppSelector(
+    (state: reduxStateInt) => state.currentUser
+  );
   const { followedUsers, my_user } = currentUser;
   const { _id } = my_user;
-  const { search, setSearch } = props;
+  const { history, search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
     user: null,
     message: "",
   });
+  const pushToFollowing = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    history.push("/following");
+  };
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setSearch(value);
@@ -54,7 +66,39 @@ const DashSearch = (props: DashSearchProps) => {
   };
   return (
     <div className='dashboard__search-bar m-2 px-4'>
-      <div className='dashboard__card-header'>Find a User</div>
+      {followedUsers.length > 3 ? (
+        <>
+          {followedUsers.slice(0, 3).map((user) => {
+            const avatar = user.avatar;
+            const username = user.username;
+            return (
+              <img
+                src={avatar}
+                alt={username}
+                className='x-tiny-round mr-1'
+                onClick={pushToFollowing}
+              />
+            );
+          })}
+          <span onClick={pushToFollowing}>+{followedUsers.length - 3}</span>
+        </>
+      ) : followedUsers.length > 0 ? (
+        followedUsers.map((user) => {
+          const avatar = user.avatar;
+          const username = user.username;
+          return (
+            <img
+              src={avatar}
+              alt={username}
+              className='x-tiny-round'
+              onClick={pushToFollowing}
+            />
+          );
+        })
+      ) : (
+        <></>
+      )}
+      <div className='dashboard__card-header'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
           type='text'

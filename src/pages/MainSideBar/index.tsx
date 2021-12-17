@@ -25,8 +25,8 @@ const MainSideBar = (props: SidebarProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { level, xp } = my_user;
-  const { awaited, in_progress, completed } = state.currentTasks;
-  const allTasks = awaited.concat(in_progress, completed);
+  const { awaited, in_progress } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
   const { history, location, setTheme } = props;
   const dispatch = useDispatch();

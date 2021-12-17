@@ -36,7 +36,7 @@ export const getMonthByIndex = (date: Date) => {
 };
 ///////////////////////////////////////////////////////////////////
 export const getDayMonthYearAsString = (datePar: Date) => {
-  // simple func to get current date used for DashTasksCard and Tasks>PageTaskCards
+  // simple func to get current date used for DashTasks and Tasks>PageTaskCards
   const year = datePar.getFullYear().toString();
   const month = getMonthByIndex(datePar);
   const date = datePar.getDate().toString();

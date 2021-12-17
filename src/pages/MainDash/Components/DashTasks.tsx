@@ -16,12 +16,12 @@ import TotalTasks from "./TotalTasks";
 import CompletedTasks from "./CompletedTasks";
 // import MiniDragNDrop from "./MiniDragNDrop";
 
-type DashTasksCardProps = {
+type DashTasksProps = {
   today: string;
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
-const DashTasksCard = (props: DashTasksCardProps) => {
+const DashTasks = (props: DashTasksProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const tasks = state.currentTasks;
@@ -64,4 +64,4 @@ const DashTasksCard = (props: DashTasksCardProps) => {
   );
 };
 
-export default DashTasksCard;
+export default DashTasks;
