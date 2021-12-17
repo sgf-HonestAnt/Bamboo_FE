@@ -421,16 +421,16 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       const avatar = getAvatarById(followedUsers, id);
                       const username = getUsernameById(followedUsers, id);
                       return (
-                        <span key={i}>
-                          <Link to={`/following?id=${id}`} className='mr-5'>
+                        <div key={i}>
+                          <Link to={`/following?id=${id}`} >
                             <img
                               src={avatar}
                               alt={username}
-                              className='x-tiny-round'
+                              className='x-tiny-round mr-1'
                             />
                             {username}
                           </Link>
-                        </span>
+                        </div>
                       );
                     })}
                 </li>

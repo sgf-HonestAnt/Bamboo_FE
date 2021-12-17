@@ -71,7 +71,7 @@ const UsersRow = (props: UsersRowProps) => {
       <td>{props.email}</td>
       <td>{props.admin ? "Admin" : "General"}</td>
       <td>
-        <img src={props.avatar} alt='' className='admin-page__table__img' />
+        <img src={props.avatar} alt='' className='tiny-round' />
       </td>
       <td>{props.level}</td>
       <td>{props.xp}</td>

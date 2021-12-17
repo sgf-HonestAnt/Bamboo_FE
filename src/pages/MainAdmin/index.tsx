@@ -30,22 +30,23 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
-  console.log("FIX NEEDED ON ADMINPAGE") // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
+  console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
-  const { user, location } = props;
+  const { user, location, history } = props;
   const signedInId = my_user._id;
-  const [users, setUsers] = useState<userInt[] | never>([]);
-  const [tasks, setTasks] = useState<taskInt[] | never>([]);
+  const [users, setUsers] = useState<userInt[]>([]);
+  const [tasks, setTasks] = useState<taskInt[]>([]);
   const [notifications, setNotifications] = useState<string[]>([]);
   const [form, setForm] = useState({ dropdown: USERS, id: "", search: "" });
   const username = users.filter((u) => u._id === form.id)[0]?.username;
-  let tasksData;
-  const resetForm = (e: { preventDefault: () => void }) => {
+  const resetForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    history.push("/admin-dash");
     setForm({ dropdown: USERS, id: "", search: "" });
   };
+  let tasksData;
   const loadAdmin = async () => {
     const usersData = await getUsersAsAdmin(form.id);
     tasksData = await getAllTasks(form.id);
@@ -59,6 +60,36 @@ const AdminPage = (props: AdminPageProps) => {
     loadAdmin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const { search, dropdown } = form;
+    const num = search.length;
+    const originalUsersData = users;
+    if (num > 2) {
+      if (dropdown === USERS) {
+        const filtered = users.filter(
+          (user) =>
+            user.username.slice(0, num).toLowerCase() ===
+              search.toLowerCase() ||
+            user.first_name.slice(0, num).toLowerCase() ===
+              search.toLowerCase() ||
+            user.last_name.slice(0, num).toLowerCase() ===
+              search.toLowerCase() ||
+            user.first_name
+              .concat(" ", user.last_name)
+              .slice(0, num)
+              .toLowerCase() === search.toLowerCase() ||
+            user.email.slice(0, num).toLowerCase() === search.toLowerCase()
+        );
+        setUsers(filtered);
+      } else if (dropdown === TASKS) {
+      } else if (dropdown === NOTIFICATIONS) {
+      } else {
+      }
+    } else {
+      setUsers(originalUsersData);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.search]);
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);

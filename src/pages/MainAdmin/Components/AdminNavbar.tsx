@@ -19,12 +19,10 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   const { users, username, tasks, form, setForm } = props;
   const { id } = form;
   const dropdown = [USERS, TASKS, NOTIFICATIONS, FEATURES];
-  const changeDropdown = (e: { target: { value: any } }) => {
+  const handleChange = (e: { target: { id: any; value: any } }) => {
+    const id = e.target.id;
     const value = e.target.value;
-    setForm({
-      ...form,
-      dropdown: value,
-    });
+    setForm({ ...form, [id]: value });
   };
   const handleClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -54,6 +52,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           notifNum !== 1 ? "s" : ""
         } belonging to user ${username}`
       : "";
+  console.log(form);
   return (
     <Navbar bg='light' expand='lg'>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -61,12 +60,13 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         <Form>
           <Nav className='mr-auto admin-page__form'>
             <ResetButton label='Reset' handleClick={handleClick} />
-            <Form.Group className='admin-page__form-dropdown' id='dropdown'>
-              <Form.Control as='select' onChange={changeDropdown}>
+            <Form.Group
+              controlId='dropdown'
+              className='admin-page__form-dropdown'
+              id='dropdown'>
+              <Form.Control as='select' onChange={handleChange}>
                 {dropdown.map((d) => (
-                  <option key={d} selected={form.dropdown === d}>
-                    {d}
-                  </option>
+                  <option key={d}>{d}</option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -77,11 +77,12 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                 ? tasksHeader
                 : notifHeader}
             </div>
-            <Form.Group className='admin-page__form-search'>
+            <Form.Group controlId='search' className='admin-page__form-search'>
               <FormControl
                 type='text'
                 placeholder='Search'
                 className='mr-sm-2'
+                onChange={handleChange}
               />
             </Form.Group>
             <Button variant='outline-success'>Search</Button>
