@@ -57,8 +57,11 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const categories = state.currentTasks.categories;
   const { task, i, initialData, setInitialData, history, location } = props;
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
+  const [view, setView] = useState(true);
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleShow = () => {
     setShow(true);
   };
@@ -69,11 +72,23 @@ const DraggableTask = (props: DraggableTaskProps) => {
       : false;
     setTaskIsOverdue(boolean);
   };
+  const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     checkIfTaskIsOverdue();
-    setShow(false);
+    if (locationSearch !== task!._id) {
+      setShow(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
+  useEffect(() => {
+    if (location.search) {
+      if (locationSearch === task!._id) {
+        setShow(true);
+        setView(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   return (
     <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
       {(provided, snapshot) => {
@@ -139,6 +154,8 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 )}
               </div>
               <AddEditTaskModal
+                view={view}
+                setView={setView}
                 show={show}
                 handleClose={handleClose}
                 user={my_user}

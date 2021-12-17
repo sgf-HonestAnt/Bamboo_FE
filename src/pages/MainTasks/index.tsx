@@ -119,8 +119,7 @@ const TasksPage = (props: TasksPageProps) => {
     const queryWithoutAmpersand = fullQuery.slice(0, fullQuery.length - 1);
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
-  console.log(filter);
+  }, [filter]); 
   return (
     <Container fluid>
       <TasksFilterRow

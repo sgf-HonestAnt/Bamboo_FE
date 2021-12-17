@@ -6,16 +6,18 @@ import Badge from "./Badge";
 type ProfileBadgeProps = {
   isMine: boolean;
   avatar?: string;
+  admin?: boolean;
   level?: number | null;
   total_completed?: number;
   total_awaited?: number;
   total_in_progress?: number;
 };
 const ProfileBadge = (props: ProfileBadgeProps) => {
-  console.log("FIX NEEDED ON PROFILEBADGE") // 🔨 FIX NEEDED: STYLING
+  console.log("FIX NEEDED ON PROFILEBADGE"); // 🔨 FIX NEEDED: STYLING
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const {
     isMine,
+    // admin,
     avatar,
     level,
     total_completed,

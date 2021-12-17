@@ -75,26 +75,28 @@ const DashNotifications = (props: DashNotificationsProps) => {
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
+  console.log("FIX NEEDED ON NOTIFICATIONS"); // 🔨 FIX NEEDED: WHEN ACCEPT A TASK, NEEDS TO ADD TASK TO STATE SO SIDEBAR REFLECTS CORRECT NUMBER
   return (
     <div className={dashClass}>
       <Card.Title>
         <div className='dashboard__card-header'>
-          <ICOBELL /> Notifications
+          <ICOBELL /> You have {notifLength} notification
+          {notifLength > 1 || notifLength === 0 ? "s" : ""}!
         </div>
         {!isReq && !isTask && notifLength > 0 && (
           <ClearNotification handleClick={handleReset} />
         )}
       </Card.Title>
       <Card.Text>
-        You have {notifLength} notification
-        {notifLength > 1 || notifLength === 0 ? "s" : ""}!
-      </Card.Text>
-      <Card.Text>
         {notifLength > 0 && isTask ? (
           <span>
-            <img src={avatar} alt={username} className='img-fluid tiny-round' />
-            {username} included you in a shared task: "{title}". Do you accept?
-            <AcceptButton handleClick={handleAcceptTask} />
+            <img
+              src={avatar}
+              alt={username}
+              className='img-fluid x-tiny-round'
+            />
+            <strong>{username}</strong> included you in a shared task: "{title}
+            ". Do you accept? <AcceptButton handleClick={handleAcceptTask} />
             <RejectButton handleClick={handleRejectTask} />
           </span>
         ) : notifLength > 0 && isReq ? (

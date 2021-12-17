@@ -10,6 +10,7 @@ import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "../../../pages__SharedComponents/Buttons";
 import { requestFollow } from "../../../utils/f_follows";
 import { getUserByQuery } from "../../../utils/f_users";
+import { Link } from "react-router-dom";
 
 type ResultProps = {
   found: boolean;
@@ -27,16 +28,12 @@ const DashSearch = (props: DashSearchProps) => {
   );
   const { followedUsers, my_user } = currentUser;
   const { _id } = my_user;
-  const { history, search, setSearch } = props;
+  const { search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
     user: null,
     message: "",
   });
-  const pushToFollowing = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    history.push("/following");
-  };
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
     setSearch(value);
@@ -68,31 +65,35 @@ const DashSearch = (props: DashSearchProps) => {
     <div className='dashboard__search-bar m-2 px-4'>
       {followedUsers.length > 3 ? (
         <>
-          {followedUsers.slice(0, 3).map((user) => {
+          {followedUsers.slice(0, 3).map((user, i) => {
             const avatar = user.avatar;
             const username = user.username;
             return (
-              <img
-                src={avatar}
-                alt={username}
-                className='x-tiny-round mr-1'
-                onClick={pushToFollowing}
-              />
+              <Link to={`/following?id=${user._id}`}>
+                <img
+                  key={i}
+                  src={avatar}
+                  alt={username}
+                  className='x-tiny-round mr-1'
+                />
+              </Link>
             );
           })}
-          <span onClick={pushToFollowing}>+{followedUsers.length - 3}</span>
+          <Link to='/following'>+{followedUsers.length - 3}</Link>
         </>
       ) : followedUsers.length > 0 ? (
-        followedUsers.map((user) => {
+        followedUsers.map((user, i) => {
           const avatar = user.avatar;
           const username = user.username;
           return (
-            <img
-              src={avatar}
-              alt={username}
-              className='x-tiny-round'
-              onClick={pushToFollowing}
-            />
+            <Link to={`/following?id=${user._id}`}>
+              <img
+                key={i}
+                src={avatar}
+                alt={username}
+                className='x-tiny-round mr-1'
+              />
+            </Link>
           );
         })
       ) : (

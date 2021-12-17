@@ -76,6 +76,7 @@ function App() {
           /> */}
           {/* TASKS */}
           <Route
+            exact
             path='/tasks'
             render={(routerProps: RouteComponentProps) => (
               <MainBody {...routerProps} />

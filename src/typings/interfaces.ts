@@ -84,6 +84,7 @@ export interface followedUserInt {
   // GET users/me
   _id: string;
   username: string;
+  admin: boolean;
   avatar: string;
   bio: string;
   level: number;

@@ -2,7 +2,8 @@
   min-height: 100vh;
   max-height: 100vh;
 }
-.dashboard__left-col, .dashboard__right-col {
+.dashboard__left-col,
+.dashboard__right-col {
   min-height: 90vh;
   max-height: 90vh;
 }
@@ -11,11 +12,24 @@
   font-weight: 600;
   text-align: center;
 }
-.dashboard__profile-card {
+.dashboard__profile-card,
+.dashboard__tasks-card,
+.dashboard__calendar-card,
+.dashboard__search-bar,
+.dashboard__admin-card,
+.dashboard__activities,
+.dashboard__tips-card,
+.dashboard__alerts-card,
+.dashboard__challenge-card {
+  /* Delete calendar card */
   padding: 10px 0;
   border-radius: 7.5px;
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
+}
+.dashboard__admin-card, .dashboard__admin-card a {
+  color: white;
+  background-color: rgb(0, 0, 0);
 }
 .dashboard__profile-card__username {
   font-size: 20px;
@@ -87,12 +101,6 @@
   height: 1.8em;
   width: 1.8em;
 }
-.dashboard__tasks-card {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
-}
 .dashboard__tasks-card__text-muted {
   color: #6c757d;
   margin: 0 0.25rem;
@@ -106,12 +114,7 @@
 .dashboard__tasks-card__tasks {
   display: flex;
 }
-.dashboard__calendar-card {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
-}
+/* Consider deletion */
 .dashboard__calendar-card__line {
   display: flex;
   align-items: center;
@@ -130,12 +133,7 @@
   min-height: 30px;
   min-width: 12%;
 }
-.dashboard__search-bar {
-  padding: 10px;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
-}
+/* Consider deletion */
 .dashboard__search-bar form {
   display: flex;
 }
@@ -143,33 +141,11 @@
   max-width: 25px;
 }
 .dashboard__activities {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
   overflow-y: scroll;
   max-height: 70vh;
 }
-.dashboard__tips-card {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
-}
-.dashboard__alerts-card {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
-}
 .dashboard__alerts-card.has-alert {
   background-color: var(--code-yellow);
-}
-.dashboard__challenge-card {
-  padding: 10px 0;
-  border-radius: 7.5px;
-  background-color: rgba(0, 0, 0, 0.2);
-  box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3);
 }
 .dashboard__challenge-card__img {
   max-width: 90%;

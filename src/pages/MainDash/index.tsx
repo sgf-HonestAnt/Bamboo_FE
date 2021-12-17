@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { reduxStateInt } from "../../typings/interfaces";
 import { useAppSelector } from "../../redux/hooks";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -23,7 +24,7 @@ type DashboardPageProps = {
 const DashboardPage = (props: DashboardPageProps) => {
   console.log("FIX NEEDED ON DASHBOARDPAGE"); // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { notification } = state.currentUser.my_user;
+  const { notification, admin } = state.currentUser.my_user;
   const dispatch = useDispatch();
   const { history, location } = props;
   const [search, setSearch] = useState("");
@@ -31,10 +32,10 @@ const DashboardPage = (props: DashboardPageProps) => {
   const isDesktopOrLaptop = useMediaQuery({
     query: "(min-width: 1224px)",
   });
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+  // const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-  const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
-  console.log("isBigScreen", isBigScreen, "isRetina", isRetina);
+  // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
+  // console.log("isBigScreen", isBigScreen, "isRetina", isRetina);
   // ****************************MEDIA********************************************
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
@@ -53,6 +54,11 @@ const DashboardPage = (props: DashboardPageProps) => {
       <Col sm={12} md={10} className='dashboard__left-col'>
         <Row className='p-0'>
           <Col sm={4} className='p-0'>
+            {notification.length < 1 && admin && (
+              <div className='dashboard__admin-card m-2'>
+                <Link to='/admin-dash'>Go to Admin</Link>
+              </div>
+            )}
             {notification.length > 0 && <DashNotifications />}
             <DashProfileCard history={history} />
             <DashSearch
@@ -62,6 +68,11 @@ const DashboardPage = (props: DashboardPageProps) => {
             />
           </Col>
           <Col sm={4} className='p-0'>
+            {notification.length > 0 && admin && (
+              <div className='dashboard__admin-card m-2'>
+                <Link to='/admin-dash'>Go to Admin</Link>
+              </div>
+            )}
             <DashTasks today={today} history={history} location={location} />
             <DashTipsCard />
             <DashChallCard />
