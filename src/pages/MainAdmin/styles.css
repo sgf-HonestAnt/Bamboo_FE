@@ -20,6 +20,9 @@
   display: flex;
   justify-content: space-between;
 }
+.admin-page__admin-table {
+  overflow: scroll;
+}
 .admin-page__table__td {
   max-width: 100px;
 }

@@ -127,7 +127,7 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
               <FollowingPage location={location} />
             </Col>
           ) : path === "/admin-dash" ? (
-            <Col className='m-0 p-0'>
+            <Col sm={10}>
               <AdminPage
                 user={user}
                 features={features}

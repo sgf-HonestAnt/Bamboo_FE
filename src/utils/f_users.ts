@@ -60,7 +60,7 @@ export const attemptLoginUser = async (
       if (accessToken) {
         localStorage.setItem("token", accessToken);
       }
-      return responseAsJSON
+      return responseAsJSON;
     } else {
       console.log("😥TROUBLE LOGGING IN");
     }
@@ -339,7 +339,6 @@ export const attemptDeleteUser = async () => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
 export const getUsernameById = (
   followedUsers: followedUserInt[],
   userId: string
@@ -359,3 +358,70 @@ export const getAvatarById = (
     return user.avatar;
   }
 };
+////////////////////////////////////////////////////////////////////
+// Admin Page Sorting Asc
+export const sortUsersAsc = (usersList: userInt[], key: string) => {
+  const sortedUsers = usersList.sort((a, b) => {
+    const keyA =
+      key === "username" ? a.username : key === "fullName" ? a.last_name : "";
+    const keyB =
+      key === "username" ? b.username : key === "fullName" ? b.last_name : "";
+    if (keyA < keyB) {
+      return -1;
+    } else if (keyA > keyB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  const checkSort =
+    key !== "fullName"
+      ? sortedUsers
+      : sortedUsers.sort((c, d) => {
+          const keyC = c.first_name;
+          const keyD = d.first_name;
+          if (keyC > keyD) {
+            return -1;
+          } else if (keyC < keyD) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+  console.log("CHECKSORT=>", checkSort);
+  return checkSort;
+};
+////////////////////////////////////////////////////////////////////
+// Admin Page Sorting Desc
+export const sortUsersDesc = (usersList: userInt[], key: string) => {
+  const sortedUsers = usersList.sort((a, b) => {
+    const keyA =
+      key === "username" ? a.username : key === "fullName" ? a.last_name : "";
+    const keyB =
+      key === "username" ? b.username : key === "fullName" ? b.last_name : "";
+    if (keyA < keyB) {
+      return -1;
+    } else if (keyA > keyB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  const checkSort =
+    key !== "fullName"
+      ? sortedUsers
+      : sortedUsers.sort((c, d) => {
+          const keyC = c.first_name;
+          const keyD = d.first_name;
+          if (keyC > keyD) {
+            return -1;
+          } else if (keyC < keyD) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+  console.log("CHECKSORT=>", checkSort);
+  return checkSort;
+};
+////////////////////////////////////////////////////////////////////

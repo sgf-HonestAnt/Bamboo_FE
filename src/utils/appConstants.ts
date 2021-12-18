@@ -108,7 +108,7 @@ export const ANY_CAT = "Any Category";
 export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
 export const ANY_DUE = "Any Due Date";
-export const ANY_TYPE = "Any Type"
+export const ANY_TYPE = "Any Type";
 
 export const YESTERDAY = "Yesterday";
 export const ALL_TASKS = "All Tasks";
@@ -132,3 +132,45 @@ export const congrats = [
   "|✊Fist bump",
 ];
 export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
+
+
+
+
+
+////////////////////////////////////////////////////////////////////
+// Admin Page Sorting
+export const NAME_ASC = "Name (Asc)";
+export const USERNAME_ASC = "Username (Asc)";
+export const EMAIL_ASC = "Email (Asc)";
+export const ROLE_ASC = "Role (Admin-General)";
+export const LEVEL_ASC = "Level (Asc)";
+export const XP_ASC = "XP (Asc)";
+export const TOTAL_XP_ASC = "Total XP (Asc)";
+export const TOTAL_COMPLETED_ASC = "Total Completed (Asc)";
+export const NAME_DESC = "Name (Desc)";
+export const USERNAME_DESC = "Username (Desc)";
+export const EMAIL_DESC = "Email (Desc)";
+export const ROLE_DESC = "Role (General-Admin)";
+export const LEVEL_DESC = "Level (Desc)";
+export const XP_DESC = "XP (Desc)";
+export const TOTAL_XP_DESC = "Total XP (Desc)";
+export const TOTAL_COMPLETED_DESC = "Total Completed (Desc)";
+export const USERS_SORT_BY = [
+  NAME_ASC,
+  USERNAME_ASC,
+  EMAIL_ASC,
+  ROLE_ASC,
+  LEVEL_ASC,
+  XP_ASC,
+  TOTAL_XP_ASC,
+  TOTAL_COMPLETED_ASC,
+  NAME_DESC,
+  USERNAME_DESC,
+  EMAIL_DESC,
+  ROLE_DESC,
+  LEVEL_DESC,
+  XP_DESC,
+  TOTAL_XP_DESC,
+  TOTAL_COMPLETED_DESC,
+];
+////////////////////////////////////////////////////////////////////

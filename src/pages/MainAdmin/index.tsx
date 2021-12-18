@@ -7,7 +7,11 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
-import { getUsersAsAdmin } from "../../utils/f_users";
+import {
+  getUsersAsAdmin,
+  sortUsersAsc,
+  sortUsersDesc,
+} from "../../utils/f_users";
 import AdminNavbar from "./Components/AdminNavbar";
 import {
   NotificationsTableHeading,
@@ -18,15 +22,23 @@ import UsersRow from "./Components/UsersRow";
 import "./styles.css";
 import { getAllTasks } from "../../utils/f_tasks";
 import TasksRow from "./Components/TasksRow";
-import { NOTIFICATIONS, TASKS, USERS } from "../../utils/appConstants";
+import {
+  NAME_ASC,
+  NAME_DESC,
+  NOTIFICATIONS,
+  TASKS,
+  USERNAME_ASC,
+  USERNAME_DESC,
+  USERS,
+} from "../../utils/appConstants";
 import NotificationsRow from "./Components/NotificationsRow";
-import { ICOURGENT } from "../../utils/appIcons";
 import { useAppSelector } from "../../redux/hooks";
 
 type AdminPageForm = {
   dropdown: string;
   id: string;
   search: string;
+  sortBy?: string;
 };
 type AdminPageProps = {
   user: userInt; // to ensure admin role
@@ -79,7 +91,24 @@ const AdminPage = (props: AdminPageProps) => {
   useEffect(() => {
     const { search, dropdown } = form;
     const num = search.length;
-    if (num > 2) {
+    if (usersToDisplay && form.sortBy) {
+      if (form.sortBy === USERNAME_ASC) {
+        const sortedUsers = sortUsersAsc(usersToDisplay, "username");
+        setUsersToDisplay(sortedUsers);
+      } else if (form.sortBy === USERNAME_DESC) {
+        const sortedUsers = sortUsersDesc(usersToDisplay, "username");
+        setUsersToDisplay(sortedUsers);
+      } else if (form.sortBy === NAME_ASC) {
+        const sortedUsers = sortUsersDesc(usersToDisplay, "fullName");
+        setUsersToDisplay(sortedUsers);
+      } else if (form.sortBy === NAME_DESC) {
+        const sortedUsers = sortUsersDesc(usersToDisplay, "fullName");
+        setUsersToDisplay(sortedUsers);
+      } else {
+        return;
+      }
+    }
+    if (num > 1) {
       if (usersData && dropdown === USERS) {
         const filtered = usersData.filter(
           (user) =>
@@ -110,47 +139,11 @@ const AdminPage = (props: AdminPageProps) => {
         console.log("notifications drop");
       }
     } else {
-      setUsersToDisplay(usersData)
-      setTasksToDisplay(tasksData)
+      setUsersToDisplay(usersData);
+      setTasksToDisplay(tasksData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
-  // useEffect(() => {
-  //   const { search, dropdown } = form;
-  //   const num = search.length;
-  //   if (num > 2) {/* 🔨 FIX NEEDED: should also change as num goes down! */}
-  //     if (usersData && dropdown === USERS) {
-  //       const filtered = usersData.filter(
-  //         (user) =>
-  //           user.username.slice(0, num).toLowerCase() ===
-  //             search.toLowerCase() ||
-  //           user.first_name.slice(0, num).toLowerCase() ===
-  //             search.toLowerCase() ||
-  //           user.last_name.slice(0, num).toLowerCase() ===
-  //             search.toLowerCase() ||
-  //           user.first_name
-  //             .concat(" ", user.last_name)
-  //             .slice(0, num)
-  //             .toLowerCase() === search.toLowerCase() ||
-  //           user.email.slice(0, num).toLowerCase() === search.toLowerCase()
-  //       );
-  //       setUsersToDisplay(filtered);
-  //     }
-  //     if (tasks && dropdown === TASKS) {
-  //       const filtered = tasks.filter(
-  //         (task) =>
-  //           task.title.toLowerCase().includes(search.toLowerCase()) ||
-  //           task.desc.toLowerCase().includes(search.toLowerCase()) ||
-  //           task.category.slice(0, num).toLowerCase() === search.toLowerCase()
-  //       );
-  //       setTasksToDisplay(filtered);
-  //       }
-  //     if (notifications && dropdown === NOTIFICATIONS) {
-  //       console.log("HI")
-  //     }
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [form]);
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
@@ -165,10 +158,6 @@ const AdminPage = (props: AdminPageProps) => {
   ) : usersToDisplay && tasksToDisplay ? (
     <Container fluid className='admin-page'>
       <Row>
-        <div className='red'>
-          <ICOURGENT />
-          add delete and edit function
-        </div>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
             users={usersToDisplay}
@@ -180,7 +169,7 @@ const AdminPage = (props: AdminPageProps) => {
         </Col>
       </Row>
       <Row>
-        <Table striped bordered hover>
+        <Table striped bordered hover className="admin-page__admin-table">
           {form.dropdown === USERS && usersToDisplay.length > 0 ? (
             <UsersTableHeading />
           ) : form.dropdown === TASKS && tasksToDisplay.length > 0 ? (
@@ -245,7 +234,10 @@ const AdminPage = (props: AdminPageProps) => {
               ))
             ) : form.dropdown === TASKS && form.id.length > 0 ? (
               tasksToDisplay
-                .filter((t) => t.createdBy === form.id || t.sharedWith?.includes(form.id))
+                .filter(
+                  (t) =>
+                    t.createdBy === form.id || t.sharedWith?.includes(form.id)
+                )
                 .map((t, i) => (
                   <TasksRow
                     key={i}

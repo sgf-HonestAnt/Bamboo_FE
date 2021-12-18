@@ -6,6 +6,7 @@ import {
   NOTIFICATIONS,
   TASKS,
   USERS,
+  USERS_SORT_BY,
 } from "../../../utils/appConstants";
 
 type AdminNavbarProps = {
@@ -16,13 +17,23 @@ type AdminNavbarProps = {
   setForm: any;
 };
 const AdminNavbar = (props: AdminNavbarProps) => {
-  const { users, username, tasks, form, setForm } = props;
+  const {
+    users,
+    username,
+    tasks,
+    form,
+    setForm,
+  } = props;
   const { id } = form;
   const dropdown = [USERS, TASKS, NOTIFICATIONS, FEATURES];
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
-    setForm({ ...form, [id]: value });
+    if (id === "sortBy" && value === USERS_SORT_BY[0]) {
+      setForm({ ...form, sortBy: value });
+    } else {
+      setForm({ ...form, [id]: value });
+    }
   };
   const handleClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -53,6 +64,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           notifNum !== 1 ? "s" : ""
         } belonging to user ${username}`
       : "";
+  const DEFAULT = "Sort by..."
   console.log(form);
   return (
     <Navbar bg='light' expand='lg'>
@@ -94,20 +106,15 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                 controlId='sortBy'
                 className='admin-page__form-dropdown ml-1'
                 id='dropdown'
-                // defaultValue={"Sort by..."}
-                >
+                defaultValue={DEFAULT}
+              >
                 <Form.Control as='select' onChange={handleChange}>
-                  <option selected disabled>
-                    Sort by...
+                  <option disabled>
+                    {DEFAULT}
                   </option>
-                  <option>Name (Asc)</option>
-                  <option>Username(Asc)</option>
-                  <option>Email (Asc)</option>
-                  <option>Role (Admin-General)</option>
-                  <option>Level (Asc)</option>
-                  <option>XP (Asc)</option>
-                  <option>Total XP (Asc)</option>
-                  <option>Total Completed (Asc)</option>
+                  {USERS_SORT_BY.map((string, i) => (
+                    <option key={i}>{string}</option>
+                  ))}
                 </Form.Control>
               </Form.Group>
             )}
