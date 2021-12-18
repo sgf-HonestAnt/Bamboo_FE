@@ -31,7 +31,8 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   const usersNum = users.length;
   const tasksNum =
     form.id.length > 0
-      ? tasks.filter((t) => t.createdBy === id).length
+      ? tasks.filter((t) => t.createdBy === id || t.sharedWith?.includes(id))
+          .length
       : tasks.length;
   const notifNum = users[0]?.notification?.length;
   const usersHeader =
@@ -42,10 +43,10 @@ const AdminNavbar = (props: AdminNavbarProps) => {
     tasksNum > 0 && id.length > 0
       ? `found ${tasksNum} task${
           tasksNum !== 1 ? "s" : ""
-        } belonging to user ${username}`
+        } for user: ${username}`
       : `found ${tasksNum} task${
-          tasksNum > 1 ? "s" : ""
-        } belonging to ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
+          tasksNum !== 1 ? "s" : ""
+        } for ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
   const notifHeader =
     users.filter((u) => u._id === form.id).length > 0
       ? `${notifNum} notification${
@@ -85,7 +86,31 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Button variant='outline-success'>Search</Button>
+            <Button variant='outline-success' disabled>
+              Search
+            </Button>
+            {form.dropdown === USERS && (
+              <Form.Group
+                controlId='sortBy'
+                className='admin-page__form-dropdown ml-1'
+                id='dropdown'
+                // defaultValue={"Sort by..."}
+                >
+                <Form.Control as='select' onChange={handleChange}>
+                  <option selected disabled>
+                    Sort by...
+                  </option>
+                  <option>Name (Asc)</option>
+                  <option>Username(Asc)</option>
+                  <option>Email (Asc)</option>
+                  <option>Role (Admin-General)</option>
+                  <option>Level (Asc)</option>
+                  <option>XP (Asc)</option>
+                  <option>Total XP (Asc)</option>
+                  <option>Total Completed (Asc)</option>
+                </Form.Control>
+              </Form.Group>
+            )}
           </Nav>
         </Form>
       </Navbar.Collapse>

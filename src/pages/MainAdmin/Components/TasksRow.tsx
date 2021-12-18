@@ -1,18 +1,20 @@
 import { Button } from "react-bootstrap";
-import { taskInt } from "../../../typings/interfaces";
+import { taskInt, userInt } from "../../../typings/interfaces";
 import { ICODOWNRIGHT } from "../../../utils/appIcons";
 import {
   DeleteButton,
   EditButton,
 } from "../../../pages__SharedComponents/Buttons";
 import { USERS } from "../../../utils/appConstants";
+import { AiFillStar } from "react-icons/ai";
 
 interface TasksRowProps extends taskInt {
+  users?: userInt[];
   form: any;
   setForm: any;
 }
 const TasksRow = (props: TasksRowProps) => {
-  const { form, setForm } = props;
+  const { users, form, setForm } = props;
   const handleClick = (e: {
     preventDefault: () => void;
     currentTarget: any;
@@ -23,6 +25,7 @@ const TasksRow = (props: TasksRowProps) => {
     const id = target.value.split(":")[1];
     setForm({ ...form, dropdown, id });
   };
+  const taskCreator = users?.find((u) => u._id === props.createdBy);
   return (
     <tr>
       <td>
@@ -39,8 +42,16 @@ const TasksRow = (props: TasksRowProps) => {
         <div className='overflow'>{props._id}</div>
         <div className='text-tinycaps'>copy</div>
       </td>
-      <td>{props.title}</td>
       <td>
+        {/* {props.createdBy === form.id && (
+          <strong>
+            <AiFillStar />
+          </strong>
+        )}{" "} */}
+        {props.title}
+      </td>
+      <td>
+        {taskCreator?.username}
         <Button
           variant='link'
           className='p-0 m-0'

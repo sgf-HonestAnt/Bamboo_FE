@@ -23,6 +23,11 @@ import NotificationsRow from "./Components/NotificationsRow";
 import { ICOURGENT } from "../../utils/appIcons";
 import { useAppSelector } from "../../redux/hooks";
 
+type AdminPageForm = {
+  dropdown: string;
+  id: string;
+  search: string;
+};
 type AdminPageProps = {
   user: userInt; // to ensure admin role
   features: currentFeaturesInt; // to check featured challenges
@@ -30,31 +35,42 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
-  console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
+  // console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
   const { user, location, history } = props;
   const signedInId = my_user._id;
-  const [users, setUsers] = useState<userInt[]>([]);
-  const [tasks, setTasks] = useState<taskInt[]>([]);
-  const [notifications, setNotifications] = useState<string[]>([]);
-  const [form, setForm] = useState({ dropdown: USERS, id: "", search: "" });
-  const username = users.filter((u) => u._id === form.id)[0]?.username;
+  const [usersData, setUsersData] = useState<userInt[]>();
+  const [usersToDisplay, setUsersToDisplay] = useState<userInt[]>();
+  const [tasksData, setTasksData] = useState<taskInt[]>();
+  const [tasksToDisplay, setTasksToDisplay] = useState<taskInt[]>();
+  const [notifications, setNotifications] = useState<string[]>();
+  const [form, setForm] = useState<AdminPageForm>({
+    dropdown: USERS,
+    id: "",
+    search: "",
+  });
+  const userByFormId = usersToDisplay?.find((u) => u._id === form.id);
+  const username = usersToDisplay && userByFormId ? userByFormId.username : "";
   const resetForm = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    history.push("/admin-dash");
     setForm({ dropdown: USERS, id: "", search: "" });
+    history.push("/admin-dash");
   };
-  let tasksData;
   const loadAdmin = async () => {
-    const usersData = await getUsersAsAdmin(form.id);
-    tasksData = await getAllTasks(form.id);
-    setUsers(usersData);
-    setTasks(tasksData.tasks);
+    const data = await getUsersAsAdmin(form.id);
+    const allTasks = await getAllTasks(form.id);
+    setUsersData(data);
+    setUsersToDisplay(data);
+    setTasksData(allTasks.tasks);
+    setTasksToDisplay(allTasks.tasks);
     form.dropdown === NOTIFICATIONS &&
-      users.length > 0 &&
-      setNotifications(users.filter((u) => u._id === form.id)[0].notification);
+      usersData &&
+      usersData.length > 0 &&
+      setNotifications(
+        usersData.filter((u) => u._id === form.id)[0].notification
+      );
   };
   useEffect(() => {
     loadAdmin();
@@ -63,10 +79,9 @@ const AdminPage = (props: AdminPageProps) => {
   useEffect(() => {
     const { search, dropdown } = form;
     const num = search.length;
-    const originalUsersData = users;
     if (num > 2) {
-      if (dropdown === USERS) {
-        const filtered = users.filter(
+      if (usersData && dropdown === USERS) {
+        const filtered = usersData.filter(
           (user) =>
             user.username.slice(0, num).toLowerCase() ===
               search.toLowerCase() ||
@@ -80,16 +95,62 @@ const AdminPage = (props: AdminPageProps) => {
               .toLowerCase() === search.toLowerCase() ||
             user.email.slice(0, num).toLowerCase() === search.toLowerCase()
         );
-        setUsers(filtered);
-      } else if (dropdown === TASKS) {
-      } else if (dropdown === NOTIFICATIONS) {
+        console.log(filtered.length);
+        setUsersToDisplay(filtered);
+      } else if (tasksData && dropdown === TASKS) {
+        const filtered = tasksData.filter(
+          (task) =>
+            task.title.toLowerCase().includes(search.toLowerCase()) ||
+            task.desc.toLowerCase().includes(search.toLowerCase()) ||
+            task.category.slice(0, num).toLowerCase() === search.toLowerCase()
+        );
+        console.log(filtered.length);
+        setTasksToDisplay(filtered);
       } else {
+        console.log("notifications drop");
       }
     } else {
-      setUsers(originalUsersData);
+      setUsersToDisplay(usersData)
+      setTasksToDisplay(tasksData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.search]);
+  }, [form]);
+  // useEffect(() => {
+  //   const { search, dropdown } = form;
+  //   const num = search.length;
+  //   if (num > 2) {/* 🔨 FIX NEEDED: should also change as num goes down! */}
+  //     if (usersData && dropdown === USERS) {
+  //       const filtered = usersData.filter(
+  //         (user) =>
+  //           user.username.slice(0, num).toLowerCase() ===
+  //             search.toLowerCase() ||
+  //           user.first_name.slice(0, num).toLowerCase() ===
+  //             search.toLowerCase() ||
+  //           user.last_name.slice(0, num).toLowerCase() ===
+  //             search.toLowerCase() ||
+  //           user.first_name
+  //             .concat(" ", user.last_name)
+  //             .slice(0, num)
+  //             .toLowerCase() === search.toLowerCase() ||
+  //           user.email.slice(0, num).toLowerCase() === search.toLowerCase()
+  //       );
+  //       setUsersToDisplay(filtered);
+  //     }
+  //     if (tasks && dropdown === TASKS) {
+  //       const filtered = tasks.filter(
+  //         (task) =>
+  //           task.title.toLowerCase().includes(search.toLowerCase()) ||
+  //           task.desc.toLowerCase().includes(search.toLowerCase()) ||
+  //           task.category.slice(0, num).toLowerCase() === search.toLowerCase()
+  //       );
+  //       setTasksToDisplay(filtered);
+  //       }
+  //     if (notifications && dropdown === NOTIFICATIONS) {
+  //       console.log("HI")
+  //     }
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [form]);
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
@@ -101,7 +162,7 @@ const AdminPage = (props: AdminPageProps) => {
         </Col>
       </Row>
     </Container>
-  ) : (
+  ) : usersToDisplay && tasksToDisplay ? (
     <Container fluid className='admin-page'>
       <Row>
         <div className='red'>
@@ -110,9 +171,9 @@ const AdminPage = (props: AdminPageProps) => {
         </div>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
-            users={users}
+            users={usersToDisplay}
             username={username}
-            tasks={tasks}
+            tasks={tasksToDisplay}
             form={form}
             setForm={setForm}
           />
@@ -120,18 +181,20 @@ const AdminPage = (props: AdminPageProps) => {
       </Row>
       <Row>
         <Table striped bordered hover>
-          {form.dropdown === USERS && users.length > 0 ? (
+          {form.dropdown === USERS && usersToDisplay.length > 0 ? (
             <UsersTableHeading />
-          ) : form.dropdown === TASKS && tasks.length > 0 ? (
+          ) : form.dropdown === TASKS && tasksToDisplay.length > 0 ? (
             <TasksTableHeading />
-          ) : form.dropdown === NOTIFICATIONS && notifications.length > 0 ? (
+          ) : form.dropdown === NOTIFICATIONS &&
+            notifications &&
+            notifications.length > 0 ? (
             <NotificationsTableHeading />
           ) : (
             <></>
           )}
           <tbody>
             {form.dropdown === USERS && form.id.length > 0 ? (
-              users
+              usersToDisplay
                 .filter((u) => u._id === form.id)
                 .map((u, i) => (
                   <UsersRow
@@ -157,7 +220,7 @@ const AdminPage = (props: AdminPageProps) => {
                   />
                 ))
             ) : form.dropdown === USERS ? (
-              users.map((u, i) => (
+              usersToDisplay.map((u, i) => (
                 <UsersRow
                   key={i}
                   signedInId={signedInId}
@@ -181,8 +244,8 @@ const AdminPage = (props: AdminPageProps) => {
                 />
               ))
             ) : form.dropdown === TASKS && form.id.length > 0 ? (
-              tasks
-                .filter((t) => t.createdBy === form.id)
+              tasksToDisplay
+                .filter((t) => t.createdBy === form.id || t.sharedWith?.includes(form.id))
                 .map((t, i) => (
                   <TasksRow
                     key={i}
@@ -198,12 +261,13 @@ const AdminPage = (props: AdminPageProps) => {
                     createdBy={t.createdBy}
                     deadline={t.deadline}
                     _v={t._v}
+                    users={usersData}
                     form={form}
                     setForm={setForm}
                   />
                 ))
             ) : form.dropdown === TASKS ? (
-              tasks.map((t, i) => (
+              tasksToDisplay.map((t, i) => (
                 <TasksRow
                   key={i}
                   _id={t._id}
@@ -218,12 +282,13 @@ const AdminPage = (props: AdminPageProps) => {
                   createdBy={t.createdBy}
                   deadline={t.deadline}
                   _v={t._v}
+                  users={usersData}
                   form={form}
                   setForm={setForm}
                 />
               ))
-            ) : users.filter((u) => u._id === form.id).length > 0 ? (
-              users
+            ) : usersToDisplay.filter((u) => u._id === form.id).length > 0 ? (
+              usersToDisplay
                 .filter((u) => u._id === form.id)[0]
                 .notification.map((n, i) => (
                   <NotificationsRow
@@ -251,6 +316,8 @@ const AdminPage = (props: AdminPageProps) => {
         </Table>
       </Row>
     </Container>
+  ) : (
+    <></>
   );
 };
 
