@@ -36,6 +36,9 @@
   text-align: center;
 }
 /* universal styling */
+/* a {
+  color: pink !important;
+} */
 .text-bigger {
   font-size: 1.2rem;
 }
@@ -116,7 +119,12 @@
   margin-right: auto;
   width: 200px;
   height: 200px;
+  margin: 0;
+  border: 4px dotted black;
   border-radius: 50%;
+}
+.profile-badge__holder-img.admin {
+  border: 2px solid gold !important;
 }
 .profile-badge__level {
   position: absolute;

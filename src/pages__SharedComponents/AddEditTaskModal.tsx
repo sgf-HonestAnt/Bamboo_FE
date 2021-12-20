@@ -25,7 +25,10 @@ import {
   TEAM,
 } from "../utils/appConstants";
 import { EditTask, setNewCategory, setNewTask } from "../redux/actions/tasks";
-import { getMinMaxDateAsString, getShortDateAsString } from "../utils/f_dates";
+import {
+  getMinMaxDateAsString,
+  getShortDateAsString,
+} from "../utils/f_dates";
 import {
   attemptDeleteTask,
   attemptPostOrEditTask,
@@ -43,8 +46,11 @@ import {
   ICOWORK,
 } from "../utils/appIcons";
 import { setUserLoading } from "../redux/actions/user";
+import { Link } from "react-router-dom";
 
 type AddEditTaskModalProps = {
+  view?: any;
+  setView?: any;
   show: any;
   handleClose: any;
   taskId?: string;
@@ -77,6 +83,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
   const {
+    view,
+    setView,
     show,
     handleClose,
     taskId,
@@ -302,6 +310,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const handleDelete = () => {
     setShowWarning(true);
   };
+  const handleEdit = () => {
+    setView(false);
+  };
   const removeTaskFromInitialData = async () => {
     if (initialData) {
       console.log(initialData);
@@ -385,7 +396,59 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   // console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
-      {showWarning ? (
+      {taskSet && view ? (
+        <>
+          <Modal.Header>
+            <Modal.Title>
+              {taskSet.title} ({taskSet.value}XP)
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ul>
+              {taskSet.deadline && (
+                <li>Deadline: {getShortDateAsString(taskSet.deadline)}</li>
+              )}
+              {taskSet.category && <li>Category: {taskSet.category}</li>}
+              {taskSet.desc && <li>Description: {taskSet.desc}</li>}
+              {taskSet.repeats && <li>Repeats: {taskSet.repeats}</li>}
+              {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
+                <li>
+                  Shared with:
+                  <br />
+                  {taskSet.sharedWith
+                    .filter((id) => id !== my_user._id)
+                    .map((id, i) => {
+                      const avatar = getAvatarById(followedUsers, id);
+                      const username = getUsernameById(followedUsers, id);
+                      return (
+                        <div key={i}>
+                          <Link to={`/following?id=${id}`} >
+                            <img
+                              src={avatar}
+                              alt={username}
+                              className='x-tiny-round mr-1'
+                            />
+                            {username}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                </li>
+              ) : (
+                <li>Shared with: not shared</li>
+              )}
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant='primary' onClick={handleEdit}>
+             Edit task?
+            </Button>
+            <Button variant='secondary' onClick={handleClose}>
+              No, go back
+            </Button>
+          </Modal.Footer>
+        </>
+      ) : showWarning ? (
         <>
           <Modal.Header>
             <Modal.Title>Delete task</Modal.Title>
@@ -494,10 +557,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               {!showNewCat ? (
                 <Form.Group controlId='category'>
                   <Form.Label>What's the category?</Form.Label>
-                  {!taskSet &&
-                    console.log(
-                      "FIX NEEDED ON ADDEDITTASKMODAL"
-                    ) // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
+                  {
+                    !taskSet && console.log("FIX NEEDED ON ADDEDITTASKMODAL") // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
                   }
                   <Form.Control
                     required
@@ -804,11 +865,11 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           <Modal.Footer>
             {taskSet && !changed ? (
               <Button variant='primary' onClick={handleSubmit} disabled>
-                Edit task
+                Save edit
               </Button>
             ) : taskSet ? (
               <Button variant='primary' onClick={handleSubmit}>
-                Edit task
+                Save edit
               </Button>
             ) : !changed ? (
               <Button variant='primary' onClick={handleSubmit} disabled>

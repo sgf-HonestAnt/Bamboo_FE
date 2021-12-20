@@ -38,7 +38,7 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
   return (
     <Container fluid>
       <Row className='login-form px-5'>
-        <Col sm={4} className='px-5 login-form__col'>
+        <Col sm={6} md={5} lg={4} className='px-5 login-form__col'> 
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} controlId='username'>

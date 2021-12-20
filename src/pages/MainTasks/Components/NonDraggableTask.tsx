@@ -20,6 +20,7 @@ import {
   moveTaskBetweenStatus,
 } from "../../../utils/f_tasks";
 import { RemTaskFromCompleted } from "../../../redux/actions/tasks";
+import { addIDToTasksToHide } from "../../../utils/f_users";
 
 type NonDraggableTaskProps = {
   task: taskInt | undefined;
@@ -32,6 +33,7 @@ type NonDraggableTaskProps = {
 const NonDraggableTask = (props: NonDraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const dispatch = useDispatch();
+  const { tasks_to_hide } = state.currentUser.my_user;
   const tasks = state.currentTasks;
   const { completed } = tasks;
   const { task, i, taskList, setTaskList } = props;
@@ -43,7 +45,7 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
   };
   const handleDelete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await attemptDeleteTask(task!._id);
+    await addIDToTasksToHide(tasks_to_hide, task!._id);
     const newCompleted = completed.filter((t) => t._id !== task!._id);
     dispatch(RemTaskFromCompleted(newCompleted)); // remove task from tasklist
     if (task) {
@@ -91,8 +93,8 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
           </span>
           {showDeleteMessage && (
             <div>
-              This task will be deleted permanently, although your 'completed' total
-              will not change. <br />
+              This task will no longer be viewable, although your 'completed'
+              total will not change. <br />
               Continue? <br />
               <AcceptButton handleClick={handleDelete} />
               <RejectButton handleClick={undoDelete} />

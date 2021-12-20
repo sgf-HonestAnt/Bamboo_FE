@@ -21,7 +21,7 @@ import {
   POST,
   DELETE,
 } from "./appConstants";
-
+///////////////////////////////////////////////////////////////////////////////
 export const findUsernameByEmail = async (email: string) => {
   console.log("🙋Finding Username By Email");
   const url = `${BE_URL}/${USERS}?email=${email}`;
@@ -34,6 +34,7 @@ export const findUsernameByEmail = async (email: string) => {
     return;
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const attemptLoginUser = async (
   form: loginFormProps,
   history: string[] | History<unknown>,
@@ -59,7 +60,7 @@ export const attemptLoginUser = async (
       if (accessToken) {
         localStorage.setItem("token", accessToken);
       }
-      return responseAsJSON
+      return responseAsJSON;
     } else {
       console.log("😥TROUBLE LOGGING IN");
     }
@@ -67,6 +68,7 @@ export const attemptLoginUser = async (
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
@@ -82,6 +84,7 @@ export const getUsers = async () => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const getUserByQuery = async (query: string) => {
   try {
     console.log("🙋Getting User By Email or Username");
@@ -98,6 +101,7 @@ export const getUserByQuery = async (query: string) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const getUsersAsAdmin = async (_id: string) => {
   // get all users as admin - all info except refresh token
   console.log("🙋Getting Users As Admin");
@@ -121,6 +125,7 @@ export const getUsersAsAdmin = async (_id: string) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
   console.log("🙋Getting User Role");
@@ -134,6 +139,7 @@ export const getUserRole = (level: number | null) => {
     ? "Proficient Panda"
     : "Adept";
 };
+///////////////////////////////////////////////////////////////////////////////
 export const clearLastNotification = async (notification: string[]) => {
   console.log("🙋Clearing Last Notification");
   const token = localStorage.getItem("token");
@@ -155,6 +161,7 @@ export const clearLastNotification = async (notification: string[]) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   console.log("🙋Updating User Bio");
   const token = localStorage.getItem("token");
@@ -175,6 +182,7 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const AddUserNotification = async (
   user: userInt,
   newNotification: string
@@ -197,6 +205,7 @@ export const AddUserNotification = async (
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   console.log("🙋Updating My User");
   const token = localStorage.getItem("token");
@@ -221,6 +230,26 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
+export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string) => {
+  console.log("🙋Updating Users Completed Tasks To Hide"); 
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    tasks_to_hide.push(id);
+    const body = JSON.stringify({ tasks_to_hide });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const updated = await fetch(url, { method, headers, body });
+    return updated;
+  } catch (error) {
+    console.log(error);
+  }
+}
+///////////////////////////////////////////////////////////////////////////////
 export const sendUsersNotification = async (notification: string) => {
   console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");
@@ -238,6 +267,7 @@ export const sendUsersNotification = async (notification: string) => {
     console.log(error);
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const refreshUserPoints = async (
   user: userInt,
   value: number,
@@ -258,6 +288,7 @@ export const refreshUserPoints = async (
     })
   );
 };
+///////////////////////////////////////////////////////////////////////////////
 export const refreshUserLevel = async (
   user: userInt,
   value: number,
@@ -295,6 +326,7 @@ export const refreshUserLevel = async (
     return;
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const acceptOrRejectUser = async (username: string, action: string) => {
   console.log("🙋Accepting/Rejecting Follow");
   const token = localStorage.getItem("token");
@@ -335,6 +367,7 @@ export const getUsernameById = (
     return user.username;
   }
 };
+///////////////////////////////////////////////////////////////////////////////
 export const getAvatarById = (
   followedUsers: followedUserInt[],
   userId: string
@@ -344,3 +377,70 @@ export const getAvatarById = (
     return user.avatar;
   }
 };
+////////////////////////////////////////////////////////////////////
+// Admin Page Sorting Asc
+export const sortUsersAsc = (usersList: userInt[], key: string) => {
+  const sortedUsers = usersList.sort((a, b) => {
+    const keyA =
+      key === "username" ? a.username : key === "fullName" ? a.last_name : "";
+    const keyB =
+      key === "username" ? b.username : key === "fullName" ? b.last_name : "";
+    if (keyA < keyB) {
+      return -1;
+    } else if (keyA > keyB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  const checkSort =
+    key !== "fullName"
+      ? sortedUsers
+      : sortedUsers.sort((c, d) => {
+          const keyC = c.first_name;
+          const keyD = d.first_name;
+          if (keyC > keyD) {
+            return -1;
+          } else if (keyC < keyD) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+  console.log("CHECKSORT=>", checkSort);
+  return checkSort;
+};
+////////////////////////////////////////////////////////////////////
+// Admin Page Sorting Desc
+export const sortUsersDesc = (usersList: userInt[], key: string) => {
+  const sortedUsers = usersList.sort((a, b) => {
+    const keyA =
+      key === "username" ? a.username : key === "fullName" ? a.last_name : "";
+    const keyB =
+      key === "username" ? b.username : key === "fullName" ? b.last_name : "";
+    if (keyA < keyB) {
+      return -1;
+    } else if (keyA > keyB) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  const checkSort =
+    key !== "fullName"
+      ? sortedUsers
+      : sortedUsers.sort((c, d) => {
+          const keyC = c.first_name;
+          const keyD = d.first_name;
+          if (keyC > keyD) {
+            return -1;
+          } else if (keyC < keyD) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+  console.log("CHECKSORT=>", checkSort);
+  return checkSort;
+};
+////////////////////////////////////////////////////////////////////

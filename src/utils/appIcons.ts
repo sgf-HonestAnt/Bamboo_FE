@@ -8,7 +8,7 @@ import { RiCake3Line } from "react-icons/ri";
 import { GiPieSlice } from "react-icons/gi";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { GrAddCircle } from "react-icons/gr";
-import { FaDog } from "react-icons/fa";
+import { FaDog, FaCrown } from "react-icons/fa";
 import {
   FiActivity,
   // FiAtSign,
@@ -23,6 +23,7 @@ import {
   FiDribbble,
   FiEdit,
   FiFlag,
+  FiGift,
   FiHeart,
   FiHome,
   // FiImage,
@@ -46,6 +47,8 @@ import {
   // FiWatch,
   FiXSquare,
 } from "react-icons/fi"; 
+export const ICOGIFT = FiGift;
+export const ICOCROWN = FaCrown;
 // ********** CATEGORIES **********
 export const ICOURGENT = FiFlag;
 export const ICOHOUSE = FiHome;

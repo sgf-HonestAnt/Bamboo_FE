@@ -6,6 +6,7 @@ import {
   ICOCROSS,
   ICODELETE,
   ICOEDIT,
+  ICOGIFT,
   ICOROTATE,
 } from "../utils/appIcons";
 
@@ -130,7 +131,12 @@ export const BackToDashButtonCol = (props: ButtonProps) => (
   </Button>
 );
 export const SendGiftButton = (props: ButtonProps) => (
-  <Button variant='link' value={props.value} onClick={props.handleClick}>
-    Send gift 🎁
+  <Button variant='secondary' value={props.value} onClick={props.handleClick}>
+    Send gift <ICOGIFT />
+  </Button>
+);
+export const ContactAdminButton = (props: ButtonProps) => (
+  <Button variant='primary' value={props.value} onClick={props.handleClick}>
+    Send a message
   </Button>
 );

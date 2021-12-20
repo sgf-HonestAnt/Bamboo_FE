@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Row, Card, Button, Modal } from "react-bootstrap";
 import {
+  ContactAdminButton,
   LinkButton,
   SendGiftButton,
 } from "../../pages__SharedComponents/Buttons";
@@ -10,11 +12,14 @@ import ProfileBadge from "../../pages__SharedComponents/ProfileBadge";
 import BambooPoints from "../../pages__SharedComponents/XP";
 import { getUserRole } from "../../utils/f_users";
 import "./styles.css";
+import { ICOCROWN } from "../../utils/appIcons";
 
-type FollowingPageProps = {};
+type FollowingPageProps = { location: Location<unknown> };
 const FollowingPage = (props: FollowingPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
+  const { location } = props;
+  const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
   const points = my_user.xp;
   const [show, setShow] = useState(false);
@@ -42,49 +47,83 @@ const FollowingPage = (props: FollowingPageProps) => {
     const xp = e.target.value;
     setGift({ ...gift, xp });
   };
+  const locationSearch = location.search.split("=")[1];
+  useEffect(() => {
+    if (location.search) {
+      console.log(location.search);
+      const filteredUsers = followedUsers.filter(
+        (user) => user._id === locationSearch
+      );
+      setUsersToShow(filteredUsers);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   return (
     <Row className='following-page p-1'>
-      {followedUsers?.length < 1 && <p>NO FOLLOWED USERS!</p>}
-      {followedUsers?.map((u, i) => (
+      {usersToShow?.length < 1 && <p>NO FOLLOWED USERS!</p>}
+      {usersToShow?.map((u, i) => (
         <div key={i} className='following-page__profile-card col-3 m-1'>
           <ProfileBadge
             isMine={false}
             avatar={u.avatar}
+            admin={u.admin}
             level={u.level}
             total_completed={u.total_completed}
             total_awaited={u.total_awaited}
             total_in_progress={u.total_in_progress}
           />
-          {/* <Card.Img variant='top' src={u.avatar} className="following-page__profile-card__avatar"/> */}
-          <Card.Title>{u.username}</Card.Title>
+          <Card.Title>{u.username} </Card.Title>
           <div>{u.bio}</div>
-          <div>{getUserRole(u.level)}</div>
-          <SendGiftButton
-            value={`${u._id} ${u.username}`}
-            handleClick={sendGift}
-          />
+          <div>
+            {u.admin && (
+              <span style={{ color: "gold" }}>
+                <ICOCROWN />
+              </span>
+            )}
+            {u.admin ? "Team Admin" : getUserRole(u.level)}{" "}
+          </div>
+          {u.admin ? (
+            <ContactAdminButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+          ) : (
+            <SendGiftButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+          )}
+
           {points! < 100 ? (
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
-                <Modal.Title>You have {points} Bamboo Points</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                You need a minimum of 100 Bamboo Points before you can send{" "}
-                {gift.username} a gift. Come back later after completing some
-                tasks!
-              </Modal.Body>
-              <Modal.Footer>
-                {/* <Button variant='primary' onClick={handleDelete}>
+              {u.admin ? (
+                <Modal.Header>Send message to {gift.username}</Modal.Header>
+              ) : (
+                <>
+                  <Modal.Header>
+                    <Modal.Title>You have {points} Bamboo Points</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    You need a minimum of 100 Bamboo Points before you can send{" "}
+                    {gift.username} a gift. Come back later after completing
+                    some tasks!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    {/* <Button variant='primary' onClick={handleDelete}>
                 Yes, delete my account
               </Button> */}
-                <Button variant='secondary' onClick={handleClose}>
-                  Go back
-                </Button>
-              </Modal.Footer>
+                    <Button variant='secondary' onClick={handleClose}>
+                      Go back
+                    </Button>
+                  </Modal.Footer>
+                </>
+              )}
             </Modal>
           ) : (
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header> {/* 🔨 FIX NEEDED: implement gift-giving feature! */}
+              <Modal.Header>
+                {" "}
+                {/* 🔨 FIX NEEDED: implement gift-giving feature! */}
                 {gift.xp === 0 ? (
                   <Modal.Title>
                     You have {points} Bamboo Points To Give

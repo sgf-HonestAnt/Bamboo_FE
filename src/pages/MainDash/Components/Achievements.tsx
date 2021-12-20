@@ -6,8 +6,8 @@ import { LinkButton } from "../../../pages__SharedComponents/Buttons";
 import { attemptPostAchievement } from "../../../utils/f_achievements";
 import createSuperlist from "../../../utils/f_superlist";
 
-type DashAchievCardProps = {};
-const DashAchievCard = (props: DashAchievCardProps) => {
+type AchievementsProps = {};
+const Achievements = (props: AchievementsProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username } = my_user;
@@ -79,4 +79,4 @@ const DashAchievCard = (props: DashAchievCardProps) => {
   );
 };
 
-export default DashAchievCard;
+export default Achievements;

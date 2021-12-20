@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Button, Form } from "react-bootstrap";
-import { ICOSETTINGS } from "../../utils/appIcons";
+import { ICOCROWN, ICOSETTINGS } from "../../utils/appIcons";
 import { THEMES } from "../../utils/appConstants";
 import {
   changeThemeAction,
@@ -21,12 +21,12 @@ type SidebarProps = {
   setTheme: any;
 };
 const MainSideBar = (props: SidebarProps) => {
-  console.log("FIX NEEDED ON MAINSIDEBAR") // 🔨 FIX NEEDED: STYLE AND IMPLEMENT THEMES!
+  console.log("FIX NEEDED ON MAINSIDEBAR"); // 🔨 FIX NEEDED: STYLE AND IMPLEMENT THEMES!
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { level, xp } = my_user;
-  const { awaited, in_progress, completed } = state.currentTasks;
-  const allTasks = awaited.concat(in_progress, completed);
+  const { awaited, in_progress } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
   const { history, location, setTheme } = props;
   const dispatch = useDispatch();
@@ -72,7 +72,14 @@ const MainSideBar = (props: SidebarProps) => {
         <>
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
-            <div className='text-bigger'><Link to='/dash'>{my_user.username}</Link></div>
+            <div className='text-bigger'>
+              <Link to='/dash'>{my_user.username}</Link>{" "}
+              {my_user.admin && (
+                <span style={{ color: "gold" }}>
+                  <ICOCROWN />
+                </span>
+              )}
+            </div>
             <div>level {level}</div>
             <div>
               {xp}
@@ -81,11 +88,12 @@ const MainSideBar = (props: SidebarProps) => {
           </div>
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}
+            <Link to='/stats'>view stats</Link>
             <Link to='/tasks'>tasks ({allTasks.length})</Link>
             {numOfUsers > 0 ? (
-              <Link to='/following'>following ({numOfUsers})</Link>
+              <Link to='/following'>team ({numOfUsers})</Link>
             ) : (
-              <div>following (0)</div>
+              <></>
             )}
             <Button variant='link' onClick={logout}>
               log out

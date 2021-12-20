@@ -18,8 +18,13 @@ import AdminPage from "../MainAdmin";
 import ErrorPage from "../MainError";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
+import { useMediaQuery } from "react-responsive";
+import StatsPage from "../MainStats";
 
 const MainBody = ({ history, location }: RouteComponentProps) => {
+  // ****************************MEDIA********************************************
+  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+  // ****************************MEDIA********************************************
   const [mainLoading, setMainLoading] = useState(true);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
@@ -78,7 +83,9 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
   }, [token]);
   const sideBarSizeSm = location.pathname === "/admin-dash" ? 2 : 3;
   const sideBarSizeMd = location.pathname === "/admin-dash" ? 1 : 2;
-  return (
+  return isPortrait ? (
+    <div>PORTRAIT DISPLAY</div>
+  ) : (
     <Container fluid className='main-page m-0' id={theme}>
       {loading || mainLoading ? (
         <Row className='main-page__spinner'>
@@ -103,14 +110,13 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
             <Col className='m-0 px-4'>
               <DashboardPage history={history} location={location} />
             </Col>
-          ) : // ) : path === "/stats" ? (
-          //   <Stats />
-          path === "/tasks" ? (
+          ) : path === "/stats" ? (
             <Col className='m-0'>
-              <NewTasksPage
-                history={history}
-                location={location}
-              />
+              <StatsPage />
+            </Col>
+          ) : path === "/tasks" ? (
+            <Col className='m-0'>
+              <NewTasksPage history={history} location={location} />
             </Col>
           ) : // path === "/tasks-schedule" ? (
           //   <TasksSchedule />
@@ -121,10 +127,10 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
           // ) :
           path === "/following" ? (
             <Col className='m-0'>
-              <FollowingPage />
+              <FollowingPage location={location} />
             </Col>
           ) : path === "/admin-dash" ? (
-            <Col className='m-0 p-0'>
+            <Col sm={10}>
               <AdminPage
                 user={user}
                 features={features}

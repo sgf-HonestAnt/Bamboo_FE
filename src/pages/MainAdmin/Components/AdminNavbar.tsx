@@ -6,6 +6,7 @@ import {
   NOTIFICATIONS,
   TASKS,
   USERS,
+  USERS_SORT_BY,
 } from "../../../utils/appConstants";
 
 type AdminNavbarProps = {
@@ -16,15 +17,23 @@ type AdminNavbarProps = {
   setForm: any;
 };
 const AdminNavbar = (props: AdminNavbarProps) => {
-  const { users, username, tasks, form, setForm } = props;
+  const {
+    users,
+    username,
+    tasks,
+    form,
+    setForm,
+  } = props;
   const { id } = form;
   const dropdown = [USERS, TASKS, NOTIFICATIONS, FEATURES];
-  const changeDropdown = (e: { target: { value: any } }) => {
+  const handleChange = (e: { target: { id: any; value: any } }) => {
+    const id = e.target.id;
     const value = e.target.value;
-    setForm({
-      ...form,
-      dropdown: value,
-    });
+    if (id === "sortBy" && value === USERS_SORT_BY[0]) {
+      setForm({ ...form, sortBy: value });
+    } else {
+      setForm({ ...form, [id]: value });
+    }
   };
   const handleClick = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -33,7 +42,8 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   const usersNum = users.length;
   const tasksNum =
     form.id.length > 0
-      ? tasks.filter((t) => t.createdBy === id).length
+      ? tasks.filter((t) => t.createdBy === id || t.sharedWith?.includes(id))
+          .length
       : tasks.length;
   const notifNum = users[0]?.notification?.length;
   const usersHeader =
@@ -44,16 +54,18 @@ const AdminNavbar = (props: AdminNavbarProps) => {
     tasksNum > 0 && id.length > 0
       ? `found ${tasksNum} task${
           tasksNum !== 1 ? "s" : ""
-        } belonging to user ${username}`
+        } for user: ${username}`
       : `found ${tasksNum} task${
-          tasksNum > 1 ? "s" : ""
-        } belonging to ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
+          tasksNum !== 1 ? "s" : ""
+        } for ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
   const notifHeader =
     users.filter((u) => u._id === form.id).length > 0
       ? `${notifNum} notification${
           notifNum !== 1 ? "s" : ""
         } belonging to user ${username}`
       : "";
+  const DEFAULT = "Sort by..."
+  console.log(form);
   return (
     <Navbar bg='light' expand='lg'>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -61,12 +73,13 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         <Form>
           <Nav className='mr-auto admin-page__form'>
             <ResetButton label='Reset' handleClick={handleClick} />
-            <Form.Group className='admin-page__form-dropdown' id='dropdown'>
-              <Form.Control as='select' onChange={changeDropdown}>
+            <Form.Group
+              controlId='dropdown'
+              className='admin-page__form-dropdown'
+              id='dropdown'>
+              <Form.Control as='select' onChange={handleChange}>
                 {dropdown.map((d) => (
-                  <option key={d} selected={form.dropdown === d}>
-                    {d}
-                  </option>
+                  <option key={d}>{d}</option>
                 ))}
               </Form.Control>
             </Form.Group>
@@ -77,14 +90,34 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                 ? tasksHeader
                 : notifHeader}
             </div>
-            <Form.Group className='admin-page__form-search'>
+            <Form.Group controlId='search' className='admin-page__form-search'>
               <FormControl
                 type='text'
                 placeholder='Search'
                 className='mr-sm-2'
+                onChange={handleChange}
               />
             </Form.Group>
-            <Button variant='outline-success'>Search</Button>
+            <Button variant='outline-success' disabled>
+              Search
+            </Button>
+            {form.dropdown === USERS && (
+              <Form.Group
+                controlId='sortBy'
+                className='admin-page__form-dropdown ml-1'
+                id='dropdown'
+                defaultValue={DEFAULT}
+              >
+                <Form.Control as='select' onChange={handleChange}>
+                  <option disabled>
+                    {DEFAULT}
+                  </option>
+                  {USERS_SORT_BY.map((string, i) => (
+                    <option key={i}>{string}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+            )}
           </Nav>
         </Form>
       </Navbar.Collapse>

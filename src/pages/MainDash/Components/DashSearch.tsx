@@ -1,10 +1,16 @@
+import { History } from "history";
 import { useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
-import { currentUserInt, publicUserInt, reduxStateInt } from "../../../typings/interfaces";
+import {
+  currentUserInt,
+  publicUserInt,
+  reduxStateInt,
+} from "../../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "../../../pages__SharedComponents/Buttons";
 import { requestFollow } from "../../../utils/f_follows";
 import { getUserByQuery } from "../../../utils/f_users";
+import { Link } from "react-router-dom";
 
 type ResultProps = {
   found: boolean;
@@ -12,11 +18,14 @@ type ResultProps = {
   message: string;
 };
 type DashSearchProps = {
+  history: History<unknown> | string[];
   search: string;
   setSearch: any;
 };
 const DashSearch = (props: DashSearchProps) => {
-  const currentUser: currentUserInt = useAppSelector((state: reduxStateInt) => state.currentUser);
+  const currentUser: currentUserInt = useAppSelector(
+    (state: reduxStateInt) => state.currentUser
+  );
   const { followedUsers, my_user } = currentUser;
   const { _id } = my_user;
   const { search, setSearch } = props;
@@ -54,7 +63,43 @@ const DashSearch = (props: DashSearchProps) => {
   };
   return (
     <div className='dashboard__search-bar m-2 px-4'>
-      <div className='dashboard__card-header'>Find a User</div>
+      {followedUsers.length > 3 ? (
+        <>
+          {followedUsers.slice(0, 3).map((user, i) => {
+            const avatar = user.avatar;
+            const username = user.username;
+            return (
+              <Link to={`/following?id=${user._id}`}>
+                <img
+                  key={i}
+                  src={avatar}
+                  alt={username}
+                  className='x-tiny-round mr-1'
+                />
+              </Link>
+            );
+          })}
+          <Link to='/following'>+{followedUsers.length - 3}</Link>
+        </>
+      ) : followedUsers.length > 0 ? (
+        followedUsers.map((user, i) => {
+          const avatar = user.avatar;
+          const username = user.username;
+          return (
+            <Link to={`/following?id=${user._id}`}>
+              <img
+                key={i}
+                src={avatar}
+                alt={username}
+                className='x-tiny-round mr-1'
+              />
+            </Link>
+          );
+        })
+      ) : (
+        <></>
+      )}
+      <div className='dashboard__card-header'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
           type='text'

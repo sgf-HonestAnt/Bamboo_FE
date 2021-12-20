@@ -33,6 +33,7 @@ export interface userInt {
   xp: number;
   total_xp: number; // total cumulative xp
   total_completed: number; // total completed tasks
+  tasks_to_hide: string[];
   admin?: boolean;
   notification: string[];
   createdAt: string;
@@ -84,6 +85,7 @@ export interface followedUserInt {
   // GET users/me
   _id: string;
   username: string;
+  admin: boolean;
   avatar: string;
   bio: string;
   level: number;

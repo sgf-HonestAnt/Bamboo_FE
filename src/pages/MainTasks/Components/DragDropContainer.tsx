@@ -28,7 +28,14 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   const { my_user } = state.currentUser;
   const achievements = state.currentAchievements;
   const currentTasks = state.currentTasks;
-  const { taskList, setTaskList, initialData, setInitialData, history, location } = props;
+  const {
+    taskList,
+    setTaskList,
+    initialData,
+    setInitialData,
+    history,
+    location,
+  } = props;
   const dispatch = useDispatch();
   // const [initialData, setInitialData] = useState<beautifulDnD>({
   //   tasks: [],
@@ -62,7 +69,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         dispatch
       );
     }
-  }; 
+  };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
     // if task moves outside droppable space

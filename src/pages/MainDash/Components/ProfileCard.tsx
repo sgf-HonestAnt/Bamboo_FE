@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
-import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
+import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../../../pages__SharedComponents/Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/f_users";
 import BambooPoints from "../../../pages__SharedComponents/XP";
@@ -46,7 +46,12 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     <div className='dashboard__profile-card m-2'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
-        {username} {admin && "(admin)"}{" "}
+        {admin && (
+          <div className='mr-1' style={{ color: "gold" }}>
+            <ICOCROWN />
+          </div>
+        )}
+        {username}
         <EditButton handleClick={pushToSettings} />
       </div>
       <div>{role}</div>
@@ -82,8 +87,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         <div>
           <ICOACTIVITY />
         </div>
-        <div className='red'>React Stats package</div>
-        <Link to='/stats'>Stats</Link>
+        <Link to='/stats'>View Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
         <ICOUSERS className='mr-1' />

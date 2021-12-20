@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import {
@@ -23,9 +24,10 @@ const TodayTasks = () => {
     }
     setOverdueTasks(array);
   };
-  const numOfTodayTasks = allTasks.filter(
+  const todayTasks = allTasks.filter(
     (task) => task.deadline?.slice(0, 10) === today
-  ).length;
+  );
+  const numOfTodayTasks = todayTasks.length;
   useEffect(() => {
     findIfTasksOverdue();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,8 +35,17 @@ const TodayTasks = () => {
   return (
     <div className='m-2 p-1 dashboard__tasks-card__task-box'>
       {numOfTodayTasks + overdueTasks.length} task
-      {numOfTodayTasks === 1 ? "" : "s"} due now{" "}
-      {overdueTasks.length > 0 && `with ${overdueTasks.length} overdue`}
+      {numOfTodayTasks === 1 ? "" : "s"} due now
+      {numOfTodayTasks === 1 && ": "}
+      {numOfTodayTasks === 1 && ": " && (
+        <>
+          <br />
+          <Link to={`/tasks?id=${todayTasks[0]._id}`}>
+            "{todayTasks[0].title}"
+          </Link>
+        </>
+      )}
+      {overdueTasks.length > 0 && ` with ${overdueTasks.length} overdue`}
     </div>
   );
 };
