@@ -135,3 +135,8 @@ export const SendGiftButton = (props: ButtonProps) => (
     Send gift <ICOGIFT />
   </Button>
 );
+export const ContactAdminButton = (props: ButtonProps) => (
+  <Button variant='primary' value={props.value} onClick={props.handleClick}>
+    Send a message
+  </Button>
+);

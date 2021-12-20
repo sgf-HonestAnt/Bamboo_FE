@@ -11,7 +11,7 @@ export default function StatsPage() {
   const { currentTasks } = state;
   const { my_user } = state.currentUser;
   const { total_completed } = my_user;
-  const { awaited, in_progress, completed, categories } = currentTasks;
+  const { awaited, in_progress } = currentTasks;
   const allTasks = awaited.concat(in_progress);
   const urgentTasks = allTasks.filter((task) => task.category === URGENT);
   const tasksTotal = [
@@ -21,7 +21,14 @@ export default function StatsPage() {
   ];
   console.log(tasksTotal);
   const mapData = () => {
-    let data: any[] = [];
+    let data: any[] = [
+      {
+        name: "Completed",
+        uv: total_completed + 0.1,
+        pv: tasksTotal.length * 2000,
+        amt: tasksTotal.length,
+      },
+    ];
     tasksTotal.map((task, i) => {
       data.push({
         name: task.title,
@@ -29,12 +36,6 @@ export default function StatsPage() {
         pv: i * 2000,
         amt: i,
       });
-    });
-    data.push({
-      name: "Completed",
-      uv: total_completed + 0.1,
-      pv: tasksTotal.length * 2000,
-      amt: tasksTotal.length,
     });
     return data;
   };
@@ -125,10 +126,35 @@ export default function StatsPage() {
   return (
     <Container fluid>
       <Row>
-        <Col sm={12} className='pt-5'>
-          <h1>Stats for week ending ...</h1>
+        <Col sm={4} className='p-5'>
+          I want charts for:-
+          <ul>
+            <li>
+              Percentage of tasks being delivered on time vs late (status =
+              completed and updatedAtAsDate lt/= deadlineAsDate)
+            </li>
+            <li>
+              "At a glance" category dispersal: how many tasks exist that are
+              part of all the sep categories. And similar with status, value,
+              shared. Try StackedBarChart or MixBarChart to show uv, pv and amt
+            </li>
+            <li>
+              Most active time of day for task creation and task completion. Try
+              TinyLineChart or SimpleLineChart.
+            </li>
+            <li>
+              What users do we share with most frequently and ? what is the
+              value of all tasks we share with them ? Try
+              PieChartWithPaddingAngle, PieChartWithCustomizedLabel
+            </li>
+          </ul>
+          <div>
+            (***NOTE*** perhaps is not a good idea to be able to delete task
+            once it's completed, as messes with these figures. Instead create a
+            list of DeletedForMe ids and exclude them from the DroppableList)
+          </div>
         </Col>
-        <Col sm={6} className='p-5'>
+        <Col sm={3} className='p-5'>
           <StatusBar data={testData} />
         </Col>
         {/* <Col sm={6}>

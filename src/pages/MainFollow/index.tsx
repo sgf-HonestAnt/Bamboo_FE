@@ -4,6 +4,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Row, Card, Button, Modal } from "react-bootstrap";
 import {
+  ContactAdminButton,
   LinkButton,
   SendGiftButton,
 } from "../../pages__SharedComponents/Buttons";
@@ -71,38 +72,52 @@ const FollowingPage = (props: FollowingPageProps) => {
             total_awaited={u.total_awaited}
             total_in_progress={u.total_in_progress}
           />
-          <Card.Title>
-            {u.username}{" "}
+          <Card.Title>{u.username} </Card.Title>
+          <div>{u.bio}</div>
+          <div>
             {u.admin && (
               <span style={{ color: "gold" }}>
                 <ICOCROWN />
               </span>
             )}
-          </Card.Title>
-          <div>{u.bio}</div>
-          <div>{getUserRole(u.level)}</div>
-          <SendGiftButton
-            value={`${u._id} ${u.username}`}
-            handleClick={sendGift}
-          />
+            {u.admin ? "Team Admin" : getUserRole(u.level)}{" "}
+          </div>
+          {u.admin ? (
+            <ContactAdminButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+          ) : (
+            <SendGiftButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+          )}
+
           {points! < 100 ? (
             <Modal show={show} onHide={handleClose}>
-              <Modal.Header>
-                <Modal.Title>You have {points} Bamboo Points</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                You need a minimum of 100 Bamboo Points before you can send{" "}
-                {gift.username} a gift. Come back later after completing some
-                tasks!
-              </Modal.Body>
-              <Modal.Footer>
-                {/* <Button variant='primary' onClick={handleDelete}>
+              {u.admin ? (
+                <Modal.Header>Send message to {gift.username}</Modal.Header>
+              ) : (
+                <>
+                  <Modal.Header>
+                    <Modal.Title>You have {points} Bamboo Points</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    You need a minimum of 100 Bamboo Points before you can send{" "}
+                    {gift.username} a gift. Come back later after completing
+                    some tasks!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    {/* <Button variant='primary' onClick={handleDelete}>
                 Yes, delete my account
               </Button> */}
-                <Button variant='secondary' onClick={handleClose}>
-                  Go back
-                </Button>
-              </Modal.Footer>
+                    <Button variant='secondary' onClick={handleClose}>
+                      Go back
+                    </Button>
+                  </Modal.Footer>
+                </>
+              )}
             </Modal>
           ) : (
             <Modal show={show} onHide={handleClose}>
