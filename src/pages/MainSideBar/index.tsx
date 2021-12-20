@@ -88,11 +88,12 @@ const MainSideBar = (props: SidebarProps) => {
           </div>
           <div className='main-side-bar__links'>
             {my_user.admin && <Link to='/admin-dash'>admin</Link>}
+            <Link to='/stats'>view stats</Link>
             <Link to='/tasks'>tasks ({allTasks.length})</Link>
             {numOfUsers > 0 ? (
-              <Link to='/following'>teammates ({numOfUsers})</Link>
+              <Link to='/following'>team ({numOfUsers})</Link>
             ) : (
-              <div>following (0)</div>
+              <></>
             )}
             <Button variant='link' onClick={logout}>
               log out

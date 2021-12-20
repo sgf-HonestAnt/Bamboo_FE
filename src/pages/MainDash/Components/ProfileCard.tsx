@@ -87,8 +87,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         <div>
           <ICOACTIVITY />
         </div>
-        <div className='red'>React Stats package</div>
-        <Link to='/stats'>Stats</Link>
+        <Link to='/stats'>View Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
         <ICOUSERS className='mr-1' />

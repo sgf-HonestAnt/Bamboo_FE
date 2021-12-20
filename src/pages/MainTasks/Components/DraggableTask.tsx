@@ -120,12 +120,12 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 <span
                   onClick={handleShow}
                   className={`tasks-page__list-task__title ${task!.category}`}>
+                  {icon} {task!.title} ({task!.value}XP){" "}
                   {taskIsOverdue && (
                     <span style={{ color: "red" }}>
                       <ICOCLOCK />
                     </span>
                   )}
-                  {icon} {task!.title} ({task!.value}XP)
                 </span>
                 {/* <OpenTaskButton
                   label={`${task!.title} (${task!.value}XP)`}

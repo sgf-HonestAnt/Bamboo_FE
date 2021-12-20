@@ -19,6 +19,7 @@ import ErrorPage from "../MainError";
 import checkToken from "../../utils/f_checkToken";
 import "./styles.css";
 import { useMediaQuery } from "react-responsive";
+import StatsPage from "../MainStats";
 
 const MainBody = ({ history, location }: RouteComponentProps) => {
   // ****************************MEDIA********************************************
@@ -109,9 +110,11 @@ const MainBody = ({ history, location }: RouteComponentProps) => {
             <Col className='m-0 px-4'>
               <DashboardPage history={history} location={location} />
             </Col>
-          ) : // ) : path === "/stats" ? (
-          //   <Stats />
-          path === "/tasks" ? (
+          ) : path === "/stats" ? (
+            <Col className='m-0'>
+              <StatsPage />
+            </Col>
+          ) : path === "/tasks" ? (
             <Col className='m-0'>
               <NewTasksPage history={history} location={location} />
             </Col>

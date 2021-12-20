@@ -1,5 +1,5 @@
-.admin-page {
-}
+/* .admin-page {
+} */
 .admin-page #denied {
   min-height: 100vh;
   max-height: 100vh;
@@ -14,8 +14,8 @@
   justify-content: space-evenly;
   /* justify-content: space-around; */
 }
-.admin-page__form-header {
-}
+/* .admin-page__form-header {
+} */
 .admin-page__form-search {
   display: flex;
   justify-content: space-between;
