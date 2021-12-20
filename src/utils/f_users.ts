@@ -231,6 +231,25 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   }
 };
 ///////////////////////////////////////////////////////////////////////////////
+export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string) => {
+  console.log("🙋Updating Users Completed Tasks To Hide"); 
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${BE_URL}/${USERS}/me`;
+    const method = PUT;
+    tasks_to_hide.push(id);
+    const body = JSON.stringify({ tasks_to_hide });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const updated = await fetch(url, { method, headers, body });
+    return updated;
+  } catch (error) {
+    console.log(error);
+  }
+}
+///////////////////////////////////////////////////////////////////////////////
 export const sendUsersNotification = async (notification: string) => {
   console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");

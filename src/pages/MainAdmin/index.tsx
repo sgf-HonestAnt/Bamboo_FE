@@ -201,6 +201,7 @@ const AdminPage = (props: AdminPageProps) => {
                     xp={u.xp}
                     total_xp={u.total_xp}
                     total_completed={u.total_completed}
+                    tasks_to_hide={u.tasks_to_hide}
                     notification={u.notification}
                     createdAt={u.createdAt}
                     updatedAt={u.updatedAt}
@@ -225,6 +226,7 @@ const AdminPage = (props: AdminPageProps) => {
                   xp={u.xp}
                   total_xp={u.total_xp}
                   total_completed={u.total_completed}
+                  tasks_to_hide={u.tasks_to_hide}
                   notification={u.notification}
                   createdAt={u.createdAt}
                   updatedAt={u.updatedAt}

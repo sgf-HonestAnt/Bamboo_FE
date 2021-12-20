@@ -27,6 +27,7 @@ const TasksPage = (props: TasksPageProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const tasks = state.currentTasks;
+  const { tasks_to_hide } = my_user;
   const { awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const { history, location } = props;
@@ -98,6 +99,9 @@ const TasksPage = (props: TasksPageProps) => {
             id: COMPLETED,
             title: "Completed",
             taskIds: taskList
+              .filter(
+                (task: taskInt) => !tasks_to_hide.some((id) => id === task._id)
+              )
               .filter((t) => t.status === COMPLETED)
               .map((t) => t._id),
           },
@@ -119,7 +123,7 @@ const TasksPage = (props: TasksPageProps) => {
     const queryWithoutAmpersand = fullQuery.slice(0, fullQuery.length - 1);
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]); 
+  }, [filter]);
   return (
     <Container fluid>
       <TasksFilterRow
