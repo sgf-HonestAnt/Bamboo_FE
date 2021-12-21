@@ -1,12 +1,14 @@
 import { Button } from "react-bootstrap";
 import { userInt } from "../../../typings/interfaces";
-import { ICODOWNRIGHT } from "../../../utils/appIcons";
+import { ICODELETE, ICODOWNRIGHT, ICOEDIT } from "../../../utils/appIcons";
 import { AiFillStar } from "react-icons/ai";
 import {
-  DeleteButton,
+  DeleteUserButton,
   EditButton,
 } from "../../../pages__SharedComponents/Buttons";
-import { NOTIFICATIONS, TASKS } from "../../../utils/appConstants";
+import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/appConstants";
+import { useState } from "react";
+import EditDeleteUserModal from "./EditDeleteUserModal";
 
 interface UsersRowProps extends userInt {
   signedInId: string | undefined;
@@ -15,6 +17,23 @@ interface UsersRowProps extends userInt {
 }
 const UsersRow = (props: UsersRowProps) => {
   const { signedInId, form, setForm } = props;
+  const [show, setShow] = useState(false);
+  const [deleteOption, setDeleteOption] = useState({ show: false, id: "" });
+  const handleClose = () => {
+    setShow(false);
+  };
+  const handleShow = () => {
+    setShow(true);
+  };
+  const handleDelete = (e: {
+    preventDefault: () => void;
+    target: { value: string };
+  }) => {
+    e.preventDefault();
+    const id = e.target.value;
+    setDeleteOption({ show: true, id });
+    handleShow();
+  };
   const handleClick = (e: {
     preventDefault: () => void;
     currentTarget: any;
@@ -22,17 +41,60 @@ const UsersRow = (props: UsersRowProps) => {
     e.preventDefault();
     const target = e.currentTarget;
     const dropdown = target.value.split(":")[0];
-    const id = target.value.split(":")[1];
-    setForm({ ...form, dropdown, id });
+    if (dropdown === USERS) {
+      // const search = target.value.split(":")[2];
+      // setForm({ ...form, dropdown, search });
+      handleShow();
+    } else {
+      const id = target.value.split(":")[1];
+      setForm({ ...form, dropdown, id });
+    }
   };
   return (
     <tr>
       <td>
-        <EditButton handleClick={null} />
+        {props._id === signedInId ? (
+          <Button variant='link' className='m-0 p-0 small-button' disabled>
+            <ICOEDIT />
+          </Button>
+        ) : (
+          <EditButton
+            handleClick={handleClick}
+            value={`${USERS}:${props._id}:${props.username}`}
+          />
+        )}
       </td>
       <td>
-        <DeleteButton handleClick={null} />
+        {props._id === signedInId ? (
+          <Button variant='link' className='m-0 p-0' disabled>
+            <ICODELETE />
+          </Button>
+        ) : (
+          <DeleteUserButton handleClick={handleDelete} value={`${props._id}`} />
+        )}
       </td>
+      <EditDeleteUserModal
+        _id={props._id}
+        first_name={props.first_name}
+        last_name={props.last_name}
+        username={props.username}
+        email={props.email}
+        avatar={props.avatar}
+        bio={props.bio}
+        level={props.level}
+        xp={props.xp}
+        total_xp={props.total_xp}
+        total_completed={props.total_completed}
+        tasks_to_hide={props.tasks_to_hide}
+        notification={props.notification}
+        createdAt={props.createdAt}
+        updatedAt={props.updatedAt}
+        show={show}
+        handleClose={handleClose}
+        setForm={setForm}
+        setDeleteOption={setDeleteOption}
+        showDeleteWarning={deleteOption.show}
+      />
       <td
         className='admin-page__table__td cursor-point'
         onClick={() => {

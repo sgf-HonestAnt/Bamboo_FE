@@ -150,33 +150,30 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
         <Col sm={4}>
           <h1>Register</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group>
+            <Form.Group controlId='first_name'>
               <Form.Label>First name</Form.Label>
               <Form.Control
                 type='text'
-                id='first_name'
                 value={form.first_name}
                 placeholder={firstName.text}
                 onChange={handleChange}
                 className={firstName.class}
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId='last_name'>
               <Form.Label>Last name</Form.Label>
               <Form.Control
                 type='text'
-                id='last_name'
                 value={form.last_name}
                 placeholder={lastName.text}
                 onChange={handleChange}
                 className={lastName.class}
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId='username'>
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type='text'
-                id='username'
                 value={form.username}
                 placeholder={username.text}
                 onChange={handleChange}
@@ -184,11 +181,10 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
               />
               <Form.Text>{usernameError}</Form.Text>
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
-                id='email'
                 value={form.email}
                 placeholder={email.text}
                 onChange={handleChange}
@@ -202,11 +198,10 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
                 </div>
               </Form.Text>
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'
-                id='password'
                 value={form.password}
                 placeholder={password.text}
                 onChange={handleChange}

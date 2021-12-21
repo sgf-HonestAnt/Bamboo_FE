@@ -61,6 +61,7 @@ export const EditButton = (props: ButtonProps) => (
   <Button
     variant='link'
     className='m-0 p-0 small-button'
+    value={props.value}
     onClick={props.handleClick}>
     {props.label} <ICOEDIT />
   </Button>
@@ -77,6 +78,11 @@ export const OpenTaskButton = (props: ButtonProps) => (
 );
 export const DeleteTaskButton = (props: ButtonProps) => (
   <Button variant='link' onClick={props.handleClick}>
+    <ICODELETE />
+  </Button>
+);
+export const DeleteUserButton = (props: ButtonProps) => (
+  <Button variant='link' className='m-0 p-0' value={props.value} onClick={props.handleClick}>
     <ICODELETE />
   </Button>
 );
