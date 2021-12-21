@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Container, Row, Col, Form } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/f_users";
 import { SubmitButton } from "../../pages__SharedComponents/Buttons";
 import "./styles.css";
 
-const LoginPage = ({ history, location }: RouteComponentProps) => {
+const LoginPage = ({ history }: RouteComponentProps) => {
   const dispatch = useDispatch();
-  const [showFailed, setShowFailed] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
-  const formClass = showFailed ? "login-form__failed-text" : "";
+  const formClass = failed ? "login-form__failed-text" : "";
   const handleChange = async (e: {
     preventDefault: () => void;
     target: { id: any; value: any };
   }) => {
     e.preventDefault();
-    setShowFailed(false);
+    setFailed(false);
     const { id, value } = e.target;
     setForm({
       ...form,
@@ -26,26 +26,19 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     const loggedIn = await attemptLoginUser(form, history, dispatch);
-    if (loggedIn) {
-      history.push("/");
-    } else {
-      setShowFailed(true);
-    }
+    loggedIn ? history.push("/") : setFailed(true);
   };
-  useEffect(() => {
-    console.log(location.pathname); // "/login"
-  }, [location.pathname]);
   return (
     <Container fluid>
       <Row className='login-form px-5'>
-        <Col sm={6} md={5} lg={4} className='px-5 login-form__col'> 
+        <Col sm={6} md={5} lg={4} className='px-5 login-form__col'>
           <h1>Login</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} controlId='username'>
-              <Form.Label column sm='12'>
+              <Form.Label column sm={12}>
                 Email or username
               </Form.Label>
-              <Col sm='12'>
+              <Col sm={12}>
                 <Form.Control
                   type='text'
                   value={form.username}
@@ -56,7 +49,6 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId='password'>
-              {/* 🔨 FIX NEEDED: implement password rules! */}
               <Form.Label column sm='12'>
                 Password
               </Form.Label>
@@ -70,14 +62,13 @@ const LoginPage = ({ history, location }: RouteComponentProps) => {
                 />
               </Col>
             </Form.Group>
-            {showFailed ? (
-              <div className='my-2 login-form__failed-text'>Login failed.</div>
-            ) : (
-              <div>
-                <Link to='/register'>Register instead?</Link>
-              </div>
-            )}
+            <div className='my-2 login-form__failed-text'>
+              {failed ? "Login failed." : ""}
+            </div>
             <SubmitButton />
+            <div>
+              <Link to='/register'>Register instead?</Link>
+            </div>
           </Form>
         </Col>
       </Row>

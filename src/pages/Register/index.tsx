@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
-import { Link, RouteComponentProps } from "react-router-dom";
 import { setRefreshToken } from "../../redux/actions/user";
+import { Link, RouteComponentProps } from "react-router-dom";
+import { Container, Row, Col, Form } from "react-bootstrap";
 import { SubmitButton } from "../../pages__SharedComponents/Buttons";
 import { BE_URL, USERS, REGISTER, POST } from "../../utils/appConstants";
 import "./styles.css";
 
-const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
+const RegisterPage = ({ history }: RouteComponentProps) => {
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -14,29 +14,31 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
     email: "",
     password: "",
   });
-  const [firstName, setFirstName] = useState({
-    text: "Enter first name",
-    class: "form-control",
+  const [validation, setValidation] = useState({
+    loginClass: "hidden",
+    firstName: {
+      text: "Enter first name",
+      class: "form-control",
+    },
+    lastName: {
+      text: "Enter last name",
+      class: "form-control",
+    },
+    username: {
+      text: "Enter username",
+      class: "form-control",
+      error: "",
+    },
+    email: {
+      text: "Enter email",
+      class: "form-control",
+      error: "",
+    },
+    password: {
+      text: "Enter password",
+      class: "form-control",
+    },
   });
-  const [lastName, setLastName] = useState({
-    text: "Enter last name",
-    class: "form-control",
-  });
-  const [username, setUsername] = useState({
-    text: "Enter username",
-    class: "form-control",
-  });
-  const [usernameError, setUsernameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [email, setEmail] = useState({
-    text: "Enter email",
-    class: "form-control",
-  });
-  const [password, setPassword] = useState({
-    text: "Enter password",
-    class: "form-control",
-  });
-  const [loginClass, setLoginClass] = useState("hidden");
   const handleChange = async (e: {
     preventDefault: () => void;
     target: { id: any; value: any };
@@ -52,97 +54,128 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
     e.preventDefault();
     try {
       console.log("✔️attempt registration!", form);
-      if (form.password.length < 7) {
-        setPassword({
-          text: "Password must be longer than 6 characters",
-          class: "form-control error-bg",
+      const url = `${BE_URL}/${USERS}/${REGISTER}`;
+      const method = POST;
+      const headers = { "Content-Type": "application/json" };
+      const body = JSON.stringify(form);
+      const response = await fetch(url, {
+        method,
+        headers,
+        body,
+      });
+      const { message, available, accessToken, refreshToken } =
+        await response.json();
+      if (response.status === 500) {
+        setValidation({
+          ...validation,
+          firstName: {
+            text:
+              form.first_name.length < 1
+                ? "First name must exist"
+                : "Enter first name",
+            class:
+              form.first_name.length < 1
+                ? "form-control error-bg"
+                : "form-control",
+          },
+          lastName: {
+            text:
+              form.last_name.length < 1
+                ? "Last name must exist"
+                : "Enter last name",
+            class:
+              form.last_name.length < 1
+                ? "form-control error-bg"
+                : "form-control",
+          },
+          username: {
+            ...validation.username,
+            text: form.username.length < 1 ? "Username must exist" : "Enter",
+            class:
+              form.username.length < 1
+                ? "form-control error-bg"
+                : "form-control",
+          },
+          email: {
+            ...validation.email,
+            text: form.email.length < 1 ? "Email must exist" : "Enter email",
+            class:
+              form.email.length < 1 ? "form-control error-bg" : "form-control",
+          },
+          password: {
+            text:
+              form.password.length < 7
+                ? "Password must be longer than 6 characters"
+                : "Enter password",
+            class:
+              form.password.length < 7
+                ? "form-control error-bg"
+                : "form-control",
+          },
         });
-      } else {
-        const url = `${BE_URL}/${USERS}/${REGISTER}`;
-        const method = POST;
-        const headers = { "Content-Type": "application/json" };
-        const body = JSON.stringify(form);
-        const response = await fetch(url, {
-          method,
-          headers,
-          body,
-        });
-        const { message, available, accessToken, refreshToken } =
-          await response.json();
-        if (response.status === 500) {
-          if (form.first_name.length < 1) {
-            setFirstName({
+      } else if (response.status === 409) {
+        if (message === "USERNAME NOT AVAILABLE") {
+          setValidation({
+            ...validation,
+            firstName: {
               text: "First name must exist",
               class: "form-control error-bg",
-            });
-          }
-          if (form.last_name.length < 1) {
-            setLastName({
-              text: "Last name must exist",
+            },
+            username: {
+              ...validation.username,
               class: "form-control error-bg",
-            });
-          }
-          if (form.username.length < 1) {
-            setUsername({
-              text: "Username must exist",
-              class: "form-control error-bg",
-            });
-          }
-          if (form.email.length < 1) {
-            setEmail({
-              text: "Email must exist",
-              class: "form-control error-bg",
-            });
-          }
-        } else if (response.status === 409) {
-          if (message === "USERNAME NOT AVAILABLE") {
-            setUsernameError(
-              `Selected username unavailable. Try the following: ${available
+              error: `Selected username unavailable. Try the following: ${available
                 .slice(0, 3)
-                .map((a: string) => a)}`
-            );
-            setUsername({ ...username, class: "form-control error-bg" });
-          }
-          if (message === "EMAIL NOT AVAILABLE") {
-            setEmailError("This email is already registered. Do you want to ");
-            setLoginClass("visible");
-            setEmail({ ...email, class: "form-control error-bg" });
-          }
-        } else {
-          localStorage.setItem("token", accessToken);
-          setRefreshToken(refreshToken);
-          history.push("/");
+                .map((a: string) => a)}`,
+            },
+          });
         }
+        if (message === "EMAIL NOT AVAILABLE") {
+          setValidation({
+            ...validation,
+            loginClass: "visible",
+            email: {
+              ...validation.email,
+              class: "form-control error-bg",
+              error: "This email is already registered. Do you want to ",
+            },
+          });
+        }
+      } else {
+        localStorage.setItem("token", accessToken);
+        setRefreshToken(refreshToken);
+        history.push("/");
       }
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
-  useEffect(() => {
-    setFirstName({
-      text: "Enter first name",
-      class: "form-control",
+    setValidation({
+      loginClass: "hidden",
+      firstName: {
+        text: "Enter first name",
+        class: "form-control",
+      },
+      lastName: {
+        text: "Enter last name",
+        class: "form-control",
+      },
+      username: {
+        text: "Enter username",
+        class: "form-control",
+        error: "",
+      },
+      email: {
+        text: "Enter email",
+        class: "form-control",
+        error: "",
+      },
+      password: {
+        text: "Enter password",
+        class: "form-control",
+      },
     });
-    setLastName({
-      text: "Enter last name",
-      class: "form-control",
-    });
-    setUsername({
-      text: "Enter username",
-      class: "form-control",
-    });
-    setEmail({
-      text: "Enter email",
-      class: "form-control",
-    });
-    setPassword({
-      text: "Enter password",
-      class: "form-control",
-    });
-    setLoginClass("hidden");
   }, [form]);
   return (
     <Container fluid>
@@ -155,9 +188,9 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
               <Form.Control
                 type='text'
                 value={form.first_name}
-                placeholder={firstName.text}
+                placeholder={validation.firstName.text}
                 onChange={handleChange}
-                className={firstName.class}
+                className={validation.firstName.class}
               />
             </Form.Group>
             <Form.Group controlId='last_name'>
@@ -165,9 +198,9 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
               <Form.Control
                 type='text'
                 value={form.last_name}
-                placeholder={lastName.text}
+                placeholder={validation.lastName.text}
                 onChange={handleChange}
-                className={lastName.class}
+                className={validation.lastName.class}
               />
             </Form.Group>
             <Form.Group controlId='username'>
@@ -175,25 +208,25 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
               <Form.Control
                 type='text'
                 value={form.username}
-                placeholder={username.text}
+                placeholder={validation.username.text}
                 onChange={handleChange}
-                className={username.class}
+                className={validation.username.class}
               />
-              <Form.Text>{usernameError}</Form.Text>
+              <Form.Text>{validation.username.error}</Form.Text>
             </Form.Group>
             <Form.Group controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
                 value={form.email}
-                placeholder={email.text}
+                placeholder={validation.email.text}
                 onChange={handleChange}
-                className={email.class}
+                className={validation.email.class}
               />
               <Form.Text>
                 {/* className='text-muted' */}
-                <div className={loginClass}>
-                  {emailError}
+                <div className={validation.loginClass}>
+                  {validation.email.error}
                   <Link to='/login'>login</Link>?
                 </div>
               </Form.Text>
@@ -203,12 +236,13 @@ const RegisterPage = ({ history, location, match }: RouteComponentProps) => {
               <Form.Control
                 type='password'
                 value={form.password}
-                placeholder={password.text}
+                placeholder={validation.password.text}
                 onChange={handleChange}
-                className={password.class}
+                className={validation.password.class}
               />
               <Form.Text>
-                {password.text !== "Enter password" && password.text}
+                {validation.password.text !== "Enter password" &&
+                  validation.password.text}
               </Form.Text>
             </Form.Group>
             <div className='mt-2'>

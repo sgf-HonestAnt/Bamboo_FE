@@ -24,7 +24,7 @@ import {
 ///////////////////////////////////////////////////////////////////////////////
 export const findUsernameByEmail = async (email: string) => {
   console.log("🙋Finding Username By Email");
-  const url = `${BE_URL}/${USERS}?email=${email}`;
+  const url = `${BE_URL}/${USERS}?email=${email.toLowerCase()}`;
   const method = GET;
   const response = await fetch(url, { method });
   if (response.ok) {
