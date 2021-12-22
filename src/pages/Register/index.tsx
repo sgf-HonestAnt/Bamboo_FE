@@ -3,10 +3,18 @@ import { setRefreshToken } from "../../redux/actions/user";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { SubmitButton } from "../../pages__SharedComponents/Buttons";
-import { BE_URL, USERS, REGISTER, POST } from "../../utils/appConstants";
+import {
+  BE_URL,
+  USERS,
+  REGISTER,
+  POST,
+  SPECIAL_CHARS,
+} from "../../utils/appConstants";
 import "./styles.css";
 
 const RegisterPage = ({ history }: RouteComponentProps) => {
+  const defaultClass = "form-control"
+  const errorClass = "form-control error-bg"
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -18,25 +26,25 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
     loginClass: "hidden",
     firstName: {
       text: "Enter first name",
-      class: "form-control",
+      class: defaultClass,
     },
     lastName: {
       text: "Enter last name",
-      class: "form-control",
+      class: defaultClass,
     },
     username: {
       text: "Enter username",
-      class: "form-control",
+      class: defaultClass,
       error: "",
     },
     email: {
       text: "Enter email",
-      class: "form-control",
+      class: defaultClass,
       error: "",
     },
     password: {
       text: "Enter password",
-      class: "form-control",
+      class: defaultClass,
     },
   });
   const handleChange = async (e: {
@@ -54,53 +62,62 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
     e.preventDefault();
     try {
       console.log("✔️attempt registration!", form);
-      const url = `${BE_URL}/${USERS}/${REGISTER}`;
-      const method = POST;
-      const headers = { "Content-Type": "application/json" };
-      const body = JSON.stringify(form);
-      const response = await fetch(url, {
-        method,
-        headers,
-        body,
-      });
-      const { message, available, accessToken, refreshToken } =
-        await response.json();
-      if (response.status === 500) {
+      const isNotValid =
+        form.first_name.length < 2 ||
+        form.first_name.length > 20 ||
+        form.last_name.length < 2 ||
+        form.last_name.length > 20 ||
+        form.username.length < 5 ||
+        form.username.length > 20 ||
+        SPECIAL_CHARS.some((string) => form.username?.includes(string)) ||
+        form.username.includes(" ") ||
+        form.password.length < 8 ||
+        form.password.length > 15 ||
+        !SPECIAL_CHARS.some((string) => form.password?.includes(string));
+      if (isNotValid) {
         setValidation({
           ...validation,
           firstName: {
             text:
-              form.first_name.length < 1
+              form.first_name.length === 0
                 ? "First name must exist"
+                : form.first_name.length < 2
+                ? "First name is too short"
+                : form.first_name.length > 20
+                ? "First name is too long"
                 : "Enter first name",
             class:
-              form.first_name.length < 1
-                ? "form-control error-bg"
-                : "form-control",
+              form.first_name.length < 2 || form.first_name.length > 20
+                ? errorClass
+                : defaultClass,
           },
           lastName: {
             text:
-              form.last_name.length < 1
+              form.last_name.length === 0
                 ? "Last name must exist"
+                : form.last_name.length < 2
+                ? "Last name is too short"
+                : form.last_name.length > 20
+                ? "Last name is too long"
                 : "Enter last name",
             class:
-              form.last_name.length < 1
-                ? "form-control error-bg"
-                : "form-control",
+              form.last_name.length < 2 || form.last_name.length > 20
+                ? errorClass
+                : defaultClass,
           },
           username: {
             ...validation.username,
             text: form.username.length < 1 ? "Username must exist" : "Enter",
             class:
               form.username.length < 1
-                ? "form-control error-bg"
-                : "form-control",
+                ? errorClass
+                : defaultClass,
           },
           email: {
             ...validation.email,
             text: form.email.length < 1 ? "Email must exist" : "Enter email",
             class:
-              form.email.length < 1 ? "form-control error-bg" : "form-control",
+              form.email.length < 1 ? errorClass : defaultClass,
           },
           password: {
             text:
@@ -109,42 +126,52 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
                 : "Enter password",
             class:
               form.password.length < 7
-                ? "form-control error-bg"
-                : "form-control",
+                ? errorClass
+                : defaultClass,
           },
         });
-      } else if (response.status === 409) {
-        if (message === "USERNAME NOT AVAILABLE") {
-          setValidation({
-            ...validation,
-            firstName: {
-              text: "First name must exist",
-              class: "form-control error-bg",
-            },
-            username: {
-              ...validation.username,
-              class: "form-control error-bg",
-              error: `Selected username unavailable. Try the following: ${available
-                .slice(0, 3)
-                .map((a: string) => a)}`,
-            },
-          });
-        }
-        if (message === "EMAIL NOT AVAILABLE") {
-          setValidation({
-            ...validation,
-            loginClass: "visible",
-            email: {
-              ...validation.email,
-              class: "form-control error-bg",
-              error: "This email is already registered. Do you want to ",
-            },
-          });
-        }
       } else {
-        localStorage.setItem("token", accessToken);
-        setRefreshToken(refreshToken);
-        history.push("/");
+        const url = `${BE_URL}/${USERS}/${REGISTER}`;
+        const method = POST;
+        const headers = { "Content-Type": "application/json" };
+        const body = JSON.stringify(form);
+        const response = await fetch(url, {
+          method,
+          headers,
+          body,
+        });
+        const { message, available, accessToken, refreshToken } =
+          await response.json();
+        if (response.status === 409) {
+          if (message === "USERNAME NOT AVAILABLE") {
+            setValidation({
+              ...validation,
+              username: {
+                ...validation.username,
+                class: errorClass,
+                error: "Selected username unavailable.",
+                // error: `Selected username unavailable. Try the following: ${available
+                //   .slice(0, 3)
+                //   .map((a: string) => a)}`,
+              },
+            });
+          }
+          if (message === "EMAIL NOT AVAILABLE") {
+            setValidation({
+              ...validation,
+              loginClass: "visible",
+              email: {
+                ...validation.email,
+                class: errorClass,
+                error: "This email is already registered. Do you want to ",
+              },
+            });
+          }
+        } else {
+          localStorage.setItem("token", accessToken);
+          setRefreshToken(refreshToken);
+          history.push("/");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -155,25 +182,25 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
       loginClass: "hidden",
       firstName: {
         text: "Enter first name",
-        class: "form-control",
+        class: defaultClass,
       },
       lastName: {
         text: "Enter last name",
-        class: "form-control",
+        class: defaultClass,
       },
       username: {
         text: "Enter username",
-        class: "form-control",
+        class: defaultClass,
         error: "",
       },
       email: {
         text: "Enter email",
-        class: "form-control",
+        class: defaultClass,
         error: "",
       },
       password: {
         text: "Enter password",
-        class: "form-control",
+        class: defaultClass,
       },
     });
   }, [form]);
