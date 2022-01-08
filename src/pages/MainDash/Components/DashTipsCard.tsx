@@ -3,7 +3,7 @@ import { reduxStateInt } from "../../../typings/interfaces";
 
 type DashTipsCardProps = {};
 const DashTipsCard = (props: DashTipsCardProps) => {
-  console.log("FIX NEEDED ON DASHTIPSCARD") // 🔨 FIX NEEDED ON TIP SUGGESTIONS
+  //console.log("FIX NEEDED ON DASHTIPSCARD") // 🔨 FIX NEEDED ON TIP SUGGESTIONS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username, level, total_xp, total_completed } = my_user;

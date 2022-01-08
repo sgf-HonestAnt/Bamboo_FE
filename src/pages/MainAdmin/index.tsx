@@ -47,7 +47,7 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 const AdminPage = (props: AdminPageProps) => {
-  // console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
+  //console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
@@ -90,6 +90,7 @@ const AdminPage = (props: AdminPageProps) => {
   }, []);
   useEffect(() => {
     const { search, dropdown } = form;
+    console.log(dropdown)
     const num = search.length;
     if (usersToDisplay && form.sortBy) {
       if (form.sortBy === USERNAME_ASC) {
@@ -109,11 +110,12 @@ const AdminPage = (props: AdminPageProps) => {
       }
     }
     if (num > 1) {
-      if (usersData && dropdown === USERS) {
+      if (usersData && dropdown.toLowerCase().includes(USERS)) {
         const filtered = usersData.filter(
           (user) =>
             user.username.slice(0, num).toLowerCase() ===
               search.toLowerCase() ||
+            user.username.toLowerCase().includes(search.toLowerCase()) ||
             user.first_name.slice(0, num).toLowerCase() ===
               search.toLowerCase() ||
             user.last_name.slice(0, num).toLowerCase() ===
@@ -122,20 +124,22 @@ const AdminPage = (props: AdminPageProps) => {
               .concat(" ", user.last_name)
               .slice(0, num)
               .toLowerCase() === search.toLowerCase() ||
-            user.email.slice(0, num).toLowerCase() === search.toLowerCase()
+            user.email.slice(0, num).toLowerCase() === search.toLowerCase() || 
+            user.email.toLowerCase().includes(search.toLowerCase())
         );
         console.log(filtered.length);
         setUsersToDisplay(filtered);
-      } else if (tasksData && dropdown === TASKS) {
+      } else if (tasksData && dropdown.toLowerCase().includes(TASKS)) {
         const filtered = tasksData.filter(
           (task) =>
             task.title.toLowerCase().includes(search.toLowerCase()) ||
             task.desc.toLowerCase().includes(search.toLowerCase()) ||
-            task.category.slice(0, num).toLowerCase() === search.toLowerCase()
+            task.category.slice(0, num).toLowerCase() === search.toLowerCase() ||
+            task.category.toLowerCase().includes(search.toLowerCase())
         );
         console.log(filtered.length);
         setTasksToDisplay(filtered);
-      } else {
+      } else { 
         console.log("notifications drop");
       }
     } else {
@@ -170,11 +174,11 @@ const AdminPage = (props: AdminPageProps) => {
       </Row>
       <Row>
         <Table striped bordered hover className="admin-page__admin-table">
-          {form.dropdown === USERS && usersToDisplay.length > 0 ? (
+          {form.dropdown.toLowerCase().includes(USERS) && usersToDisplay.length > 0 ? (
             <UsersTableHeading />
-          ) : form.dropdown === TASKS && tasksToDisplay.length > 0 ? (
+          ) : form.dropdown.toLowerCase().includes(TASKS) && tasksToDisplay.length > 0 ? (
             <TasksTableHeading />
-          ) : form.dropdown === NOTIFICATIONS &&
+          ) : form.dropdown.toLowerCase().includes(NOTIFICATIONS) &&
             notifications &&
             notifications.length > 0 ? (
             <NotificationsTableHeading />
@@ -182,7 +186,7 @@ const AdminPage = (props: AdminPageProps) => {
             <></>
           )}
           <tbody>
-            {form.dropdown === USERS && form.id.length > 0 ? (
+            {form.dropdown.toLowerCase().includes(USERS) && form.id.length > 0 ? (
               usersToDisplay
                 .filter((u) => u._id === form.id)
                 .map((u, i) => (
@@ -209,7 +213,7 @@ const AdminPage = (props: AdminPageProps) => {
                     setForm={setForm}
                   />
                 ))
-            ) : form.dropdown === USERS ? (
+            ) : form.dropdown.toLowerCase().includes(USERS) ? (
               usersToDisplay.map((u, i) => (
                 <UsersRow
                   key={i}
@@ -234,7 +238,7 @@ const AdminPage = (props: AdminPageProps) => {
                   setForm={setForm}
                 />
               ))
-            ) : form.dropdown === TASKS && form.id.length > 0 ? (
+            ) : form.dropdown.toLowerCase().includes(TASKS) && form.id.length > 0 ? (
               tasksToDisplay
                 .filter(
                   (t) =>
@@ -260,7 +264,7 @@ const AdminPage = (props: AdminPageProps) => {
                     setForm={setForm}
                   />
                 ))
-            ) : form.dropdown === TASKS ? (
+            ) : form.dropdown.toLowerCase().includes(TASKS) ? (
               tasksToDisplay.map((t, i) => (
                 <TasksRow
                   key={i}

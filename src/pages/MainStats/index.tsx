@@ -1,132 +1,101 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { reduxStateInt } from "../../typings/interfaces";
+import { reduxStateInt, taskInt } from "../../typings/interfaces";
 import { useAppSelector } from "../../redux/hooks";
-import StatusBar from "./Components/StatusBar";
-import CategoriesRadar from "./Components/CategoriesRadar";
+import SimplePieChart from "./Components/SimplePieChart";
 import "./styles.css";
-import { URGENT } from "../../utils/appConstants";
+
+type pieChartProps = { name: string; value: number; tasks: taskInt[] };
+
+type dataProps = {
+  allByStatus: pieChartProps[];
+  allByCategory: pieChartProps[];
+  allByCreatedAt: any[];
+  allByUpdatedAt: any[];
+  allByType: pieChartProps[];
+  allByDueDate: any[];
+};
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks } = state;
-  const { my_user } = state.currentUser;
-  const { total_completed } = my_user;
-  const { awaited, in_progress } = currentTasks;
-  const allTasks = awaited.concat(in_progress);
-  const urgentTasks = allTasks.filter((task) => task.category === URGENT);
-  const tasksTotal = [
-    { title: "Urgent", tasks: urgentTasks },
-    { title: "Awaited", tasks: awaited },
-    { title: "In Progress", tasks: in_progress },
-  ];
-  console.log(tasksTotal);
-  const mapData = () => {
-    let data: any[] = [
-      {
-        name: "Completed",
-        uv: total_completed + 0.1,
-        pv: tasksTotal.length * 2000,
-        amt: tasksTotal.length,
-      },
+  //const { my_user } = state.currentUser;
+  //const { total_completed } = my_user;
+  const { categories, awaited, in_progress, completed } = currentTasks;
+  const allTasks = awaited.concat(in_progress, completed);
+  const mapByStatus = (data: dataProps) => {
+    const tasksByStatus = [
+      { title: "Awaited", tasks: awaited },
+      { title: "In Progress", tasks: in_progress },
+      { title: "Completed", tasks: completed },
     ];
-    tasksTotal.map((task, i) => {
-      data.push({
+    tasksByStatus.map((task, i) => {
+      data.allByStatus.push({
         name: task.title,
-        uv: task.tasks.length + 0.1,
-        pv: i * 2000,
-        amt: i,
+        value: task.tasks.length,
+        tasks: task.tasks,
       });
+      return data;
     });
+  };
+  const mapByCategory = (data: dataProps) => {
+    categories.map((category, i) => {
+      data.allByCategory.push({
+        name: category,
+        value: 0,
+        tasks: [],
+      });
+      return data;
+    });
+    for (let i = 0; i < allTasks.length; i++) {
+      for (let j = 0; j < data.allByCategory.length; j++) {
+        if (allTasks[i].category === data.allByCategory[j].name) {
+          data.allByCategory[j].tasks.push(allTasks[i]);
+          data.allByCategory[j].value++;
+        }
+      }
+    }
+  };
+  const mapByType = (data: dataProps) => {
+    const tasksByType: pieChartProps[] = [
+      { name: "team", value: 0, tasks: [] },
+      { name: "solo", value: 0, tasks: [] },
+    ];
+    for (let i = 0; i < allTasks.length; i++) {
+      for (let j = 0; j < tasksByType.length; j++) {
+        if (allTasks[i].type === tasksByType[j].name) {
+          tasksByType[j].tasks.push(allTasks[i]);
+          tasksByType[j].value++;
+        }
+      }
+    }
+    data.allByType = tasksByType;
+  };
+  const mapData = () => {
+    let data: dataProps = {
+      allByStatus: [],
+      allByCategory: [],
+      allByCreatedAt: [],
+      allByUpdatedAt: [],
+      allByType: [],
+      allByDueDate: [],
+    };
+    // by status
+    mapByStatus(data);
+    // by category
+    mapByCategory(data);
+    // by type
+    mapByType(data);
     return data;
   };
-  const testData = mapData();
-  const statusData = [
-    {
-      name: "Page A",
-      uv: 10,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 11,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 15,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 12,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 18,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 30,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 21,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
-  // const categoriesData = [
-  //   {
-  //     subject: "Math",
-  //     A: 120,
-  //     B: 110,
-  //     fullMark: 150,
-  //   },
-  //   {
-  //     subject: "Chinese",
-  //     A: 98,
-  //     B: 130,
-  //     fullMark: 150,
-  //   },
-  //   {
-  //     subject: "English",
-  //     A: 86,
-  //     B: 130,
-  //     fullMark: 150,
-  //   },
-  //   {
-  //     subject: "Geography",
-  //     A: 99,
-  //     B: 100,
-  //     fullMark: 150,
-  //   },
-  //   {
-  //     subject: "Physics",
-  //     A: 85,
-  //     B: 90,
-  //     fullMark: 150,
-  //   },
-  //   {
-  //     subject: "History",
-  //     A: 65,
-  //     B: 85,
-  //     fullMark: 150,
-  //   },
-  // ];
-  console.log("TEST DATA=>", testData);
+  const taskData = mapData();
+  const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const TYPE_COLORS = ["#000", "#FFF"];
+  console.log("TEST DATA=>", allTasks.length, taskData);
   return (
     <Container fluid>
       <Row>
-        <Col sm={4} className='p-5'>
+        {/* <Col sm={4} className='p-5'>
           I want charts for:-
           <ul>
             <li>
@@ -148,18 +117,49 @@ export default function StatsPage() {
               PieChartWithPaddingAngle, PieChartWithCustomizedLabel
             </li>
           </ul>
-          <div>
-            (***NOTE*** perhaps is not a good idea to be able to delete task
-            once it's completed, as messes with these figures. Instead create a
-            list of DeletedForMe ids and exclude them from the DroppableList)
-          </div>
-        </Col>
-        <Col sm={3} className='p-5'>
-          <StatusBar data={testData} />
-        </Col>
-        {/* <Col sm={6}>
-          <CategoriesRadar data={categoriesData} />
         </Col> */}
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Status'
+            data={taskData.allByStatus}
+            colors={STATUS_COLORS}
+          />
+        </Col>
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Type'
+            data={taskData.allByType}
+            colors={TYPE_COLORS}
+          />
+        </Col>
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Category'
+            data={taskData.allByCategory}
+            colors={CATEGORY_COLORS}
+          />
+        </Col>
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Status'
+            data={taskData.allByStatus}
+            colors={STATUS_COLORS}
+          />
+        </Col>
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Type'
+            data={taskData.allByType}
+            colors={TYPE_COLORS}
+          />
+        </Col>
+        <Col sm={4}>
+          <SimplePieChart
+            title='Tasks by Category'
+            data={taskData.allByCategory}
+            colors={CATEGORY_COLORS}
+          />
+        </Col>
       </Row>
     </Container>
   );

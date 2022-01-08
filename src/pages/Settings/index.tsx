@@ -28,7 +28,7 @@ type SettingsPageProps = {
   location: Location<unknown>;
 };
 const SettingsPage = (props: SettingsPageProps) => {
-  console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
+  //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { history, location } = props;

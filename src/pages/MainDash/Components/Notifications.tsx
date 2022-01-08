@@ -75,7 +75,7 @@ const DashNotifications = (props: DashNotificationsProps) => {
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
-  console.log("FIX NEEDED ON NOTIFICATIONS"); // 🔨 FIX NEEDED: WHEN ACCEPT A TASK, NEEDS TO ADD TASK TO STATE SO SIDEBAR REFLECTS CORRECT NUMBER
+  //console.log("FIX NEEDED ON NOTIFICATIONS"); // 🔨 FIX NEEDED: WHEN ACCEPT A TASK, NEEDS TO ADD TASK TO STATE SO SIDEBAR REFLECTS CORRECT NUMBER
   return (
     <div className={dashClass}>
       <Card.Title>

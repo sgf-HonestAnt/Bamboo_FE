@@ -69,9 +69,8 @@ const DashSearch = (props: DashSearchProps) => {
             const avatar = user.avatar;
             const username = user.username;
             return (
-              <Link to={`/following?id=${user._id}`}>
+              <Link to={`/following?id=${user._id}`} key={i}>
                 <img
-                  key={i}
                   src={avatar}
                   alt={username}
                   className='x-tiny-round mr-1'
@@ -86,13 +85,8 @@ const DashSearch = (props: DashSearchProps) => {
           const avatar = user.avatar;
           const username = user.username;
           return (
-            <Link to={`/following?id=${user._id}`}>
-              <img
-                key={i}
-                src={avatar}
-                alt={username}
-                className='x-tiny-round mr-1'
-              />
+            <Link to={`/following?id=${user._id}`} key={i}>
+              <img src={avatar} alt={username} className='x-tiny-round mr-1' />
             </Link>
           );
         })

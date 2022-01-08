@@ -231,14 +231,14 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   }
 };
 ///////////////////////////////////////////////////////////////////////////////
-export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string) => {
+export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string, username: string, email: string) => {
   console.log("🙋Updating Users Completed Tasks To Hide"); 
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
     const method = PUT;
     tasks_to_hide.push(id);
-    const body = JSON.stringify({ tasks_to_hide });
+    const body = JSON.stringify({ tasks_to_hide, username, email });
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

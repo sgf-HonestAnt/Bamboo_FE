@@ -146,7 +146,8 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       );
     }
   };
-  useEffect(() => {}, [initialData]);
+  useEffect(() => {
+  }, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext

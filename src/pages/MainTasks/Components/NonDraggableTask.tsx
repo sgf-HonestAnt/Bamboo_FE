@@ -33,7 +33,7 @@ type NonDraggableTaskProps = {
 const NonDraggableTask = (props: NonDraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const dispatch = useDispatch();
-  const { tasks_to_hide } = state.currentUser.my_user;
+  const { tasks_to_hide, username, email } = state.currentUser.my_user;
   const tasks = state.currentTasks;
   const { completed } = tasks;
   const { task, i, taskList, setTaskList } = props;
@@ -45,7 +45,7 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
   };
   const handleDelete = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    await addIDToTasksToHide(tasks_to_hide, task!._id);
+    await addIDToTasksToHide(tasks_to_hide, task!._id, username, email);
     const newCompleted = completed.filter((t) => t._id !== task!._id);
     dispatch(RemTaskFromCompleted(newCompleted)); // remove task from tasklist
     if (task) {

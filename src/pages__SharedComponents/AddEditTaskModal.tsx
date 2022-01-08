@@ -558,7 +558,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Group controlId='category'>
                   <Form.Label>What's the category?</Form.Label>
                   {
-                    !taskSet && console.log("FIX NEEDED ON ADDEDITTASKMODAL") // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
+                    //!taskSet && console.log("FIX NEEDED ON ADDEDITTASKMODAL") // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
                   }
                   <Form.Control
                     required
