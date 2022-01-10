@@ -1,19 +1,38 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { reduxStateInt, taskInt } from "../../typings/interfaces";
+import { dataInt, nameValTasks, reduxStateInt } from "../../typings/interfaces";
 import { useAppSelector } from "../../redux/hooks";
-import SimplePieChart from "./Components/SimplePieChart";
+import PieChartWithCustomizedLabel from "./Components/PieChartWithCustomizedLabel";
+import PieChartWithPaddingAngle from "./Components/PieChartWithPaddingAngle";
+import MixedBarChart from "./Components/MixedBarChart";
 import "./styles.css";
+import { returnMessage } from "../../utils/f_statistics";
 
-type pieChartProps = { name: string; value: number; tasks: taskInt[] };
-
-type dataProps = {
-  allByStatus: pieChartProps[];
-  allByCategory: pieChartProps[];
-  allByCreatedAt: any[];
-  allByUpdatedAt: any[];
-  allByType: pieChartProps[];
-  allByDueDate: any[];
-};
+const mixedBarChartSampleData = [
+  {
+    category: "Work",
+    awaited: 4000,
+    in_progress: 2400,
+    completed: 1500,
+  },
+  {
+    category: "Home",
+    awaited: 3000,
+    in_progress: 1398,
+    completed: 1500,
+  },
+  {
+    category: "Work1",
+    awaited: 4000,
+    in_progress: 2400,
+    completed: 1500,
+  },
+  {
+    category: "Home1",
+    awaited: 3000,
+    in_progress: 1398,
+    completed: 1500,
+  },
+];
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -22,7 +41,7 @@ export default function StatsPage() {
   //const { total_completed } = my_user;
   const { categories, awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const mapByStatus = (data: dataProps) => {
+  const mapByStatus = (data: dataInt) => {
     const tasksByStatus = [
       { title: "Awaited", tasks: awaited },
       { title: "In Progress", tasks: in_progress },
@@ -37,7 +56,7 @@ export default function StatsPage() {
       return data;
     });
   };
-  const mapByCategory = (data: dataProps) => {
+  const mapByCategory = (data: dataInt) => {
     categories.map((category, i) => {
       data.allByCategory.push({
         name: category,
@@ -55,8 +74,8 @@ export default function StatsPage() {
       }
     }
   };
-  const mapByType = (data: dataProps) => {
-    const tasksByType: pieChartProps[] = [
+  const mapByType = (data: dataInt) => {
+    const tasksByType: nameValTasks[] = [
       { name: "team", value: 0, tasks: [] },
       { name: "solo", value: 0, tasks: [] },
     ];
@@ -71,14 +90,14 @@ export default function StatsPage() {
     data.allByType = tasksByType;
   };
   const mapData = () => {
-    let data: dataProps = {
+    let data: dataInt = {
       allByStatus: [],
       allByCategory: [],
       allByCreatedAt: [],
       allByUpdatedAt: [],
       allByType: [],
       allByDueDate: [],
-    };
+    }; 
     // by status
     mapByStatus(data);
     // by category
@@ -89,76 +108,78 @@ export default function StatsPage() {
   };
   const taskData = mapData();
   const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  const TYPE_COLORS = ["#000", "#FFF"];
+  // const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  // const TYPE_COLORS = ["#000", "#FFF"];
+  const timeSpecific = "overall"; // this week / last week
+  const checkAmounts = `${allTasks.length / 2}-${
+    taskData.allByStatus[0].tasks.length
+  }-${taskData.allByStatus[1].tasks.length}-${
+    taskData.allByStatus[2].tasks.length
+  }`;
+  const statusMessage =
+    taskData.allByStatus[0].tasks.length > allTasks.length / 2
+      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[0].name}'`
+      : taskData.allByStatus[1].tasks.length > allTasks.length / 2
+      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[1].name}'`
+      : taskData.allByStatus[2].tasks.length > allTasks.length / 2
+      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[2].name}'`
+      : taskData.allByStatus[0].tasks.length ===
+          taskData.allByStatus[1].tasks.length &&
+        taskData.allByStatus[0].tasks.length ===
+          taskData.allByStatus[2].tasks.length
+      ? `Your awaited, completed and in-progress tasks are evenly split`
+      : taskData.allByStatus[0].tasks.length ===
+        taskData.allByStatus[1].tasks.length
+      ? `Your '${taskData.allByStatus[0].name}' and '${taskData.allByStatus[1].name}' tasks are evenly split`
+      : checkAmounts;
+  const soloOrTeamMessage = returnMessage(taskData, timeSpecific);
   console.log("TEST DATA=>", allTasks.length, taskData);
   return (
     <Container fluid>
-      <Row>
-        {/* <Col sm={4} className='p-5'>
-          I want charts for:-
-          <ul>
-            <li>
-              Percentage of tasks being delivered on time vs late (status =
-              completed and updatedAtAsDate lt/= deadlineAsDate)
-            </li>
-            <li>
-              "At a glance" category dispersal: how many tasks exist that are
-              part of all the sep categories. And similar with status, value,
-              shared. Try StackedBarChart or MixBarChart to show uv, pv and amt
-            </li>
-            <li>
-              Most active time of day for task creation and task completion. Try
-              TinyLineChart or SimpleLineChart.
-            </li>
-            <li>
-              What users do we share with most frequently and ? what is the
-              value of all tasks we share with them ? Try
-              PieChartWithPaddingAngle, PieChartWithCustomizedLabel
-            </li>
-          </ul>
-        </Col> */}
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Status'
+      <Row className='m-2 main-stats'>
+        <Col sm={12} className='p-2'>
+          <h2>Statistics</h2>
+          <div>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa eius
+            tempora nesciunt sapiente optio blanditiis vero nisi eos, provident
+            ea distinctio praesentium non enim, saepe laudantium sit reiciendis
+            nihil perspiciatis, quidem excepturi soluta suscipit odio amet
+            commodi.
+          </div>
+        </Col>
+        <Col sm={12} className='p-2'>
+          <h4>Tasks by Category</h4>
+          <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
+          <MixedBarChart data={mixedBarChartSampleData} />
+        </Col>
+        <Col sm={12} className='p-2'>
+          <h4>Tasks by Status, Deadline and Repetition</h4>
+          <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
+        </Col>
+        <Col className='p-2'>
+          <h5>Awaited, In Progress or Completed?</h5>
+          <div>
+            {checkAmounts} {statusMessage}
+          </div>
+          <PieChartWithPaddingAngle
+            deg360={false}
             data={taskData.allByStatus}
             colors={STATUS_COLORS}
           />
         </Col>
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Type'
+        <Col className='p-2'>
+          <h5>Solo or Team?</h5>
+          <div>{soloOrTeamMessage}</div>
+          <PieChartWithCustomizedLabel
             data={taskData.allByType}
-            colors={TYPE_COLORS}
-          />
-        </Col>
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Category'
-            data={taskData.allByCategory}
-            colors={CATEGORY_COLORS}
-          />
-        </Col>
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Status'
-            data={taskData.allByStatus}
             colors={STATUS_COLORS}
           />
         </Col>
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Type'
-            data={taskData.allByType}
-            colors={TYPE_COLORS}
-          />
+        <Col className='p-2'>
+          <h5>Deadline?</h5>
         </Col>
-        <Col sm={4}>
-          <SimplePieChart
-            title='Tasks by Category'
-            data={taskData.allByCategory}
-            colors={CATEGORY_COLORS}
-          />
+        <Col className='p-2'>
+          <h5>Repeat?</h5>
         </Col>
       </Row>
     </Container>

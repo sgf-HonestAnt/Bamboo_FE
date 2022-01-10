@@ -1,6 +1,3 @@
-import { Dispatch } from "redux";
-import { History } from "history";
-
 export type loginFormProps = {
   username: string; 
   password: string

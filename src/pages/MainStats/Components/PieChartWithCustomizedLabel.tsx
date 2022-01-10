@@ -1,4 +1,3 @@
-import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 
 const RADIAN = Math.PI / 180;
@@ -27,21 +26,19 @@ const renderCustomizedLabel = ({
   );
 };
 
-type SimplePieChartProps = {
-  title: string;
+type PieChartWithCustomizedLabelProps = {
   data: any[];
   colors: string[];
 };
 
-const SimplePieChart = (props: SimplePieChartProps) => {
-  const { title, data, colors } = props;
+export default function PieChartWithCustomizedLabel(props: PieChartWithCustomizedLabelProps) {
+  const { data, colors } = props;
   return (
-    <>
       <PieChart width={300} height={300} className='pieChart'>
         <Pie
           data={data}
-          cx={200}
-          cy={200}
+          cx={100}
+          cy={100}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={80}
@@ -52,8 +49,5 @@ const SimplePieChart = (props: SimplePieChartProps) => {
           ))}
         </Pie>
       </PieChart>
-    </>
   );
-};
-
-export default SimplePieChart;
+}
