@@ -29,6 +29,7 @@ const renderCustomizedLabel = ({
 type PieChartWithCustomizedLabelProps = {
   data: any[];
   colors: string[];
+  stat: string;
 };
 
 export default function PieChartWithCustomizedLabel(props: PieChartWithCustomizedLabelProps) {

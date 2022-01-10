@@ -4,6 +4,7 @@ type PieChartWithPaddingAngleProps = {
   data: any;
   colors: string[];
   deg360: boolean;
+  stat: string;
 };
 
 export default function PieChartWithPaddingAngle(

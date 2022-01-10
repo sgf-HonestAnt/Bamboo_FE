@@ -1,187 +1,257 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { dataInt, nameValTasks, reduxStateInt } from "../../typings/interfaces";
+import {
+  catStatusTasks,
+  dataInt,
+  nameTotalTasks,
+  nameValTasks,
+  reduxStateInt,
+} from "../../typings/interfaces";
 import { useAppSelector } from "../../redux/hooks";
 import PieChartWithCustomizedLabel from "./Components/PieChartWithCustomizedLabel";
 import PieChartWithPaddingAngle from "./Components/PieChartWithPaddingAngle";
+import SimpleBarChart from "./Components/SimpleBarChart";
 import MixedBarChart from "./Components/MixedBarChart";
 import "./styles.css";
-import { returnMessage } from "../../utils/f_statistics";
-
-const mixedBarChartSampleData = [
-  {
-    category: "Work",
-    awaited: 4000,
-    in_progress: 2400,
-    completed: 1500,
-  },
-  {
-    category: "Home",
-    awaited: 3000,
-    in_progress: 1398,
-    completed: 1500,
-  },
-  {
-    category: "Work1",
-    awaited: 4000,
-    in_progress: 2400,
-    completed: 1500,
-  },
-  {
-    category: "Home1",
-    awaited: 3000,
-    in_progress: 1398,
-    completed: 1500,
-  },
-];
+// import { returnMessage } from "../../utils/f_statistics";
+import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
+import { useEffect, useState } from "react";
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks } = state;
-  //const { my_user } = state.currentUser;
-  //const { total_completed } = my_user;
   const { categories, awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const mapByStatus = (data: dataInt) => {
+  const [taskData, setTaskData] = useState<dataInt>({
+    allByStatus: [],
+    allByCategory: [],
+    allByValue: [],
+    allByCreatedAt: [],
+    allByUpdatedAt: [],
+    allByType: [],
+    allByDueDate: [],
+  });
+  const [unused, setUnused] = useState<catStatusTasks[]>([]);
+  const [loading, setLoading] = useState(true);
+  //const [messages, setMessages] = useState({ status: "", soloOrTeam: "" });
+  const mapByStatus = () => {
     const tasksByStatus = [
       { title: "Awaited", tasks: awaited },
       { title: "In Progress", tasks: in_progress },
       { title: "Completed", tasks: completed },
     ];
+    let allByStatus: nameValTasks[] = [];
+    // eslint-disable-next-line array-callback-return
     tasksByStatus.map((task, i) => {
-      data.allByStatus.push({
+      allByStatus.push({
         name: task.title,
         value: task.tasks.length,
         tasks: task.tasks,
       });
-      return data;
     });
+    return allByStatus;
   };
-  const mapByCategory = (data: dataInt) => {
+  const mapByCategory = () => {
+    let allByCategory: catStatusTasks[] = [];
+    // eslint-disable-next-line array-callback-return
     categories.map((category, i) => {
-      data.allByCategory.push({
-        name: category,
+      allByCategory.push({
+        category,
+        total: 0,
+        awaited: 0,
+        in_progress: 0,
+        completed: 0,
+      });
+    });
+    for (let i = 0; i < allTasks.length; i++) {
+      for (let j = 0; j < allByCategory.length; j++) {
+        if (allTasks[i].category === allByCategory[j].category) {
+          allByCategory[j].total++;
+        }
+        if (
+          allTasks[i].category === allByCategory[j].category &&
+          allTasks[i].status === AWAITED
+        ) {
+          allByCategory[j].awaited++;
+        }
+        if (
+          allTasks[i].category === allByCategory[j].category &&
+          allTasks[i].status === IN_PROGRESS
+        ) {
+          allByCategory[j].in_progress++;
+        }
+        if (
+          allTasks[i].category === allByCategory[j].category &&
+          allTasks[i].status === COMPLETED
+        ) {
+          allByCategory[j].completed++;
+        }
+      }
+    }
+    return allByCategory;
+  };
+  const mapByValue = () => {
+    let allByValue: nameTotalTasks[] = [
+      { name: "10xp", total: 0, tasks: [] },
+      { name: "20xp", total: 0, tasks: [] },
+      { name: "30xp", total: 0, tasks: [] },
+      { name: "40xp", total: 0, tasks: [] },
+      { name: "50xp", total: 0, tasks: [] },
+    ];
+    // eslint-disable-next-line array-callback-return
+    allTasks.map((task, i) => {
+      if (allTasks[i].value === 10) {
+        allByValue[0].total++;
+        allByValue[0].tasks.push(allTasks[i]);
+      } else if (allTasks[i].value === 20) {
+        allByValue[1].total++;
+        allByValue[1].tasks.push(allTasks[i]);
+      } else if (allTasks[i].value === 30) {
+        allByValue[2].total++;
+        allByValue[2].tasks.push(allTasks[i]);
+      } else if (allTasks[i].value === 40) {
+        allByValue[3].total++;
+        allByValue[3].tasks.push(allTasks[i]);
+      } else {
+        allByValue[4].total++;
+        allByValue[4].tasks.push(allTasks[i]);
+      }
+    });
+    return allByValue;
+  };
+  const mapByType = () => {
+    let allByType: nameValTasks[] = [
+      {
+        name: "solo",
         value: 0,
         tasks: [],
-      });
-      return data;
-    });
-    for (let i = 0; i < allTasks.length; i++) {
-      for (let j = 0; j < data.allByCategory.length; j++) {
-        if (allTasks[i].category === data.allByCategory[j].name) {
-          data.allByCategory[j].tasks.push(allTasks[i]);
-          data.allByCategory[j].value++;
-        }
-      }
-    }
-  };
-  const mapByType = (data: dataInt) => {
-    const tasksByType: nameValTasks[] = [
-      { name: "team", value: 0, tasks: [] },
-      { name: "solo", value: 0, tasks: [] },
+      },
+      {
+        name: "team",
+        value: 0,
+        tasks: [],
+      },
     ];
     for (let i = 0; i < allTasks.length; i++) {
-      for (let j = 0; j < tasksByType.length; j++) {
-        if (allTasks[i].type === tasksByType[j].name) {
-          tasksByType[j].tasks.push(allTasks[i]);
-          tasksByType[j].value++;
+      for (let j = 0; j < allByType.length; j++) {
+        if (allTasks[i].type === allByType[j].name) {
+          allByType[j].tasks.push(allTasks[i]);
+          allByType[j].value++;
         }
       }
     }
-    data.allByType = tasksByType;
+    return allByType;
   };
-  const mapData = () => {
-    let data: dataInt = {
-      allByStatus: [],
-      allByCategory: [],
-      allByCreatedAt: [],
-      allByUpdatedAt: [],
-      allByType: [],
-      allByDueDate: [],
-    }; 
+  const getUnusedCategories = () => {
+    let unusedCategories = [];
+    const { allByCategory } = taskData;
+    for (let i = 0; i < allByCategory.length; i++) {
+      if (allByCategory[i].total === 0) {
+        unusedCategories.push(allByCategory[i]);
+      }
+    }
+    return unusedCategories;
+  };
+  const mapData = async () => {
     // by status
-    mapByStatus(data);
-    // by category
-    mapByCategory(data);
+    const allByStatus = mapByStatus();
     // by type
-    mapByType(data);
-    return data;
+    const allByType = mapByType();
+    // by value
+    const allByValue = mapByValue();
+    // get unused cats
+    // by category
+    const allByCategory = mapByCategory();
+    setTaskData({
+      ...taskData,
+      allByStatus,
+      allByType,
+      allByValue,
+      allByCategory,
+    });
+    const unusedCategories = getUnusedCategories();
+    setUnused(unusedCategories); 
+    // const status = await returnMessage(
+    //   "status",
+    //   taskData,
+    //   timeSpecific,
+    //   allTasks.length
+    // );
+    // const soloOrTeam = await returnMessage(
+    //   "type",
+    //   taskData,
+    //   timeSpecific,
+    //   allTasks.length
+    // );
+    // setMessages({ status, soloOrTeam });
+    setLoading(false);
   };
-  const taskData = mapData();
   const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   // const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   // const TYPE_COLORS = ["#000", "#FFF"];
-  const timeSpecific = "overall"; // this week / last week
-  const checkAmounts = `${allTasks.length / 2}-${
-    taskData.allByStatus[0].tasks.length
-  }-${taskData.allByStatus[1].tasks.length}-${
-    taskData.allByStatus[2].tasks.length
-  }`;
-  const statusMessage =
-    taskData.allByStatus[0].tasks.length > allTasks.length / 2
-      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[0].name}'`
-      : taskData.allByStatus[1].tasks.length > allTasks.length / 2
-      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[1].name}'`
-      : taskData.allByStatus[2].tasks.length > allTasks.length / 2
-      ? `Over half of your tasks ${timeSpecific} are marked '${taskData.allByStatus[2].name}'`
-      : taskData.allByStatus[0].tasks.length ===
-          taskData.allByStatus[1].tasks.length &&
-        taskData.allByStatus[0].tasks.length ===
-          taskData.allByStatus[2].tasks.length
-      ? `Your awaited, completed and in-progress tasks are evenly split`
-      : taskData.allByStatus[0].tasks.length ===
-        taskData.allByStatus[1].tasks.length
-      ? `Your '${taskData.allByStatus[0].name}' and '${taskData.allByStatus[1].name}' tasks are evenly split`
-      : checkAmounts;
-  const soloOrTeamMessage = returnMessage(taskData, timeSpecific);
-  console.log("TEST DATA=>", allTasks.length, taskData);
+  //const timeSpecific = "overall"; // this week / last week
+  useEffect(() => {
+    mapData();
+    console.log("TEST DATA=>", allTasks.length, taskData, unused);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Container fluid>
-      <Row className='m-2 main-stats'>
-        <Col sm={12} className='p-2'>
-          <h2>Statistics</h2>
-          <div>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa eius
-            tempora nesciunt sapiente optio blanditiis vero nisi eos, provident
-            ea distinctio praesentium non enim, saepe laudantium sit reiciendis
-            nihil perspiciatis, quidem excepturi soluta suscipit odio amet
-            commodi.
-          </div>
-        </Col>
-        <Col sm={12} className='p-2'>
-          <h4>Tasks by Category</h4>
-          <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
-          <MixedBarChart data={mixedBarChartSampleData} />
-        </Col>
-        <Col sm={12} className='p-2'>
-          <h4>Tasks by Status, Deadline and Repetition</h4>
-          <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
-        </Col>
-        <Col className='p-2'>
-          <h5>Awaited, In Progress or Completed?</h5>
-          <div>
-            {checkAmounts} {statusMessage}
-          </div>
-          <PieChartWithPaddingAngle
-            deg360={false}
-            data={taskData.allByStatus}
-            colors={STATUS_COLORS}
-          />
-        </Col>
-        <Col className='p-2'>
-          <h5>Solo or Team?</h5>
-          <div>{soloOrTeamMessage}</div>
-          <PieChartWithCustomizedLabel
-            data={taskData.allByType}
-            colors={STATUS_COLORS}
-          />
-        </Col>
-        <Col className='p-2'>
-          <h5>Deadline?</h5>
-        </Col>
-        <Col className='p-2'>
-          <h5>Repeat?</h5>
-        </Col>
-      </Row>
+      {!loading && (
+        <Row className='m-2 main-stats'>
+          <Col sm={12} className='p-2'>
+            <h2>Statistics</h2>
+            <div>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
+              eius tempora nesciunt sapiente optio blanditiis vero nisi eos,
+              provident ea distinctio praesentium non enim, saepe laudantium sit
+              reiciendis nihil perspiciatis, quidem excepturi soluta suscipit
+              odio amet commodi.
+            </div>
+          </Col>
+          <Col sm={12} className='p-2'></Col>
+          <Col className='p-2'>
+            <h4>Tasks by Category</h4>
+            <div>
+              You used {categories.length - unused.length} categories to
+              organise {allTasks.length} tasks.
+            </div>
+            <MixedBarChart data={taskData.allByCategory} stat='category' />
+          </Col>
+          <Col className='p-2'>
+            <h4>Tasks by Value</h4>
+            <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
+            <SimpleBarChart data={taskData.allByValue} stat='value' />
+          </Col>
+          <Col sm={12} className='p-2'>
+            <h4>Tasks by Status, Type, Deadline &amp; more</h4>
+          </Col>
+          <Col className='p-2'>
+            <h5>Awaited, In Progress or Completed?</h5>
+            {/* <div>{messages.status}</div> */}
+            <PieChartWithPaddingAngle
+              deg360={false}
+              data={taskData.allByStatus}
+              colors={STATUS_COLORS}
+              stat='status'
+            />
+          </Col>
+          <Col className='p-2'>
+            <h5>Solo or Team?</h5>
+            {/* <div>{messages.soloOrTeam}</div> */}
+            <PieChartWithCustomizedLabel
+              data={taskData.allByType}
+              colors={STATUS_COLORS}
+              stat='type'
+            />
+          </Col>
+          <Col className='p-2'>
+            <h5>Anytime or deadline?</h5>
+          </Col>
+          <Col className='p-2'>
+            <h5>Repeated or not?</h5>
+          </Col>
+        </Row>
+      )}
     </Container>
   );
 }

@@ -1,3 +1,11 @@
-.main-stats h2, .main-stats .h2, .main-stats h3, .main-stats .h3, .main-stats h4, .main-stats div {
+.main-stats h2,
+.main-stats .h2,
+.main-stats h3,
+.main-stats .h3,
+.main-stats h4,
+.main-stats .h4,
+.main-stats h5,
+.main-stats .h5,
+.main-stats div {
   text-align: left;
 }

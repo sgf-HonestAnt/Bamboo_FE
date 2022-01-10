@@ -161,13 +161,30 @@ export interface beautifulDnD {
   listOrder: string[];
 }
 // statistics page
-export interface nameValTasks { name: string; value: number; tasks: taskInt[] };
+export interface nameValTasks {
+  name: string;
+  value: number;
+  tasks: taskInt[];
+}
+export interface nameTotalTasks {
+  name: string;
+  total: number;
+  tasks: taskInt[];
+}
+export interface catStatusTasks {
+  category: string;
+  total: number;
+  awaited: number;
+  in_progress: number;
+  completed: number;
+}
 export interface dataInt {
   allByStatus: nameValTasks[];
-  allByCategory: nameValTasks[];
+  allByCategory: catStatusTasks[];
+  allByValue: nameTotalTasks[];
   allByCreatedAt: any[];
   allByUpdatedAt: any[];
   allByType: nameValTasks[];
   allByDueDate: any[];
-};
+}
 //
