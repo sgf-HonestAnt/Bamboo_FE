@@ -15,6 +15,7 @@ import "./styles.css";
 // import { returnMessage } from "../../utils/f_statistics";
 import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 import { useEffect, useState } from "react";
+import { findMostUsedValue } from "../../utils/f_statistics";
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -169,7 +170,7 @@ export default function StatsPage() {
       allByCategory,
     });
     const unusedCategories = getUnusedCategories();
-    setUnused(unusedCategories); 
+    setUnused(unusedCategories);
     // const status = await returnMessage(
     //   "status",
     //   taskData,
@@ -219,7 +220,7 @@ export default function StatsPage() {
           </Col>
           <Col className='p-2'>
             <h4>Tasks by Value</h4>
-            <div>Lorem ipsum, dolor sit amet consectetur adipisicing elit.</div>
+            <div>{findMostUsedValue(taskData.allByValue)}</div>
             <SimpleBarChart data={taskData.allByValue} stat='value' />
           </Col>
           <Col sm={12} className='p-2'>
