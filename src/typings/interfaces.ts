@@ -161,12 +161,7 @@ export interface beautifulDnD {
   listOrder: string[];
 }
 // statistics page
-export interface nameValTasks {
-  name: string;
-  value: number;
-  tasks: taskInt[];
-}
-export interface nameTotalTasks {
+export interface genericTaskInt {
   name: string;
   total: number;
   tasks: taskInt[];
@@ -179,12 +174,12 @@ export interface catStatusTasks {
   completed: number;
 }
 export interface dataInt {
-  allByStatus: nameValTasks[];
+  allByStatus: genericTaskInt[];
   allByCategory: catStatusTasks[];
-  allByValue: nameTotalTasks[];
+  allByValue: genericTaskInt[];
   allByCreatedAt: any[];
   allByUpdatedAt: any[];
-  allByType: nameValTasks[];
+  allByType: genericTaskInt[];
   allByDueDate: any[];
 }
 //

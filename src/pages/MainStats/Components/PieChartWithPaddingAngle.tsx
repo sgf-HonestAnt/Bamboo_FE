@@ -38,7 +38,7 @@ export default function PieChartWithPaddingAngle(
           outerRadius={80}
           fill='#8884d8'
           paddingAngle={5}
-          dataKey='value'>
+          dataKey='total'>
           {data.map((entry: any, index: number) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}

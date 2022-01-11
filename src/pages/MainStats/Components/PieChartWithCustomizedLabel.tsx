@@ -44,7 +44,7 @@ export default function PieChartWithCustomizedLabel(props: PieChartWithCustomize
           label={renderCustomizedLabel}
           outerRadius={80}
           fill='#8884d8'
-          dataKey='value'>
+          dataKey='total'>
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}

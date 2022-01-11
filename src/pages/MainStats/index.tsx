@@ -2,8 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import {
   catStatusTasks,
   dataInt,
-  nameTotalTasks,
-  nameValTasks,
+  genericTaskInt,
   reduxStateInt,
 } from "../../typings/interfaces";
 import { useAppSelector } from "../../redux/hooks";
@@ -11,11 +10,22 @@ import PieChartWithCustomizedLabel from "./Components/PieChartWithCustomizedLabe
 import PieChartWithPaddingAngle from "./Components/PieChartWithPaddingAngle";
 import SimpleBarChart from "./Components/SimpleBarChart";
 import MixedBarChart from "./Components/MixedBarChart";
-import "./styles.css";
 // import { returnMessage } from "../../utils/f_statistics";
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
 import { useEffect, useState } from "react";
-import { findMostUsedValue } from "../../utils/f_statistics";
+import {
+  findMostCommonStatus,
+  findMostUsedType,
+  findMostUsedValue,
+} from "../../utils/f_statistics";
+import {
+  AWAITED,
+  COMPLETED,
+  IN_PROGRESS,
+  NONE,
+  SOLO,
+  TEAM,
+} from "../../utils/appConstants";
+import "./styles.css";
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -36,16 +46,16 @@ export default function StatsPage() {
   //const [messages, setMessages] = useState({ status: "", soloOrTeam: "" });
   const mapByStatus = () => {
     const tasksByStatus = [
-      { title: "Awaited", tasks: awaited },
-      { title: "In Progress", tasks: in_progress },
-      { title: "Completed", tasks: completed },
+      { title: AWAITED, tasks: awaited },
+      { title: IN_PROGRESS, tasks: in_progress },
+      { title: COMPLETED, tasks: completed },
     ];
-    let allByStatus: nameValTasks[] = [];
+    let allByStatus: genericTaskInt[] = [];
     // eslint-disable-next-line array-callback-return
     tasksByStatus.map((task, i) => {
       allByStatus.push({
         name: task.title,
-        value: task.tasks.length,
+        total: task.tasks.length,
         tasks: task.tasks,
       });
     });
@@ -54,15 +64,17 @@ export default function StatsPage() {
   const mapByCategory = () => {
     let allByCategory: catStatusTasks[] = [];
     // eslint-disable-next-line array-callback-return
-    categories.map((category, i) => {
-      allByCategory.push({
-        category,
-        total: 0,
-        awaited: 0,
-        in_progress: 0,
-        completed: 0,
+    categories
+      .filter((category) => category !== NONE)
+      .map((category, i) => {
+        allByCategory.push({
+          category,
+          total: 0,
+          awaited: 0,
+          in_progress: 0,
+          completed: 0,
+        });
       });
-    });
     for (let i = 0; i < allTasks.length; i++) {
       for (let j = 0; j < allByCategory.length; j++) {
         if (allTasks[i].category === allByCategory[j].category) {
@@ -91,7 +103,7 @@ export default function StatsPage() {
     return allByCategory;
   };
   const mapByValue = () => {
-    let allByValue: nameTotalTasks[] = [
+    let allByValue: genericTaskInt[] = [
       { name: "10xp", total: 0, tasks: [] },
       { name: "20xp", total: 0, tasks: [] },
       { name: "30xp", total: 0, tasks: [] },
@@ -120,15 +132,15 @@ export default function StatsPage() {
     return allByValue;
   };
   const mapByType = () => {
-    let allByType: nameValTasks[] = [
+    let allByType: genericTaskInt[] = [
       {
-        name: "solo",
-        value: 0,
+        name: SOLO,
+        total: 0,
         tasks: [],
       },
       {
-        name: "team",
-        value: 0,
+        name: TEAM,
+        total: 0,
         tasks: [],
       },
     ];
@@ -136,7 +148,7 @@ export default function StatsPage() {
       for (let j = 0; j < allByType.length; j++) {
         if (allTasks[i].type === allByType[j].name) {
           allByType[j].tasks.push(allTasks[i]);
-          allByType[j].value++;
+          allByType[j].total++;
         }
       }
     }
@@ -152,6 +164,16 @@ export default function StatsPage() {
     }
     return unusedCategories;
   };
+  // const noTasksWithoutCategory = () => {
+  //   const tasksWithoutCategory = allTasks.filter(
+  //     (task) => task.category === NONE
+  //   );
+  //   if (tasksWithoutCategory.length > 0) {
+  //     return categories.length;
+  //   } else {
+  //     return categories.filter((category) => category !== NONE).length;
+  //   }
+  // };
   const mapData = async () => {
     // by status
     const allByStatus = mapByStatus();
@@ -210,47 +232,124 @@ export default function StatsPage() {
             </div>
           </Col>
           <Col sm={12} className='p-2'></Col>
-          <Col className='p-2'>
-            <h4>Tasks by Category</h4>
-            <div>
-              You used {categories.length - unused.length} categories to
-              organise {allTasks.length} tasks.
-            </div>
-            <MixedBarChart data={taskData.allByCategory} stat='category' />
-          </Col>
-          <Col className='p-2'>
-            <h4>Tasks by Value</h4>
-            <div>{findMostUsedValue(taskData.allByValue)}</div>
-            <SimpleBarChart data={taskData.allByValue} stat='value' />
-          </Col>
-          <Col sm={12} className='p-2'>
-            <h4>Tasks by Status, Type, Deadline &amp; more</h4>
-          </Col>
-          <Col className='p-2'>
-            <h5>Awaited, In Progress or Completed?</h5>
-            {/* <div>{messages.status}</div> */}
-            <PieChartWithPaddingAngle
-              deg360={false}
-              data={taskData.allByStatus}
-              colors={STATUS_COLORS}
-              stat='status'
-            />
-          </Col>
-          <Col className='p-2'>
-            <h5>Solo or Team?</h5>
-            {/* <div>{messages.soloOrTeam}</div> */}
-            <PieChartWithCustomizedLabel
-              data={taskData.allByType}
-              colors={STATUS_COLORS}
-              stat='type'
-            />
-          </Col>
-          <Col className='p-2'>
-            <h5>Anytime or deadline?</h5>
-          </Col>
-          <Col className='p-2'>
-            <h5>Repeated or not?</h5>
-          </Col>
+          {allTasks.length > 0 && (
+            <>
+              <Col className='p-2'>
+                {categories.filter((category) => category !== NONE).length /
+                  allTasks.length <=
+                0.5 ? (
+                  <h5>Minimalist</h5>
+                ) : categories.filter((category) => category !== NONE).length /
+                    allTasks.length >
+                    0.5 &&
+                  categories.filter((category) => category !== NONE).length /
+                    allTasks.length <
+                    1 ? (
+                  <h5>Prepper</h5> //
+                ) : (
+                  <h5>Accumulator</h5> //
+                )}
+                <div>
+                  <span>
+                    {unused.length > 0 &&
+                      `You have ${unused.length} unused ${
+                        unused.length > 1 ? "categories." : "category."
+                      }`}
+                  </span>
+                  &nbsp;
+                  <span>
+                    You're using{" "}
+                    {categories.filter((category) => category !== NONE).length -
+                      unused.length}{" "}
+                    {categories.filter((category) => category !== NONE).length -
+                      unused.length >
+                    1
+                      ? "categories"
+                      : "category"}{" "}
+                    to organise {allTasks.length}{" "}
+                    {allTasks.length > 1 ? "tasks" : "task"}.
+                  </span>
+                </div>
+                <MixedBarChart
+                  data={taskData.allByCategory.filter(
+                    (data) => data.category !== NONE
+                  )}
+                  stat='category'
+                />
+              </Col>
+              <Col className='p-2'>
+                <h5>
+                  {
+                    findMostUsedValue(
+                      taskData.allByValue,
+                      allTasks.length
+                    ).split("|")[0]
+                  }
+                </h5>
+                <div>
+                  {
+                    findMostUsedValue(
+                      taskData.allByValue,
+                      allTasks.length
+                    ).split("|")[1]
+                  }
+                </div>
+                <SimpleBarChart data={taskData.allByValue} stat='value' />
+              </Col>
+              <Col sm={12}></Col>
+              <Col className='p-2'>
+                <h5>
+                  {
+                    findMostCommonStatus(
+                      taskData.allByStatus,
+                      allTasks.length
+                    ).split("|")[0]
+                  }
+                </h5>
+                <div>
+                  {
+                    findMostCommonStatus(
+                      taskData.allByStatus,
+                      allTasks.length
+                    ).split("|")[1]
+                  }
+                </div>
+                <PieChartWithPaddingAngle
+                  deg360={false}
+                  data={taskData.allByStatus}
+                  colors={STATUS_COLORS}
+                  stat='status'
+                />
+              </Col>
+              <Col className='p-2'>
+                <h5>
+                  {
+                    findMostUsedType(taskData.allByType, allTasks.length).split(
+                      "|"
+                    )[0]
+                  }
+                </h5>
+                <div>
+                  {
+                    findMostUsedType(taskData.allByType, allTasks.length).split(
+                      "|"
+                    )[1]
+                  }
+                </div>
+                <PieChartWithCustomizedLabel
+                  data={taskData.allByType}
+                  colors={STATUS_COLORS}
+                  stat='type'
+                />
+              </Col>
+              <Col className='p-2'>
+                <h5>Anytime or deadline?</h5>
+              </Col>
+              <Col className='p-2'>
+                <h5>Repeated or not?</h5>
+              </Col>
+            </>
+          )}
         </Row>
       )}
     </Container>

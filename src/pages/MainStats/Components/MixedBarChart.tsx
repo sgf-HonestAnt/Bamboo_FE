@@ -21,7 +21,7 @@ export default function MixedBarChart(props: MixedBarChartProps) {
   const { categories } = state.currentTasks;
   return (
     <BarChart
-      width={stat === "category" ? categories.length * 70 : 500}
+      width={stat === "category" && categories.length > 4 ? categories.length * 75 : 300}
       height={350}
       data={data}
       margin={{
