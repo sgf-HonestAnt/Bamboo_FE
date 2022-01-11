@@ -6,7 +6,6 @@ import {
   EditButton,
 } from "../../../pages__SharedComponents/Buttons";
 import { USERS } from "../../../utils/appConstants";
-import { AiFillStar } from "react-icons/ai";
 
 interface TasksRowProps extends taskInt {
   users?: userInt[];

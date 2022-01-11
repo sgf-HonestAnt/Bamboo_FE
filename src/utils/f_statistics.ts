@@ -14,17 +14,16 @@ export function findMostUsedValue(data: genericTaskInt[], tasksTotal: number) {
     (value: number) => value === highestUsed
   );
   const index = array.findIndex((value: number) => value === highestUsed);
-  const howMany = arrayOfHighestUsed.filter(
-    (value: number) => value === highestUsed
-  ).length;
-  console.log("HIGH=>", data, arrayOfHighestUsed, highestUsed, howMany);
+  //   const howMany = arrayOfHighestUsed.filter(
+  //     (value: number) => value === highestUsed
+  //   ).length;
   return arrayOfHighestUsed.length < 2
     ? `${
         data[index].name === "10xp" || data[index].name === "20xp"
-          ? "REWRITE One Step at a Time"
+          ? "Real Big Saver| "
           : data[index].name === "30xp"
-          ? "REWRITE On the Fence"
-          : "REWRITE Know Your Worth"
+          ? "Budget Balancer| "
+          : "High-Roller| "
       }|${Math.floor(
         (data[index].total / tasksTotal) * 100
       )}% of your tasks have a value of ${data[index].name}.`
@@ -92,5 +91,28 @@ export function findMostUsedType(data: genericTaskInt[], tasksTotal: number) {
     )}% of your tasks are team tasks.`;
   } else {
     return `Co-Worker|Your tasks were split evenly between solo and team effort.`;
+  }
+}
+
+export function findMostUsedDeadline(
+  data: genericTaskInt[],
+  tasksTotal: number
+) {
+  const tasksWithDeadline = data.filter(
+    (data: genericTaskInt) => data.name === "with deadline"
+  )[0];
+  const tasksWithoutDeadline = data.filter(
+    (data: genericTaskInt) => data.name === "no deadline"
+  )[0];
+  if (tasksWithDeadline.total > tasksWithoutDeadline.total) {
+    return `REWRITE Planner|${Math.floor(
+      (tasksWithDeadline.total / tasksTotal) * 100
+    )}% of your tasks have deadlines.`;
+  } else if (tasksWithoutDeadline.total > tasksWithDeadline.total) {
+    return `Free Spirit|${Math.floor(
+      (tasksWithoutDeadline.total / tasksTotal) * 100
+    )}% of your tasks can be finished anytime.`;
+  } else {
+    return `REWRITE Time Mapper|Your tasks were split evenly between those with deadlines and those without.`;
   }
 }

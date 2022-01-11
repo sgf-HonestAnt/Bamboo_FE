@@ -8,12 +8,12 @@ import {
   Legend,
 } from "recharts";
 import { useAppSelector } from "../../../redux/hooks";
-import { reduxStateInt } from "../../../typings/interfaces";
+import { categoryTaskInt, reduxStateInt } from "../../../typings/interfaces";
 
 type MixedBarChartProps = {
-  data: any;
+  data: categoryTaskInt[];
   stat: string;
-};
+}; 
 
 export default function MixedBarChart(props: MixedBarChartProps) {
   const { data, stat } = props;
@@ -21,7 +21,7 @@ export default function MixedBarChart(props: MixedBarChartProps) {
   const { categories } = state.currentTasks;
   return (
     <BarChart
-      width={stat === "category" && categories.length > 4 ? categories.length * 75 : 300}
+      width={stat === "category" && categories.length > 4 ? categories.length * 85 : 350}
       height={350}
       data={data}
       margin={{

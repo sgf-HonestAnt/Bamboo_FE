@@ -166,7 +166,7 @@ export interface genericTaskInt {
   total: number;
   tasks: taskInt[];
 }
-export interface catStatusTasks {
+export interface categoryTaskInt {
   category: string;
   total: number;
   awaited: number;
@@ -175,11 +175,13 @@ export interface catStatusTasks {
 }
 export interface dataInt {
   allByStatus: genericTaskInt[];
-  allByCategory: catStatusTasks[];
+  allByCategory: categoryTaskInt[];
   allByValue: genericTaskInt[];
   allByCreatedAt: any[];
   allByUpdatedAt: any[];
   allByType: genericTaskInt[];
   allByDueDate: any[];
+  tagCloud: { value: string; count: number }[];
+  unusedCategories: categoryTaskInt[];
 }
 //

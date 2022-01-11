@@ -13,8 +13,8 @@ import {
 import "./styles.css";
 
 const RegisterPage = ({ history }: RouteComponentProps) => {
-  const defaultClass = "form-control"
-  const errorClass = "form-control error-bg"
+  const defaultClass = "form-control";
+  const errorClass = "form-control error-bg";
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -108,26 +108,19 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
           username: {
             ...validation.username,
             text: form.username.length < 1 ? "Username must exist" : "Enter",
-            class:
-              form.username.length < 1
-                ? errorClass
-                : defaultClass,
+            class: form.username.length < 1 ? errorClass : defaultClass,
           },
           email: {
             ...validation.email,
             text: form.email.length < 1 ? "Email must exist" : "Enter email",
-            class:
-              form.email.length < 1 ? errorClass : defaultClass,
+            class: form.email.length < 1 ? errorClass : defaultClass,
           },
           password: {
             text:
               form.password.length < 7
                 ? "Password must be longer than 6 characters"
                 : "Enter password",
-            class:
-              form.password.length < 7
-                ? errorClass
-                : defaultClass,
+            class: form.password.length < 7 ? errorClass : defaultClass,
           },
         });
       } else {
@@ -140,8 +133,12 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
           headers,
           body,
         });
-        const { message, available, accessToken, refreshToken } =
-          await response.json();
+        const {
+          message,
+          //available,
+          accessToken,
+          refreshToken,
+        } = await response.json();
         if (response.status === 409) {
           if (message === "USERNAME NOT AVAILABLE") {
             setValidation({

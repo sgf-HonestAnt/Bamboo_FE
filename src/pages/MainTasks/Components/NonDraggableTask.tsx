@@ -16,7 +16,7 @@ import {
   ICOWORK,
 } from "../../../utils/appIcons";
 import {
-  attemptDeleteTask,
+  // attemptDeleteTask,
   moveTaskBetweenStatus,
 } from "../../../utils/f_tasks";
 import { RemTaskFromCompleted } from "../../../redux/actions/tasks";

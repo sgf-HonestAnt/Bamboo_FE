@@ -1,7 +1,8 @@
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 :root {
-  --main-bg: #ccc;
+  --main-bg: #fff;
+  /* --main-bg: #ccc; */
   --sidebar-bg: #747474;
   --main-text: #041008;
   --sidebar-text: #ccc;
@@ -12,7 +13,8 @@
   --code-blue: rgba(0, 0, 255, 0.8);
 }
 #theme-light {
-  --main-bg: #ccc;
+  --main-bg: #fff;
+  /* --main-bg: #ccc; */
   --sidebar-bg: #747474;
   --main-text: #041008;
   --sidebar-text: #ccc;
@@ -70,6 +72,13 @@
 }
 .yellow {
   background-color: yellow !important;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.float-center {
+  margin: auto;
 }
 .tiny-round {
   width: 50px;

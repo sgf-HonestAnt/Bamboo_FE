@@ -7,7 +7,7 @@ import {
   EditButton,
 } from "../../../pages__SharedComponents/Buttons";
 import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/appConstants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EditDeleteUserModal from "./EditDeleteUserModal";
 
 interface UsersRowProps extends userInt {

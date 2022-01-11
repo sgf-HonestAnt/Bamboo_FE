@@ -1,19 +1,22 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { Container, Row, Col, Tabs, Tab } from "react-bootstrap";
 import {
-  catStatusTasks,
+  categoryTaskInt,
   dataInt,
   genericTaskInt,
   reduxStateInt,
 } from "../../typings/interfaces";
-import { useAppSelector } from "../../redux/hooks";
 import PieChartWithCustomizedLabel from "./Components/PieChartWithCustomizedLabel";
 import PieChartWithPaddingAngle from "./Components/PieChartWithPaddingAngle";
 import SimpleBarChart from "./Components/SimpleBarChart";
 import MixedBarChart from "./Components/MixedBarChart";
-// import { returnMessage } from "../../utils/f_statistics";
-import { useEffect, useState } from "react";
+import CustomActiveShapePieChart from "./Components/CustomActiveShapePieChart";
+import SimpleCloud from "./Components/SimpleCloud";
+import StatisticsHeader from "./Components/StatisticsHeader";
 import {
   findMostCommonStatus,
+  findMostUsedDeadline,
   findMostUsedType,
   findMostUsedValue,
 } from "../../utils/f_statistics";
@@ -40,11 +43,12 @@ export default function StatsPage() {
     allByUpdatedAt: [],
     allByType: [],
     allByDueDate: [],
+    tagCloud: [],
+    unusedCategories: [],
   });
-  const [unused, setUnused] = useState<catStatusTasks[]>([]);
   const [loading, setLoading] = useState(true);
   //const [messages, setMessages] = useState({ status: "", soloOrTeam: "" });
-  const mapByStatus = () => {
+  const mapByStatus = async () => {
     const tasksByStatus = [
       { title: AWAITED, tasks: awaited },
       { title: IN_PROGRESS, tasks: in_progress },
@@ -61,12 +65,15 @@ export default function StatsPage() {
     });
     return allByStatus;
   };
-  const mapByCategory = () => {
-    let allByCategory: catStatusTasks[] = [];
+  const mapByCategory = async () => {
+    let allByCategory: categoryTaskInt[] = [];
     // eslint-disable-next-line array-callback-return
-    categories
-      .filter((category) => category !== NONE)
-      .map((category, i) => {
+    const tasksWithNoCategory = allTasks.filter(
+      (task) => task.category === NONE
+    );
+    if (tasksWithNoCategory.length > 0) {
+      // eslint-disable-next-line array-callback-return
+      categories.map((category, i) => {
         allByCategory.push({
           category,
           total: 0,
@@ -75,6 +82,20 @@ export default function StatsPage() {
           completed: 0,
         });
       });
+    } else {
+      categories
+        .filter((category) => category !== NONE)
+        // eslint-disable-next-line array-callback-return
+        .map((category, i) => {
+          allByCategory.push({
+            category,
+            total: 0,
+            awaited: 0,
+            in_progress: 0,
+            completed: 0,
+          });
+        });
+    }
     for (let i = 0; i < allTasks.length; i++) {
       for (let j = 0; j < allByCategory.length; j++) {
         if (allTasks[i].category === allByCategory[j].category) {
@@ -102,7 +123,17 @@ export default function StatsPage() {
     }
     return allByCategory;
   };
-  const mapByValue = () => {
+  const createDataForTagCloud = async (allByCategory: categoryTaskInt[]) => {
+    const newData = [];
+    for (let i = 0; i < allByCategory.length; i++) {
+      newData.push({
+        value: allByCategory[i].category,
+        count: allByCategory[i].total,
+      });
+    }
+    return newData;
+  };
+  const mapByValue = async () => {
     let allByValue: genericTaskInt[] = [
       { name: "10xp", total: 0, tasks: [] },
       { name: "20xp", total: 0, tasks: [] },
@@ -131,7 +162,7 @@ export default function StatsPage() {
     });
     return allByValue;
   };
-  const mapByType = () => {
+  const mapByType = async () => {
     let allByType: genericTaskInt[] = [
       {
         name: SOLO,
@@ -154,9 +185,35 @@ export default function StatsPage() {
     }
     return allByType;
   };
-  const getUnusedCategories = () => {
+  const mapByDeadline = async () => {
+    let allByDueDate: genericTaskInt[] = [
+      {
+        name: "with deadline",
+        total: 0,
+        tasks: [],
+      },
+      {
+        name: "no deadline",
+        total: 0,
+        tasks: [],
+      },
+    ];
+    for (let i = 0; i < allTasks.length; i++) {
+      if (allTasks[i].deadline) {
+        allByDueDate[0].tasks.push(allTasks[i]);
+        allByDueDate[0].total++;
+      } else {
+        allByDueDate[1].tasks.push(allTasks[i]);
+        allByDueDate[1].total++;
+      }
+    }
+    allByDueDate[0].tasks.sort(function (a, b) {
+      return new Date(a.deadline!).getTime() - new Date(b.deadline!).getTime();
+    });
+    return allByDueDate;
+  };
+  const getUnusedCategories = async (allByCategory: categoryTaskInt[]) => {
     let unusedCategories = [];
-    const { allByCategory } = taskData;
     for (let i = 0; i < allByCategory.length; i++) {
       if (allByCategory[i].total === 0) {
         unusedCategories.push(allByCategory[i]);
@@ -164,48 +221,24 @@ export default function StatsPage() {
     }
     return unusedCategories;
   };
-  // const noTasksWithoutCategory = () => {
-  //   const tasksWithoutCategory = allTasks.filter(
-  //     (task) => task.category === NONE
-  //   );
-  //   if (tasksWithoutCategory.length > 0) {
-  //     return categories.length;
-  //   } else {
-  //     return categories.filter((category) => category !== NONE).length;
-  //   }
-  // };
   const mapData = async () => {
-    // by status
-    const allByStatus = mapByStatus();
-    // by type
-    const allByType = mapByType();
-    // by value
-    const allByValue = mapByValue();
-    // get unused cats
-    // by category
-    const allByCategory = mapByCategory();
+    const allByStatus = await mapByStatus();
+    const allByType = await mapByType();
+    const allByValue = await mapByValue();
+    const allByCategory = await mapByCategory();
+    const allByDueDate = await mapByDeadline();
+    const tagCloud = await createDataForTagCloud(allByCategory);
+    const unusedCategories = await getUnusedCategories(allByCategory);
     setTaskData({
       ...taskData,
       allByStatus,
       allByType,
       allByValue,
       allByCategory,
+      allByDueDate,
+      tagCloud,
+      unusedCategories,
     });
-    const unusedCategories = getUnusedCategories();
-    setUnused(unusedCategories);
-    // const status = await returnMessage(
-    //   "status",
-    //   taskData,
-    //   timeSpecific,
-    //   allTasks.length
-    // );
-    // const soloOrTeam = await returnMessage(
-    //   "type",
-    //   taskData,
-    //   timeSpecific,
-    //   allTasks.length
-    // );
-    // setMessages({ status, soloOrTeam });
     setLoading(false);
   };
   const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -214,144 +247,173 @@ export default function StatsPage() {
   //const timeSpecific = "overall"; // this week / last week
   useEffect(() => {
     mapData();
-    console.log("TEST DATA=>", allTasks.length, taskData, unused);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log("TEST DATA=>", allTasks.length, taskData);
   return (
-    <Container fluid>
-      {!loading && (
-        <Row className='m-2 main-stats'>
-          <Col sm={12} className='p-2'>
-            <h2>Statistics</h2>
-            <div>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa
-              eius tempora nesciunt sapiente optio blanditiis vero nisi eos,
-              provident ea distinctio praesentium non enim, saepe laudantium sit
-              reiciendis nihil perspiciatis, quidem excepturi soluta suscipit
-              odio amet commodi.
-            </div>
-          </Col>
-          <Col sm={12} className='p-2'></Col>
-          {allTasks.length > 0 && (
-            <>
-              <Col className='p-2'>
-                {categories.filter((category) => category !== NONE).length /
-                  allTasks.length <=
-                0.5 ? (
-                  <h5>Minimalist</h5>
-                ) : categories.filter((category) => category !== NONE).length /
-                    allTasks.length >
-                    0.5 &&
-                  categories.filter((category) => category !== NONE).length /
-                    allTasks.length <
-                    1 ? (
-                  <h5>Prepper</h5> //
-                ) : (
-                  <h5>Accumulator</h5> //
-                )}
-                <div>
-                  <span>
-                    {unused.length > 0 &&
-                      `You have ${unused.length} unused ${
-                        unused.length > 1 ? "categories." : "category."
-                      }`}
-                  </span>
-                  &nbsp;
-                  <span>
-                    You're using{" "}
-                    {categories.filter((category) => category !== NONE).length -
-                      unused.length}{" "}
-                    {categories.filter((category) => category !== NONE).length -
-                      unused.length >
-                    1
-                      ? "categories"
-                      : "category"}{" "}
-                    to organise {allTasks.length}{" "}
-                    {allTasks.length > 1 ? "tasks" : "task"}.
-                  </span>
-                </div>
-                <MixedBarChart
-                  data={taskData.allByCategory.filter(
-                    (data) => data.category !== NONE
-                  )}
-                  stat='category'
-                />
-              </Col>
-              <Col className='p-2'>
-                <h5>
-                  {
-                    findMostUsedValue(
-                      taskData.allByValue,
-                      allTasks.length
-                    ).split("|")[0]
-                  }
-                </h5>
-                <div>
-                  {
-                    findMostUsedValue(
-                      taskData.allByValue,
-                      allTasks.length
-                    ).split("|")[1]
-                  }
-                </div>
-                <SimpleBarChart data={taskData.allByValue} stat='value' />
-              </Col>
-              <Col sm={12}></Col>
-              <Col className='p-2'>
-                <h5>
-                  {
-                    findMostCommonStatus(
-                      taskData.allByStatus,
-                      allTasks.length
-                    ).split("|")[0]
-                  }
-                </h5>
-                <div>
-                  {
-                    findMostCommonStatus(
-                      taskData.allByStatus,
-                      allTasks.length
-                    ).split("|")[1]
-                  }
-                </div>
-                <PieChartWithPaddingAngle
-                  deg360={false}
-                  data={taskData.allByStatus}
-                  colors={STATUS_COLORS}
-                  stat='status'
-                />
-              </Col>
-              <Col className='p-2'>
-                <h5>
-                  {
-                    findMostUsedType(taskData.allByType, allTasks.length).split(
-                      "|"
-                    )[0]
-                  }
-                </h5>
-                <div>
-                  {
-                    findMostUsedType(taskData.allByType, allTasks.length).split(
-                      "|"
-                    )[1]
-                  }
-                </div>
-                <PieChartWithCustomizedLabel
-                  data={taskData.allByType}
-                  colors={STATUS_COLORS}
-                  stat='type'
-                />
-              </Col>
-              <Col className='p-2'>
-                <h5>Anytime or deadline?</h5>
-              </Col>
-              <Col className='p-2'>
-                <h5>Repeated or not?</h5>
-              </Col>
-            </>
-          )}
-        </Row>
-      )}
+    <Container fluid className='p-0'>
+      {!loading &&
+        taskData.allByCategory &&
+        taskData.allByValue &&
+        taskData.allByStatus &&
+        taskData.allByType &&
+        taskData.allByDueDate && (
+          <Row className='main-stats'>
+            <Col sm={12}>
+              <Tabs defaultActiveKey='category' id='uncontrolled-tab-example'>
+                <Tab eventKey='category' title='Tasks by Category'>
+                  <StatisticsHeader />
+                  <div className='flex-row'>
+                    <div>
+                      <h5>
+                        {categories.length / allTasks.length <= 0.7
+                          ? "Minimalist"
+                          : categories.length / allTasks.length > 0.7 &&
+                            categories.length / allTasks.length < 1
+                          ? "Prepper"
+                          : "Accumulator"}
+                      </h5>
+                      <div className='mb-3'>
+                        <span>
+                          You're using{" "}
+                          {taskData.allByCategory.length -
+                            taskData.unusedCategories.length}{" "}
+                          {taskData.allByCategory.length -
+                            taskData.unusedCategories.length >
+                          1
+                            ? "categories"
+                            : "category"}{" "}
+                          to organise {allTasks.length}{" "}
+                          {allTasks.length > 1 ? "tasks" : "task"}.
+                        </span>
+                        <span>
+                          {taskData.unusedCategories.length > 0 &&
+                            ` You have ${
+                              taskData.unusedCategories.length
+                            } unused ${
+                              taskData.unusedCategories.length > 1
+                                ? "categories."
+                                : "category."
+                            }`}
+                        </span>
+                      </div>
+                      <MixedBarChart
+                        data={taskData.allByCategory}
+                        stat='category'
+                      />
+                    </div>
+                    <div className='float-center'>
+                      <SimpleCloud data={taskData.tagCloud} />
+                    </div>
+                  </div>
+                </Tab>
+                <Tab eventKey='value' title='by Value'>
+                  <StatisticsHeader />
+                  <div>
+                    <h5>
+                      {
+                        findMostUsedValue(
+                          taskData.allByValue,
+                          allTasks.length
+                        ).split("|")[0]
+                      }
+                    </h5>
+                    <div className='mb-3'>
+                      <span>
+                        {
+                          findMostUsedValue(
+                            taskData.allByValue,
+                            allTasks.length
+                          ).split("|")[2]
+                        }
+                      </span>
+                    </div>
+                    <SimpleBarChart data={taskData.allByValue} stat='value' />{" "}
+                  </div>
+                </Tab>
+                <Tab eventKey='status' title='by Status'>
+                  <StatisticsHeader />
+                  <div>
+                    <h5>
+                      {
+                        findMostCommonStatus(
+                          taskData.allByStatus,
+                          allTasks.length
+                        ).split("|")[0]
+                      }
+                    </h5>
+                    <div className='mb-3'>
+                      {
+                        findMostCommonStatus(
+                          taskData.allByStatus,
+                          allTasks.length
+                        ).split("|")[1]
+                      }
+                    </div>
+                    <PieChartWithPaddingAngle
+                      deg360={true}
+                      data={taskData.allByStatus}
+                      colors={STATUS_COLORS}
+                      stat='status'
+                    />
+                  </div>
+                </Tab>
+                <Tab eventKey='type' title='by Type'>
+                  <StatisticsHeader />
+                  <div>
+                    <h5>
+                      {
+                        findMostUsedType(
+                          taskData.allByType,
+                          allTasks.length
+                        ).split("|")[0]
+                      }
+                    </h5>
+                    <div className='mb-3'>
+                      {
+                        findMostUsedType(
+                          taskData.allByType,
+                          allTasks.length
+                        ).split("|")[1]
+                      }
+                    </div>
+                    <PieChartWithCustomizedLabel
+                      data={taskData.allByType}
+                      colors={STATUS_COLORS}
+                      stat='type'
+                    />
+                  </div>
+                </Tab>
+                <Tab eventKey='deadline' title='by Deadline'>
+                  <StatisticsHeader />
+                  <div>
+                    <h5>
+                      {
+                        findMostUsedDeadline(
+                          taskData.allByDueDate,
+                          allTasks.length
+                        ).split("|")[0]
+                      }
+                    </h5>
+                    <div className='mb-3'>
+                      {
+                        findMostUsedDeadline(
+                          taskData.allByDueDate,
+                          allTasks.length
+                        ).split("|")[1]
+                      }
+                    </div>{" "}
+                    <CustomActiveShapePieChart
+                      data={taskData.allByDueDate}
+                      stat='deadline'
+                    />
+                  </div>
+                </Tab>
+                {/* <Tab eventKey='extra' title='by Lateness' disabled></Tab> */}
+              </Tabs>
+            </Col>
+          </Row>
+        )}
     </Container>
   );
 }

@@ -9,3 +9,6 @@
 .main-stats div {
   text-align: left;
 }
+.main-stats .tab-content {
+  padding: 20px;
+}

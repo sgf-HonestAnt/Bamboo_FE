@@ -7,11 +7,12 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { genericTaskInt } from "../../../typings/interfaces";
 
 type SimpleBarChartProps = {
-  data: any;
+  data: genericTaskInt[];
   stat: string;
-};
+}; 
 
 export default function SimpleBarChart(props: SimpleBarChartProps) {
   const { data } = props;
