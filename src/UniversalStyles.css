@@ -1,46 +1,45 @@
 /* fonts */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 :root {
-  --main-bg: #fff;
-  /* --main-bg: #ccc; */
-  --sidebar-bg: #747474;
-  --main-text: #041008;
-  --sidebar-text: #ccc;
-  --button-bg: #b4b4b4;
-  --button-alt: #5b5b5b;
-  --code-red: rgba(255, 0, 0, 0.8);
-  --code-yellow: rgba(255, 255, 0, 0.8);
-  --code-blue: rgba(0, 0, 255, 0.8);
+  /* HEX */
+  --international-klein-blue: #1a29baff;
+  --magic-mint: #b7f7caff;
+  --trebor-mint: #d3fade;
+  --celadon-green: #438a84ff;
+  --celadon-green-2: #438a84ff;
+  --light-green: #77f19bff;
+  /* HSL */
+  --international-klein-blue: hsla(234, 75%, 42%, 1);
+  --magic-mint: hsla(138, 80%, 84%, 1);
+  --trebor-mint: hsla(137, 80%, 90%, 1);
+  --celadon-green: hsla(175, 35%, 40%, 1);
+  --celadon-green-2: hsla(175, 35%, 40%, 1);
+  --light-green: hsla(138, 81%, 71%, 1);
 }
 #theme-light {
-  --main-bg: #fff;
-  /* --main-bg: #ccc; */
-  --sidebar-bg: #747474;
+  --main-bg: var(--light-green);
+  --sidebar-bg: var(--celadon-green);
   --main-text: #041008;
-  --sidebar-text: #ccc;
+  --sidebar-text: var(--magic-mint);
   --button-bg: #b4b4b4;
   --button-alt: #5b5b5b;
   --code-red: rgba(255, 0, 0, 0.8);
   --code-yellow: rgba(255, 255, 0, 0.8);
   --code-blue: rgba(0, 0, 255, 0.8);
-}
-#theme-dark {
-  --main-bg: #041008;
-  --sidebar-bg: #747474;
-  --main-text: #ccc;
 }
 .App {
   background-color: var(--main-bg);
   color: var(--main-text);
   font-family: "Ubuntu", sans-serif;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 400;
   text-align: center;
 }
-/* universal styling */
-/* a {
-  color: pink !important;
-} */
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 0px;
+} /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
+/* Universal Styles */
 .text-bigger {
   font-size: 1.2rem;
 }
@@ -52,10 +51,6 @@
 }
 .cursor-point:hover {
   cursor: pointer;
-}
-.xp {
-  padding-left: 5px;
-  max-height: 25px;
 }
 .opaquish {
   opacity: 0.5;

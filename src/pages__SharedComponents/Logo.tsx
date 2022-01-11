@@ -1,12 +1,9 @@
-import Logo from "../media/logo.png";
+import { RiPlantLine } from "react-icons/ri";
 
-const PandaLogo = () => (
-  <img
-    src={Logo}
-    // src={process.env.REACT_APP_LOGO_IMG}
-    alt='Bamboo Logo'
-    className='img-fluid'
-  />
-);
-
-export default PandaLogo;
+export default function BambooLogo() {
+  return (
+    <div>
+      <RiPlantLine />
+    </div>
+  );
+}

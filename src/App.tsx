@@ -5,11 +5,11 @@ import {
   RouteComponentProps,
   Redirect,
 } from "react-router-dom";
-import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
-import LogoutPage from "./pages/Logout";
+import LoginPage from "./pages/Login";
 import MainBody from "./pages/Main";
-import "./App.css";
+import LogoutPage from "./pages/Logout";
+import "./UniversalStyles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

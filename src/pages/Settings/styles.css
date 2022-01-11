@@ -1,5 +1,5 @@
 .settings-page {
-  background-color: var(--sidebar-bg);
+  /* background-color: var(--sidebar-bg); */
   display: flex;
   min-height: 100vh;
   justify-content: space-around;
