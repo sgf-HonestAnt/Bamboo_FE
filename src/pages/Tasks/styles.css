@@ -63,3 +63,7 @@
 .tasks-page__list-task__title.urgent {
   color: var(--code-red);
 }
+.placeholder {
+  font-size: 1px;
+  color: white;
+}

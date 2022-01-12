@@ -83,7 +83,7 @@ export default function TasksPage(props: TasksPageProps) {
         lists: [
           {
             id: AWAITED,
-            title: "To do",
+            title: "To Do",
             taskIds: taskList
               .filter((t) => t.status === AWAITED)
               .map((t) => t._id),

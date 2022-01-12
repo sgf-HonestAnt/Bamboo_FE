@@ -40,41 +40,37 @@ const DroppableList = (props: DroppableListProps) => {
           <div className='tasks-page__list-title'>{list.title}</div>
           <Droppable droppableId={list.id}>
             {(provided, snapshot) => {
-              console.log(snapshot)
+              console.log(list.id, snapshot);
               return (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  // isDraggingOver={snapshot.isDraggingOver}
-                >
-                  {provided.placeholder}
+                  data-is-dragging={snapshot.isDraggingOver}>
+                  <div className='placeholder'>
+                    {provided.placeholder}
+                    :)
+                  </div>
                   {list.id !== COMPLETED && tasks.length > 0 ? (
                     tasks.map((task: taskInt, i: number) => (
-                      <>
-                        <DraggableTask
-                          key={i}
-                          task={task}
-                          i={i}
-                          initialData={initialData}
-                          setInitialData={setInitialData}
-                          history={history}
-                          location={location}
-                        />
-                        <div>{task._id}</div>
-                      </>
+                      <DraggableTask
+                        key={i}
+                        task={task}
+                        i={i}
+                        initialData={initialData}
+                        setInitialData={setInitialData}
+                        history={history}
+                        location={location}
+                      />
                     ))
                   ) : tasks.length > 0 ? (
                     tasks.map((task: taskInt, i: number) => (
-                      <>
-                        <NonDraggableTask
-                          key={i}
-                          task={task}
-                          i={i}
-                          taskList={taskList}
-                          setTaskList={setTaskList}
-                        />
-                        <div>non-draggable</div>
-                      </>
+                      <NonDraggableTask
+                        key={i}
+                        task={task}
+                        i={i}
+                        taskList={taskList}
+                        setTaskList={setTaskList}
+                      />
                     ))
                   ) : (
                     <></>
