@@ -59,6 +59,8 @@ export const FILL_SETTINGS_LOADING = "FILL_SETTINGS_LOADING";
 export const FILL_SETTINGS_ERROR = "FILL_SETTINGS_ERROR";
 export const FILL_SETTINGS = "FILL_SETTINGS";
 // ********** FUNCS **********
+export const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];
@@ -132,11 +134,39 @@ export const congrats = [
   "|✊Fist bump",
 ];
 export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
-
-
-
-
-
+////////////////////////////////////////////////////////////////////
+// Registration Page
+export const SPECIAL_CHARS = [
+  "!",
+  "'",
+  "`",
+  '"',
+  "#",
+  "$",
+  "%",
+  "&",
+  "(",
+  ")",
+  "*",
+  "+",
+  ",",
+  "-",
+  ".",
+  "/",
+  ":",
+  ";",
+  "<",
+  "=",
+  ">",
+  "?",
+  "@",
+  "^",
+  "_",
+  "{",
+  "|",
+  "}",
+  "~",
+];
 ////////////////////////////////////////////////////////////////////
 // Admin Page Sorting
 export const NAME_ASC = "Name (Asc)";

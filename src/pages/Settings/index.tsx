@@ -8,7 +8,7 @@ import {
   BackToDashButtonCol,
   DeleteButton,
   SubmitButtonCol,
-} from "../../pages__SharedComponents/Buttons";
+} from "../__Components/Buttons";
 import { ICOEDIT } from "../../utils/appIcons";
 import {
   setUserEmail,
@@ -20,15 +20,15 @@ import {
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
-import ImageUploader from "./Components/ImageUploader";
+import ImageUploader from "./SettingsComponents/ImageUploader";
 import "./styles.css";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
   location: Location<unknown>;
 };
-const SettingsPage = (props: SettingsPageProps) => {
-  console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
+export default function SettingsPage(props: SettingsPageProps) {
+  //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { history, location } = props;
@@ -104,7 +104,7 @@ const SettingsPage = (props: SettingsPageProps) => {
   }, [location.pathname]);
   return (
     <div className='settings-page'>
-      <Card className='col-4 my-3'>
+      <Card className='my-3'>
         <Card.Body className='settings-page__profile-card'>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
@@ -113,7 +113,7 @@ const SettingsPage = (props: SettingsPageProps) => {
               avatar={my_user.avatar}
               handleChangeAvatar={handleChangeAvatar}
             />
-            <Form.Group as={Row} controlId='first_name'>
+            <Form.Group as={Row} controlId='first_name' className='py-2'>
               <Form.Label column sm='4'>
                 first name
               </Form.Label>
@@ -183,7 +183,7 @@ const SettingsPage = (props: SettingsPageProps) => {
                 {editButton}
               </Col>
             </Form.Group>
-            <div className='user-settings-buttons'>
+            <div className='user-settings-buttons m-2'>
               <BackToDashButtonCol
                 label='Back to dashboard'
                 handleClick={handleReturn}
@@ -212,5 +212,3 @@ const SettingsPage = (props: SettingsPageProps) => {
     </div>
   );
 };
-
-export default SettingsPage;

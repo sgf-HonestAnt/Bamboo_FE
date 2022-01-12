@@ -160,3 +160,28 @@ export interface beautifulDnD {
   lists: listForBeautifulDnd[];
   listOrder: string[];
 }
+// statistics page
+export interface genericTaskInt {
+  name: string;
+  total: number;
+  tasks: taskInt[];
+}
+export interface categoryTaskInt {
+  category: string;
+  total: number;
+  awaited: number;
+  in_progress: number;
+  completed: number;
+}
+export interface dataInt {
+  allByStatus: genericTaskInt[];
+  allByCategory: categoryTaskInt[];
+  allByValue: genericTaskInt[];
+  allByCreatedAt: any[];
+  allByUpdatedAt: any[];
+  allByType: genericTaskInt[];
+  allByDueDate: any[];
+  tagCloud: { value: string; count: number }[];
+  unusedCategories: categoryTaskInt[];
+}
+//

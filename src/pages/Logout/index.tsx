@@ -1,13 +1,9 @@
-import { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { PandaSleep } from "../../pages__SharedComponents/Pandas";
+import { Container, Row, Col } from "react-bootstrap";
+import { PandaSleep } from "../__Components/Pandas";
 import "./styles.css";
 
-const LogoutPage = ({ history, location, match }: RouteComponentProps) => {
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
+export default function LogoutPage({ history }: RouteComponentProps) {
   return (
     <Container fluid>
       <Row className='logout-page'>
@@ -20,5 +16,3 @@ const LogoutPage = ({ history, location, match }: RouteComponentProps) => {
     </Container>
   );
 };
-
-export default LogoutPage;
