@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { setRefreshToken } from "../../redux/actions/user";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { SubmitButton } from "../../pages__SharedComponents/Buttons";
+import { SubmitButton } from "../__Components/Buttons";
 import {
   BE_URL,
   USERS,
@@ -12,7 +12,7 @@ import {
 } from "../../utils/appConstants";
 import "./styles.css";
 
-const RegisterPage = ({ history }: RouteComponentProps) => {
+export default function RegisterPage({ history }: RouteComponentProps) {
   const defaultClass = "form-control";
   const errorClass = "form-control error-bg";
   const [form, setForm] = useState({
@@ -278,6 +278,4 @@ const RegisterPage = ({ history }: RouteComponentProps) => {
       </Row>
     </Container>
   );
-};
-
-export default RegisterPage;
+}

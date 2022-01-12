@@ -8,7 +8,7 @@ import {
   BackToDashButtonCol,
   DeleteButton,
   SubmitButtonCol,
-} from "../../pages__SharedComponents/Buttons";
+} from "../__Components/Buttons";
 import { ICOEDIT } from "../../utils/appIcons";
 import {
   setUserEmail,
@@ -20,14 +20,14 @@ import {
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
-import ImageUploader from "./Components/ImageUploader";
+import ImageUploader from "./SettingsComponents/ImageUploader";
 import "./styles.css";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
   location: Location<unknown>;
 };
-const SettingsPage = (props: SettingsPageProps) => {
+export default function SettingsPage(props: SettingsPageProps) {
   //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
@@ -212,5 +212,3 @@ const SettingsPage = (props: SettingsPageProps) => {
     </div>
   );
 };
-
-export default SettingsPage;

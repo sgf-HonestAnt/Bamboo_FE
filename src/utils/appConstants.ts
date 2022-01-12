@@ -59,6 +59,8 @@ export const FILL_SETTINGS_LOADING = "FILL_SETTINGS_LOADING";
 export const FILL_SETTINGS_ERROR = "FILL_SETTINGS_ERROR";
 export const FILL_SETTINGS = "FILL_SETTINGS";
 // ********** FUNCS **********
+export const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];

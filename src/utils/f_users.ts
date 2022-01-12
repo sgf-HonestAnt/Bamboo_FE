@@ -89,7 +89,7 @@ export const getUserByQuery = async (query: string) => {
   try {
     console.log("🙋Getting User By Email or Username");
     const queryIsEmail = query.includes("@");
-    const criteria = queryIsEmail ? `email=${query}` : `username=${query}`;
+    const criteria = queryIsEmail ? `email=${query.toLowerCase()}` : `username=${query.toLowerCase()}`;
     const url = `${BE_URL}/${USERS}?${criteria}`;
     const method = GET;
     const response = await fetch(url, { method });

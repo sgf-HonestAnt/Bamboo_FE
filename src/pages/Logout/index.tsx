@@ -1,9 +1,9 @@
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import { PandaSleep } from "../../pages__SharedComponents/Pandas";
+import { PandaSleep } from "../__Components/Pandas";
 import "./styles.css";
 
-const LogoutPage = ({ history }: RouteComponentProps) => {
+export default function LogoutPage({ history }: RouteComponentProps) {
   return (
     <Container fluid>
       <Row className='logout-page'>
@@ -16,5 +16,3 @@ const LogoutPage = ({ history }: RouteComponentProps) => {
     </Container>
   );
 };
-
-export default LogoutPage;

@@ -3,10 +3,10 @@ import { useDispatch } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/f_users";
-import { SubmitButton } from "../../pages__SharedComponents/Buttons";
+import { SubmitButton } from "../__Components/Buttons";
 import "./styles.css";
 
-const LoginPage = ({ history }: RouteComponentProps) => {
+export default function LoginPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
   const [failed, setFailed] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
@@ -75,5 +75,3 @@ const LoginPage = ({ history }: RouteComponentProps) => {
     </Container>
   );
 };
-
-export default LoginPage;

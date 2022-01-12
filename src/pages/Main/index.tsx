@@ -1,5 +1,5 @@
-import { RouteComponentProps } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useDispatch } from "react-redux";
 import { fillUserAction } from "../../redux/actions/user";
@@ -10,15 +10,15 @@ import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
 import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
-import SettingsPage from "../Settings";
-import MainSideBar from "../MainSideBar";
-import DashboardPage from "../MainDash";
-import NewTasksPage from "../MainTasks";
-import FollowingPage from "../MainFollow";
-import AdminPage from "../MainAdmin";
-import ErrorPage from "../MainError";
-import StatsPage from "../MainStats";
 import checkToken from "../../utils/f_checkToken";
+import SideBar from "../SideBar";
+import SettingsPage from "../Settings";
+import DashboardPage from "../Dashboard";
+import TasksPage from "../Tasks";
+import FollowingPage from "../Follow";
+import AdminPage from "../Admin";
+import StatsPage from "../Stats";
+import ErrorPage from "../Error";
 import "./styles.css";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
@@ -83,7 +83,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
             className={`main-page__sidebar${
               location.pathname === "/admin-dash" ? "-admin" : ""
             }`}>
-            <MainSideBar
+            <SideBar
               history={history}
               location={location}
               setTheme={setTheme}
@@ -99,11 +99,11 @@ export default function MainBody({ history, location }: RouteComponentProps) {
             </div>
           ) : path === "/tasks" ? (
             <div className='main-page__main-section'>
-              <NewTasksPage history={history} location={location} />
+              <TasksPage history={history} location={location} />
             </div>
           ) : path === "/following" ? (
             <div className='main-page__main-section'>
-              <FollowingPage location={location} />
+              <FollowingPage history={history} location={location} />
             </div>
           ) : path === "/admin-dash" ? (
             <div className='main-page__main-section-admin'>
