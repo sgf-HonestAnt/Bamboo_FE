@@ -18,7 +18,6 @@ import {
   filterTasksByOverdue,
   getSelectedDateAsString,
 } from "../../../utils/f_dates";
-import DashStats from "./DashStats";
 
 type DashTasksProps = {
   today: string;
@@ -38,6 +37,7 @@ const DashTasks = (props: DashTasksProps) => {
   const todayTasks = allTasks.filter(
     (task) => task.deadline?.slice(0, 10) === today
   );
+  const sharedTasks = allTasks.filter((task) => task.sharedWith!.length > 1);
   const findIfTasksOverdue = async () => {
     let array: taskInt[] = [];
     const tasksWithDeadlines = allTasks.filter(
@@ -69,36 +69,45 @@ const DashTasks = (props: DashTasksProps) => {
   return (
     <div className='dashboard__tasks-card m-2'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
-      <DashTaskButton
-        label={`Urgent|${urgentTasks.length}`}
-        value={URGENT}
-        handleClick={handleClick}
-      />
-      <DashTaskButton
-        label={`Due Today|${todayTasks.length}`}
-        value={TODAY}
-        handleClick={handleClick}
-      />
-      <DashTaskButton
-        label={`Awaited|${awaited.length}`}
-        value={AWAITED}
-        handleClick={handleClick}
-      />
-      <DashTaskButton
-        label={`In Progress|${in_progress.length}`}
-        value={IN_PROGRESS}
-        handleClick={handleClick}
-      />
-      <DashTaskButton
-        label={`Overdue|${overdueTasks.length}`}
-        value={OVERDUE}
-        handleClick={handleClick}
-      />
-      <DashTaskButton
-        label={`Completed|${completed.length}`}
-        value={COMPLETED}
-        handleClick={handleClick}
-      />
+      {(allTasks.length > 0 || completed.length > 0) && (
+        <>
+          <DashTaskButton
+            label={`Urgent|${urgentTasks.length}`}
+            value={URGENT}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`Due Today|${todayTasks.length}`}
+            value={TODAY}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`Awaited|${awaited.length}`}
+            value={AWAITED}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`In Progress|${in_progress.length}`}
+            value={IN_PROGRESS}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`Overdue|${overdueTasks.length}`}
+            value={OVERDUE}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`Completed|${completed.length}`}
+            value={COMPLETED}
+            handleClick={handleClick}
+          />
+          <DashTaskButton
+            label={`Shared|${sharedTasks.length}`}
+            value={"Shared"}
+            handleClick={handleClick}
+          />
+        </>
+      )}
       <DashTaskButton
         label={`All tasks|${allTasks.length}`}
         value={ALL_TASKS}
@@ -116,10 +125,11 @@ const DashTasks = (props: DashTasksProps) => {
         <MapTasks tasks={overdueTasks} />
       ) : taskState === COMPLETED ? (
         <MapTasks tasks={completed} />
+      ) : taskState === "Shared" ? (
+        <MapTasks tasks={sharedTasks} />
       ) : (
         <MapTasks tasks={allTasks} />
       )}
-      <DashStats />
       <AddEditTaskModal
         show={show}
         handleClose={handleClose}

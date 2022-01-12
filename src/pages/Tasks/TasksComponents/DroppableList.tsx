@@ -12,7 +12,7 @@ import NonDraggableTask from "./NonDraggableTask";
 
 type DroppableListProps = {
   list: listForBeautifulDnd;
-  tasks: (taskInt | undefined)[];
+  tasks: taskInt[] | any;
   taskList: taskInt[];
   setTaskList: any;
   initialData: beautifulDnD;
@@ -32,45 +32,60 @@ const DroppableList = (props: DroppableListProps) => {
     location,
   } = props;
   return (
-    <Col sm={12} md={6} lg={4} className='p-1'> {/* 🔨 FIX NEEDED: tasks should be in date order */}
-      <div className='tasks-page__list p-2' id={list.id}>
-        <div className='tasks-page__list-title'>{list.title}</div>
-        <Droppable droppableId={list.id}>
-          {(provided, snapshot) => {
-            return (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                // isDraggingOver={snapshot.isDraggingOver}
-              >
-                {list.id !== COMPLETED
-                  ? tasks.map((task, i) => (
-                      <DraggableTask
-                        key={task!._id}
-                        task={task!}
-                        i={i}
-                        initialData={initialData}
-                        setInitialData={setInitialData}
-                        history={history}
-                        location={location}
-                      />
+    list &&
+    tasks && (
+      <Col sm={12} md={6} lg={4} className='p-1'>
+        {" "}
+        <div className='tasks-page__list p-2' id={list.id}>
+          <div className='tasks-page__list-title'>{list.title}</div>
+          <Droppable droppableId={list.id}>
+            {(provided, snapshot) => {
+              console.log(snapshot)
+              return (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  // isDraggingOver={snapshot.isDraggingOver}
+                >
+                  {provided.placeholder}
+                  {list.id !== COMPLETED && tasks.length > 0 ? (
+                    tasks.map((task: taskInt, i: number) => (
+                      <>
+                        <DraggableTask
+                          key={i}
+                          task={task}
+                          i={i}
+                          initialData={initialData}
+                          setInitialData={setInitialData}
+                          history={history}
+                          location={location}
+                        />
+                        <div>{task._id}</div>
+                      </>
                     ))
-                  : tasks.map((task, i) => (
-                      <NonDraggableTask
-                        key={task!._id}
-                        task={task}
-                        i={i}
-                        taskList={taskList}
-                        setTaskList={setTaskList}
-                      />
-                    ))}
-                {provided.placeholder}
-              </div>
-            );
-          }}
-        </Droppable>
-      </div>
-    </Col>
+                  ) : tasks.length > 0 ? (
+                    tasks.map((task: taskInt, i: number) => (
+                      <>
+                        <NonDraggableTask
+                          key={i}
+                          task={task}
+                          i={i}
+                          taskList={taskList}
+                          setTaskList={setTaskList}
+                        />
+                        <div>non-draggable</div>
+                      </>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              );
+            }}
+          </Droppable>
+        </div>
+      </Col>
+    )
   );
 };
 

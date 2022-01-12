@@ -129,9 +129,14 @@ export default function DashboardPage(props: DashboardPageProps) {
               />
             </Col>
           </Row>
-          <Row className='p-0'>
+          <Row className='p-0 mx-2'>
             <Col className='col-12'>
               <AtAGlance today={today} history={history} location={location} />
+            </Col>
+            <Col className='col-6 pl-4'>
+              <DashStats />
+            </Col>
+            <Col className='col-6 pr-4'>
               <DashChallCard />
             </Col>
           </Row>

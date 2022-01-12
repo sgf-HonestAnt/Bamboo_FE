@@ -2,7 +2,6 @@ import { History, Location } from "history";
 import { Row, Col } from "react-bootstrap";
 import { getDayMonthYearAsString } from "../../../utils/f_dates";
 import { FiCalendar } from "react-icons/fi";
-import DashStats from "./DashStats";
 import DashTasks from "./DashTasks";
 
 type AtAGlanceProps = {
@@ -15,7 +14,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const { today, history, location } = props;
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
-    <div className='dashboard__at-a-glance m-2 p-2'>
+    <div className='dashboard__at-a-glance m-0 p-2'>
       <div className='dashboard__alt__card-header'>
         At A Glance
         <h5>

@@ -72,6 +72,14 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
+    console.log(
+      "destination=>",
+      destination,
+      "source=>",
+      source,
+      "draggableId=>",
+      draggableId
+    );
     // if task moves outside droppable space
     if (!destination) {
       return;
@@ -146,31 +154,52 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       );
     }
   };
-  useEffect(() => {
-  }, [initialData]);
+  // const createDroppableLists = () => {
+  //   initialData.listOrder.map((listId, i) => {
+  //     const list = initialData.lists.find((l) => l.id === listId);
+  //     console.log(list);
+  //     if (list) {
+  //       for (let i = 0; i < list.taskIds.length; i++) {
+  //         for (let j = 0; j < initialData.tasks.length; i++) {
+  //           if (initialData.tasks[j]._id === list.taskIds[i]) {
+  //             tasks.push(initialData.tasks[j]);
+  //           }
+  //         }
+  //       }
+  //     }
+  //     list &&
+  //       list.taskIds.map(
+  //         (taskId) => initialData.tasks!.find((t) => t!._id === taskId) //.slice(0, 24)
+  //       );
+  //   });
+  // };
+  useEffect(() => {}, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext
         // onDragStart
         // onDragUpdate
         onDragEnd={onDragEnd}>
-        {initialData?.listOrder.map((listId, i) => {
+        {initialData.listOrder.map((listId, i) => {
           const list = initialData.lists.find((l) => l.id === listId);
-          const tasks = list!.taskIds.map((taskId) =>
-            initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
+          const tasks = list?.taskIds.map(
+            (taskId) => initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
+          console.log("TASKS for=>", i, tasks);
           return (
-            <DroppableList
-              key={listId!}
-              list={list!}
-              tasks={tasks!}
-              taskList={taskList}
-              setTaskList={setTaskList}
-              initialData={initialData}
-              setInitialData={setInitialData}
-              history={history}
-              location={location}
-            />
+            list && tasks && (
+              <DroppableList
+                key={listId}
+                list={list}
+                tasks={tasks}
+                taskList={taskList}
+                setTaskList={setTaskList}
+                initialData={initialData}
+                setInitialData={setInitialData}
+                history={history}
+                location={location}
+              />
+            )
           );
         })}
       </DragDropContext>

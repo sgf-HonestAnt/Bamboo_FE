@@ -124,6 +124,7 @@ export default function TasksPage(props: TasksPageProps) {
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  console.log("initialData at Tasks index=>", initialData)
   return (
     <Container fluid>
       <TasksFilterRow

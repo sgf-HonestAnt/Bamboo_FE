@@ -24,9 +24,9 @@ export default function DashStats(props: DashStatsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='dashboard__dash-stats m-2 p-2'>
+    <div className='dashboard__dash-stats px-1'>
       <Row>
-        <Col>
+        <Col sm={12}>
           <PieChartWithPaddingAngle
             deg360={true}
             data={allByStatus}
@@ -36,7 +36,7 @@ export default function DashStats(props: DashStatsProps) {
             height={200}
           />
         </Col>
-        <Col>
+        <Col sm={12}>
           <div className='dashboard__card-header'>
             {findMostCommonStatus(allByStatus, allTasks.length).split("|")[0]}
           </div>
