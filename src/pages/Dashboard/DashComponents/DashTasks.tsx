@@ -49,7 +49,7 @@ const DashTasks = (props: DashTasksProps) => {
     setOverdueTasks(array);
   };
   const { history, location } = props; // today
-  const [taskState, setTaskState] = useState("");
+  const [taskState, setTaskState] = useState(URGENT);
   const handleClick = (e: {
     preventDefault: () => void;
     target: { value: any };
