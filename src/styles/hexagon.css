@@ -1,0 +1,17 @@
+.hexagon-top {
+  width: 0;
+  border-bottom: 15px solid var(--ray-of-sun);
+  border-left: 26px solid transparent;
+  border-right: 26px solid transparent;
+}
+.hexagon-middle {
+  width: 52px;
+  height: 30px;
+  background-color: var(--ray-of-sun);
+}
+.hexagon-bottom {
+  width: 0;
+  border-top: 15px solid var(--ray-of-sun);
+  border-left: 26px solid transparent;
+  border-right: 26px solid transparent;
+}

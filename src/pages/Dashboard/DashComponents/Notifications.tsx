@@ -11,8 +11,8 @@ import { ICOBELL, ICOSMILE } from "../../../utils/appIcons";
 import {
   acceptOrRejectUser,
   clearLastNotification,
-} from "../../../utils/f_users";
-import { removeSelfFromTask } from "../../../utils/f_tasks";
+} from "../../../utils/funcs/f_users";
+import { removeSelfFromTask } from "../../../utils/funcs/f_tasks";
 import { fillUserAction } from "../../../redux/actions/user";
 
 type DashNotificationsProps = {};

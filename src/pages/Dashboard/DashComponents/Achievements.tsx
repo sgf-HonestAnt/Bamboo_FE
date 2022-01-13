@@ -3,14 +3,19 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { achievementInt, reduxStateInt } from "../../../typings/interfaces";
 import { LinkButton } from "../../__Components/Buttons";
-import { attemptPostAchievement } from "../../../utils/f_achievements";
-import createSuperlist from "../../../utils/f_superlist";
+import { attemptPostAchievement } from "../../../utils/funcs/f_achievements";
+import createSuperlist from "../../../utils/funcs/f_superlist";
+import {
+  getAvatarByUsername,
+  getIdByUsername,
+} from "../../../utils/funcs/f_users";
+import { Link } from "react-router-dom";
 
 type AchievementsProps = {};
 const Achievements = (props: AchievementsProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { username } = my_user;
+  const { _id, username, avatar } = my_user;
   const achievements = state.currentAchievements;
   const { list, superlist } = achievements;
   const dispatch = useDispatch();
@@ -29,7 +34,7 @@ const Achievements = (props: AchievementsProps) => {
       const date_b = new Date(b.createdAt).getTime();
       return date_b - date_a;
     });
-    await createSuperlist(super_list, username, dispatch);
+    await createSuperlist(super_list, _id, followedUsers, dispatch);
   };
   const handleClick = async (e: {
     preventDefault: () => void;
@@ -44,9 +49,11 @@ const Achievements = (props: AchievementsProps) => {
     loadAchievementCard();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {}, [superlist]);
   return (
-    <div className='dashboard__activities m-2 p-2'>
+    <div className='bamboo-card-dark dashboard__activities'>
       <div className='dashboard__card-header'>Achievements</div>
+      <hr />
       {superlist?.length < 1 ? (
         <p>
           You have no achievements yet! Complete a task or follow a friend to
@@ -56,18 +63,56 @@ const Achievements = (props: AchievementsProps) => {
         superlist.map((ach, i) => {
           return (
             <div key={i}>
-              {ach.includes("sent you a") || !ach.includes("Send") ? (
+              {ach.includes("completed") && ach.split(" ")[0] !== "you" ? (
+                // ach.includes("sent you a") ||
+                // !ach.includes("Send")
                 <>
-                  <span>{ach.split("|")[0]}</span>
-                  <span>{ach.split("|")[1]}</span>
+                  <Link
+                    to={`/following?id=${getIdByUsername(
+                      followedUsers,
+                      ach.split(" ")[0]
+                    )}`}>
+                    <img
+                      src={getAvatarByUsername(
+                        followedUsers,
+                        ach.split(" ")[0]
+                      )}
+                      alt={ach.split(" ")[0]}
+                      className='x-tiny-round mr-1'
+                    />
+                  </Link>
+                  <strong>{ach.split(" ")[0]}</strong>
+                  <span> completed a task on </span>
+                  <em>{ach.split("task on")[1]}</em>
+                  <hr />
+                </>
+              ) : ach.split(" ")[0] === "you" ? (
+                // ach.includes("sent you a") ||
+                // !ach.includes("Send")
+                <>
+                  <img
+                    src={avatar}
+                    alt={username}
+                    className='x-tiny-round mr-1'
+                  />
+                  <strong>{ach.split(" ")[0]}</strong>
+                  <span> completed a task:</span>
+                  <strong>
+                    <em>{ach.split("task:")[1].split("on")[0]}</em>
+                  </strong>
+                  <span> on </span>
+                  <em>{ach.split("on")[1].split("|")[0]}</em>
+                  <hr />
+                  {/* <span>{ach.split("|")[0]}</span>
+                  <span>{ach.split("|")[1]}</span> */}
                 </>
               ) : (
                 <>
-                  <span>{ach.split("|")[0]}</span>
+                  <div>{ach.split("|")[0]}</div>
                   <LinkButton
                     value={ach}
                     handleClick={handleClick}
-                    label={ach.split("|")[1]}
+                    label={`${ach.split("|")[0]}`}
                   />
                 </>
               )}

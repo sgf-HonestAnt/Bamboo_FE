@@ -7,7 +7,7 @@ import { reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
 import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../../__Components/Buttons";
-import { getUserRole, updateUserBio } from "../../../utils/f_users";
+import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
 import BambooPoints from "../../__Components/XP";
 import ProfileBadge from "../../__Components/ProfileBadge";
 
@@ -43,11 +43,11 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className='dashboard__profile-card m-2'>
+    <div className='bamboo-card-mid dashboard__profile-card'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (
-          <div className='mr-1' style={{ color: "gold" }}>
+          <div className='mr-1 bamboo-crown'>
             <ICOCROWN />
           </div>
         )}

@@ -3,7 +3,7 @@ import {
   currentTasksInt,
   genericTaskInt,
   taskInt,
-} from "../typings/interfaces";
+} from "../../typings/interfaces";
 import {
   AWAITED,
   COMPLETED,
@@ -11,7 +11,7 @@ import {
   NONE,
   SOLO,
   TEAM,
-} from "./appConstants";
+} from "../const/str";
 
 export const mapByStatus = async (tasks: currentTasksInt) => {
   const { awaited, in_progress, completed } = tasks;

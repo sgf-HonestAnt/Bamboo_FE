@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useAppSelector } from "../../../redux/hooks";
 import { genericTaskInt, reduxStateInt } from "../../../typings/interfaces";
-import { STATUS_COLORS } from "../../../utils/appConstants";
-import { findMostCommonStatus, mapByStatus } from "../../../utils/f_statistics";
+import { STATUS_COLORS } from "../../../utils/const/str";
+import { findMostCommonStatus, mapByStatus } from "../../../utils/funcs/f_statistics";
 import PieChartWithPaddingAngle from "../../Stats/StatsComponents/PieChartWithPaddingAngle";
 
 type DashStatsProps = {};
@@ -24,19 +24,19 @@ export default function DashStats(props: DashStatsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='dashboard__dash-stats m-2 p-2'>
+    <div className='bamboo-card dashboard__dash-stats'>
       <Row>
-        <Col>
+        <Col sm={12}>
           <PieChartWithPaddingAngle
             deg360={true}
             data={allByStatus}
             colors={STATUS_COLORS}
             stat='status'
-            width={200}
-            height={200}
+            innerRadius={20}
+            outerRadius={50}
           />
         </Col>
-        <Col>
+        <Col sm={12}>
           <div className='dashboard__card-header'>
             {findMostCommonStatus(allByStatus, allTasks.length).split("|")[0]}
           </div>

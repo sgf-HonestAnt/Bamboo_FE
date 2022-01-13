@@ -8,9 +8,9 @@ import {
   setUserPointsAndCompleted,
   // setUserTotalCompleted,
   // setUserTotalPoints,
-} from "../redux/actions/user";
-import { followedUserInt, userInt } from "../typings/interfaces";
-import { loginFormProps, userUpdateType } from "../typings/types";
+} from "../../redux/actions/user";
+import { followedUserInt, userInt } from "../../typings/interfaces";
+import { loginFormProps, userUpdateType } from "../../typings/types";
 import {
   BE_URL,
   GET,
@@ -20,8 +20,8 @@ import {
   SESSION,
   POST,
   DELETE,
-} from "./appConstants";
-///////////////////////////////////////////////////////////////////////////////
+} from "../const/str";
+
 export const findUsernameByEmail = async (email: string) => {
   console.log("🙋Finding Username By Email");
   const url = `${BE_URL}/${USERS}?email=${email.toLowerCase()}`;
@@ -34,7 +34,7 @@ export const findUsernameByEmail = async (email: string) => {
     return;
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const attemptLoginUser = async (
   form: loginFormProps,
   history: string[] | History<unknown>,
@@ -68,7 +68,25 @@ export const attemptLoginUser = async (
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
+export const attemptLogout = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    // end a session, scrubbing refreshToken
+    // 💡 when implementing refreshToken again, make sure it is added to the list of used tokens at backend upon logout
+    console.log("🛎️Attempting logout!");
+    const url = `${BE_URL}/${USERS}/${SESSION}`;
+    const method = DELETE;
+    const headers = { Authorization: `Bearer ${token}` };
+    const response = await fetch(url, { method, headers });
+    if (response.ok) {
+      localStorage.removeItem("token");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
@@ -84,12 +102,14 @@ export const getUsers = async () => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const getUserByQuery = async (query: string) => {
   try {
     console.log("🙋Getting User By Email or Username");
     const queryIsEmail = query.includes("@");
-    const criteria = queryIsEmail ? `email=${query.toLowerCase()}` : `username=${query.toLowerCase()}`;
+    const criteria = queryIsEmail
+      ? `email=${query.toLowerCase()}`
+      : `username=${query.toLowerCase()}`;
     const url = `${BE_URL}/${USERS}?${criteria}`;
     const method = GET;
     const response = await fetch(url, { method });
@@ -101,7 +121,7 @@ export const getUserByQuery = async (query: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const getUsersAsAdmin = async (_id: string) => {
   // get all users as admin - all info except refresh token
   console.log("🙋Getting Users As Admin");
@@ -125,7 +145,7 @@ export const getUsersAsAdmin = async (_id: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
   console.log("🙋Getting User Role");
@@ -139,7 +159,7 @@ export const getUserRole = (level: number | null) => {
     ? "Proficient Panda"
     : "Adept";
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const clearLastNotification = async (notification: string[]) => {
   console.log("🙋Clearing Last Notification");
   const token = localStorage.getItem("token");
@@ -161,7 +181,7 @@ export const clearLastNotification = async (notification: string[]) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   console.log("🙋Updating User Bio");
   const token = localStorage.getItem("token");
@@ -182,7 +202,7 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const AddUserNotification = async (
   user: userInt,
   newNotification: string
@@ -205,7 +225,7 @@ export const AddUserNotification = async (
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   console.log("🙋Updating My User");
   const token = localStorage.getItem("token");
@@ -230,9 +250,14 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
-export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string, username: string, email: string) => {
-  console.log("🙋Updating Users Completed Tasks To Hide"); 
+
+export const addIDToTasksToHide = async (
+  tasks_to_hide: string[],
+  id: string,
+  username: string,
+  email: string
+) => {
+  console.log("🙋Updating Users Completed Tasks To Hide");
   const token = localStorage.getItem("token");
   try {
     const url = `${BE_URL}/${USERS}/me`;
@@ -248,8 +273,8 @@ export const addIDToTasksToHide = async (tasks_to_hide: string[], id: string, us
   } catch (error) {
     console.log(error);
   }
-}
-///////////////////////////////////////////////////////////////////////////////
+};
+
 export const sendUsersNotification = async (notification: string) => {
   console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");
@@ -267,7 +292,7 @@ export const sendUsersNotification = async (notification: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const refreshUserPoints = async (
   user: userInt,
   value: number,
@@ -278,7 +303,7 @@ export const refreshUserPoints = async (
   const newTotalCompleted = total_completed + 1;
   const newTotalPoints = total_xp + value;
   const newPoints = xp + value;
-  console.log(newTotalCompleted, newPoints, newTotalPoints);
+  // console.log(newTotalCompleted, newPoints, newTotalPoints);
   dispatch(
     setUserPointsAndCompleted({
       ...user,
@@ -288,7 +313,7 @@ export const refreshUserPoints = async (
     })
   );
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const refreshUserLevel = async (
   user: userInt,
   value: number,
@@ -326,7 +351,7 @@ export const refreshUserLevel = async (
     return;
   }
 };
-///////////////////////////////////////////////////////////////////////////////
+
 export const acceptOrRejectUser = async (username: string, action: string) => {
   console.log("🙋Accepting/Rejecting Follow");
   const token = localStorage.getItem("token");
@@ -343,6 +368,7 @@ export const acceptOrRejectUser = async (username: string, action: string) => {
     console.log(error);
   }
 };
+
 export const attemptDeleteUser = async () => {
   console.log("🙋Deleting My User");
   const token = localStorage.getItem("token");
@@ -358,6 +384,7 @@ export const attemptDeleteUser = async () => {
     console.log(error);
   }
 };
+
 export const getUsernameById = (
   followedUsers: followedUserInt[],
   userId: string
@@ -366,8 +393,18 @@ export const getUsernameById = (
   if (user) {
     return user.username;
   }
-};
-///////////////////////////////////////////////////////////////////////////////
+}; 
+
+export const getIdByUsername = (
+  followedUsers: followedUserInt[],
+  username: string
+) => {
+  const user = followedUsers.find((user) => user.username === username);
+  if (user) {
+    return user._id;
+  }
+}; 
+
 export const getAvatarById = (
   followedUsers: followedUserInt[],
   userId: string
@@ -377,7 +414,17 @@ export const getAvatarById = (
     return user.avatar;
   }
 };
-////////////////////////////////////////////////////////////////////
+
+export const getAvatarByUsername = (
+  followedUsers: followedUserInt[],
+  username: string
+) => {
+  const user = followedUsers.find((user) => user.username === username);
+  if (user) {
+    return user.avatar;
+  }
+};
+
 // Admin Page Sorting Asc
 export const sortUsersAsc = (usersList: userInt[], key: string) => {
   const sortedUsers = usersList.sort((a, b) => {
@@ -410,7 +457,7 @@ export const sortUsersAsc = (usersList: userInt[], key: string) => {
   console.log("CHECKSORT=>", checkSort);
   return checkSort;
 };
-////////////////////////////////////////////////////////////////////
+
 // Admin Page Sorting Desc
 export const sortUsersDesc = (usersList: userInt[], key: string) => {
   const sortedUsers = usersList.sort((a, b) => {
@@ -443,4 +490,3 @@ export const sortUsersDesc = (usersList: userInt[], key: string) => {
   console.log("CHECKSORT=>", checkSort);
   return checkSort;
 };
-////////////////////////////////////////////////////////////////////

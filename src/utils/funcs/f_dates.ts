@@ -1,4 +1,4 @@
-import { achievementInt, taskInt } from "../typings/interfaces";
+import { achievementInt, taskInt } from "../../typings/interfaces";
 ///////////////////////////////////////////////////////////////////
 export const getDayByIndex = (date: Date) => {
   // simple func to get current day
@@ -88,7 +88,7 @@ export const getCurrDateTimeAsString = (ach: achievementInt) => {
   const month = timestamp[1];
   const time = timestamp[4].toString();
   const zone = timestamp[5].toString().split("+")[0];
-  return `${weekday}, ${date} ${month} @ ${time.split(":")[0]}:${
+  return `${weekday}, ${date}th ${month} @ ${time.split(":")[0]}:${
     time.split(":")[1]
   } ${zone}`;
 };

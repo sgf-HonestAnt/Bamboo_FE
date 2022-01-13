@@ -15,9 +15,9 @@ import {
   IN_PROGRESS,
   ANY_TYPE,
   OVERDUE,
-} from "../../utils/appConstants";
-import { getTaskByQuery, getTasks } from "../../utils/f_tasks";
-import { filterTasksByOverdue } from "../../utils/f_dates";
+} from "../../utils/const/str";
+import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
+import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -83,7 +83,7 @@ export default function TasksPage(props: TasksPageProps) {
         lists: [
           {
             id: AWAITED,
-            title: "To do",
+            title: "To Do",
             taskIds: taskList
               .filter((t) => t.status === AWAITED)
               .map((t) => t._id),

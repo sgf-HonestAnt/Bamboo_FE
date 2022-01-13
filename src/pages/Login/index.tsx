@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { attemptLoginUser } from "../../utils/f_users";
+import { attemptLoginUser } from "../../utils/funcs/f_users";
 import { SubmitButton } from "../__Components/Buttons";
 import "./styles.css";
 

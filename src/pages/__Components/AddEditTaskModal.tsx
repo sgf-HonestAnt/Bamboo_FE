@@ -10,32 +10,35 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
+import { TASK_VALUES } from "../../utils/const/arr";
 import {
   AWAITED,
   NEVER,
-  NONE,
   POST,
   PUT,
   TASK_CATEGORIES,
-  TASK_VALUES,
   URGENT,
   WORK,
   FINANCE,
   FITNESS,
   TEAM,
-} from "../../utils/appConstants";
-import { EditTask, setNewCategory, setNewTask } from "../../redux/actions/tasks";
+} from "../../utils/const/str";
+import {
+  EditTask,
+  setNewCategory,
+  setNewTask,
+} from "../../redux/actions/tasks";
 import {
   getMinMaxDateAsString,
   getShortDateAsString,
-} from "../../utils/f_dates";
+} from "../../utils/funcs/f_dates";
 import {
   attemptDeleteTask,
   attemptPostOrEditTask,
   removeSelfFromTask,
-} from "../../utils/f_tasks";
+} from "../../utils/funcs/f_tasks";
 import BambooPoints from "./XP";
-import { getAvatarById, getUsernameById } from "../../utils/f_users";
+import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { XButton } from "./Buttons";
 import {
   ICOFINANCE,
@@ -94,7 +97,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     setInitialData,
     taskSet,
   } = props;
-  // console.log(taskSet);
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const avatar =
@@ -315,40 +317,27 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const removeTaskFromInitialData = async () => {
     if (initialData) {
-      console.log(initialData);
       const updatedInitialDataTasks = initialData.tasks.filter(
         (task) => task?._id !== taskSet!._id
       );
-      console.log("updated data.tasks=>", updatedInitialDataTasks);
       const listIndex = initialData.lists.findIndex(
         (list) => list.id === taskSet!.status
       );
-      console.log("index=>", listIndex);
       const indexedList = initialData.lists[listIndex];
-      console.log("list=>", indexedList);
       const updatedTaskIds = indexedList.taskIds.filter(
         (id) => id !== taskSet!._id
-      );
-      console.log(
-        "updated taskIds=>",
-        updatedTaskIds,
-        "should not include=>",
-        taskSet!._id
       );
       const updatedList = {
         ...indexedList,
         taskIds: updatedTaskIds,
       };
-      console.log("Updated list=>", updatedList);
       const updatedInitialDataLists = initialData.lists;
       updatedInitialDataLists[listIndex] = updatedList;
-      console.log("updatedInitialDataLists=>", updatedInitialDataLists);
       const newData = {
         ...initialData,
         tasks: [...updatedInitialDataTasks!],
         lists: [...updatedInitialDataLists!],
       };
-      console.log(newData);
       setInitialData(newData);
     }
   };
@@ -392,8 +381,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
-  // console.log(taskSet);
-  // console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
       {taskSet && view ? (
@@ -422,7 +409,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       const username = getUsernameById(followedUsers, id);
                       return (
                         <div key={i}>
-                          <Link to={`/following?id=${id}`} >
+                          <Link to={`/following?id=${id}`}>
                             <img
                               src={avatar}
                               alt={username}
@@ -441,7 +428,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant='primary' onClick={handleEdit}>
-             Edit task?
+              Edit task?
             </Button>
             <Button variant='secondary' onClick={handleClose}>
               No, go back
@@ -462,7 +449,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               <div>Are you sure you want to permanently delete this task? </div>
             )}
             <div
-              className={`tasks-page__list-task__title ${taskSet?.category}`}>
+              className={`bamboo-task__title ${taskSet?.category}`}>
               {icon} {taskSet?.title} ({taskSet?.value}XP)
             </div>
           </Modal.Body>
@@ -596,10 +583,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     <option value='' disabled>
                       -------
                     </option>
-                    <option value={NONE}>{NONE}</option>
+                    {/* <option value={NONE}>{NONE}</option>
                     <option value='' disabled>
                       -------
-                    </option>
+                    </option> */}
                     <option
                       value='new'
                       // selected={form.category === "new"}

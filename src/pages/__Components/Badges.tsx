@@ -1,4 +1,4 @@
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
+import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/const/str";
 
 type BadgesProps = {
   label: string;

@@ -9,6 +9,7 @@ import {
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
 import { AddNewTaskButton } from "../../__Components/Buttons";
+import { TASK_VALUE_NUMS } from "../../../utils/const/arr";
 import {
   ANY_CAT,
   ANY_DUE,
@@ -17,12 +18,11 @@ import {
   TASKS_TO_SHOW,
   TASK_CATEGORIES,
   TASK_TYPES,
-  TASK_VALUE_NUMS,
   TODAY,
   TOMORROW,
-} from "../../../utils/appConstants";
+} from "../../../utils/const/str";
 import AddEditTaskModal from "../../__Components/AddEditTaskModal";
-import { getSelectedDateAsString } from "../../../utils/f_dates";
+import { getSelectedDateAsString } from "../../../utils/funcs/f_dates";
 
 type TasksFilterRowProps = {
   taskList: taskInt[];

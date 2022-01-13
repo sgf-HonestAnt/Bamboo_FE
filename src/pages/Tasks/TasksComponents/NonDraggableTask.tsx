@@ -7,20 +7,15 @@ import {
   DeleteTaskButton,
   RejectButton,
 } from "../../__Components/Buttons";
-import { FINANCE, FITNESS, URGENT, WORK } from "../../../utils/appConstants";
-import {
-  ICOFINANCE,
-  ICOFIT,
-  ICOSTAR,
-  ICOURGENT,
-  ICOWORK,
-} from "../../../utils/appIcons";
+import { NONE, URGENT } from "../../../utils/const/str";
 import {
   // attemptDeleteTask,
   moveTaskBetweenStatus,
-} from "../../../utils/f_tasks";
+} from "../../../utils/funcs/f_tasks";
 import { RemTaskFromCompleted } from "../../../redux/actions/tasks";
-import { addIDToTasksToHide } from "../../../utils/f_users";
+import { addIDToTasksToHide } from "../../../utils/funcs/f_users";
+import { Badge, Button } from "react-bootstrap";
+import { FiFlag, FiUsers } from "react-icons/fi";
 
 type NonDraggableTaskProps = {
   task: taskInt | undefined;
@@ -68,40 +63,49 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
     e.preventDefault();
     setShowDeleteMessage(false);
   };
-  const icon =
-    task!.category === URGENT ? (
-      <ICOURGENT />
-    ) : task!.category === WORK ? (
-      <ICOWORK />
-    ) : task!.category === FINANCE ? (
-      <ICOFINANCE />
-    ) : task!.category === FITNESS ? (
-      <ICOFIT />
-    ) : (
-      <ICOSTAR />
-    );
   return (
     <div className={taskClass} key={i}>
-      <div>
+      <Button variant='link' className='m-1 bamboo-task-completed'>
         <div>
-          {icon}
-          <span className='pl-1'>
-            {task!.title} ({task!.value}XP){" "}
+          <span className={`bamboo-task__title ${task!.category}`}>
             {!showDeleteMessage && (
               <DeleteTaskButton handleClick={handleClick} />
+            )}&nbsp;
+            {task!.title}&nbsp;
+            <Badge bg='light'>{task!.value}xp</Badge>
+            &nbsp;
+            <Badge bg='light'>
+              {task!.category === NONE ? (
+                "no category"
+              ) : task!.category === URGENT ? (
+                <>
+                  <FiFlag />
+                  &nbsp;
+                  {task!.category}
+                </>
+              ) : (
+                task!.category
+              )}
+            </Badge>
+            &nbsp;
+            {task!.sharedWith && task!.sharedWith.length > 1 && (
+              <Badge bg='info'>
+                <FiUsers />+{task!.sharedWith.length - 1}
+              </Badge>
             )}
           </span>
-          {showDeleteMessage && (
-            <div>
-              This task will no longer be viewable, although your 'completed'
-              total will not change. <br />
-              Continue? <br />
-              <AcceptButton handleClick={handleDelete} />
-              <RejectButton handleClick={undoDelete} />
-            </div>
-          )}
         </div>
-      </div>
+        <div>{task!.desc}</div>
+      </Button>
+      {showDeleteMessage && (
+        <div>
+          This task will no longer be viewable, although your 'completed' total
+          will not change. <br />
+          Continue? <br />
+          <AcceptButton handleClick={handleDelete} />
+          <RejectButton handleClick={undoDelete} />
+        </div>
+      )}
     </div>
   );
 };

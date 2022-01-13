@@ -1,0 +1,244 @@
+/* fonts */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+:root {
+  --blue-green-color-wheel: hsla(166, 97%, 14%, 1);
+  --castleton-green: hsla(164, 93%, 17%, 1);
+  --bottle-green: hsla(163, 93%, 22%, 1);
+  --spanish-viridian: hsla(161, 92%, 25%, 1);
+  --green-ncs: hsla(160, 84%, 34%, 1);
+  --caribbean-green: hsla(158, 60%, 48%, 1);
+  --medium-aquamarine: hsla(156, 61%, 70%, 1);
+  --aero-blue: hsla(155, 63%, 84%, 1);
+  --honeydew: hsla(154, 61%, 92%, 1);
+  --mint-cream: hsla(154, 41%, 97%, 1);
+  /* varying shades for the background and cards */
+  --caribbean-green-1: hsla(158, 60%, 48%, 0.1);
+  --caribbean-green-2: hsla(158, 60%, 48%, 0.2);
+  --caribbean-green-3: hsla(158, 60%, 48%, 0.3);
+  --caribbean-green-4: hsla(158, 60%, 48%, 0.4);
+  --caribbean-green-5: hsla(158, 60%, 48%, 0.5);
+  --caribbean-green-6: hsla(158, 60%, 48%, 0.6);
+  --caribbean-green-7: hsla(158, 60%, 48%, 0.7);
+  --caribbean-green-8: hsla(158, 60%, 48%, 0.8);
+  --caribbean-green-9: hsla(158, 60%, 48%, 0.9);
+}
+#theme-light {
+  --main-bg: var(--aero-blue);
+  --bg-gradient: var(--medium-aquamarine);
+  --sidebar-bg: var(--bottle-green);
+  --main-text: #041008;
+  --sidebar-text: var(--honeydew);
+  --ray-of-sun: yellow;
+  --font-family: "Ubuntu", sans-serif;
+  --font-size: 1.05rem;
+  --font-weight: 400;
+  --button-bg: #b4b4b4;
+  --button-alt: #5b5b5b;
+  --code-red: rgba(255, 0, 0, 0.8);
+  --code-yellow: rgba(255, 255, 0, 0.8);
+  --code-blue: rgba(0, 0, 255, 0.8);
+}
+.App {
+  background: linear-gradient(
+    to bottom right,
+    /* var(--blue-green-color-wheel),
+    var(--castleton-green),
+    var(--bottle-green),
+    var(--spanish-viridian),
+    var(--green-ncs),
+    var(--caribbean-green), */
+    var(--medium-aquamarine),
+    var(--aero-blue),
+    var(--honeydew) /* var(--mint-cream) */
+  );
+  color: var(--main-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  text-align: center;
+}
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 0px;
+} /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
+/* divs */
+.bamboo-card,
+.bamboo-card-light,
+.bamboo-card-mid,
+.bamboo-card-dark {
+  padding: 15px;
+  border-radius: 3px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+.bamboo-card-light {
+  background-color: var(--caribbean-green-2);
+}
+.bamboo-card {
+  background-color: var(--mint-cream);
+}
+.bamboo-card-mid {
+  background-color: var(--caribbean-green-4);
+}
+.bamboo-card-dark {
+  background-color: var(--caribbean-green-6);
+}
+.bamboo-logo,
+.bamboo-logo.btn-link {
+  color: var(--medium-aquamarine);
+}
+.bamboo-crown {
+  color: var(--ray-of-sun);
+}
+/* Task Buttons for Dash and Tasks Page */
+.bamboo-task {
+  position: relative;
+  background-color: white;
+  color: var(--main-text) !important;
+  border-radius: 0;
+}
+.bamboo-task-completed {
+  background-color: rgba(214, 194, 194, 0.3) !important;
+  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.4' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  color: var(--main-text) !important;
+  border-radius: 0;
+}
+.bamboo-task.btn.btn-link:hover,
+.bamboo-task-completed.btn.btn-link:hover,
+.bamboo-task.btn.btn-link:focus,
+.bamboo-task-completed.btn.btn-link:focus,
+.bamboo-task.btn.btn-link:focus-visible,
+.bamboo-task-completed.btn.btn-link:focus-visible {
+  box-shadow: none;
+  color: inherit;
+  text-decoration: none;
+}
+.bamboo-task__title {
+  font-weight: 600;
+}
+.bamboo-task .badge.bg-warning.urgent {
+  color: red !important;
+}
+/* The Badge */
+
+/* Rest */
+.text-bigger {
+  font-size: 1.2rem;
+}
+.text-tinycaps {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--main-text);
+  text-transform: uppercase;
+}
+.cursor-point:hover {
+  cursor: pointer;
+}
+.opaquish {
+  opacity: 0.5;
+}
+.hidden {
+  display: none;
+}
+.visible {
+  visibility: visible;
+}
+.red {
+  color: red;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+}
+.yellow {
+  background-color: yellow !important;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.float-center {
+  margin: auto;
+}
+.align-center {
+  text-align: center;
+  align-content: center;
+}
+.tiny-round {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+}
+.x-tiny-round {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline;
+}
+.small-button {
+  width: 20px;
+  height: 20px;
+}
+.btn-link.x-btn {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  border: 0.5px solid black;
+  border-radius: 50%;
+}
+.error-bg {
+  background-color: rgba(255, 0, 0, 0.2) !important;
+}
+.link-button {
+  color: var(--main-text) !important;
+  text-decoration: underline !important;
+}
+.btn-light {
+  background-color: var(--button-bg) !important;
+  border: var(--button-bg) !important;
+}
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:focus-visible {
+  background-color: var(--button-alt) !important;
+  color: var(--sidebar-text) !important;
+  box-shadow: none !important;
+}
+.profile-badge__holder {
+  position: relative;
+}
+.profile-badge__holder-img {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  height: 200px;
+  margin: 0;
+  border: 4px dotted black;
+  border-radius: 50%;
+}
+.profile-badge__holder-img.admin {
+  border: 2px solid gold !important;
+}
+.profile-badge__level {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  min-height: 30px;
+  min-width: 30px;
+  top: 0;
+  right: 30px;
+}
+.task-badge {
+  border: 1px solid black;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+}
+.task-badge.awaited {
+  background-color: hotpink;
+}
+.task-badge.in-progress {
+  background-color: orange;
+}
+.task-badge.completed {
+  background-color: green;
+}

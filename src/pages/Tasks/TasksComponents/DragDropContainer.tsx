@@ -12,7 +12,7 @@ import { Row } from "react-bootstrap";
 import {
   attemptUpdateTask,
   moveTaskBetweenStatus,
-} from "../../../utils/f_tasks";
+} from "../../../utils/funcs/f_tasks";
 import DroppableList from "./DroppableList";
 
 type DragDropContainerProps = {
@@ -146,31 +146,32 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       );
     }
   };
-  useEffect(() => {
-  }, [initialData]);
+  useEffect(() => {}, [initialData]);
   return (
     <Row className='tasks-page'>
       <DragDropContext
         // onDragStart
         // onDragUpdate
         onDragEnd={onDragEnd}>
-        {initialData?.listOrder.map((listId, i) => {
+        {initialData.listOrder.map((listId, i) => {
           const list = initialData.lists.find((l) => l.id === listId);
-          const tasks = list!.taskIds.map((taskId) =>
-            initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
+          const tasks = list?.taskIds.map(
+            (taskId) => initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
           return (
-            <DroppableList
-              key={listId!}
-              list={list!}
-              tasks={tasks!}
-              taskList={taskList}
-              setTaskList={setTaskList}
-              initialData={initialData}
-              setInitialData={setInitialData}
-              history={history}
-              location={location}
-            />
+            list && tasks && (
+              <DroppableList
+                key={listId}
+                list={list}
+                tasks={tasks}
+                taskList={taskList}
+                setTaskList={setTaskList}
+                initialData={initialData}
+                setInitialData={setInitialData}
+                history={history}
+                location={location}
+              />
+            )
           );
         })}
       </DragDropContext>

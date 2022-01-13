@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { featureInt, reduxStateInt } from "../../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { ICOURGENT } from "../../../utils/appIcons";
-import { getMonthByIndex } from "../../../utils/f_dates";
+import { getMonthByIndex } from "../../../utils/funcs/f_dates";
 
 type DashChallCardProps = {};
 
@@ -20,7 +20,7 @@ const DashChallCard = (props: DashChallCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
   return (
-    <div className='dashboard__challenge-card m-2'>
+    <div className='bamboo-card-mid dashboard__challenge-card'>
       {/* For now, just show first feature with matched month */}
       {/* {featureList < 1 && } */}
       <div className='dashboard__card-header'>Featured Challenge</div>

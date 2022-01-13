@@ -7,7 +7,7 @@ import {
   TASKS,
   USERS,
   USERS_SORT_BY,
-} from "../../../utils/appConstants";
+} from "../../../utils/const/str";
 import { useState, useEffect } from "react";
 
 type AdminNavbarProps = {
@@ -66,7 +66,6 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(form, notifNum);
   return (
     <Navbar bg='light' expand='lg'>
       <Navbar.Toggle aria-controls='basic-navbar-nav' />

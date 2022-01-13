@@ -14,7 +14,7 @@ import {
   findMostUsedDeadline,
   findMostUsedType,
   findMostUsedValue,
-} from "../../utils/f_statistics";
+} from "../../utils/funcs/f_statistics";
 import PieChartWithCustomizedLabel from "./StatsComponents/PieChartWithCustomizedLabel";
 import PieChartWithPaddingAngle from "./StatsComponents/PieChartWithPaddingAngle";
 import SimpleBarChart from "./StatsComponents/SimpleBarChart";
@@ -23,7 +23,7 @@ import CustomActiveShapePieChart from "./StatsComponents/CustomActiveShapePieCha
 import SimpleCloud from "./StatsComponents/SimpleCloud";
 import StatisticsHeader from "./StatsComponents/StatisticsHeader";
 import "./styles.css";
-import { STATUS_COLORS } from "../../utils/appConstants";
+import { STATUS_COLORS } from "../../utils/const/str";
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -70,7 +70,6 @@ export default function StatsPage() {
     mapData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log("TEST DATA=>", allTasks.length, taskData);
   return (
     <Container fluid className='p-0'>
       {!loading &&

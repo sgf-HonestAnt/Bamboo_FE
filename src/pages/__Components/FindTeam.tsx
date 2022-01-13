@@ -8,8 +8,8 @@ import {
 } from "../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "./Buttons";
-import { requestFollow } from "../../utils/f_follows";
-import { getUserByQuery } from "../../utils/f_users";
+import { requestFollow } from "../../utils/funcs/f_follows";
+import { getUserByQuery } from "../../utils/funcs/f_users";
 
 type ResultProps = {
   found: boolean;
@@ -61,7 +61,7 @@ const FindTeam = (props: FindTeamProps) => {
     }
   };
   return (
-    <div className='dashboard__search-bar m-2 py-0 px-3'>
+    <div className='bamboo-card-mid dashboard__search-bar'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl

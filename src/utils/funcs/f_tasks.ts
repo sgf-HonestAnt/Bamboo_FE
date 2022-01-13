@@ -7,7 +7,7 @@ import {
   RemTaskFromAwaited,
   RemTaskFromCompleted,
   RemTaskFromInProgress,
-} from "../redux/actions/tasks";
+} from "../../redux/actions/tasks";
 import {
   achievementInt,
   beautifulDnD,
@@ -15,8 +15,8 @@ import {
   setTaskInt,
   taskInt,
   userInt,
-} from "../typings/interfaces";
-import { taskUpdateType } from "../typings/types";
+} from "../../typings/interfaces";
+import { taskUpdateType } from "../../typings/types";
 import {
   BE_URL,
   GET,
@@ -26,10 +26,10 @@ import {
   ME,
   DELETE,
   POST,
-} from "./appConstants";
+} from "../const/str";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
-import { fillAchievementsAction } from "../redux/actions/achievements";
+import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { refreshUserLevel, refreshUserPoints } from "./f_users";
 ///////////////////////////////////////////////////////////////////
 export const getTask = async (id: string) => {

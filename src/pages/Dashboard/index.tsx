@@ -7,17 +7,16 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
-import { getSelectedDateAsString } from "../../utils/f_dates";
+import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "./DashComponents/ProfileCard";
-import DashTasks from "./DashComponents/DashTasks";
 import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "./DashComponents/Notifications";
 import DashChallCard from "./DashComponents/ChallengeCard";
 import FindTeam from "../__Components/FindTeam";
 import Achievements from "./DashComponents/Achievements";
-import "./styles.css";
 import DashStats from "./DashComponents/DashStats";
 import AtAGlance from "./DashComponents/AtAGlance";
+import "./styles.css";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -51,14 +50,14 @@ export default function DashboardPage(props: DashboardPageProps) {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  console.log(
-    "isbig=>",
-    isBigScreen,
-    "isdesktop=>",
-    isDesktopOrLaptop,
-    "istablet=>",
-    isTabletOrMobile
-  );
+  // console.log(
+  //   "isbig=>",
+  //   isBigScreen,
+  //   "isdesktop=>",
+  //   isDesktopOrLaptop,
+  //   "istablet=>",
+  //   isTabletOrMobile
+  // );
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
@@ -86,7 +85,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               )}
             </Col>
             <Col className='col-3 p-0'>
-              <DashTasks today={today} history={history} location={location} />
+              {/* <DashTasks today={today} history={history} location={location} /> */}
               <DashChallCard />
               <DashTipsCard />
             </Col>
@@ -103,24 +102,24 @@ export default function DashboardPage(props: DashboardPageProps) {
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-12 p-0'>
+            <Col className='col-12 p-3'>
               {notification.length < 1 && admin && (
                 <div className='dashboard__admin-card m-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
-              {notification.length > 0 && <DashNotifications />}
+              {/* {notification.length > 0 && <DashNotifications />} */}
               <DashProfileCard history={history} />
               {notification.length > 0 && admin && (
-                <div className='dashboard__admin-card m-2'>
+                <div className='dashboard__admin-card p-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
             </Col>
           </Row>
         </Col>
-        <Col className='col-6 dashboard__center-col p-0'>
-          <Row className='p-0'>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
             <Col className='col-12'>
               <FindTeam
                 history={history}
@@ -132,15 +131,13 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12'>
               <AtAGlance today={today} history={history} location={location} />
-              <DashChallCard />
             </Col>
           </Row>
         </Col>
-        <Col className='col-3 dashboard__right-col p-0'>
-          <Row className='p-0'>
+        <Col className='col dashboard__right-col p-0'>
+          <Row className='pl-3'>
             <Col>
               <Achievements />
-              <DashTipsCard />
             </Col>
           </Row>
         </Col>
@@ -157,7 +154,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
             <Col className='col-4 p-0'>
               {/* {notification.length > 0 && <DashNotifications />} */}
-              <DashTasks today={today} history={history} location={location} />
+              {/* <DashTasks today={today} history={history} location={location} /> */}
               <DashChallCard />
             </Col>
             <Col className='col-4 p-0'>

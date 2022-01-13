@@ -7,7 +7,7 @@ import {
   FILL_ACHIEVEMENTS_LOADING,
   SET_NEW_ACHIEVEMENT,
   SET_SUPERLIST,
-} from "../../utils/appConstants";
+} from "../../utils/const/str";
 
 const currentAchievementsReducer = (
   state = initialState.currentAchievements,
