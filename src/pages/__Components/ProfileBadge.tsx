@@ -1,5 +1,6 @@
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
+import "../../styles/hexagon.css";
 
 type ProfileBadgeProps = {
   isMine: boolean;
@@ -23,8 +24,12 @@ const ProfileBadge = (props: ProfileBadgeProps) => {
           alt=''
           src={avatar ? avatar : my_user.avatar}
         />
-        <div className='profile-badge__level'>
-          <span>{level ? level : my_user.level}</span>
+        <div className='bamboo-level profile-badge__level'>
+          <div>
+            <div className='hexagon-top'></div>
+            <div className='hexagon-middle'>{level ? level : my_user.level}</div>
+            <div className='hexagon-bottom'></div>
+          </div>
         </div>
       </div>
     </>

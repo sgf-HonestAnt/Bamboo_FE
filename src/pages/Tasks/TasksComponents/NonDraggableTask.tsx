@@ -65,9 +65,9 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
   };
   return (
     <div className={taskClass} key={i}>
-      <Button variant='link' className='m-1 color-task-btn-completed'>
+      <Button variant='link' className='m-1 bamboo-task-completed'>
         <div>
-          <span className={`color-task-btn__title ${task!.category}`}>
+          <span className={`bamboo-task__title ${task!.category}`}>
             {!showDeleteMessage && (
               <DeleteTaskButton handleClick={handleClick} />
             )}&nbsp;

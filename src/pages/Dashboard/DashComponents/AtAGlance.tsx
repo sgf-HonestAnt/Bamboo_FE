@@ -14,6 +14,7 @@ import {
   // COMPLETED,
   IN_PROGRESS,
   OVERDUE,
+  SHARED,
   TODAY,
   URGENT,
 } from "../../../utils/constants/str";
@@ -61,7 +62,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     setOverdueTasks(array);
   };
   const { history, location } = props; // today
-  const [taskState, setTaskState] = useState(URGENT);
+  const [taskState, setTaskState] = useState(TODAY);
   const handleClick = (e: {
     preventDefault: () => void;
     target: { value: any };
@@ -78,8 +79,9 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {}, [taskState]);
+  console.log(taskState)
   return (
-    <div className='dashboard__tasks-card my-2'>
+    <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       {(allTasks.length > 0 || completed.length > 0) && (
         <>
@@ -87,26 +89,31 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
             label={`Urgent|${urgentTasks.length}`}
             value={URGENT}
             handleClick={handleClick}
+            className={taskState === URGENT ? "selected" : "not-selected"}
           />
           <DashTaskButton
             label={`Due Today|${todayTasks.length}`}
             value={TODAY}
             handleClick={handleClick}
+            className={taskState === TODAY ? "selected" : "not-selected"}
           />
           <DashTaskButton
             label={`Awaited|${awaited.length}`}
             value={AWAITED}
             handleClick={handleClick}
+            className={taskState === AWAITED ? "selected" : "not-selected"}
           />
           <DashTaskButton
             label={`In Progress|${in_progress.length}`}
             value={IN_PROGRESS}
             handleClick={handleClick}
+            className={taskState === IN_PROGRESS ? "selected" : "not-selected"}
           />
           <DashTaskButton
             label={`Overdue|${overdueTasks.length}`}
             value={OVERDUE}
             handleClick={handleClick}
+            className={taskState === OVERDUE ? "selected" : "not-selected"}
           />
           {/* <DashTaskButton
             label={`Completed|${completed.length}`}
@@ -115,8 +122,9 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
           /> */}
           <DashTaskButton
             label={`Shared|${sharedTasks.length}`}
-            value={"Shared"}
+            value={SHARED}
             handleClick={handleClick}
+            className={taskState === SHARED ? "selected" : "not-selected"}
           />
         </>
       )}
@@ -124,6 +132,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         label={`All tasks|${allTasks.length}`}
         value={ALL_TASKS}
         handleClick={handleClick}
+        className={taskState === ALL_TASKS ? "selected" : "not-selected"}
       />
       {taskState === URGENT ? (
         <MapTasks tasks={urgentTasks} />
@@ -161,7 +170,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const { today, history, location } = props;
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
-    <div className='dashboard__at-a-glance m-0 p-2'>
+    <div className='dashboard__at-a-glance'>
       <div className='dashboard__alt__card-header'>
         At A Glance
         <h5>
@@ -170,13 +179,13 @@ export default function AtAGlance(props: AtAGlanceProps) {
         </h5>
       </div>
       <Row>
-        <Col className='col-12'>
+        <Col className='col-12 pb-3'>
           <AtAGlanceTasks today={today} history={history} location={location} />
         </Col>
-        <Col className='col-6 p-2'>
+        <Col className='col-6'>
           <DashStats />
         </Col>
-        <Col className='col-6 p-2'>
+        <Col className='col-6'>
           <DashChallCard />
         </Col>
       </Row>

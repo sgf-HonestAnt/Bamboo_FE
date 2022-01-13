@@ -43,11 +43,11 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className='dashboard__profile-card m-2'>
+    <div className='bamboo-card-mid dashboard__profile-card'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (
-          <div className='mr-1' style={{ color: "gold" }}>
+          <div className='mr-1 bamboo-crown'>
             <ICOCROWN />
           </div>
         )}

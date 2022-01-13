@@ -99,7 +99,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
             key={i}>
             <Button
               variant='link'
-              className='m-1 color-task-btn'
+              className='m-1 bamboo-task'
               style={{
                 backgroundColor: `${
                   categoryColors[
@@ -110,7 +110,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
               <div>
                 <span
                   onClick={handleShow}
-                  className={`color-task-btn__title ${task!.category}`}>
+                  className={`bamboo-task__title ${task!.category}`}>
                   {task!.title} &nbsp;
                   <Badge bg='dark' style={{ color: "gold" }}>
                     {task!.value}xp

@@ -61,7 +61,7 @@ const FindTeam = (props: FindTeamProps) => {
     }
   };
   return (
-    <div className='dashboard__search-bar m-2 py-0 px-3'>
+    <div className='bamboo-card-mid dashboard__search-bar'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl

@@ -40,7 +40,6 @@ export default function SideBar(props: SidebarProps) {
           pathIsAdmin ? "-admin" : ""
         } my-3`}>
         <BambooLogo />
-        <h3>Bamboo</h3>
         <div className='main-side-bar__blurb'>Blurb goes here.</div>
         {!pathIsAdmin && <div className='main-side-bar__updates'>&nbsp;</div>}
       </div>
@@ -51,7 +50,7 @@ export default function SideBar(props: SidebarProps) {
             <div className='text-bigger'>
               <Link to='/dash'>{my_user.username}</Link>{" "}
               {my_user.admin && (
-                <span style={{ color: "yellow" }}>
+                <span className="bamboo-crown">
                   <ICOCROWN />
                 </span>
               )}
@@ -95,8 +94,8 @@ export default function SideBar(props: SidebarProps) {
                 <></>
               )}
             </div>
-            <Button variant='link' onClick={logout}>
-              <FiMoon />
+            <Button variant='link' className="bamboo-logo" onClick={logout}>
+              <FiMoon /> 
               &nbsp;log out
             </Button>
           </div>

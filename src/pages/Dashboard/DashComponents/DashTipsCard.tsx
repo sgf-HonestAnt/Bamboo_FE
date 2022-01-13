@@ -21,7 +21,7 @@ const DashTipsCard = (props: DashTipsCardProps) => {
   const whyNoTasks =
     awaited.length + in_progress.length === 0 && total_completed === 0;
   return (
-    <div className='dashboard__tips-card m-2 p-2'>
+    <div className='bamboo-card-mid dashboard__tips-card'>
       <div className='dashboard__card-header'>Hints</div>
       {!userHasFollows ? (
         <div>

@@ -24,7 +24,7 @@ export default function DashStats(props: DashStatsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='dashboard__dash-stats px-1'>
+    <div className='bamboo-card dashboard__dash-stats'>
       <Row>
         <Col sm={12}>
           <PieChartWithPaddingAngle

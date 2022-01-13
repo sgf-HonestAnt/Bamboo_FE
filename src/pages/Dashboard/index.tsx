@@ -102,24 +102,24 @@ export default function DashboardPage(props: DashboardPageProps) {
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-12 p-0'>
+            <Col className='col-12 p-3'>
               {notification.length < 1 && admin && (
                 <div className='dashboard__admin-card m-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
-              {notification.length > 0 && <DashNotifications />}
+              {/* {notification.length > 0 && <DashNotifications />} */}
               <DashProfileCard history={history} />
               {notification.length > 0 && admin && (
-                <div className='dashboard__admin-card m-2'>
+                <div className='dashboard__admin-card p-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
             </Col>
           </Row>
         </Col>
-        <Col className='col-6 dashboard__center-col p-0'>
-          <Row className='p-0'>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
             <Col className='col-12'>
               <FindTeam
                 history={history}
@@ -134,11 +134,11 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
           </Row>
         </Col>
-        <Col className='col-3 dashboard__right-col p-0'>
-          <Row className='p-0'>
+        <Col className='col dashboard__right-col p-0'>
+          <Row className='pl-3 pt-3 pb-1 pr-1'>
             <Col>
               <Achievements />
-              <DashTipsCard />
+              {/* <DashTipsCard /> */}
             </Col>
           </Row>
         </Col>

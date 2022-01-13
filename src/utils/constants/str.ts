@@ -102,6 +102,7 @@ export const ANY_DUE = "Any Due Date";
 export const ANY_TYPE = "Any Type";
 export const YESTERDAY = "Yesterday";
 export const ALL_TASKS = "All Tasks";
+export const SHARED = "Shared"
 export const NO_DEADLINE = "No Deadline";
 export const TODAY = "Today";
 export const TOMORROW = "Tomorrow";

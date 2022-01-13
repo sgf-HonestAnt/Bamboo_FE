@@ -45,7 +45,7 @@ const Achievements = (props: AchievementsProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='dashboard__activities m-2 p-2'>
+    <div className='bamboo-card-dark dashboard__activities'>
       <div className='dashboard__card-header'>Achievements</div>
       {superlist?.length < 1 ? (
         <p>

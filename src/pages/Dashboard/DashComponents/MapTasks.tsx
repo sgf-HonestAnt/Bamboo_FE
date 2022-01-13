@@ -22,12 +22,12 @@ export function TaskButton(props: TaskButtonProps) {
   return (
     <Button
       variant='link'
-      className={`m-1 color-task-btn${
+      className={`m-1 bamboo-task${
         task.status === COMPLETED ? "-completed" : ""
       }`}
       style={{ backgroundColor: `${bgColor}` }}
       key={i}>
-      <span className={`color-task-btn__title ${task!.category}`}>
+      <span className={`bamboo-task__title ${task!.category}`}>
         {task.title}
       </span>
       &nbsp;

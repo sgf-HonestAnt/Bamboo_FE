@@ -465,7 +465,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               <div>Are you sure you want to permanently delete this task? </div>
             )}
             <div
-              className={`color-task-btn__title ${taskSet?.category}`}>
+              className={`bamboo-task__title ${taskSet?.category}`}>
               {icon} {taskSet?.title} ({taskSet?.value}XP)
             </div>
           </Modal.Body>
