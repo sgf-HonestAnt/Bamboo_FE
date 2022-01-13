@@ -83,7 +83,7 @@ export const FITNESS = "fitness";
 export const PETS = "pets";
 export const WELLBEING = "wellbeing";
 export const NONE = "none";
-export const TASK_CATEGORIES = [URGENT, WORK, FINANCE, FITNESS];
+export const TASK_CATEGORIES = [NONE]; // [URGENT, WORK, FINANCE, FITNESS]
 export const TASK_CATEGORY_ICONS = [ICOURGENT, ICOWORK, ICOFINANCE, ICOFIT];
 // task repetition
 export const NEVER = "never";

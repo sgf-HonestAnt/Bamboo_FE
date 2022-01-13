@@ -14,7 +14,6 @@ import { TASK_VALUES } from "../../utils/constants/arr";
 import {
   AWAITED,
   NEVER,
-  NONE,
   POST,
   PUT,
   TASK_CATEGORIES,
@@ -600,10 +599,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     <option value='' disabled>
                       -------
                     </option>
-                    <option value={NONE}>{NONE}</option>
+                    {/* <option value={NONE}>{NONE}</option>
                     <option value='' disabled>
                       -------
-                    </option>
+                    </option> */}
                     <option
                       value='new'
                       // selected={form.category === "new"}
