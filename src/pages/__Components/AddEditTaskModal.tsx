@@ -10,6 +10,7 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
+import { TASK_VALUES } from "../../utils/constants/arr";
 import {
   AWAITED,
   NEVER,
@@ -17,14 +18,17 @@ import {
   POST,
   PUT,
   TASK_CATEGORIES,
-  TASK_VALUES,
   URGENT,
   WORK,
   FINANCE,
   FITNESS,
   TEAM,
-} from "../../utils/appConstants";
-import { EditTask, setNewCategory, setNewTask } from "../../redux/actions/tasks";
+} from "../../utils/constants/str";
+import {
+  EditTask,
+  setNewCategory,
+  setNewTask,
+} from "../../redux/actions/tasks";
 import {
   getMinMaxDateAsString,
   getShortDateAsString,
@@ -422,7 +426,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       const username = getUsernameById(followedUsers, id);
                       return (
                         <div key={i}>
-                          <Link to={`/following?id=${id}`} >
+                          <Link to={`/following?id=${id}`}>
                             <img
                               src={avatar}
                               alt={username}
@@ -441,7 +445,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant='primary' onClick={handleEdit}>
-             Edit task?
+              Edit task?
             </Button>
             <Button variant='secondary' onClick={handleClose}>
               No, go back
@@ -462,7 +466,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               <div>Are you sure you want to permanently delete this task? </div>
             )}
             <div
-              className={`tasks-page__list-task__title ${taskSet?.category}`}>
+              className={`color-task-btn__title ${taskSet?.category}`}>
               {icon} {taskSet?.title} ({taskSet?.value}XP)
             </div>
           </Modal.Body>

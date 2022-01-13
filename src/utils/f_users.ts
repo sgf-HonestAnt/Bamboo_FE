@@ -20,7 +20,7 @@ import {
   SESSION,
   POST,
   DELETE,
-} from "./appConstants";
+} from "./constants/str";
 ///////////////////////////////////////////////////////////////////////////////
 export const findUsernameByEmail = async (email: string) => {
   console.log("🙋Finding Username By Email");

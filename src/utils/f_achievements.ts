@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { achievementInt } from "../typings/interfaces";
-import { ACHIEVEMENTS, BE_URL, POST } from "./appConstants";
+import { ACHIEVEMENTS, BE_URL, POST } from "./constants/str";
 
 export const attemptPostAchievement = async (
   item: string,

@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/appConstants";
+import { AWAITED, COMPLETED, IN_PROGRESS } from "../../utils/constants/str";
 import Badges from "./Badges";
 
 type ProfileBadgeProps = {

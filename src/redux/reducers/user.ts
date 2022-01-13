@@ -13,7 +13,7 @@ import {
   SET_USER_LEVEL,
   SET_USER_POINTS_AND_COMPLETED,
   SET_USER_USERNAME,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 
 const currentUserReducer = (
   state = initialState.currentUser,

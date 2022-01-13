@@ -1,7 +1,8 @@
 import { Dispatch } from "redux";
 import { setSuperlist } from "../redux/actions/achievements";
 import { achievementInt } from "../typings/interfaces";
-import { congrats, LIST_OF_VOWELS, NONE } from "./appConstants";
+import { CONGRATS, LIST_OF_VOWELS } from "./constants/arr";
+import { NONE } from "./constants/str";
 import { getCurrDateTimeAsString } from "./f_dates";
 
 const createSuperlist = async (
@@ -12,7 +13,7 @@ const createSuperlist = async (
 ) => {
   console.log("🙋Creating Achievement SuperList");
   let super_list: string[] = [];
-  let nice: string[] = congrats;
+  let nice: string[] = CONGRATS;
   list.map((ach, i) => {
     const timestamp = getCurrDateTimeAsString(ach);
     const num = i < nice.length ? i : Math.floor(Math.random() * nice.length);

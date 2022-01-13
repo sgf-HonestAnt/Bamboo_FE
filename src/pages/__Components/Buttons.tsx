@@ -78,7 +78,7 @@ export const OpenTaskButton = (props: ButtonProps) => (
   </Button>
 );
 export const DeleteTaskButton = (props: ButtonProps) => (
-  <Button variant='link' onClick={props.handleClick}>
+  <Button variant='link' className="delete-task-btn" onClick={props.handleClick}>
     <FiTrash2 />
   </Button>
 );

@@ -1,5 +1,5 @@
 import { Form } from "react-bootstrap";
-import { THEMES } from "../../../utils/appConstants";
+import { THEMES } from "../../../utils/constants/str";
 
 type ThemePickerProps = {
   handleChange: any;

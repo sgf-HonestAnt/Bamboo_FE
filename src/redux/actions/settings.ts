@@ -7,7 +7,7 @@ import {
   FILL_SETTINGS,
   FILL_SETTINGS_ERROR,
   FILL_SETTINGS_LOADING,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 
 export const changeThemeAction = (selectedTheme: string) => ({
   type: FILL_SETTINGS,

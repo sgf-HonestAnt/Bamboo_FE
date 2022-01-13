@@ -7,7 +7,7 @@ import {
 } from "../../../typings/interfaces";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableTask from "./DraggableTask";
-import { COMPLETED } from "../../../utils/appConstants";
+import { COMPLETED } from "../../../utils/constants/str";
 import NonDraggableTask from "./NonDraggableTask";
 
 type DroppableListProps = {
@@ -46,7 +46,7 @@ const DroppableList = (props: DroppableListProps) => {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   data-is-dragging={snapshot.isDraggingOver}>
-                  <div className='placeholder'>
+                  <div className='dnd-placeholder'>
                     {provided.placeholder}
                     :)
                   </div>

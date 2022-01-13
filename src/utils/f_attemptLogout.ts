@@ -1,4 +1,4 @@
-import { BE_URL, DELETE, SESSION, USERS } from "./appConstants";
+import { BE_URL, DELETE, SESSION, USERS } from "./constants/str";
 
 const attemptLogout = async () => {
   const token = localStorage.getItem("token");

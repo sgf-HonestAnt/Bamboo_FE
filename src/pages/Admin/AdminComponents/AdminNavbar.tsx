@@ -7,7 +7,7 @@ import {
   TASKS,
   USERS,
   USERS_SORT_BY,
-} from "../../../utils/appConstants";
+} from "../../../utils/constants/str";
 import { useState, useEffect } from "react";
 
 type AdminNavbarProps = {

@@ -1,4 +1,4 @@
-import { BE_URL, USERS, POST } from "./appConstants";
+import { BE_URL, USERS, POST } from "./constants/str";
 
 export const requestFollow = async (sendee: string) => {
   console.log("🙋Requesting User Follow");

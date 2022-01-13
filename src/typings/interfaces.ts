@@ -12,6 +12,7 @@ export interface currentSettingsInt {
   error: boolean;
   // GET users/me/settings
   selectedTheme: themeType;
+  customColors: string[];
 }
 export interface currentUserInt {
   loading: boolean;

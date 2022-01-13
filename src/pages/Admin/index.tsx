@@ -30,7 +30,7 @@ import {
   USERNAME_ASC,
   USERNAME_DESC,
   USERS,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 import NotificationsRow from "./AdminComponents/NotificationsRow";
 import { useAppSelector } from "../../redux/hooks";
 

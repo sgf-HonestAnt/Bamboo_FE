@@ -131,26 +131,6 @@
   font-size: 80%;
   font-weight: 400;
 }
-.dashboard__tasks-card__task-box {
-  background-color: white !important;
-  color: var(--main-text) !important;
-  border-radius: 0;
-}
-.dashboard__tasks-card__task-box-completed {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-  color: var(--main-text) !important;
-  border-radius: 0;
-}
-.dashboard__tasks-card__task-box.btn.btn-link:hover,
-.dashboard__tasks-card__task-box-completed.btn.btn-link:hover,
-.dashboard__tasks-card__task-box.btn.btn-link:focus,
-.dashboard__tasks-card__task-box-completed.btn.btn-link:focus,
-.dashboard__tasks-card__task-box.btn.btn-link:focus-visible,
-.dashboard__tasks-card__task-box-completed.btn.btn-link:focus-visible {
-  box-shadow: none;
-  color: inherit;
-  text-decoration: none;
-}
 .dashboard__tasks-card__tasks {
   display: flex;
 }

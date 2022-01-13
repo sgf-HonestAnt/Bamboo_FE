@@ -5,7 +5,7 @@ import {
   FILL_FEATURES,
   FILL_FEATURES_ERROR,
   FILL_FEATURES_LOADING,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 
 const currentFeaturesReducer = (
   state = initialState.currentFeatures,

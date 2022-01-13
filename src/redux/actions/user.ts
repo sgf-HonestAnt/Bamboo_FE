@@ -17,8 +17,8 @@ import {
   SET_USER_POINTS_TOTAL,
   SET_USER_COMPLETED_TOTAL,
   SET_USER_POINTS_AND_COMPLETED,
-} from "../../utils/appConstants";
-import { SET_REFRESH_TOKEN } from "../../utils/appConstants";
+} from "../../utils/constants/str";
+import { SET_REFRESH_TOKEN } from "../../utils/constants/str";
 import { userInt } from "../../typings/interfaces";
 
 export const setUserAvatar = (avatar: string | undefined) => ({

@@ -1,4 +1,4 @@
-import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "./appConstants";
+import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "./constants/str";
 import { ICOSTAR } from "./appIcons";
 
 const getIcon = (category: string) => {

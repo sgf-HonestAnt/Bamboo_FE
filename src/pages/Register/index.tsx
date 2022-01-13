@@ -3,13 +3,8 @@ import { setRefreshToken } from "../../redux/actions/user";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import { SubmitButton } from "../__Components/Buttons";
-import {
-  BE_URL,
-  USERS,
-  REGISTER,
-  POST,
-  SPECIAL_CHARS,
-} from "../../utils/appConstants";
+import { SPECIAL_CHARS } from "../../utils/constants/arr";
+import { BE_URL, USERS, REGISTER, POST } from "../../utils/constants/str";
 import "./styles.css";
 
 export default function RegisterPage({ history }: RouteComponentProps) {

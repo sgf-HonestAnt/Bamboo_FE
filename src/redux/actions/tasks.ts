@@ -16,7 +16,7 @@ import {
   SET_NEW_TASK_CATEGORY,
   DELETE_TASK,
   EDIT_TASK,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 import { taskInt } from "../../typings/interfaces";
 
 export const setNewTask = (task: taskInt) => ({

@@ -26,7 +26,7 @@ import {
   ME,
   DELETE,
   POST,
-} from "./appConstants";
+} from "./constants/str";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
 import { fillAchievementsAction } from "../redux/actions/achievements";

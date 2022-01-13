@@ -15,7 +15,7 @@ import {
   IN_PROGRESS,
   ANY_TYPE,
   OVERDUE,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 import { getTaskByQuery, getTasks } from "../../utils/f_tasks";
 import { filterTasksByOverdue } from "../../utils/f_dates";
 

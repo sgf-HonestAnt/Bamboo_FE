@@ -1,4 +1,4 @@
-import { ICOFINANCE, ICOFIT, ICOURGENT, ICOWORK } from "./appIcons";
+import { ICOFINANCE, ICOFIT, ICOURGENT, ICOWORK } from "../appIcons";
 // ********** CRUD **********
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
@@ -58,22 +58,21 @@ export const SETTINGS = "settings";
 export const FILL_SETTINGS_LOADING = "FILL_SETTINGS_LOADING";
 export const FILL_SETTINGS_ERROR = "FILL_SETTINGS_ERROR";
 export const FILL_SETTINGS = "FILL_SETTINGS";
-// ********** FUNCS **********
+// ********** REST **********
 export const STATUS_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
 export const LIGHT_MODE = "light-mode";
 export const DARK_MODE = "dark-mode";
 export const THEMES = [LIGHT_MODE, DARK_MODE];
-
+// task types
 export const SOLO = "solo";
 export const TEAM = "team";
 export const TASK_TYPES = [SOLO, TEAM];
-
+// task statuses
 export const AWAITED = "awaited";
 export const COMPLETED = "completed";
 export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
-
+// task categories
 export const URGENT = "urgent";
 export const HOUSEHOLD = "home";
 export const SHOPPING = "shopping";
@@ -90,84 +89,29 @@ export const TASK_CATEGORY_ICONS = [ICOURGENT, ICOWORK, ICOFINANCE, ICOFIT];
 export const NEVER = "never";
 export const DAILY = "daily";
 export const WEEKLY = "weekly";
-// export const BIMONTHLY = "bimonthly";
 export const MONTHLY = "monthly";
 export const EVERY_X_DAYS = "every 'x' days";
 export const TASK_REPEAT_TYPES = [NEVER, DAILY, WEEKLY, MONTHLY, EVERY_X_DAYS];
 export const NUMBER = `+${!NaN}`;
 // task values
-export const TASK_VALUE_NUMS = [10, 20, 30, 40, 50];
-export const TASK_VALUES = [
-  "easy as pie",
-  "easy as falling off a log",
-  "painful, but I know I can do it",
-  "may take a bit more effort to complete",
-  "difficult, so I'll look forward to my reward",
-];
-
 export const ANY_VAL = "Any Value";
 export const ANY_CAT = "Any Category";
 export const ANY_STATUS = "Any Status";
 export const ANY_REPEAT = "Any Repeat";
 export const ANY_DUE = "Any Due Date";
 export const ANY_TYPE = "Any Type";
-
 export const YESTERDAY = "Yesterday";
 export const ALL_TASKS = "All Tasks";
 export const NO_DEADLINE = "No Deadline";
-
 export const TODAY = "Today";
 export const TOMORROW = "Tomorrow";
 export const OVERDUE = "Overdue";
 export const TASKS_TO_SHOW = [TODAY, TOMORROW, OVERDUE];
-
-// other
+// *
 export const ANY = "any";
 export const WILD_STR =
   "some random string used for wild searches, so long as filtered key !== this string it will be displayed";
 export const WILD_NUM = 4242424242;
-// congratulations
-export const congrats = [
-  "|🖐️High five",
-  "|😃Well done",
-  "|😍Amazing",
-  "|✊Fist bump",
-];
-export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
-////////////////////////////////////////////////////////////////////
-// Registration Page
-export const SPECIAL_CHARS = [
-  "!",
-  "'",
-  "`",
-  '"',
-  "#",
-  "$",
-  "%",
-  "&",
-  "(",
-  ")",
-  "*",
-  "+",
-  ",",
-  "-",
-  ".",
-  "/",
-  ":",
-  ";",
-  "<",
-  "=",
-  ">",
-  "?",
-  "@",
-  "^",
-  "_",
-  "{",
-  "|",
-  "}",
-  "~",
-];
-////////////////////////////////////////////////////////////////////
 // Admin Page Sorting
 export const NAME_ASC = "Name (Asc)";
 export const USERNAME_ASC = "Username (Asc)";
@@ -203,4 +147,3 @@ export const USERS_SORT_BY = [
   TOTAL_XP_DESC,
   TOTAL_COMPLETED_DESC,
 ];
-////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Row, Col, Button, Form, Modal } from "react-bootstrap";
 import { userInt } from "../../../typings/interfaces";
-import { USERS } from "../../../utils/appConstants";
+import { USERS } from "../../../utils/constants/str";
 
 interface EditDeleteUserModalProps extends userInt {
   handleClose: any;

@@ -9,7 +9,6 @@ import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/f_dates";
 import DashProfileCard from "./DashComponents/ProfileCard";
-import DashTasks from "./DashComponents/DashTasks";
 import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "./DashComponents/Notifications";
 import DashChallCard from "./DashComponents/ChallengeCard";
@@ -86,7 +85,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               )}
             </Col>
             <Col className='col-3 p-0'>
-              <DashTasks today={today} history={history} location={location} />
+              {/* <DashTasks today={today} history={history} location={location} /> */}
               <DashChallCard />
               <DashTipsCard />
             </Col>
@@ -162,7 +161,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
             <Col className='col-4 p-0'>
               {/* {notification.length > 0 && <DashNotifications />} */}
-              <DashTasks today={today} history={history} location={location} />
+              {/* <DashTasks today={today} history={history} location={location} /> */}
               <DashChallCard />
             </Col>
             <Col className='col-4 p-0'>

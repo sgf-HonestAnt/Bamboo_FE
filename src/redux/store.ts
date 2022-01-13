@@ -17,7 +17,8 @@ import currentTasksReducer from "./reducers/tasks";
 import currentAchievementsReducer from "./reducers/achievements";
 import currentSettingsReducer from "./reducers/settings";
 import currentFeaturesReducer from "./reducers/features";
-import { LIGHT_MODE } from "../utils/appConstants";
+import { LIGHT_MODE } from "../utils/constants/str";
+import { CUSTOM_COLORS } from "../utils/constants/arr";
 
 declare global {
   interface Window {
@@ -79,6 +80,7 @@ export const initialState: reduxStateInt = {
     error: false,
     // set upon loading with endpoint "/user/me/settings"
     selectedTheme: LIGHT_MODE,
+    customColors: CUSTOM_COLORS,
   },
   currentFeatures: {
     loading: true,

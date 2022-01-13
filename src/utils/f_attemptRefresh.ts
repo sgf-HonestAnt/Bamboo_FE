@@ -1,6 +1,6 @@
 import { History } from "history";
 import { setRefreshToken, setUserError } from "../redux/actions/user";
-import { BE_URL, POST, REFRESH, SESSION, USERS } from "./appConstants";
+import { BE_URL, POST, REFRESH, SESSION, USERS } from "./constants/str";
 
 const attemptRefresh = async (
   history: History<unknown> | string[],

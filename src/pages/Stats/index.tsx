@@ -23,7 +23,7 @@ import CustomActiveShapePieChart from "./StatsComponents/CustomActiveShapePieCha
 import SimpleCloud from "./StatsComponents/SimpleCloud";
 import StatisticsHeader from "./StatsComponents/StatisticsHeader";
 import "./styles.css";
-import { STATUS_COLORS } from "../../utils/appConstants";
+import { STATUS_COLORS } from "../../utils/constants/str";
 
 export default function StatsPage() {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);

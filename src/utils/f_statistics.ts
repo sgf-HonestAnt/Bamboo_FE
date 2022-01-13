@@ -11,7 +11,7 @@ import {
   NONE,
   SOLO,
   TEAM,
-} from "./appConstants";
+} from "./constants/str";
 
 export const mapByStatus = async (tasks: currentTasksInt) => {
   const { awaited, in_progress, completed } = tasks;

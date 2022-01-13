@@ -8,7 +8,7 @@ import {
   FILL_ACHIEVEMENTS_LOADING,
   SET_SUPERLIST,
   SET_NEW_ACHIEVEMENT,
-} from "../../utils/appConstants";
+} from "../../utils/constants/str";
 
 export const setSuperlist = (superlist: string[]) => ({
   type: SET_SUPERLIST,

@@ -5,7 +5,7 @@ import {
   DeleteButton,
   EditButton,
 } from "../../__Components/Buttons";
-import { USERS } from "../../../utils/appConstants";
+import { USERS } from "../../../utils/constants/str";
 
 interface TasksRowProps extends taskInt {
   users?: userInt[];
