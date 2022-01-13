@@ -15,9 +15,9 @@ import {
   IN_PROGRESS,
   ANY_TYPE,
   OVERDUE,
-} from "../../utils/constants/str";
-import { getTaskByQuery, getTasks } from "../../utils/f_tasks";
-import { filterTasksByOverdue } from "../../utils/f_dates";
+} from "../../utils/const/str";
+import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
+import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -124,7 +124,6 @@ export default function TasksPage(props: TasksPageProps) {
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
-  console.log("initialData at Tasks index=>", initialData)
   return (
     <Container fluid>
       <TasksFilterRow

@@ -19,7 +19,7 @@ import {
   setUsername,
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
-import { attemptDeleteUser, attemptUpdateUser } from "../../utils/f_users";
+import { attemptDeleteUser, attemptUpdateUser } from "../../utils/funcs/f_users";
 import ImageUploader from "./SettingsComponents/ImageUploader";
 import "./styles.css";
 

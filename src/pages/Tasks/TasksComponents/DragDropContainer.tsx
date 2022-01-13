@@ -12,7 +12,7 @@ import { Row } from "react-bootstrap";
 import {
   attemptUpdateTask,
   moveTaskBetweenStatus,
-} from "../../../utils/f_tasks";
+} from "../../../utils/funcs/f_tasks";
 import DroppableList from "./DroppableList";
 
 type DragDropContainerProps = {
@@ -72,14 +72,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   };
   const onDragEnd = async (result: any) => {
     const { destination, source, draggableId } = result;
-    console.log(
-      "destination=>",
-      destination,
-      "source=>",
-      source,
-      "draggableId=>",
-      draggableId
-    );
     // if task moves outside droppable space
     if (!destination) {
       return;
@@ -154,25 +146,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       );
     }
   };
-  // const createDroppableLists = () => {
-  //   initialData.listOrder.map((listId, i) => {
-  //     const list = initialData.lists.find((l) => l.id === listId);
-  //     console.log(list);
-  //     if (list) {
-  //       for (let i = 0; i < list.taskIds.length; i++) {
-  //         for (let j = 0; j < initialData.tasks.length; i++) {
-  //           if (initialData.tasks[j]._id === list.taskIds[i]) {
-  //             tasks.push(initialData.tasks[j]);
-  //           }
-  //         }
-  //       }
-  //     }
-  //     list &&
-  //       list.taskIds.map(
-  //         (taskId) => initialData.tasks!.find((t) => t!._id === taskId) //.slice(0, 24)
-  //       );
-  //   });
-  // };
   useEffect(() => {}, [initialData]);
   return (
     <Row className='tasks-page'>
@@ -185,7 +158,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
           const tasks = list?.taskIds.map(
             (taskId) => initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
-          console.log("TASKS for=>", i, tasks);
           return (
             list && tasks && (
               <DroppableList

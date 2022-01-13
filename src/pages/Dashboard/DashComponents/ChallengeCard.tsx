@@ -3,7 +3,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { featureInt, reduxStateInt } from "../../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { ICOURGENT } from "../../../utils/appIcons";
-import { getMonthByIndex } from "../../../utils/f_dates";
+import { getMonthByIndex } from "../../../utils/funcs/f_dates";
 
 type DashChallCardProps = {};
 

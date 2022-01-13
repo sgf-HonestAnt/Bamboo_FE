@@ -4,7 +4,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { ICOCROWN } from "../../utils/appIcons";
-import attemptLogout from "../../utils/f_attemptLogout";
+import { attemptLogout } from "../../utils/funcs/f_users";
 import BambooLogo from "../__Components/Logo";
 import "./styles.css";
 
@@ -50,7 +50,7 @@ export default function SideBar(props: SidebarProps) {
             <div className='text-bigger'>
               <Link to='/dash'>{my_user.username}</Link>{" "}
               {my_user.admin && (
-                <span className="bamboo-crown">
+                <span className='bamboo-crown'>
                   <ICOCROWN />
                 </span>
               )}
@@ -94,8 +94,8 @@ export default function SideBar(props: SidebarProps) {
                 <></>
               )}
             </div>
-            <Button variant='link' className="bamboo-logo" onClick={logout}>
-              <FiMoon /> 
+            <Button variant='link' className='bamboo-logo' onClick={logout}>
+              <FiMoon />
               &nbsp;log out
             </Button>
           </div>
@@ -110,4 +110,4 @@ export default function SideBar(props: SidebarProps) {
       )}
     </div>
   );
-};
+}

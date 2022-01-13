@@ -7,13 +7,13 @@ import {
   DeleteTaskButton,
   RejectButton,
 } from "../../__Components/Buttons";
-import { NONE, URGENT } from "../../../utils/constants/str";
+import { NONE, URGENT } from "../../../utils/const/str";
 import {
   // attemptDeleteTask,
   moveTaskBetweenStatus,
-} from "../../../utils/f_tasks";
+} from "../../../utils/funcs/f_tasks";
 import { RemTaskFromCompleted } from "../../../redux/actions/tasks";
-import { addIDToTasksToHide } from "../../../utils/f_users";
+import { addIDToTasksToHide } from "../../../utils/funcs/f_users";
 import { Badge, Button } from "react-bootstrap";
 import { FiFlag, FiUsers } from "react-icons/fi";
 

@@ -7,7 +7,7 @@ import { reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
 import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../../__Components/Buttons";
-import { getUserRole, updateUserBio } from "../../../utils/f_users";
+import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
 import BambooPoints from "../../__Components/XP";
 import ProfileBadge from "../../__Components/ProfileBadge";
 

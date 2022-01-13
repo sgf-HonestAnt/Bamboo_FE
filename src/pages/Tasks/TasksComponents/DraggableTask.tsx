@@ -8,7 +8,7 @@ import {
   Draggable,
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
-import { NONE, SOLO, URGENT } from "../../../utils/constants/str";
+import { NONE, SOLO, URGENT } from "../../../utils/const/str";
 import { ICOCLOCK, ICOUSERS } from "../../../utils/appIcons";
 import { useEffect, useState } from "react";
 import AddEditTaskModal from "../../__Components/AddEditTaskModal";
@@ -17,7 +17,7 @@ import {
   checkTaskOverdue,
   getSelectedDateAsString,
   getShortDateAsString,
-} from "../../../utils/f_dates";
+} from "../../../utils/funcs/f_dates";
 import { Badge, Button } from "react-bootstrap";
 import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiFlag, FiUsers } from "react-icons/fi";

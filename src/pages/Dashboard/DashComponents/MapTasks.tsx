@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import { Row, Button, Badge } from "react-bootstrap";
-import { NONE, URGENT, COMPLETED } from "../../../utils/constants/str";
+import { NONE, URGENT, COMPLETED } from "../../../utils/const/str";
 import { FiFlag, FiUsers } from "react-icons/fi";
 import { createColorArray } from "../../../utils/funcs/f_styling";
 

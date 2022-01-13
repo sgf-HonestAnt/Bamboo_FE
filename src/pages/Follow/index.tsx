@@ -10,7 +10,7 @@ import {
 } from "../__Components/Buttons";
 import ProfileBadge from "../__Components/ProfileBadge";
 import BambooPoints from "../__Components/XP";
-import { getUserRole } from "../../utils/f_users";
+import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
 import { ICOCROWN } from "../../utils/appIcons";
 import FindTeam from "../__Components/FindTeam";

@@ -10,7 +10,7 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
-import { TASK_VALUES } from "../../utils/constants/arr";
+import { TASK_VALUES } from "../../utils/const/arr";
 import {
   AWAITED,
   NEVER,
@@ -22,7 +22,7 @@ import {
   FINANCE,
   FITNESS,
   TEAM,
-} from "../../utils/constants/str";
+} from "../../utils/const/str";
 import {
   EditTask,
   setNewCategory,
@@ -31,14 +31,14 @@ import {
 import {
   getMinMaxDateAsString,
   getShortDateAsString,
-} from "../../utils/f_dates";
+} from "../../utils/funcs/f_dates";
 import {
   attemptDeleteTask,
   attemptPostOrEditTask,
   removeSelfFromTask,
-} from "../../utils/f_tasks";
+} from "../../utils/funcs/f_tasks";
 import BambooPoints from "./XP";
-import { getAvatarById, getUsernameById } from "../../utils/f_users";
+import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { XButton } from "./Buttons";
 import {
   ICOFINANCE,
@@ -97,7 +97,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     setInitialData,
     taskSet,
   } = props;
-  // console.log(taskSet);
   const { refreshToken } = my_user;
   const dispatch = useDispatch();
   const avatar =
@@ -318,40 +317,27 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   };
   const removeTaskFromInitialData = async () => {
     if (initialData) {
-      console.log(initialData);
       const updatedInitialDataTasks = initialData.tasks.filter(
         (task) => task?._id !== taskSet!._id
       );
-      console.log("updated data.tasks=>", updatedInitialDataTasks);
       const listIndex = initialData.lists.findIndex(
         (list) => list.id === taskSet!.status
       );
-      console.log("index=>", listIndex);
       const indexedList = initialData.lists[listIndex];
-      console.log("list=>", indexedList);
       const updatedTaskIds = indexedList.taskIds.filter(
         (id) => id !== taskSet!._id
-      );
-      console.log(
-        "updated taskIds=>",
-        updatedTaskIds,
-        "should not include=>",
-        taskSet!._id
       );
       const updatedList = {
         ...indexedList,
         taskIds: updatedTaskIds,
       };
-      console.log("Updated list=>", updatedList);
       const updatedInitialDataLists = initialData.lists;
       updatedInitialDataLists[listIndex] = updatedList;
-      console.log("updatedInitialDataLists=>", updatedInitialDataLists);
       const newData = {
         ...initialData,
         tasks: [...updatedInitialDataTasks!],
         lists: [...updatedInitialDataLists!],
       };
-      console.log(newData);
       setInitialData(newData);
     }
   };
@@ -395,8 +381,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
-  // console.log(taskSet);
-  // console.log(form);
   return (
     <Modal show={show} onHide={handleClose}>
       {taskSet && view ? (

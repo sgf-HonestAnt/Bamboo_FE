@@ -11,7 +11,7 @@ import {
   getUsersAsAdmin,
   sortUsersAsc,
   sortUsersDesc,
-} from "../../utils/f_users";
+} from "../../utils/funcs/f_users";
 import AdminNavbar from "./AdminComponents/AdminNavbar";
 import {
   NotificationsTableHeading,
@@ -20,7 +20,7 @@ import {
 } from "./AdminComponents/TableHeadings";
 import UsersRow from "./AdminComponents/UsersRow";
 import "./styles.css";
-import { getAllTasks } from "../../utils/f_tasks";
+import { getAllTasks } from "../../utils/funcs/f_tasks";
 import TasksRow from "./AdminComponents/TasksRow";
 import {
   NAME_ASC,
@@ -30,7 +30,7 @@ import {
   USERNAME_ASC,
   USERNAME_DESC,
   USERS,
-} from "../../utils/constants/str";
+} from "../../utils/const/str";
 import NotificationsRow from "./AdminComponents/NotificationsRow";
 import { useAppSelector } from "../../redux/hooks";
 
@@ -90,7 +90,6 @@ export default function AdminPage(props: AdminPageProps) {
   }, []);
   useEffect(() => {
     const { search, dropdown } = form;
-    console.log(dropdown);
     const num = search.length;
     if (usersToDisplay && form.sortBy) {
       if (form.sortBy === USERNAME_ASC) {
@@ -127,7 +126,6 @@ export default function AdminPage(props: AdminPageProps) {
             user.email.slice(0, num).toLowerCase() === search.toLowerCase() ||
             user.email.toLowerCase().includes(search.toLowerCase())
         );
-        console.log(filtered.length);
         setUsersToDisplay(filtered);
       } else if (tasksData && dropdown.toLowerCase().includes(TASKS)) {
         const filtered = tasksData.filter(
@@ -138,7 +136,6 @@ export default function AdminPage(props: AdminPageProps) {
               search.toLowerCase() ||
             task.category.toLowerCase().includes(search.toLowerCase())
         );
-        console.log(filtered.length);
         setTasksToDisplay(filtered);
       } else {
         console.log("notifications drop");

@@ -8,8 +8,8 @@ import {
 } from "../../typings/interfaces";
 import { Form, FormControl, Button } from "react-bootstrap";
 import { SubmitButton } from "./Buttons";
-import { requestFollow } from "../../utils/f_follows";
-import { getUserByQuery } from "../../utils/f_users";
+import { requestFollow } from "../../utils/funcs/f_follows";
+import { getUserByQuery } from "../../utils/funcs/f_users";
 
 type ResultProps = {
   found: boolean;

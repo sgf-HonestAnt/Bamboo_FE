@@ -7,7 +7,7 @@ import {
   getDayMonthYearAsString,
   filterTasksByOverdue,
   getSelectedDateAsString,
-} from "../../../utils/f_dates";
+} from "../../../utils/funcs/f_dates";
 import {
   ALL_TASKS,
   AWAITED,
@@ -17,7 +17,7 @@ import {
   SHARED,
   TODAY,
   URGENT,
-} from "../../../utils/constants/str";
+} from "../../../utils/const/str";
 import { FiCalendar } from "react-icons/fi";
 import { AddNewTaskButton, DashTaskButton } from "../../__Components/Buttons";
 import AddEditTaskModal from "../../__Components/AddEditTaskModal";
@@ -62,7 +62,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     setOverdueTasks(array);
   };
   const { history, location } = props; // today
-  const [taskState, setTaskState] = useState(TODAY);
+  const [taskState, setTaskState] = useState(ALL_TASKS);
   const handleClick = (e: {
     preventDefault: () => void;
     target: { value: any };
@@ -79,7 +79,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {}, [taskState]);
-  console.log(taskState)
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
@@ -170,7 +169,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const { today, history, location } = props;
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
-    <div className='dashboard__at-a-glance'>
+    <div className='dashboard__at-a-glance m-2'>
       <div className='dashboard__alt__card-header'>
         At A Glance
         <h5>

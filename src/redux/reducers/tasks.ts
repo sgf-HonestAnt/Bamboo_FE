@@ -15,7 +15,7 @@ import {
   REMOVE_TASK_FROM_IN_PROGRESS,
   SET_NEW_TASK,
   SET_NEW_TASK_CATEGORY,
-} from "../../utils/constants/str";
+} from "../../utils/const/str";
 
 const currentTasksReducer = (
   state = initialState.currentTasks,

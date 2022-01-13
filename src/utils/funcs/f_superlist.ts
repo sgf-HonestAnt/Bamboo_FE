@@ -1,14 +1,16 @@
 import { Dispatch } from "redux";
-import { setSuperlist } from "../redux/actions/achievements";
-import { achievementInt } from "../typings/interfaces";
-import { CONGRATS, LIST_OF_VOWELS } from "./constants/arr";
-import { NONE } from "./constants/str";
+import { setSuperlist } from "../../redux/actions/achievements";
+import { achievementInt, followedUserInt } from "../../typings/interfaces";
+import { CONGRATS, LIST_OF_VOWELS } from "../const/arr";
+import { NONE } from "../const/str";
 import { getCurrDateTimeAsString } from "./f_dates";
+import { getUsernameById } from "./f_users";
 
 const createSuperlist = async (
   // create list of achievements with randomised congrats
   list: achievementInt[],
   username: string,
+  followedUsers: followedUserInt[],
   dispatch: Dispatch<any>
 ) => {
   console.log("🙋Creating Achievement SuperList");
@@ -24,13 +26,13 @@ const createSuperlist = async (
             `you completed task: ${ach.item} on ${timestamp}. ${nice[num]}!`
           )
         : super_list.push(
-            `${ach.username} completed ${
+            `${getUsernameById(followedUsers, ach.username)} completed ${
               LIST_OF_VOWELS.some((v) => v === ach.category.split("")[0])
                 ? "an"
                 : "a"
             } ${
               ach.category !== NONE ? ach.category! : ""
-            } task on ${timestamp}!`
+            } task on ${timestamp}.`
           );
     } else {
       return super_list.push(ach.item);

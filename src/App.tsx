@@ -9,7 +9,6 @@ import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import MainBody from "./pages/Main";
 import LogoutPage from "./pages/Logout";
-import "./styles/colors.css";
 import "./styles/UniversalStyles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 

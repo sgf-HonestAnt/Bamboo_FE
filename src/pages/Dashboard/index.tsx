@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
-import { getSelectedDateAsString } from "../../utils/f_dates";
+import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "./DashComponents/ProfileCard";
 import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "./DashComponents/Notifications";
@@ -50,14 +50,14 @@ export default function DashboardPage(props: DashboardPageProps) {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  console.log(
-    "isbig=>",
-    isBigScreen,
-    "isdesktop=>",
-    isDesktopOrLaptop,
-    "istablet=>",
-    isTabletOrMobile
-  );
+  // console.log(
+  //   "isbig=>",
+  //   isBigScreen,
+  //   "isdesktop=>",
+  //   isDesktopOrLaptop,
+  //   "istablet=>",
+  //   isTabletOrMobile
+  // );
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
@@ -128,17 +128,16 @@ export default function DashboardPage(props: DashboardPageProps) {
               />
             </Col>
           </Row>
-          <Row className='p-0 mx-2'>
+          <Row className='p-0'>
             <Col className='col-12'>
               <AtAGlance today={today} history={history} location={location} />
             </Col>
           </Row>
         </Col>
         <Col className='col dashboard__right-col p-0'>
-          <Row className='pl-3 pt-3 pb-1 pr-1'>
+          <Row className='pl-3'>
             <Col>
               <Achievements />
-              {/* <DashTipsCard /> */}
             </Col>
           </Row>
         </Col>

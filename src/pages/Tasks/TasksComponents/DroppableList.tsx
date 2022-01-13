@@ -7,7 +7,7 @@ import {
 } from "../../../typings/interfaces";
 import { Droppable } from "react-beautiful-dnd";
 import DraggableTask from "./DraggableTask";
-import { COMPLETED } from "../../../utils/constants/str";
+import { COMPLETED } from "../../../utils/const/str";
 import NonDraggableTask from "./NonDraggableTask";
 
 type DroppableListProps = {
@@ -40,7 +40,6 @@ const DroppableList = (props: DroppableListProps) => {
           <div className='tasks-page__list-title'>{list.title}</div>
           <Droppable droppableId={list.id}>
             {(provided, snapshot) => {
-              console.log(list.id, snapshot);
               return (
                 <div
                   {...provided.droppableProps}

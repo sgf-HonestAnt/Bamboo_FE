@@ -1,6 +1,6 @@
 import { History } from "history";
-import { setRefreshToken, setUserError } from "../redux/actions/user";
-import { BE_URL, POST, REFRESH, SESSION, USERS } from "./constants/str";
+import { setRefreshToken, setUserError } from "../../redux/actions/user";
+import { BE_URL, POST, REFRESH, SESSION, USERS } from "../const/str";
 
 const attemptRefresh = async (
   history: History<unknown> | string[],
@@ -23,8 +23,8 @@ const attemptRefresh = async (
       setUserError(false);
       return newTokens;
     }
-  } catch (error) { 
-    console.log("😥TROUBLE REFRESHING", error)
+  } catch (error) {
+    console.log("😥TROUBLE REFRESHING", error);
     history.push("/login");
   }
 };

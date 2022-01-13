@@ -6,7 +6,7 @@ import {
   DeleteUserButton,
   EditButton,
 } from "../../__Components/Buttons";
-import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/constants/str";
+import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/const/str";
 import { useState } from "react";
 import EditDeleteUserModal from "./EditDeleteUserModal";
 

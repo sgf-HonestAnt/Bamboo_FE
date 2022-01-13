@@ -6,7 +6,7 @@ import {
   FILL_FEATURES,
   FILL_FEATURES_ERROR,
   FILL_FEATURES_LOADING,
-} from "../../utils/constants/str";
+} from "../../utils/const/str";
 
 export const fillFeaturesAction = () => {
   const token = localStorage.getItem("token");

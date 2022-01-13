@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useAppSelector } from "../../../redux/hooks";
 import { genericTaskInt, reduxStateInt } from "../../../typings/interfaces";
-import { STATUS_COLORS } from "../../../utils/constants/str";
-import { findMostCommonStatus, mapByStatus } from "../../../utils/f_statistics";
+import { STATUS_COLORS } from "../../../utils/const/str";
+import { findMostCommonStatus, mapByStatus } from "../../../utils/funcs/f_statistics";
 import PieChartWithPaddingAngle from "../../Stats/StatsComponents/PieChartWithPaddingAngle";
 
 type DashStatsProps = {};

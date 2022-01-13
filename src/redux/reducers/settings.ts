@@ -5,7 +5,7 @@ import {
   FILL_SETTINGS,
   FILL_SETTINGS_ERROR,
   FILL_SETTINGS_LOADING,
-} from "../../utils/constants/str";
+} from "../../utils/const/str";
 
 const currentSettingsReducer = (
   state = initialState.currentSettings,

@@ -10,7 +10,7 @@ import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
 import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
-import checkToken from "../../utils/f_checkToken";
+import checkToken from "../../utils/funcs/f_checkToken";
 import SideBar from "../SideBar";
 import SettingsPage from "../Settings";
 import DashboardPage from "../Dashboard";
