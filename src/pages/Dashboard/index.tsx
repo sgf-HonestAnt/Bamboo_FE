@@ -14,9 +14,9 @@ import DashNotifications from "./DashComponents/Notifications";
 import DashChallCard from "./DashComponents/ChallengeCard";
 import FindTeam from "../__Components/FindTeam";
 import Achievements from "./DashComponents/Achievements";
-import "./styles.css";
 import DashStats from "./DashComponents/DashStats";
 import AtAGlance from "./DashComponents/AtAGlance";
+import "./styles.css";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -131,12 +131,6 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0 mx-2'>
             <Col className='col-12'>
               <AtAGlance today={today} history={history} location={location} />
-            </Col>
-            <Col className='col-6 pl-4'>
-              <DashStats />
-            </Col>
-            <Col className='col-6 pr-4'>
-              <DashChallCard />
             </Col>
           </Row>
         </Col>

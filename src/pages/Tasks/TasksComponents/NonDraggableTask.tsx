@@ -68,6 +68,9 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
       <Button variant='link' className='m-1 color-task-btn-completed'>
         <div>
           <span className={`color-task-btn__title ${task!.category}`}>
+            {!showDeleteMessage && (
+              <DeleteTaskButton handleClick={handleClick} />
+            )}&nbsp;
             {task!.title}&nbsp;
             <Badge bg='light'>{task!.value}xp</Badge>
             &nbsp;
@@ -90,9 +93,9 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
                 <FiUsers />+{task!.sharedWith.length - 1}
               </Badge>
             )}
-          </span>&nbsp;
-          {!showDeleteMessage && <DeleteTaskButton handleClick={handleClick} />}
+          </span>
         </div>
+        <div>{task!.desc}</div>
       </Button>
       {showDeleteMessage && (
         <div>

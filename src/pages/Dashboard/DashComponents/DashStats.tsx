@@ -32,8 +32,8 @@ export default function DashStats(props: DashStatsProps) {
             data={allByStatus}
             colors={STATUS_COLORS}
             stat='status'
-            width={200}
-            height={200}
+            innerRadius={20}
+            outerRadius={50}
           />
         </Col>
         <Col sm={12}>

@@ -21,6 +21,8 @@ import { FiCalendar } from "react-icons/fi";
 import { AddNewTaskButton, DashTaskButton } from "../../__Components/Buttons";
 import AddEditTaskModal from "../../__Components/AddEditTaskModal";
 import MapTasks from "./MapTasks";
+import DashStats from "./DashStats";
+import DashChallCard from "./ChallengeCard";
 
 type AtAGlanceTasksProps = {
   today: string;
@@ -77,7 +79,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   }, []);
   useEffect(() => {}, [taskState]);
   return (
-    <div className='dashboard__tasks-card m-2'>
+    <div className='dashboard__tasks-card my-2'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       {(allTasks.length > 0 || completed.length > 0) && (
         <>
@@ -170,6 +172,12 @@ export default function AtAGlance(props: AtAGlanceProps) {
       <Row>
         <Col className='col-12'>
           <AtAGlanceTasks today={today} history={history} location={location} />
+        </Col>
+        <Col className='col-6 p-2'>
+          <DashStats />
+        </Col>
+        <Col className='col-6 p-2'>
+          <DashChallCard />
         </Col>
       </Row>
     </div>
