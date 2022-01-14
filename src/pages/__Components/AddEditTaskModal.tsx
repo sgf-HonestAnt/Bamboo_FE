@@ -370,6 +370,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       sharedWith: [],
       deadline: "",
     });
+    setChanged(false);
     setShowNewCat(false);
     setShowRepeat(true);
     setShowRepeatOptions(false);
@@ -448,8 +449,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
             ) : (
               <div>Are you sure you want to permanently delete this task? </div>
             )}
-            <div
-              className={`bamboo-task__title ${taskSet?.category}`}>
+            <div className={`bamboo-task__title ${taskSet?.category}`}>
               {icon} {taskSet?.title} ({taskSet?.value}XP)
             </div>
           </Modal.Body>

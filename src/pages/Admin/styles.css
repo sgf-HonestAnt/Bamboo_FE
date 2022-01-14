@@ -8,11 +8,11 @@
   justify-content: space-around;
 }
 .admin-page__form {
-  display: flex;
+  background-color: var(--mint-cream);
   min-width: 100%;
+  display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  /* justify-content: space-around; */
+  vertical-align: middle;
 }
 /* .admin-page__form-header {
 } */
