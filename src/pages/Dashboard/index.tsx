@@ -64,14 +64,9 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             <Col className='col-12 p-3'>
-              {notification.length < 1 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
               {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} isBigScreen={isBigScreen} />
-              {notification.length > 0 && admin && (
+              {admin && (
                 <div className='dashboard__admin-card p-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
@@ -111,20 +106,18 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             <Col className='col-12 p-3'>
-              {notification.length < 1 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
               {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
-              {notification.length > 0 && admin && (
+              {admin && (
                 <div className='dashboard__admin-card p-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
               {notification.length < 1 && (
-              <Col className="col-12 p-0 mt-2"><DashStats /></Col>)}
+                <Col className='col-12 p-0 my-3'>
+                  <DashStats />
+                </Col>
+              )}
             </Col>
           </Row>
         </Col>
@@ -156,25 +149,37 @@ export default function DashboardPage(props: DashboardPageProps) {
   ) : isTabletOrMobile ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-12 dashboard__left-col'>
+        <Col className='col-4 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-4 p-0'>
+            <Col className='col-12 p-3'>
+              {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
-              <DashTipsCard />
+              {admin && (
+                <div className='dashboard__admin-card p-2'>
+                  <Link to='/admin-dash'>Go to Admin</Link>
+                </div>
+              )}
+              {notification.length < 1 && (
+                <Col className='col-12 p-0 my-3'>
+                  <DashStats />
+                </Col>
+              )}
             </Col>
-            <Col className='col-4 p-0'>
-              {/* {notification.length > 0 && <DashNotifications />} */}
-              {/* <DashTasks today={today} history={history} location={location} /> */}
-              <DashChallCard />
-            </Col>
-            <Col className='col-4 p-0'>
+          </Row>
+        </Col>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
+            <Col className='col-12'>
               <FindTeam
                 history={history}
                 search={search}
                 setSearch={setSearch}
               />
-              <Achievements />
-              <DashStats />
+            </Col>
+          </Row>
+          <Row className='p-0'>
+            <Col className='col-12'>
+              <AtAGlance today={today} history={history} location={location} />
             </Col>
           </Row>
         </Col>

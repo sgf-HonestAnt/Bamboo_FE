@@ -167,6 +167,8 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
 }
 
 export default function AtAGlance(props: AtAGlanceProps) {
+  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const { notification } = state.currentUser.my_user;
   const { today, history, location } = props;
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
@@ -189,12 +191,20 @@ export default function AtAGlance(props: AtAGlanceProps) {
           </Col>
         ) : (
           <>
-            <Col className='col-6'>
-              <DashStats />
-            </Col>
-            <Col className='col-6'>
-              <DashChallCard />
-            </Col>
+            {notification.length > 0 ? (
+              <>
+                <Col className='col-6'>
+                  <DashStats />
+                </Col>
+                <Col className='col-6'>
+                  <DashChallCard />
+                </Col>
+              </>
+            ) : (
+              <Col>
+                <DashChallCard />
+              </Col>
+            )}
           </>
         )}
       </Row>
