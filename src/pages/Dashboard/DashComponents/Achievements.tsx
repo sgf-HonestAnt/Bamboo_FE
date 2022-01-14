@@ -78,7 +78,7 @@ const Achievements = (props: AchievementsProps) => {
                         ach.split(" ")[0]
                       )}
                       alt={ach.split(" ")[0]}
-                      className='x-tiny-round mr-1'
+                      className='dashboard__activities__img mr-1' 
                     />
                   </Link>
                   <strong>{ach.split(" ")[0]}</strong>

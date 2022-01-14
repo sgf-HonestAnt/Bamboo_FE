@@ -86,31 +86,31 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
       {(allTasks.length > 0 || completed.length > 0) && (
         <>
           <DashTaskButton
-            label={`Urgent|${urgentTasks.length}`}
+            label={`${URGENT}|${urgentTasks.length}`}
             value={URGENT}
             handleClick={handleClick}
             className={taskState === URGENT ? "selected" : "not-selected"}
           />
           <DashTaskButton
-            label={`Due Today|${todayTasks.length}`}
+            label={`${TODAY}|${todayTasks.length}`}
             value={TODAY}
             handleClick={handleClick}
             className={taskState === TODAY ? "selected" : "not-selected"}
           />
           <DashTaskButton
-            label={`Awaited|${awaited.length}`}
+            label={`${AWAITED}|${awaited.length}`}
             value={AWAITED}
             handleClick={handleClick}
             className={taskState === AWAITED ? "selected" : "not-selected"}
           />
           <DashTaskButton
-            label={`In Progress|${in_progress.length}`}
+            label={`${IN_PROGRESS}|${in_progress.length}`}
             value={IN_PROGRESS}
             handleClick={handleClick}
             className={taskState === IN_PROGRESS ? "selected" : "not-selected"}
           />
           <DashTaskButton
-            label={`Overdue|${overdueTasks.length}`}
+            label={`${OVERDUE}|${overdueTasks.length}`}
             value={OVERDUE}
             handleClick={handleClick}
             className={taskState === OVERDUE ? "selected" : "not-selected"}
@@ -121,7 +121,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
             handleClick={handleClick}
           /> */}
           <DashTaskButton
-            label={`Shared|${sharedTasks.length}`}
+            label={`${SHARED}|${sharedTasks.length}`}
             value={SHARED}
             handleClick={handleClick}
             className={taskState === SHARED ? "selected" : "not-selected"}

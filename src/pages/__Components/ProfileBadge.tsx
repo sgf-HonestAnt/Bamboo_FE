@@ -18,7 +18,7 @@ const ProfileBadge = (props: ProfileBadgeProps) => {
   return (
     <>
       {!isMine ? <div></div> : <div></div>}
-      <div className='profile-badge__holder m-3'>
+      <div className='profile-badge__holder m-1'>
         <img
           className='profile-badge__holder-img img-fluid'
           alt=''
