@@ -11,7 +11,15 @@
   --aero-blue: hsla(155, 63%, 84%, 1);
   --honeydew: hsla(154, 61%, 92%, 1);
   --mint-cream: hsla(154, 41%, 97%, 1);
+  --pale-sunbeam: rgba(246, 248, 114, 0.815);
   /* varying shades for the background and cards */
+  --bottle-green-7: hsla(163, 93%, 22%, 0.7);
+  --mint-cream-9: hsla(154, 41%, 97%, 0.9);
+  --mint-cream-8: hsla(154, 41%, 97%, 0.8);
+  --mint-cream-7: hsla(154, 41%, 97%, 0.7);
+  --mint-cream-6: hsla(154, 41%, 97%, 0.6);
+  --mint-cream-5: hsla(154, 41%, 97%, 0.5);
+  --mint-cream-1: hsla(154, 41%, 97%, 0.1);
   --caribbean-green-1: hsla(158, 60%, 48%, 0.1);
   --caribbean-green-2: hsla(158, 60%, 48%, 0.2);
   --caribbean-green-3: hsla(158, 60%, 48%, 0.3);
@@ -47,7 +55,7 @@
     var(--spanish-viridian),
     var(--green-ncs),
     var(--caribbean-green), */
-    var(--medium-aquamarine),
+      var(--medium-aquamarine),
     var(--aero-blue),
     var(--honeydew) /* var(--mint-cream) */
   );
@@ -61,6 +69,73 @@
 ::-webkit-scrollbar {
   width: 0px;
 } /* https://www.w3schools.com/howto/howto_css_custom_scrollbar.asp */
+/* Bootstrap forms & modals */
+.modal-header,
+.modal-body,
+.modal-footer {
+  background-color: var(--mint-cream) !important;
+}
+.form-control,
+.form-control:focus,
+.form-control option:focus,
+#title, #title:focus,
+#value, #value:focus,
+#category, #category:focus,
+#desc, #desc:focus,
+#deadline, #deadline:focus
+/* #title:focus-visible, */ {
+  border-radius: 0;
+  border: 1px solid #e5e9ee;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  outline: none;
+}
+#title,
+#value,
+#category,
+#desc,
+#deadline {
+  background-color: var(--mint-cream-7) !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+#title:focus,
+#title:focus-visible,
+#value:focus,
+#category:focus,
+#desc:focus,
+#deadline:focus,
+.form-control:focus,
+.form-control option:focus {
+  background-color: var(--honeydew) !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  outline: none;
+}
+#search:focus,
+.form-control:focus,
+.form-control option:focus {
+  border: none !important;
+  background-color: var(--pale-sunbeam);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  outline: none;
+}
+/* Bootstrap buttons & badges */
+.btn {
+  border-radius: 0.15rem !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px !important;
+}
+.btn-light {
+  background-color: var(--button-bg) !important;
+  border: var(--button-bg) !important;
+}
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:focus-visible {
+  background-color: var(--button-alt) !important;
+  color: var(--sidebar-text) !important;
+  /* box-shadow: none !important; */
+}
 /* divs */
 .bamboo-card,
 .bamboo-card-light,
@@ -71,11 +146,11 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
+.bamboo-card {
+  background-color: var(--mint-cream-9) !important;
+}
 .bamboo-card-light {
   background-color: var(--caribbean-green-2);
-}
-.bamboo-card {
-  background-color: var(--mint-cream);
 }
 .bamboo-card-mid {
   background-color: var(--caribbean-green-4);
@@ -119,8 +194,6 @@
 .bamboo-task .badge.bg-warning.urgent {
   color: red !important;
 }
-/* The Badge */
-
 /* Rest */
 .text-bigger {
   font-size: 1.2rem;
@@ -189,17 +262,6 @@
 .link-button {
   color: var(--main-text) !important;
   text-decoration: underline !important;
-}
-.btn-light {
-  background-color: var(--button-bg) !important;
-  border: var(--button-bg) !important;
-}
-.btn-light:hover,
-.btn-light:focus,
-.btn-light:focus-visible {
-  background-color: var(--button-alt) !important;
-  color: var(--sidebar-text) !important;
-  box-shadow: none !important;
 }
 .profile-badge__holder {
   position: relative;

@@ -68,6 +68,7 @@ const FindTeam = (props: FindTeamProps) => {
           type='text'
           placeholder='Search by username or email'
           className='mr-sm-2'
+          id="search"
           onChange={handleChange}
         />
         <SubmitButton />

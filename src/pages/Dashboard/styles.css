@@ -37,8 +37,6 @@
   text-align: left;
   font-size: 1rem;
   /* text-transform: uppercase; */
-  background-color: var(--international-klein-blue);
-  color: var(--magic-mint);
   min-height: 100vh;
   max-height: 100vh;
   overflow-y: scroll;
@@ -46,33 +44,37 @@
 .dashboard__dash-stats {
   padding: 0;
   border-radius: 7.5px;
-  background-color: white;
-  /* box-shadow: 1.5px 1.5px 0 0 rgba(0, 0, 0, 0.3); */
 }
 .dashboard__tasks-card {
   text-align: left;
 }
 .dashboard__tasks-card .btn-info {
   background: var(--caribbean-green);
-  border-color: var(--caribbean-green);
+  border: none !important;
+  outline: none;
 }
-.dashboard__tasks-card .btn-info:hover,
+.dashboard__tasks-card .selected,
 .dashboard__tasks-card .btn-info.active,
-.dashboard__tasks-card .btn-info:active,
-/* .dashboard__tasks-card .btn-info:focus, */
-/* .dashboard__tasks-card .btn-info:focus:visible, */
-.dashboard__tasks-card .selected {
+.dashboard__tasks-card .btn-info:active {
   background-color: var(--bottle-green) !important;
-  border-color: var(--bottle-green) !important;
-  outline: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+  outline: none;
+}
+.dashboard__tasks-card .btn-info:hover {
+  background-color: var(--bottle-green-7);
+  outline: none;
 }
 /* .dashboard__at-a-glance {} */
-.dashboard__admin-card,
-.dashboard__admin-card a {
+.dashboard__admin-card.btn-info {
+  width: 100%;
   color: white;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(0, 0, 0) !important;
+}
+.dashboard__admin-card.btn-info:hover {
+  color: var(--mint-cream);
+  background-color: var(--castleton-green) !important;
+}
+.dashboard__admin-card a {
+  color: inherit;
 }
 .dashboard__profile-card__username {
   font-size: 20px;

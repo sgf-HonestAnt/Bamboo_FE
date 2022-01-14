@@ -2,7 +2,7 @@ import { History, Location } from "history";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
@@ -67,9 +67,11 @@ export default function DashboardPage(props: DashboardPageProps) {
               {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} isBigScreen={isBigScreen} />
               {admin && (
-                <div className='dashboard__admin-card p-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
               )}
               <DashStats />
             </Col>
@@ -109,9 +111,11 @@ export default function DashboardPage(props: DashboardPageProps) {
               {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
               {admin && (
-                <div className='dashboard__admin-card p-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
               )}
               {notification.length < 1 && (
                 <Col className='col-12 p-0 my-3'>
@@ -155,9 +159,11 @@ export default function DashboardPage(props: DashboardPageProps) {
               {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
               {admin && (
-                <div className='dashboard__admin-card p-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
               )}
               {notification.length < 1 && (
                 <Col className='col-12 p-0 my-3'>

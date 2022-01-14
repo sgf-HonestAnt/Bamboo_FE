@@ -83,7 +83,7 @@ const Achievements = (props: AchievementsProps) => {
                   </Link>
                   <strong>{ach.split(" ")[0]}</strong>
                   <span> completed a task on </span>
-                  <em>{ach.split("task on")[1]}</em>
+                  <em>{ach.split(" task on ")[1]}</em>
                   <hr />
                 </>
               ) : ach.split(" ")[0] === "you" ? (
@@ -98,7 +98,7 @@ const Achievements = (props: AchievementsProps) => {
                   <strong>{ach.split(" ")[0]}</strong>
                   <span> completed a task:</span>
                   <strong>
-                    <em>{ach.split("task:")[1].split("on")[0]}</em>
+                    <em>{ach.split("task:")[1].split(" on ")[0]}</em>
                   </strong>
                   <span> on </span>
                   <em>{ach.split("on")[1].split("|")[0]}</em>
