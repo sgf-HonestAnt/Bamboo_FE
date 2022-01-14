@@ -157,6 +157,9 @@ button,
 .btn-secondary:hover {
   background-color: var(--caribbean-green-7) !important;
 }
+.btn-link {
+  color: inherit !important;
+}
 /* divs */
 .bamboo-card,
 .bamboo-card-light,

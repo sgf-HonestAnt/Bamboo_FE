@@ -1,4 +1,4 @@
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Nav, Form, FormControl } from "react-bootstrap";
 import { taskInt, userInt } from "../../../typings/interfaces";
 import { ResetButton } from "../../__Components/Buttons";
 import {
@@ -16,7 +16,7 @@ type AdminNavbarProps = {
   tasks: taskInt[];
   form: any;
   setForm: any;
-}; 
+};
 const AdminNavbar = (props: AdminNavbarProps) => {
   const { users, username, tasks, form, setForm } = props;
   const { id } = form;
@@ -47,73 +47,86 @@ const AdminNavbar = (props: AdminNavbarProps) => {
       ? users.filter((u) => u._id === form.id)[0].notification.length
       : 0;
   const usersHeader =
-    id.length > 0
-      ? `found user '${username}' _id '${id}'`
-      : `found ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
+    id.length > 0 && form.search.length < 2
+      ? `Found user '${username}' _id '${id}'`
+      : form.search.length > 1
+      ? `Found ${usersNum} user${usersNum !== 1 ? "s" : ""} containing '${
+          form.search
+        }'`
+      : `Found ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
   const tasksHeader =
-    id.length > 0
-      ? `found ${tasksNum} task${tasksNum !== 1 ? "s" : ""} for ${username}`
-      : `found ${tasksNum} task${
+    id.length > 0 && form.search.length < 2
+      ? `Found ${tasksNum} task${
+          tasksNum !== 1 ? "s" : ""
+        } for username: ${username}`
+      : form.search.length > 1
+      ? `Found ${tasksNum} task${
+          tasksNum !== 1 ? "s" : ""
+        } for ${usersNum} user${usersNum !== 1 ? "s" : ""} containing '${
+          form.search
+        }'`
+      : `Found ${tasksNum} task${
           tasksNum !== 1 ? "s" : ""
         } for ${usersNum} user${usersNum !== 1 ? "s" : ""}`;
   const notifHeader =
     users.filter((u) => u._id === form.id).length > 0
-      ? `found ${notifNum} notification${
+      ? `Found ${notifNum} notification${
           notifNum !== 1 ? "s" : ""
-        } for ${username}`
+        } for username: ${username}`
       : "";
   // const DEFAULT = "Sort by...";
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  return (
-    <Navbar bg='light' expand='lg'>
-      <Navbar.Toggle aria-controls='basic-navbar-nav' />
-      <Navbar.Collapse id='basic-navbar-nav'>
-        {!loadingForm && (
-          <Form>
-            <Nav className='mr-auto admin-page__form'>
-              <ResetButton label='Reset' handleClick={handleReset} />
-              {form.dropdown.toLowerCase().includes(USERS) && (
-                <Form.Group
-                  controlId='dropdown'
-                  className='admin-page__form-dropdown'
-                  id='dropdown'>
-                  <Form.Control as='select' onChange={handleChange}>
-                    {dropdown.map((d) => (
-                      <option key={d}>
-                        Filter {d[0].toUpperCase()}
-                        {d.substring(1)}
-                      </option>
-                    ))}
-                  </Form.Control>
-                </Form.Group>
-              )}
-              <div className='mx-2 admin-page__form-header'>
-                {form.dropdown.toLowerCase().includes(USERS)
-                  ? usersHeader
-                  : form.dropdown.toLowerCase().includes(TASKS)
-                  ? tasksHeader
-                  : notifHeader}
-              </div>
-              {!form.dropdown.toLowerCase().includes(NOTIFICATIONS) && (
-                <>
-                  <Form.Group
-                    controlId='search'
-                    className='admin-page__form-search'>
-                    <FormControl
-                      type='text'
-                      placeholder='Search'
-                      className='mr-sm-2'
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Button variant='outline-success' disabled>
-                    Search
-                  </Button>
-                </>
-              )}
-              {/* {form.dropdown === USERS && (
+  console.log(form);
+  return !loadingForm ? (
+    <Form>
+      <Nav className='admin-page__form p-2'>
+        <div className='d-flex mr-auto'>
+          <ResetButton label='Reset' handleClick={handleReset} />
+          {form.dropdown.toLowerCase().includes(USERS) && (
+            <Form.Group
+              controlId='dropdown'
+              className='admin-page__form-dropdown'
+              id='dropdown'>
+              <Form.Control as='select' onChange={handleChange}>
+                {dropdown.map((d) => (
+                  <option key={d}>
+                    Filter {d[0].toUpperCase()}
+                    {d.substring(1)}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          )}
+          <div className='admin-page__form-header p-2'>
+            {form.dropdown.toLowerCase().includes(USERS)
+              ? usersHeader
+              : form.dropdown.toLowerCase().includes(TASKS)
+              ? tasksHeader
+              : notifHeader}
+          </div>
+        </div>
+        <div>
+          {!form.dropdown.toLowerCase().includes(NOTIFICATIONS) && (
+            <>
+              <Form.Group
+                controlId='search'
+                className='admin-page__form-search'>
+                <FormControl
+                  type='text'
+                  placeholder='Search'
+                  className='mr-sm-2'
+                  onChange={handleChange}
+                />
+              </Form.Group>
+              {/* <Button variant='outline-success' disabled>
+                      Search
+                    </Button> */}
+            </>
+          )}
+        </div>
+        {/* {form.dropdown === USERS && (
                 <Form.Group
                   controlId='sortBy'
                   className='admin-page__form-dropdown ml-1'
@@ -127,11 +140,10 @@ const AdminNavbar = (props: AdminNavbarProps) => {
                   </Form.Control>
                 </Form.Group>
               )} */}
-            </Nav>
-          </Form>
-        )}
-      </Navbar.Collapse>
-    </Navbar>
+      </Nav>
+    </Form>
+  ) : (
+    <></>
   );
 };
 
