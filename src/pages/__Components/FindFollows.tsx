@@ -27,7 +27,7 @@ const FindFollows = (props: FindFollowsProps) => {
     (state: reduxStateInt) => state.currentUser
   );
   const { followedUsers, my_user } = currentUser;
-  const { _id } = my_user;
+  const { _id, notification } = my_user;
   const { search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
@@ -66,6 +66,7 @@ const FindFollows = (props: FindFollowsProps) => {
       });
     }
   };
+  console.log(notification[notification.length - 1]);
   return (
     <Col className='col-12 bamboo-card-mid dashboard__search-bar p-0 px-3 pb-1'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
@@ -93,9 +94,14 @@ const FindFollows = (props: FindFollowsProps) => {
                   />
                 </Link>
               </div>
-            ) : (
+            ) : !notification[notification.length - 1].includes(
+                result.user?.username
+              ) ? (
               <>
-                <div>Found user with {search.includes("@")?"email":"username"} "{search}"</div>
+                <div>
+                  Found user with {search.includes("@") ? "email" : "username"}{" "}
+                  "{search}"
+                </div>
                 <img
                   src={result.user?.avatar}
                   alt=''
@@ -105,6 +111,10 @@ const FindFollows = (props: FindFollowsProps) => {
                   Request teammate?
                 </Button>
               </>
+            ) : (
+              <div>
+                This user already awaits your response (see notifications).
+              </div>
             )}
           </div>
         </>

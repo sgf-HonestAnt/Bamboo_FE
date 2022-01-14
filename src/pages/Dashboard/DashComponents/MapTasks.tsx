@@ -72,7 +72,7 @@ export default function MapTasks(props: MapTasksProps) {
       {tasks.map((task, i) =>
         task.status === COMPLETED ? (
           <TaskButton
-            key={i}
+            key={task._id}
             i={i}
             task={task}
             bgColor={
@@ -84,7 +84,7 @@ export default function MapTasks(props: MapTasksProps) {
         ) : (
           <Link to={`/tasks?id=${task._id}`}>
             <TaskButton
-              key={i}
+              key={task._id}
               i={i}
               task={task}
               bgColor={
