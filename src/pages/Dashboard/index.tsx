@@ -2,17 +2,17 @@ import { History, Location } from "history";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "./DashComponents/ProfileCard";
-import DashTipsCard from "./DashComponents/DashTipsCard";
+// import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "./DashComponents/Notifications";
-import DashChallCard from "./DashComponents/ChallengeCard";
-import FindTeam from "../__Components/FindTeam";
+// import DashChallCard from "./DashComponents/ChallengeCard";
+import FindFollows from "../__Components/FindFollows";
 import Achievements from "./DashComponents/Achievements";
 import DashStats from "./DashComponents/DashStats";
 import AtAGlance from "./DashComponents/AtAGlance";
@@ -61,37 +61,42 @@ export default function DashboardPage(props: DashboardPageProps) {
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-10 dashboard__left-col'>
+        <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-12 p-0'>
-              <FindTeam
+            <Col className='col-12 p-3'>
+              {notification.length > 0 && <DashNotifications />}
+              <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              {admin && (
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
+              )}
+              <DashStats />
+            </Col>
+          </Row>
+        </Col>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
+            <Col className='col-12'>
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}
               />
             </Col>
-            <Col className='col-3 p-0'>
-              {notification.length < 1 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
-              {/* {notification.length > 0 && <DashNotifications />} */}
-              <DashProfileCard history={history} />
-              {notification.length > 0 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
+          </Row>
+          <Row className='p-0'>
+            <Col className='col-12'>
+              <AtAGlance today={today} history={history} location={location} />
             </Col>
-            <Col className='col-3 p-0'>
-              {/* <DashTasks today={today} history={history} location={location} /> */}
-              <DashChallCard />
-              <DashTipsCard />
-            </Col>
-            <Col className='col-3 p-0'>
+          </Row>
+        </Col>
+        <Col className='col dashboard__right-col p-0'>
+          <Row className='pl-3'>
+            <Col>
               <Achievements />
-              <DashStats />
             </Col>
           </Row>
         </Col>
@@ -103,17 +108,19 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             <Col className='col-12 p-3'>
-              {notification.length < 1 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
-              {/* {notification.length > 0 && <DashNotifications />} */}
+              {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
-              {notification.length > 0 && admin && (
-                <div className='dashboard__admin-card p-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
+              {admin && (
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
+              )}
+              {notification.length < 1 && (
+                <Col className='col-12 p-0 my-3'>
+                  <DashStats />
+                </Col>
               )}
             </Col>
           </Row>
@@ -121,7 +128,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-7 dashboard__center-col p-0'>
           <Row className='py-3'>
             <Col className='col-12'>
-              <FindTeam
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}
@@ -146,25 +153,39 @@ export default function DashboardPage(props: DashboardPageProps) {
   ) : isTabletOrMobile ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-12 dashboard__left-col'>
+        <Col className='col-4 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-4 p-0'>
+            <Col className='col-12 p-3'>
+              {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
-              <DashTipsCard />
+              {admin && (
+                <Link to='/admin-dash'>
+                  <Button variant='info' className='dashboard__admin-card'>
+                    Go to Admin
+                  </Button>
+                </Link>
+              )}
+              {notification.length < 1 && (
+                <Col className='col-12 p-0 my-3'>
+                  <DashStats />
+                </Col>
+              )}
             </Col>
-            <Col className='col-4 p-0'>
-              {/* {notification.length > 0 && <DashNotifications />} */}
-              {/* <DashTasks today={today} history={history} location={location} /> */}
-              <DashChallCard />
-            </Col>
-            <Col className='col-4 p-0'>
-              <FindTeam
+          </Row>
+        </Col>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
+            <Col className='col-12'>
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}
               />
-              <Achievements />
-              <DashStats />
+            </Col>
+          </Row>
+          <Row className='p-0'>
+            <Col className='col-12'>
+              <AtAGlance today={today} history={history} location={location} />
             </Col>
           </Row>
         </Col>

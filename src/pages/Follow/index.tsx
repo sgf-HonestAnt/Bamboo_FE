@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import { Row, Card, Button, Modal } from "react-bootstrap";
+import { Row, Card, Button, Modal, Container, Col } from "react-bootstrap";
 import {
   ContactAdminButton,
   LinkButton,
@@ -13,7 +13,8 @@ import BambooPoints from "../__Components/XP";
 import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
 import { ICOCROWN } from "../../utils/appIcons";
-import FindTeam from "../__Components/FindTeam";
+import FindFollows from "../__Components/FindFollows";
+import { useMediaQuery } from "react-responsive";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -23,6 +24,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { history, location } = props;
+  const isgt1261 = useMediaQuery({ query: "(min-width: 1261px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [search, setSearch] = useState("");
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
@@ -64,12 +66,18 @@ export default function FollowingPage(props: FollowingPageProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   return (
-    <>
-      <FindTeam history={history} search={search} setSearch={setSearch} />
-      <Row className='following-page p-1'>
+    <Container fluid>
+      <Row className='p-3'>
+        <FindFollows history={history} search={search} setSearch={setSearch} />
+      </Row>
+      <Row className='following-page px-3'>
         {usersToShow?.length < 1 && <p>NO FOLLOWED USERS!</p>}
         {usersToShow?.map((u, i) => (
-          <div key={i} className='following-page__profile-card col-3 m-1'>
+          <Col
+            key={i}
+            className={`following-page__profile-card m-1 ${
+              isgt1261 ? "col-2" : "col-3"
+            }`}>
             <ProfileBadge
               isMine={false}
               avatar={u.avatar}
@@ -185,9 +193,9 @@ export default function FollowingPage(props: FollowingPageProps) {
                 )}
               </Modal>
             )}
-          </div>
+          </Col>
         ))}
       </Row>
-    </>
+    </Container>
   );
-};
+}

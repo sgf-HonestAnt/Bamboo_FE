@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { useMediaQuery } from "react-responsive";
 import { useAppSelector } from "../../../redux/hooks";
 import { genericTaskInt, reduxStateInt } from "../../../typings/interfaces";
 import { STATUS_COLORS } from "../../../utils/const/str";
-import { findMostCommonStatus, mapByStatus } from "../../../utils/funcs/f_statistics";
+import {
+  findMostCommonStatus,
+  mapByStatus,
+} from "../../../utils/funcs/f_statistics";
 import PieChartWithPaddingAngle from "../../Stats/StatsComponents/PieChartWithPaddingAngle";
 
 type DashStatsProps = {};
@@ -14,6 +18,7 @@ export default function DashStats(props: DashStatsProps) {
   const { currentTasks } = state;
   const { awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const [allByStatus, setAllByStatus] = useState<genericTaskInt[]>([]);
   const mapData = async () => {
     const allByStatus = await mapByStatus(currentTasks);
@@ -24,7 +29,8 @@ export default function DashStats(props: DashStatsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className='bamboo-card dashboard__dash-stats'>
+    <div
+      className={`bamboo-card dashboard__dash-stats ${isBigScreen && "my-3"}`}>
       <Row>
         <Col sm={12}>
           <PieChartWithPaddingAngle
