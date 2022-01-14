@@ -51,7 +51,7 @@ const Achievements = (props: AchievementsProps) => {
   }, []);
   useEffect(() => {}, [superlist]);
   return (
-    <div className='bamboo-card-dark dashboard__activities'>
+    <div className='bamboo-card dashboard__activities'>
       <div className='dashboard__card-header'>Achievements</div>
       <hr />
       {superlist?.length < 1 ? (

@@ -33,6 +33,7 @@ type AtAGlanceTasksProps = {
 
 type AtAGlanceProps = {
   today: string;
+  isBigScreen: boolean;
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
@@ -166,7 +167,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
 }
 
 export default function AtAGlance(props: AtAGlanceProps) {
-  const { today, history, location } = props;
+  const { today, isBigScreen, history, location } = props;
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
     <div className='dashboard__at-a-glance m-2'>
@@ -181,12 +182,20 @@ export default function AtAGlance(props: AtAGlanceProps) {
         <Col className='col-12 pb-3'>
           <AtAGlanceTasks today={today} history={history} location={location} />
         </Col>
-        <Col className='col-6'>
-          <DashStats />
-        </Col>
-        <Col className='col-6'>
-          <DashChallCard />
-        </Col>
+        {isBigScreen ? (
+          <Col className='col-12'>
+            <DashChallCard />
+          </Col>
+        ) : (
+          <>
+            <Col className='col-6'>
+              <DashStats />
+            </Col>
+            <Col className='col-6'>
+              <DashChallCard />
+            </Col>
+          </>
+        )}
       </Row>
     </div>
   );

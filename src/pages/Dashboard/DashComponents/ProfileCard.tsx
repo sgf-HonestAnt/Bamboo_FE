@@ -12,13 +12,14 @@ import BambooPoints from "../../__Components/XP";
 import ProfileBadge from "../../__Components/ProfileBadge";
 
 type DashProfileCardProps = {
+  isBigScreen: boolean;
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username, admin, bio, level, xp } = my_user;
-  const { history } = props;
+  const { isBigScreen, history } = props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);
   const [formClass, setFormClass] = useState(false); // WAIT, where do I use setFormClass???
@@ -43,7 +44,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className='bamboo-card-mid dashboard__profile-card'>
+    <div className={`bamboo-card-mid dashboard__profile-card ${isBigScreen?"px-5":""}`}>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (

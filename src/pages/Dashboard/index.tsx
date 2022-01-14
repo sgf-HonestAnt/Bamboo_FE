@@ -61,37 +61,45 @@ export default function DashboardPage(props: DashboardPageProps) {
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-10 dashboard__left-col'>
+        <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-12 p-0'>
+            <Col className='col-12 p-3'>
+              {notification.length < 1 && admin && (
+                <div className='dashboard__admin-card m-2'>
+                  <Link to='/admin-dash'>Go to Admin</Link>
+                </div>
+              )}
+              {notification.length > 0 && <DashNotifications />}
+              <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              {notification.length > 0 && admin && (
+                <div className='dashboard__admin-card p-2'>
+                  <Link to='/admin-dash'>Go to Admin</Link>
+                </div>
+              )}
+              <DashStats />
+            </Col>
+          </Row>
+        </Col>
+        <Col className='col-7 dashboard__center-col p-0'>
+          <Row className='py-3'>
+            <Col className='col-12'>
               <FindTeam
                 history={history}
                 search={search}
                 setSearch={setSearch}
               />
             </Col>
-            <Col className='col-3 p-0'>
-              {notification.length < 1 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
-              {/* {notification.length > 0 && <DashNotifications />} */}
-              <DashProfileCard history={history} />
-              {notification.length > 0 && admin && (
-                <div className='dashboard__admin-card m-2'>
-                  <Link to='/admin-dash'>Go to Admin</Link>
-                </div>
-              )}
+          </Row>
+          <Row className='p-0'>
+            <Col className='col-12'>
+              <AtAGlance today={today} isBigScreen={isBigScreen} history={history} location={location} />
             </Col>
-            <Col className='col-3 p-0'>
-              {/* <DashTasks today={today} history={history} location={location} /> */}
-              <DashChallCard />
-              <DashTipsCard />
-            </Col>
-            <Col className='col-3 p-0'>
+          </Row>
+        </Col>
+        <Col className='col dashboard__right-col p-0'>
+          <Row className='pl-3'>
+            <Col>
               <Achievements />
-              <DashStats />
             </Col>
           </Row>
         </Col>
@@ -108,13 +116,15 @@ export default function DashboardPage(props: DashboardPageProps) {
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
-              {/* {notification.length > 0 && <DashNotifications />} */}
+              {notification.length > 0 && <DashNotifications />}
               <DashProfileCard history={history} />
               {notification.length > 0 && admin && (
                 <div className='dashboard__admin-card p-2'>
                   <Link to='/admin-dash'>Go to Admin</Link>
                 </div>
               )}
+              {notification.length < 1 && (
+              <Col className="col-12 p-0 mt-2"><DashStats /></Col>)}
             </Col>
           </Row>
         </Col>

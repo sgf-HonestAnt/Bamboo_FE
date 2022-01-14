@@ -41,8 +41,8 @@ const DashNotifications = (props: DashNotificationsProps) => {
   }
   const dashClass =
     notifLength > 0
-      ? "m-2 p-2 dashboard__alerts-card has-alert"
-      : "m-2 p-2 dashboard__alerts-card";
+      ? "dashboard__alerts-card has-alert"
+      : "dashboard__alerts-card";
   const handleReset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await clearLastNotification(notification);
