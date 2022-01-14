@@ -18,9 +18,9 @@ const ProfileBadge = (props: ProfileBadgeProps) => {
   return (
     <>
       {!isMine ? <div></div> : <div></div>}
-      <div className='profile-badge__holder m-1'>
+      <div className='profile-badge__holder m-3'>
         <img
-          className='profile-badge__holder-img'
+          className='profile-badge__holder-img img-fluid'
           alt=''
           src={avatar ? avatar : my_user.avatar}
         />

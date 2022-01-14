@@ -92,7 +92,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
           <Row className='p-0'>
             <Col className='col-12'>
-              <AtAGlance today={today} isBigScreen={isBigScreen} history={history} location={location} />
+              <AtAGlance today={today} history={history} location={location} />
             </Col>
           </Row>
         </Col>

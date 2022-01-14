@@ -24,6 +24,7 @@ import AddEditTaskModal from "../../__Components/AddEditTaskModal";
 import MapTasks from "./MapTasks";
 import DashStats from "./DashStats";
 import DashChallCard from "./ChallengeCard";
+import { useMediaQuery } from "react-responsive";
 
 type AtAGlanceTasksProps = {
   today: string;
@@ -33,7 +34,6 @@ type AtAGlanceTasksProps = {
 
 type AtAGlanceProps = {
   today: string;
-  isBigScreen: boolean;
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
@@ -167,7 +167,8 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
 }
 
 export default function AtAGlance(props: AtAGlanceProps) {
-  const { today, isBigScreen, history, location } = props;
+  const { today, history, location } = props;
+  const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
     <div className='dashboard__at-a-glance m-2'>

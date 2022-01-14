@@ -6,7 +6,7 @@ import {
   publicUserInt,
   reduxStateInt,
 } from "../../typings/interfaces";
-import { Form, FormControl, Button } from "react-bootstrap";
+import { Form, FormControl, Button, Col } from "react-bootstrap";
 import { SubmitButton } from "./Buttons";
 import { requestFollow } from "../../utils/funcs/f_follows";
 import { getUserByQuery } from "../../utils/funcs/f_users";
@@ -61,7 +61,7 @@ const FindTeam = (props: FindTeamProps) => {
     }
   };
   return (
-    <div className='bamboo-card-mid dashboard__search-bar'>
+    <Col className='col-12 bamboo-card-mid dashboard__search-bar'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
@@ -96,7 +96,7 @@ const FindTeam = (props: FindTeamProps) => {
       ) : (
         <></>
       )}
-    </div>
+    </Col>
   );
 };
 

@@ -12,7 +12,7 @@ import BambooPoints from "../../__Components/XP";
 import ProfileBadge from "../../__Components/ProfileBadge";
 
 type DashProfileCardProps = {
-  isBigScreen: boolean;
+  isBigScreen?: boolean;
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
