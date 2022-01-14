@@ -9,10 +9,10 @@ import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "./DashComponents/ProfileCard";
-import DashTipsCard from "./DashComponents/DashTipsCard";
+// import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "./DashComponents/Notifications";
-import DashChallCard from "./DashComponents/ChallengeCard";
-import FindTeam from "../__Components/FindTeam";
+// import DashChallCard from "./DashComponents/ChallengeCard";
+import FindFollows from "../__Components/FindFollows";
 import Achievements from "./DashComponents/Achievements";
 import DashStats from "./DashComponents/DashStats";
 import AtAGlance from "./DashComponents/AtAGlance";
@@ -80,7 +80,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-7 dashboard__center-col p-0'>
           <Row className='py-3'>
             <Col className='col-12'>
-              <FindTeam
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}
@@ -128,7 +128,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-7 dashboard__center-col p-0'>
           <Row className='py-3'>
             <Col className='col-12'>
-              <FindTeam
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}
@@ -176,7 +176,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         <Col className='col-7 dashboard__center-col p-0'>
           <Row className='py-3'>
             <Col className='col-12'>
-              <FindTeam
+              <FindFollows
                 history={history}
                 search={search}
                 setSearch={setSearch}

@@ -13,7 +13,7 @@ import BambooPoints from "../__Components/XP";
 import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
 import { ICOCROWN } from "../../utils/appIcons";
-import FindTeam from "../__Components/FindTeam";
+import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
 
 type FollowingPageProps = {
@@ -68,7 +68,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   return (
     <Container fluid>
       <Row className='p-3'>
-        <FindTeam history={history} search={search} setSearch={setSearch} />
+        <FindFollows history={history} search={search} setSearch={setSearch} />
       </Row>
       <Row className='following-page px-3'>
         {usersToShow?.length < 1 && <p>NO FOLLOWED USERS!</p>}

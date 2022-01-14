@@ -137,9 +137,9 @@ export const RefreshButton = (props: ButtonProps) => (
     {props.label} <FiRefreshCcw />
   </Button>
 );
-export const SubmitButton = () => (
+export const SubmitButton = (props: ButtonProps) => (
   <Button variant='light' className='mb-3 mr-1' type='submit'>
-    Submit
+    {props.label||"Submit"}
   </Button>
 );
 export const CompleteButton = () => (

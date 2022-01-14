@@ -8,6 +8,7 @@
   min-height: 90vh;
   max-height: 90vh;
 }
+.dashboard__left-col,
 .dashboard__center-col {
   max-height: 100vh;
   overflow-y: scroll;

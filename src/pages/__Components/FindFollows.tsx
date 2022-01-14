@@ -16,12 +16,12 @@ type ResultProps = {
   user: publicUserInt | null;
   message: string;
 };
-type FindTeamProps = {
+type FindFollowsProps = {
   history: History<unknown> | string[];
   search: string;
   setSearch: any;
 };
-const FindTeam = (props: FindTeamProps) => {
+const FindFollows = (props: FindFollowsProps) => {
   const currentUser: currentUserInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser
   );
@@ -35,6 +35,11 @@ const FindTeam = (props: FindTeamProps) => {
   });
   const handleChange = (e: { target: { value: any } }) => {
     const value = e.target.value;
+    setResult({
+      found: false,
+      user: null,
+      message: "",
+    });
     setSearch(value);
   };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
@@ -61,17 +66,17 @@ const FindTeam = (props: FindTeamProps) => {
     }
   };
   return (
-    <Col className='col-12 bamboo-card-mid dashboard__search-bar'>
+    <Col className='col-12 bamboo-card-mid dashboard__search-bar p-0 px-3'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
           type='text'
           placeholder='Search by username or email'
           className='mr-sm-2'
-          id="search"
+          id='search'
           onChange={handleChange}
         />
-        <SubmitButton />
+        <SubmitButton label='Search' />
       </Form>
       {result.found && result.user ? (
         <>
@@ -101,4 +106,4 @@ const FindTeam = (props: FindTeamProps) => {
   );
 };
 
-export default FindTeam;
+export default FindFollows;
