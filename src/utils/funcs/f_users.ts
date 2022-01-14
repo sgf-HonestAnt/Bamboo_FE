@@ -149,15 +149,7 @@ export const getUsersAsAdmin = async (_id: string) => {
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
   console.log("🙋Getting User Role");
-  return !level || level === null || level < 5
-    ? "Newbie!"
-    : level > 5 && level < 15
-    ? "Bamboo Seeker"
-    : level > 15 && level < 30
-    ? "Gentle Warrior"
-    : level > 30 && level < 50
-    ? "Proficient Panda"
-    : "Adept";
+  return !level || level === null || level === 0 ? `🌟New user` : `Level ${level}`;
 };
 
 export const clearLastNotification = async (notification: string[]) => {
@@ -393,7 +385,7 @@ export const getUsernameById = (
   if (user) {
     return user.username;
   }
-}; 
+};
 
 export const getIdByUsername = (
   followedUsers: followedUserInt[],
@@ -403,7 +395,7 @@ export const getIdByUsername = (
   if (user) {
     return user._id;
   }
-}; 
+};
 
 export const getAvatarById = (
   followedUsers: followedUserInt[],

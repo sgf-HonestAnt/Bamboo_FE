@@ -10,6 +10,7 @@ import { Form, FormControl, Button, Col } from "react-bootstrap";
 import { SubmitButton } from "./Buttons";
 import { requestFollow } from "../../utils/funcs/f_follows";
 import { getUserByQuery } from "../../utils/funcs/f_users";
+import { Link } from "react-router-dom";
 
 type ResultProps = {
   found: boolean;
@@ -55,7 +56,7 @@ const FindFollows = (props: FindFollowsProps) => {
       setResult({
         ...result,
         user: null,
-        message: "Request sent. You will be notified if accepted",
+        message: "Request sent.",
       });
     } else {
       setResult({
@@ -66,7 +67,7 @@ const FindFollows = (props: FindFollowsProps) => {
     }
   };
   return (
-    <Col className='col-12 bamboo-card-mid dashboard__search-bar p-0 px-3'>
+    <Col className='col-12 bamboo-card-mid dashboard__search-bar p-0 px-3 pb-1'>
       <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
@@ -81,21 +82,31 @@ const FindFollows = (props: FindFollowsProps) => {
       {result.found && result.user ? (
         <>
           <div>
-            <img
-              src={result.user?.avatar}
-              alt=''
-              className='dashboard__search-bar__avatar'
-            />
-          </div>
-          {result.user?.username}{" "}
-          {_id !== result.user._id &&
-            !followedUsers.some((u) => u._id === result.user?._id) && (
+            {followedUsers.some((u) => u._id === result.user?._id) ? (
               <div>
-                <Button variant='link' onClick={sendRequest}>
-                  Request to follow user?
-                </Button>
+                <div>You are already teamed with {result.user?.username}</div>
+                <Link to={`/following?id=${result.user?._id}`}>
+                  <img
+                    src={result.user?.avatar}
+                    alt=''
+                    className='dotted-border tiny-round'
+                  />
+                </Link>
               </div>
+            ) : (
+              <>
+                <div>Found user with {search.includes("@")?"email":"username"} "{search}"</div>
+                <img
+                  src={result.user?.avatar}
+                  alt=''
+                  className='dotted-border x-tiny-round'
+                />
+                <Button variant='link' onClick={sendRequest}>
+                  Request teammate?
+                </Button>
+              </>
             )}
+          </div>
         </>
       ) : result.found ? (
         <div>{result.message}</div>
