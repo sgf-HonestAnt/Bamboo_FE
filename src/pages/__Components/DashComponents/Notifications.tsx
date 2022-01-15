@@ -6,7 +6,7 @@ import {
   AcceptButton,
   ClearNotification,
   RejectButton,
-} from "../../__Components/Buttons";
+} from "../Buttons";
 import { ICOBELL, ICOSMILE } from "../../../utils/appIcons";
 import {
   acceptOrRejectUser,

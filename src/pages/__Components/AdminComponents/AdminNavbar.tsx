@@ -1,6 +1,6 @@
 import { Nav, Form, FormControl } from "react-bootstrap";
 import { taskInt, userInt } from "../../../typings/interfaces";
-import { ResetButton } from "../../__Components/Buttons";
+import { ResetButton } from "../Buttons";
 import {
   FEATURES,
   NOTIFICATIONS,

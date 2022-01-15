@@ -12,16 +12,15 @@ import {
   sortUsersAsc,
   sortUsersDesc,
 } from "../../utils/funcs/f_users";
-import AdminNavbar from "./AdminComponents/AdminNavbar";
+import AdminNavbar from "../__Components/AdminComponents/AdminNavbar";
 import {
   NotificationsTableHeading,
   TasksTableHeading,
   UsersTableHeading,
-} from "./AdminComponents/TableHeadings";
-import UsersRow from "./AdminComponents/UsersRow";
-import "./styles.css";
+} from "../__Components/AdminComponents/TableHeadings";
+import UsersRow from "../__Components/AdminComponents/UsersRow";
 import { getAllTasks } from "../../utils/funcs/f_tasks";
-import TasksRow from "./AdminComponents/TasksRow";
+import TasksRow from "../__Components/AdminComponents/TasksRow";
 import {
   NAME_ASC,
   NAME_DESC,
@@ -31,8 +30,9 @@ import {
   USERNAME_DESC,
   USERS,
 } from "../../utils/const/str";
-import NotificationsRow from "./AdminComponents/NotificationsRow";
+import NotificationsRow from "../__Components/AdminComponents/NotificationsRow";
 import { useAppSelector } from "../../redux/hooks";
+import "./styles.css";
 
 type AdminPageForm = {
   dropdown: string;

@@ -8,7 +8,7 @@ import {
 } from "../../../typings/interfaces";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
-import { AddNewTaskButton } from "../../__Components/Buttons";
+import { AddNewTaskButton } from "../Buttons";
 import { TASK_VALUE_NUMS } from "../../../utils/const/arr";
 import {
   ANY_CAT,
@@ -21,7 +21,7 @@ import {
   TODAY,
   TOMORROW,
 } from "../../../utils/const/str";
-import AddEditTaskModal from "../../__Components/AddEditTaskModal";
+import AddEditTaskModal from "../AddEditTaskModal";
 import { getSelectedDateAsString } from "../../../utils/funcs/f_dates";
 
 type TasksFilterRowProps = {

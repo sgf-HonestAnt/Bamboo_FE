@@ -6,7 +6,7 @@ import {
   AcceptButton,
   DeleteTaskButton,
   RejectButton,
-} from "../../__Components/Buttons";
+} from "../Buttons";
 import { NONE, URGENT } from "../../../utils/const/str";
 import {
   // attemptDeleteTask,

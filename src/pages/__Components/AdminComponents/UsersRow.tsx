@@ -5,7 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 import {
   DeleteUserButton,
   EditButton,
-} from "../../__Components/Buttons";
+} from "../Buttons";
 import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/const/str";
 import { useState } from "react";
 import EditDeleteUserModal from "./EditDeleteUserModal";

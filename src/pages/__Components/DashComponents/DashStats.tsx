@@ -8,7 +8,7 @@ import {
   findMostCommonStatus,
   mapByStatus,
 } from "../../../utils/funcs/f_statistics";
-import PieChartWithPaddingAngle from "../../Stats/StatsComponents/PieChartWithPaddingAngle";
+import PieChartWithPaddingAngle from "../StatsComponents/PieChartWithPaddingAngle";
 
 type DashStatsProps = {};
 

@@ -6,11 +6,10 @@ import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Form } from "react-bootstrap";
 import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
-import { EditButton } from "../../__Components/Buttons";
+import { EditButton } from "../Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
-import BambooPoints from "../../__Components/XP";
-import ProfileBadge from "../../__Components/ProfileBadge";
-import Rewards from "./Rewards";
+import BambooPoints from "../XP";
+import ProfileBadge from "../ProfileBadge";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -88,7 +87,6 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           </Form.Text>
         )}
       </Form>
-      <Rewards />
       <div className='dashboard__profile-card__stats'>
         <div>
           <ICOACTIVITY />
