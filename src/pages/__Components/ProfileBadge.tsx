@@ -13,7 +13,11 @@ type ProfileBadgeProps = {
 };
 const ProfileBadge = (props: ProfileBadgeProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { isMine, avatar, level } = props;
+  const {
+    isMine,
+    avatar,
+    // level
+  } = props;
   const { my_user } = state.currentUser;
   return (
     <>

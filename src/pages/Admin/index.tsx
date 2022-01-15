@@ -204,6 +204,7 @@ export default function AdminPage(props: AdminPageProps) {
                     avatar={u.avatar}
                     level={u.level}
                     xp={u.xp}
+                    rewards={u.rewards}
                     total_xp={u.total_xp}
                     total_completed={u.total_completed}
                     tasks_to_hide={u.tasks_to_hide}
@@ -229,6 +230,7 @@ export default function AdminPage(props: AdminPageProps) {
                   avatar={u.avatar}
                   level={u.level}
                   xp={u.xp}
+                  rewards={u.rewards}
                   total_xp={u.total_xp}
                   total_completed={u.total_completed}
                   tasks_to_hide={u.tasks_to_hide}

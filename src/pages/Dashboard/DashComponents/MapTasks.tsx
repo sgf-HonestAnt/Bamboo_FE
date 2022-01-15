@@ -35,12 +35,13 @@ export function TaskButton(props: TaskButtonProps) {
         {task.value}xp
       </Badge>
       &nbsp;
-      <Badge bg="warning" className={`bg-warning ${task!.category}`}>
+      <Badge bg='warning' className={`bg-warning ${task!.category}`}>
         {task.category === NONE ? (
           "no category"
         ) : task.category === URGENT ? (
           <>
-            <FiFlag />&nbsp;
+            <FiFlag />
+            &nbsp;
             {task.category}
           </>
         ) : (
@@ -69,19 +70,9 @@ export default function MapTasks(props: MapTasksProps) {
   }, []);
   return (
     <Row className='dashboard__map-tasks px-2'>
-      {tasks.map((task, i) =>
-        task.status === COMPLETED ? (
-          <TaskButton
-            key={task._id}
-            i={i}
-            task={task}
-            bgColor={
-              categoryColors[
-                categories.findIndex((cat) => cat === task.category)
-              ]
-            }
-          />
-        ) : (
+      {
+        // eslint-disable-next-line array-callback-return
+        tasks.map((task, i) => (
           <Link to={`/tasks?id=${task._id}`}>
             <TaskButton
               key={task._id}
@@ -94,8 +85,8 @@ export default function MapTasks(props: MapTasksProps) {
               }
             />
           </Link>
-        )
-      )}
+        ))
+      }
     </Row>
   );
 }

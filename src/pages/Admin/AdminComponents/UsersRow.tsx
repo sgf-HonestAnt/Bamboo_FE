@@ -83,6 +83,7 @@ const UsersRow = (props: UsersRowProps) => {
         bio={props.bio}
         level={props.level}
         xp={props.xp}
+        rewards={props.rewards}
         total_xp={props.total_xp}
         total_completed={props.total_completed}
         tasks_to_hide={props.tasks_to_hide}

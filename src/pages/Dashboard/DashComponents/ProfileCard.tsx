@@ -10,6 +10,7 @@ import { EditButton } from "../../__Components/Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
 import BambooPoints from "../../__Components/XP";
 import ProfileBadge from "../../__Components/ProfileBadge";
+import Rewards from "./Rewards";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -44,7 +45,10 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className={`bamboo-card-mid dashboard__profile-card ${isBigScreen?"px-5":""}`}>
+    <div
+      className={`bamboo-card-mid dashboard__profile-card ${
+        isBigScreen ? "px-5" : ""
+      }`}>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (
@@ -84,6 +88,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           </Form.Text>
         )}
       </Form>
+      <Rewards />
       <div className='dashboard__profile-card__stats'>
         <div>
           <ICOACTIVITY />
@@ -92,12 +97,28 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       </div>
       <div className='dashboard__profile-card__following'>
         <ICOUSERS className='mr-1' />
-        Following: <Link to='/following'>{followedUsers.length}</Link>        
+        Following: <Link to='/following'>{followedUsers.length}</Link>
       </div>
       <div>
-      {followedUsers.length > 3 ? (
-        <>
-          {followedUsers.slice(0, 3).map((user, i) => {
+        {followedUsers.length > 3 ? (
+          <>
+            {followedUsers.slice(0, 3).map((user, i) => {
+              const avatar = user.avatar;
+              const username = user.username;
+              return (
+                <Link to={`/following?id=${user._id}`} key={i}>
+                  <img
+                    src={avatar}
+                    alt={username}
+                    className='x-tiny-round mr-1'
+                  />
+                </Link>
+              );
+            })}
+            <Link to='/following'>+{followedUsers.length - 3}</Link>
+          </>
+        ) : followedUsers.length > 0 ? (
+          followedUsers.map((user, i) => {
             const avatar = user.avatar;
             const username = user.username;
             return (
@@ -109,22 +130,10 @@ const DashProfileCard = (props: DashProfileCardProps) => {
                 />
               </Link>
             );
-          })}
-          <Link to='/following'>+{followedUsers.length - 3}</Link>
-        </>
-      ) : followedUsers.length > 0 ? (
-        followedUsers.map((user, i) => {
-          const avatar = user.avatar;
-          const username = user.username;
-          return (
-            <Link to={`/following?id=${user._id}`} key={i}>
-              <img src={avatar} alt={username} className='x-tiny-round mr-1' />
-            </Link>
-          );
-        })
-      ) : (
-        <></>
-      )}
+          })
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
