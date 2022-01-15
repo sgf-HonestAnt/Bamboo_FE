@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { beautifulDnD, reduxStateInt, taskInt } from "../../typings/interfaces";
 import { Container } from "react-bootstrap";
-import TasksFilterRow from "./TasksComponents/TasksFilterRow";
-import DragDropContainer from "./TasksComponents/DragDropContainer";
+import TasksFilterRow from "../__Components/TasksComponents/TasksFilterRow";
+import DragDropContainer from "../__Components/TasksComponents/DragDropContainer";
 import "./styles.css";
 import {
   ANY_DUE,
@@ -148,4 +148,4 @@ export default function TasksPage(props: TasksPageProps) {
       />
     </Container>
   );
-};
+}

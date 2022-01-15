@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { achievementInt, reduxStateInt } from "../../../typings/interfaces";
-import { LinkButton } from "../../__Components/Buttons";
+import { LinkButton } from "../Buttons";
 import { attemptPostAchievement } from "../../../utils/funcs/f_achievements";
 import createSuperlist from "../../../utils/funcs/f_superlist";
 import {

@@ -21,6 +21,12 @@ export interface currentUserInt {
   my_user: userInt;
   followedUsers: followedUserInt[];
 }
+export interface rewardsInt {
+  reward: string;
+  value: number;
+  available: number;
+  _id: string;
+}
 export interface userInt {
   // GET users/me, GET users/:id
   _id: string;
@@ -32,6 +38,7 @@ export interface userInt {
   bio: string;
   level: number | null;
   xp: number;
+  rewards: rewardsInt[];
   total_xp: number; // total cumulative xp
   total_completed: number; // total completed tasks
   tasks_to_hide: string[];

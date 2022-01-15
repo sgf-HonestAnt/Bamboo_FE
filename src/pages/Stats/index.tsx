@@ -15,13 +15,13 @@ import {
   findMostUsedType,
   findMostUsedValue,
 } from "../../utils/funcs/f_statistics";
-import PieChartWithCustomizedLabel from "./StatsComponents/PieChartWithCustomizedLabel";
-import PieChartWithPaddingAngle from "./StatsComponents/PieChartWithPaddingAngle";
-import SimpleBarChart from "./StatsComponents/SimpleBarChart";
-import MixedBarChart from "./StatsComponents/MixedBarChart";
-import CustomActiveShapePieChart from "./StatsComponents/CustomActiveShapePieChart";
-import SimpleCloud from "./StatsComponents/SimpleCloud";
-import StatisticsHeader from "./StatsComponents/StatisticsHeader";
+import PieChartWithCustomizedLabel from "../__Components/StatsComponents/PieChartWithCustomizedLabel";
+import PieChartWithPaddingAngle from "../__Components/StatsComponents/PieChartWithPaddingAngle";
+import SimpleBarChart from "../__Components/StatsComponents/SimpleBarChart";
+import MixedBarChart from "../__Components/StatsComponents/MixedBarChart";
+import CustomActiveShapePieChart from "../__Components/StatsComponents/CustomActiveShapePieChart";
+import SimpleCloud from "../__Components/StatsComponents/SimpleCloud";
+import StatisticsHeader from "../__Components/StatsComponents/StatisticsHeader";
 import "./styles.css";
 import { STATUS_COLORS } from "../../utils/const/str";
 

@@ -1,9 +1,11 @@
 import { Form } from "react-bootstrap";
-import { THEMES } from "../../../utils/const/str";
+import { THEMES } from "../../utils/const/str";
 
 type ThemePickerProps = {
   handleChange: any;
 };
+
+// DEFUNCT
 
 export default function ThemePicker(props: ThemePickerProps) {
   const { handleChange } = props;

@@ -11,7 +11,7 @@ import {
 import { NONE, SOLO, URGENT } from "../../../utils/const/str";
 import { ICOCLOCK, ICOUSERS } from "../../../utils/appIcons";
 import { useEffect, useState } from "react";
-import AddEditTaskModal from "../../__Components/AddEditTaskModal";
+import AddEditTaskModal from "../AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
 import {
   checkTaskOverdue,

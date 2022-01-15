@@ -8,14 +8,14 @@ import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
-import DashProfileCard from "./DashComponents/ProfileCard";
+import DashProfileCard from "../__Components/DashComponents/ProfileCard";
 // import DashTipsCard from "./DashComponents/DashTipsCard";
-import DashNotifications from "./DashComponents/Notifications";
+import DashNotifications from "../__Components/DashComponents/Notifications";
 // import DashChallCard from "./DashComponents/ChallengeCard";
 import FindFollows from "../__Components/FindFollows";
-import Achievements from "./DashComponents/Achievements";
-import DashStats from "./DashComponents/DashStats";
-import AtAGlance from "./DashComponents/AtAGlance";
+import Achievements from "../__Components/DashComponents/Achievements";
+import DashStats from "../__Components/DashComponents/DashStats";
+import AtAGlance from "../__Components/DashComponents/AtAGlance";
 import "./styles.css";
 
 type DashboardPageProps = {

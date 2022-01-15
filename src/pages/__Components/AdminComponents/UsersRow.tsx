@@ -5,7 +5,7 @@ import { AiFillStar } from "react-icons/ai";
 import {
   DeleteUserButton,
   EditButton,
-} from "../../__Components/Buttons";
+} from "../Buttons";
 import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/const/str";
 import { useState } from "react";
 import EditDeleteUserModal from "./EditDeleteUserModal";
@@ -83,6 +83,7 @@ const UsersRow = (props: UsersRowProps) => {
         bio={props.bio}
         level={props.level}
         xp={props.xp}
+        rewards={props.rewards}
         total_xp={props.total_xp}
         total_completed={props.total_completed}
         tasks_to_hide={props.tasks_to_hide}

@@ -20,7 +20,7 @@ import {
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
 import { attemptDeleteUser, attemptUpdateUser } from "../../utils/funcs/f_users";
-import ImageUploader from "./SettingsComponents/ImageUploader";
+import ImageUploader from "../__Components/ImageUploader";
 import "./styles.css";
 
 type SettingsPageProps = {

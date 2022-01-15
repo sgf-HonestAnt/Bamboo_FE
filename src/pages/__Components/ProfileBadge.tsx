@@ -13,7 +13,11 @@ type ProfileBadgeProps = {
 };
 const ProfileBadge = (props: ProfileBadgeProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { isMine, avatar, level } = props;
+  const {
+    isMine,
+    avatar,
+    // level
+  } = props;
   const { my_user } = state.currentUser;
   return (
     <>
@@ -24,13 +28,13 @@ const ProfileBadge = (props: ProfileBadgeProps) => {
           alt=''
           src={avatar ? avatar : my_user.avatar}
         />
-        <div className='bamboo-level profile-badge__level'>
+        {/* <div className='bamboo-level profile-badge__level'>
           <div>
             <div className='hexagon-top'></div>
             <div className='hexagon-middle'>{level ? level : my_user.level}</div>
             <div className='hexagon-bottom'></div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

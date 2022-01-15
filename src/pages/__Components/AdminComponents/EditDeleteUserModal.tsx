@@ -52,7 +52,7 @@ const EditDeleteUserModal = (props: EditDeleteUserModalProps) => {
           </Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleSubmit}>
-              <Form.Group as={Row} controlId='first_name' className='pb-1'>
+              <Form.Group as={Row} controlId='first_name' className='pb-1'> 
                 <Form.Label column sm={3}>
                   First name
                 </Form.Label>

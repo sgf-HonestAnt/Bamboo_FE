@@ -4,7 +4,7 @@ import { ICODOWNRIGHT } from "../../../utils/appIcons";
 import {
   DeleteButton,
   EditButton,
-} from "../../__Components/Buttons";
+} from "../Buttons";
 import { USERS } from "../../../utils/const/str";
 
 interface TasksRowProps extends taskInt {

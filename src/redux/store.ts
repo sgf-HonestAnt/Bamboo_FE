@@ -46,6 +46,7 @@ export const initialState: reduxStateInt = {
       bio: "",
       level: null,
       xp: 0,
+      rewards: [],
       total_xp: 0,
       total_completed: 0,
       tasks_to_hide: [],
