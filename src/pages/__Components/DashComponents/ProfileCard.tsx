@@ -36,7 +36,7 @@ import {
   TURTLE,
   VEGETARIAN,
 } from "../../../utils/const/ico";
-import returnIco, { ANATOMICALHEART } from "../../../utils/funcs/f_ico";
+import returnIco, { ANATOMICALHEART, CROWN } from "../../../utils/funcs/f_ico";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -78,10 +78,15 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (
-          <div className='mr-1 bamboo-crown'>
-            <ICOCROWN />
-          </div>
+          <Image
+            roundedCircle
+            src={CROWN}
+            alt='Admin'
+            className='p-1'
+            height='35px'
+          />
         )}
+        <br />
         {username}
         <EditButton handleClick={pushToSettings} />
       </div>

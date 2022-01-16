@@ -23,7 +23,7 @@ import "./styles.css";
 import { ICOCROWN } from "../../utils/appIcons";
 import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
-import returnIco from "../../utils/funcs/f_ico";
+import returnIco, { CROWN } from "../../utils/funcs/f_ico";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -99,27 +99,34 @@ export default function FollowingPage(props: FollowingPageProps) {
             <Card.Title>{u.username} </Card.Title>
             <div>{u.bio}</div>
             <div className='rewards'>
-              {u.rewards
-                .filter((item) => item.available < 1)
-                .map((item, i) => (
-                  <Image
-                    key={i}
-                    roundedCircle
-                    src={returnIco(item.reward)}
-                    alt={item.reward}
-                    className='p-1 mr-1 mb-1'
-                    style={{ backgroundColor: "white" }}
-                    height='40px'
-                  />
-                ))}
+              {u.admin && (
+                <Image
+                  roundedCircle
+                  src={CROWN}
+                  alt='Admin'
+                  className='p-1 mr-1 mb-1'
+                  style={{ backgroundColor: "white" }}
+                  height='35px'
+                />
+              )}
+              {u.rewards &&
+                u.rewards
+                  .filter((item) => item.available < 1)
+                  .map((item, i) => (
+                    <Image
+                      key={i}
+                      roundedCircle
+                      src={returnIco(item.reward)}
+                      alt={item.reward}
+                      className='p-1 mr-1 mb-1'
+                      style={{ backgroundColor: "white" }}
+                      height='35px'
+                    />
+                  ))}
             </div>
             <div>
-              {u.admin && (
-                <span style={{ color: "gold" }}>
-                  <ICOCROWN />
-                </span>
-              )}
-              {u.admin ? "Team Admin" : getUserRole(u.level)}{" "}
+              {/* {u.admin && "Admin: "} */}
+              {getUserRole(u.level)}
             </div>
             {u.admin ? (
               <ContactAdminButton

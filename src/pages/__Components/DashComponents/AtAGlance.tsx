@@ -186,7 +186,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         className={taskState === ALL_TASKS ? "selected" : "not-selected"}
       />
       <DashTaskButton
-        label={`Your Rewards|${atAGlanceData.rewardsAvailable.length}`}
+        label={`Rewards|${atAGlanceData.rewardsAvailable.length}`}
         value={"REWARDS"}
         handleClick={handleClick}
         className={taskState === "REWARDS" ? "selected" : "not-selected"}

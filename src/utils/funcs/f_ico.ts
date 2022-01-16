@@ -1,4 +1,6 @@
 export const BAMBOO = "../../../assets/bamboo_logo.png";
+export const CROWN = "../../../assets/crown.png";
+//
 export const ANATOMICALHEART = "../../../assets/anatomical.png";
 export const BONSAI = "../../../assets/bonsai.png";
 export const BUSINESSDEVIL = "../../../assets/business-devil.png";
