@@ -11,6 +11,7 @@ import {
   getDayMonthYearAsString,
   filterTasksByOverdue,
   getSelectedDateAsString,
+  getMonthByIndex,
 } from "../../../utils/funcs/f_dates";
 import {
   ALL_TASKS,
@@ -77,6 +78,24 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     }
     return array;
   };
+  const findRewardsAvailable = async () => {
+    let generalRewards = rewards
+      .filter((item) => item.available > 0)
+      .filter((item) => !item.reward.includes("SPECIAL"));
+    const month = await getMonthByIndex(new Date()).toUpperCase();
+    const nextMonth = await getMonthByIndex(new Date(), true).toUpperCase();
+    let specialRewards: rewardsInt[] = [];
+    for (let i = 0; i < rewards.length; i++) {
+      if (
+        rewards[i].reward.includes(month) ||
+        rewards[i].reward.includes(nextMonth)
+      ) {
+        specialRewards.push(rewards[i]);
+      }
+    }
+    const rewardsAvailable = generalRewards.concat(specialRewards);
+    return rewardsAvailable;
+  };
   const allTasks = awaited.concat(in_progress);
   const setTasks = async () => {
     const today = await getSelectedDateAsString(new Date());
@@ -86,7 +105,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     );
     const sharedTasks = allTasks.filter((task) => task.sharedWith!.length > 1);
     const overdueTasks = await findIfTasksOverdue();
-    const rewardsAvailable = rewards.filter((item) => item.available > 0);
+    const rewardsAvailable = await findRewardsAvailable();
     setAtAGlanceData({
       overdueTasks,
       urgentTasks,
@@ -186,19 +205,11 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         <MapTasks tasks={atAGlanceData.sharedTasks} />
       ) : taskState === "REWARDS" ? (
         <div>
-          {rewards.length < 1 ? (
-            "No rewards available. Would you like to create one?"
-          ) : atAGlanceData.rewardsAvailable.length < 1 ? (
-            <RewardsDropdown
-              formType='dropdown'
-              label='No rewards available. Would you like to "spend" your points?'
-            />
-          ) : (
-            <RewardsDropdown
-              formType='select'
-              label={`${atAGlanceData.rewardsAvailable.length} rewards available to use:`}
-            />
-          )}
+          <RewardsDropdown
+            rewards={atAGlanceData.rewardsAvailable}
+            formType='select'
+            label='Celebrate your progress! Spend well-earned xp to display a reward badge:'
+          />
         </div>
       ) : (
         <MapTasks tasks={allTasks} />

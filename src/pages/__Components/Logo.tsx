@@ -1,10 +1,11 @@
-import { RiPlantLine } from "react-icons/ri";
+import { Image } from "react-bootstrap";
+import { BAMBOO } from "../../utils/const/ico";
 
 export default function BambooLogo() {
   return (
     <div className="bamboo-logo">
-      <RiPlantLine />
-      <h3>Bamboo</h3>
+      <Image fluid src={BAMBOO} />
+      <h3>Bamboo</h3> 
     </div>
   );
 }
