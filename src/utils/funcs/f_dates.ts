@@ -15,9 +15,8 @@ export const getDayByIndex = (date: Date) => {
   return dayNames[dayAsNum];
 };
 ///////////////////////////////////////////////////////////////////
-export const getMonthByIndex = (date: Date) => {
+export const getMonthByIndex = (date: Date, incNext?: boolean) => {
   // simple func to get current month
-  const monthAsNum = date.getMonth();
   const monthNames = [
     "January",
     "February",
@@ -32,7 +31,13 @@ export const getMonthByIndex = (date: Date) => {
     "November",
     "December",
   ];
-  return monthNames[monthAsNum];
+  const monthAsNum = date.getMonth();
+  if (incNext) {
+    const nextMonthAsNum = monthAsNum < 12 ? monthAsNum + 1 : 1;
+    return monthNames[nextMonthAsNum];
+  } else {
+    return monthNames[monthAsNum];
+  }
 };
 ///////////////////////////////////////////////////////////////////
 export const getDayMonthYearAsString = (datePar: Date) => {

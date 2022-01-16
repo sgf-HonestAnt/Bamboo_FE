@@ -4,12 +4,39 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
-import { Form } from "react-bootstrap";
+import { Form, Image } from "react-bootstrap";
 import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
+import {
+  BONSAI,
+  BUSINESSDEVIL,
+  CACTUS,
+  CACTUS2,
+  CARROT,
+  CHECKLIST,
+  CHRISTMASTREE,
+  CONSTELLATION,
+  DEADLINE,
+  EARTH,
+  EASTEREGG,
+  FIREWOMAN,
+  GOALS,
+  GOTH,
+  GROWPLANT,
+  LOVEMESSAGE,
+  MANAGER,
+  POISON,
+  PUMPKIN,
+  SNOWGLOBE,
+  TROPHY,
+  TULIPS,
+  TURTLE,
+  VEGETARIAN,
+} from "../../../utils/const/ico";
+import returnIco, { ANATOMICALHEART, CROWN } from "../../../utils/funcs/f_ico";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -18,7 +45,7 @@ type DashProfileCardProps = {
 const DashProfileCard = (props: DashProfileCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { username, admin, bio, level, xp } = my_user;
+  const { username, admin, bio, level, xp, rewards } = my_user;
   const { isBigScreen, history } = props;
   const dispatch = useDispatch();
   const [newBio, setNewBio] = useState(bio);
@@ -51,16 +78,36 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {admin && (
-          <div className='mr-1 bamboo-crown'>
-            <ICOCROWN />
-          </div>
+          <Image
+            roundedCircle
+            src={CROWN}
+            alt='Admin'
+            className='p-1'
+            height='35px'
+          />
         )}
+        <br />
         {username}
         <EditButton handleClick={pushToSettings} />
       </div>
       <div>{role}</div>
       <div className='dashboard__profile-card__holder-xp'>
         {xp} <BambooPoints />
+      </div>
+      <div className='rewards'>
+        {rewards
+          .filter((item) => item.available < 1)
+          .map((item, i) => (
+            <Image
+              key={i}
+              roundedCircle
+              src={returnIco(item.reward)}
+              alt={item.reward}
+              className='p-1 mr-1 mb-1'
+              style={{ backgroundColor: "white" }}
+              height='40px'
+            />
+          ))}
       </div>
       <Form
         className='dashboard__profile-card__form mx-3 p-0'

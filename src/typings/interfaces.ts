@@ -98,6 +98,7 @@ export interface followedUserInt {
   bio: string;
   level: number;
   xp: number;
+  rewards: rewardsInt[];
   total_xp: number;
   total_completed: number;
   total_awaited: number;
