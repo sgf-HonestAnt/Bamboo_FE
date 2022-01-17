@@ -77,9 +77,8 @@ export default function MapTasks(props: MapTasksProps) {
       {
         // eslint-disable-next-line array-callback-return
         tasks.map((task, i) => (
-          <Link to={`/tasks?id=${task._id}`}>
+          <Link to={`/tasks?id=${task._id}`} key={task._id}>
             <TaskButton
-              key={task._id}
               i={i}
               task={task}
               bgColor={

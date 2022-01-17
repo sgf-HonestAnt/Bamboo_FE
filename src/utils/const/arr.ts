@@ -12,6 +12,29 @@ export const CONGRATS = [
   "|😍Amazing",
   "|✊Fist bump",
 ];
+export const DAYNAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+export const MONTHNAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
 export const CUSTOM_COLORS = [
   "hsl(183, 100%, 33%)",

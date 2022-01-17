@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Form, Image, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt, rewardsInt } from "../../typings/interfaces";
 import returnIco from "../../utils/funcs/f_ico";
+import { purchaseReward } from "../../utils/funcs/f_rewards";
+import { updateUserXp } from "../../utils/funcs/f_users";
 import BambooPoints from "./XP";
 
 type RewardsDropdownProps = {
@@ -13,6 +16,7 @@ type RewardsDropdownProps = {
 
 export default function RewardsDropdown(props: RewardsDropdownProps) {
   const { rewards, formType, label } = props;
+  const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const [loading, setLoading] = useState(false);
@@ -28,9 +32,22 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
       setReward(foundReward);
     }
   }
-  function handleSubmit(e: { preventDefault: () => void }) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("HANDLE SUBMIT");
+    if (reward && xp >= reward.value) {
+      const remainingXp = await purchaseReward(
+        reward._id,
+        reward.available,
+        xp
+      );
+      if (remainingXp) {
+        await updateUserXp(remainingXp, dispatch);
+      } else {
+        console.log("PROBLEM UPDATING XP!")
+      }
+    } else {
+      console.log("NO REWARD CHOSEN");
+    }
   }
   console.log(reward);
   useEffect(() => {
@@ -87,7 +104,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
               rewards.map((item, i) => (
                 <Col className='col-12 col-lg-6 align-content-start m-0 pt-1'>
                   <Form.Check
-                    key={i}
+                    key={item._id}
                     type='radio'
                     name='rewards_group'
                     onChange={handleChange}

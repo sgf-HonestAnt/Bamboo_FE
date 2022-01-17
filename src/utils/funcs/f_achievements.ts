@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { achievementInt } from "../../typings/interfaces";
-import { ACHIEVEMENTS, BE_URL, POST } from "../const/str";
+import { ENDPOINT_MYACH, POST } from "../const/str";
 
 export const attemptPostAchievement = async (
   item: string,
@@ -13,14 +13,13 @@ export const attemptPostAchievement = async (
   try {
     // post an achievement
     // 💡 push achievement to list so it shows up straightaway!
-    const url = `${BE_URL}/${ACHIEVEMENTS}/me`;
+    const url = `${ENDPOINT_MYACH}`;
     const method = POST;
     const headers = {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
     const body = JSON.stringify({ item, category });
-    console.log("***************",body);
     const response = await fetch(url, { method, headers, body });
     const responseAsJSON = await response.json();
     if (response.ok) {

@@ -18,26 +18,24 @@ import {
 } from "../../typings/interfaces";
 import { taskUpdateType } from "../../typings/types";
 import {
-  BE_URL,
   GET,
   PUT,
-  TASKS,
   COMPLETED,
-  ME,
   DELETE,
   POST,
+  ENDPOINT_TASKS,
 } from "../const/str";
 import checkToken from "./f_checkToken";
 import { attemptPostAchievement } from "./f_achievements";
 import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { refreshUserLevel, refreshUserPoints } from "./f_users";
-///////////////////////////////////////////////////////////////////
+
 export const getTask = async (id: string) => {
   // get single task belonging to the user
   console.log("🙋Getting Single Task");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${TASKS}/me/${id}`;
+    const url = `${ENDPOINT_TASKS}/me/${id}`;
     const method = GET;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -51,12 +49,12 @@ export const getTask = async (id: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getTasks = async () => {
   // get multiple tasks belonging to the user
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${TASKS}/me`;
+    const url = `${ENDPOINT_TASKS}/me`;
     console.log("🙋Getting All My Tasks");
     const method = GET;
     const headers = {
@@ -71,12 +69,12 @@ export const getTasks = async () => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getTaskByQuery = async (criteria: string, _id: string) => {
   // query task created by specific user
   console.log("🙋Searching Task Belonging To User With Criteria");
   try {
-    const url = `${BE_URL}/${TASKS}/query?createdBy=${_id}&${criteria}`;
+    const url = `${ENDPOINT_TASKS}/query?createdBy=${_id}&${criteria}`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",
@@ -90,7 +88,7 @@ export const getTaskByQuery = async (criteria: string, _id: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getTaskByDeadline = async (par: string | null) => {
   // get multiple, deadline-filtered tasks belonging to the user
   console.log("🙋Getting Task By Deadline");
@@ -102,13 +100,13 @@ export const getTaskByDeadline = async (par: string | null) => {
   );
   return filtered;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getAllTasks = async (_id: string) => {
   // get all tasks or all tasks created by one user
   console.log("🙋Getting Tasks Created By User");
   try {
     const criteria = _id.length > 0 ? `?createdBy=${_id}` : "";
-    const url = `${BE_URL}/${TASKS}/query${criteria}`;
+    const url = `${ENDPOINT_TASKS}/query${criteria}`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",
@@ -122,12 +120,12 @@ export const getAllTasks = async (_id: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getTasksPageTasksQuery = async (criteria: string) => {
   // get tasks for the tasks page, sorted by deadline and limited by criteria
   console.log("🙋Getting Sorted, Queried Tasks");
   try {
-    const url = `${BE_URL}/${TASKS}/query?${criteria}&sort=deadline&limit=25`;
+    const url = `${ENDPOINT_TASKS}/query?${criteria}&sort=deadline&limit=25`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",
@@ -141,7 +139,7 @@ export const getTasksPageTasksQuery = async (criteria: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const attemptPostOrEditTask = async (
   // post new task
   form: setTaskInt,
@@ -156,7 +154,10 @@ export const attemptPostOrEditTask = async (
     const token = localStorage.getItem("token");
     const username = await checkToken(refreshToken, history, location);
     if (username) {
-      const url = method === POST ? `${BE_URL}/${TASKS}/${ME}` : `${BE_URL}/${TASKS}/${ME}/${t_id}`;
+      const url =
+        method === POST
+          ? `${ENDPOINT_TASKS}/me`
+          : `${ENDPOINT_TASKS}/me/${t_id}`;
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -171,7 +172,7 @@ export const attemptPostOrEditTask = async (
     history.push("/login");
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const attemptCompleteTasks = async (
   // mark task as complete
   user: userInt,
@@ -196,7 +197,7 @@ export const attemptCompleteTasks = async (
     history.push("/login");
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const attemptUpdateTask = async (
   // update task status
   id: string,
@@ -211,7 +212,7 @@ export const attemptUpdateTask = async (
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;
   try {
-    const url = `${BE_URL}/${TASKS}/me/${id}`;
+    const url = `${ENDPOINT_TASKS}/me/${id}`;
     const method = PUT;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -236,13 +237,13 @@ export const attemptUpdateTask = async (
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const attemptDeleteTask = async (taskId: string) => {
   // delete single task
   console.log("🙋Deleting Single Task");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${TASKS}/me/${taskId}`;
+    const url = `${ENDPOINT_TASKS}/me/${taskId}`;
     const method = DELETE;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -255,7 +256,7 @@ export const attemptDeleteTask = async (taskId: string) => {
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getCategories = async (tasks: taskInt[]) => {
   // get all categories in use by the user
   console.log("🙋Getting My Categories");
@@ -265,7 +266,7 @@ export const getCategories = async (tasks: taskInt[]) => {
   }
   return array;
 };
-///////////////////////////////////////////////////////////////////
+
 export const removeSelfFromTask = async (
   taskId: string,
   currentTasks: currentTasksInt,
@@ -274,7 +275,7 @@ export const removeSelfFromTask = async (
   console.log("🙋Removing Me From Task");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${TASKS}/remove/${taskId}`;
+    const url = `${ENDPOINT_TASKS}/remove/${taskId}`;
     const method = DELETE;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -304,7 +305,7 @@ export const removeSelfFromTask = async (
     console.log(error);
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const moveTaskBetweenStatus = async (
   source: string,
   destination: string | null, // awaited, in_progress, completed, null

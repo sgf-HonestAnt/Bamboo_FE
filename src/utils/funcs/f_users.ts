@@ -4,6 +4,7 @@ import {
   setRefreshToken,
   setUserBio,
   setUserLevel,
+  setUserPoints,
   // setUserPoints,
   setUserPointsAndCompleted,
   // setUserTotalCompleted,
@@ -12,19 +13,18 @@ import {
 import { followedUserInt, userInt } from "../../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../../typings/types";
 import {
-  BE_URL,
   GET,
   PUT,
-  USERS,
   ADMIN,
   SESSION,
   POST,
   DELETE,
+  ENDPOINT_USERS,
 } from "../const/str";
 
 export const findUsernameByEmail = async (email: string) => {
   console.log("🙋Finding Username By Email");
-  const url = `${BE_URL}/${USERS}?email=${email.toLowerCase()}`;
+  const url = `${ENDPOINT_USERS}?email=${email.toLowerCase()}`;
   const method = GET;
   const response = await fetch(url, { method });
   if (response.ok) {
@@ -46,7 +46,7 @@ export const attemptLoginUser = async (
       ? form.username
       : await findUsernameByEmail(form.username);
     const password = form.password;
-    const url = `${BE_URL}/${USERS}/${SESSION}`;
+    const url = `${ENDPOINT_USERS}/${SESSION}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };
     const body = JSON.stringify({ username, password });
@@ -73,9 +73,8 @@ export const attemptLogout = async () => {
   const token = localStorage.getItem("token");
   try {
     // end a session, scrubbing refreshToken
-    // 💡 when implementing refreshToken again, make sure it is added to the list of used tokens at backend upon logout
     console.log("🛎️Attempting logout!");
-    const url = `${BE_URL}/${USERS}/${SESSION}`;
+    const url = `${ENDPOINT_USERS}/${SESSION}`;
     const method = DELETE;
     const headers = { Authorization: `Bearer ${token}` };
     const response = await fetch(url, { method, headers });
@@ -91,7 +90,7 @@ export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
     console.log("🙋Getting Public User Info");
-    const url = `${BE_URL}/${USERS}?limit=25`;
+    const url = `${ENDPOINT_USERS}?limit=25`;
     const method = GET;
     const response = await fetch(url, { method });
     if (response.ok) {
@@ -110,7 +109,7 @@ export const getUserByQuery = async (query: string) => {
     const criteria = queryIsEmail
       ? `email=${query.toLowerCase()}`
       : `username=${query.toLowerCase()}`;
-    const url = `${BE_URL}/${USERS}?${criteria}`;
+    const url = `${ENDPOINT_USERS}?${criteria}`;
     const method = GET;
     const response = await fetch(url, { method });
     if (response.ok) {
@@ -129,8 +128,8 @@ export const getUsersAsAdmin = async (_id: string) => {
   try {
     const url =
       _id.length > 0
-        ? `${BE_URL}/${USERS}/${_id}`
-        : `${BE_URL}/${USERS}/${ADMIN}`;
+        ? `${ENDPOINT_USERS}/${_id}`
+        : `${ENDPOINT_USERS}/${ADMIN}`;
     const method = GET;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -149,14 +148,16 @@ export const getUsersAsAdmin = async (_id: string) => {
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
   console.log("🙋Getting User Role");
-  return !level || level === null || level === 0 ? `🌟New user` : `Level ${level}`;
+  return !level || level === null || level === 0
+    ? `🌟New user`
+    : `Level ${level}`;
 };
 
 export const clearLastNotification = async (notification: string[]) => {
   console.log("🙋Clearing Last Notification");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = PUT;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -178,7 +179,7 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   console.log("🙋Updating User Bio");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = PUT;
     const body = JSON.stringify({ bio });
     const headers = {
@@ -195,6 +196,27 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
   }
 };
 
+export const updateUserXp = async (xp: number, dispatch: Dispatch<any>) => {
+  console.log("🙋Updating User Xp");
+  const token = localStorage.getItem("token");
+  try {
+    const url = `${ENDPOINT_USERS}/me`;
+    const method = PUT;
+    const body = JSON.stringify({ xp });
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
+    const updated = await fetch(url, { method, headers, body });
+    if (updated) {
+      dispatch(setUserPoints(xp));
+    }
+    return updated;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const AddUserNotification = async (
   user: userInt,
   newNotification: string
@@ -202,7 +224,7 @@ export const AddUserNotification = async (
   console.log("🙋Adding User Notification");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = PUT;
     const { notification } = user;
     notification.push(newNotification);
@@ -222,7 +244,7 @@ export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
   console.log("🙋Updating My User");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = PUT;
     const formData = new FormData();
     const headers = {
@@ -252,7 +274,7 @@ export const addIDToTasksToHide = async (
   console.log("🙋Updating Users Completed Tasks To Hide");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = PUT;
     tasks_to_hide.push(id);
     const body = JSON.stringify({ tasks_to_hide, username, email });
@@ -271,7 +293,7 @@ export const sendUsersNotification = async (notification: string) => {
   console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/notification`;
+    const url = `${ENDPOINT_USERS}/notification`;
     const method = POST;
     const body = JSON.stringify({ notification });
     const headers = {
@@ -295,7 +317,6 @@ export const refreshUserPoints = async (
   const newTotalCompleted = total_completed + 1;
   const newTotalPoints = total_xp + value;
   const newPoints = xp + value;
-  // console.log(newTotalCompleted, newPoints, newTotalPoints);
   dispatch(
     setUserPointsAndCompleted({
       ...user,
@@ -320,7 +341,7 @@ export const refreshUserLevel = async (
   if (Math.floor((total_xp! + value) / 250) > level!) {
     const newLevel = Math.floor((total_xp! + value) / 250);
     try {
-      const url = `${BE_URL}/${USERS}/me`;
+      const url = `${ENDPOINT_USERS}/me`;
       const method = PUT;
       const body = JSON.stringify({ level: newLevel });
       const headers = {
@@ -350,7 +371,7 @@ export const acceptOrRejectUser = async (username: string, action: string) => {
   try {
     const { publicUsers } = await getUserByQuery(username);
     const { _id } = publicUsers[0];
-    const url = `${BE_URL}/${USERS}/${action}/${_id}`;
+    const url = `${ENDPOINT_USERS}/${action}/${_id}`;
     const method = POST;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -365,7 +386,7 @@ export const attemptDeleteUser = async () => {
   console.log("🙋Deleting My User");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/me`;
+    const url = `${ENDPOINT_USERS}/me`;
     const method = DELETE;
     const headers = {
       Authorization: `Bearer ${token}`,

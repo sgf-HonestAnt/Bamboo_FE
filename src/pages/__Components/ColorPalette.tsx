@@ -1,4 +1,4 @@
-import { CUSTOM_COLORS } from "../../utils/const/arr";
+// import { CUSTOM_COLORS } from "../../utils/const/arr";
 
 export default function ColorPalette() {
   return (

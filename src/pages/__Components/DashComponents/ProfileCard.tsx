@@ -5,38 +5,12 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Form, Image } from "react-bootstrap";
-import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
+import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
 import { EditButton } from "../Buttons";
 import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
-import {
-  BONSAI,
-  BUSINESSDEVIL,
-  CACTUS,
-  CACTUS2,
-  CARROT,
-  CHECKLIST,
-  CHRISTMASTREE,
-  CONSTELLATION,
-  DEADLINE,
-  EARTH,
-  EASTEREGG,
-  FIREWOMAN,
-  GOALS,
-  GOTH,
-  GROWPLANT,
-  LOVEMESSAGE,
-  MANAGER,
-  POISON,
-  PUMPKIN,
-  SNOWGLOBE,
-  TROPHY,
-  TULIPS,
-  TURTLE,
-  VEGETARIAN,
-} from "../../../utils/const/ico";
-import returnIco, { ANATOMICALHEART, CROWN } from "../../../utils/funcs/f_ico";
+import returnIco, { CROWN } from "../../../utils/funcs/f_ico";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;

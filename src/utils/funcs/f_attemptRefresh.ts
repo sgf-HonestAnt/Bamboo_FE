@@ -1,15 +1,15 @@
 import { History } from "history";
 import { setRefreshToken, setUserError } from "../../redux/actions/user";
-import { BE_URL, POST, REFRESH, SESSION, USERS } from "../const/str";
+import { ENDPOINT_REFRESH, POST } from "../const/str";
 
+// NOT IN USE
 const attemptRefresh = async (
   history: History<unknown> | string[],
   token: string | undefined
 ) => {
   try {
     console.log("🙋Refreshing Token");
-    // NOT IN USE // NOT IN USE // NOT IN USE
-    const url = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
+    const url = `${ENDPOINT_REFRESH}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };
     const body = JSON.stringify({ actualRefreshToken: token });
@@ -17,7 +17,6 @@ const attemptRefresh = async (
     if (response.ok) {
       const newTokens = await response.json();
       const { accessToken, refreshToken } = newTokens;
-      // console.log(newTokens);
       localStorage.setItem("token", accessToken);
       setRefreshToken(refreshToken);
       setUserError(false);

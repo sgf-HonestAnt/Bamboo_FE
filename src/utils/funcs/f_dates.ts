@@ -1,47 +1,25 @@
 import { achievementInt, taskInt } from "../../typings/interfaces";
-///////////////////////////////////////////////////////////////////
+import { DAYNAMES, MONTHNAMES } from "../const/arr";
+
 export const getDayByIndex = (date: Date) => {
-  // simple func to get current day
+  // get current day
   const dayAsNum = date.getDay();
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  return dayNames[dayAsNum];
+  return DAYNAMES[dayAsNum];
 };
-///////////////////////////////////////////////////////////////////
+
 export const getMonthByIndex = (date: Date, incNext?: boolean) => {
-  // simple func to get current month
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+  //  get current month
   const monthAsNum = date.getMonth();
   if (incNext) {
     const nextMonthAsNum = monthAsNum < 12 ? monthAsNum + 1 : 1;
-    return monthNames[nextMonthAsNum];
+    return MONTHNAMES[nextMonthAsNum];
   } else {
-    return monthNames[monthAsNum];
+    return MONTHNAMES[monthAsNum];
   }
 };
-///////////////////////////////////////////////////////////////////
+
 export const getDayMonthYearAsString = (datePar: Date) => {
-  // simple func to get current date used for DashTasks and Tasks>PageTaskCards
+  // get current date (used for DashTasks and Tasks>PageTaskCards)
   const year = datePar.getFullYear().toString();
   const month = getMonthByIndex(datePar);
   const date = datePar.getDate().toString();
@@ -56,16 +34,16 @@ export const getDayMonthYearAsString = (datePar: Date) => {
   const day = getDayByIndex(new Date());
   return `${day}, ${date}${dateEnd} ${month} ${year}`;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getFirstLastDayOfMonth = (date: Date) => {
-  // get the first and last day of specific month
+  // get first and last day of specific month
   const year = date.getFullYear();
   const firstDay = new Date(year, 1, 1).getDay();
   const numberOfDays = getNumberOfDaysInMonth(date);
   const lastDay = new Date(year, 1, numberOfDays).getDay();
   return { firstDay, lastDay };
 };
-///////////////////////////////////////////////////////////////////
+
 export const getNumberOfDaysInMonth = (date: Date) => {
   // get number of days in specific month
   const month = getMonthByIndex(date);
@@ -84,9 +62,9 @@ export const getNumberOfDaysInMonth = (date: Date) => {
       : 31;
   return number;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getCurrDateTimeAsString = (ach: achievementInt) => {
-  // simple func to get current time used for achievements
+  // get current time used for achievements
   const timestamp = new Date(ach.createdAt).toString().split(" ");
   const weekday = timestamp[0];
   const date = timestamp[2];
@@ -97,7 +75,7 @@ export const getCurrDateTimeAsString = (ach: achievementInt) => {
     time.split(":")[1]
   } ${zone}`;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getShortDateAsString = (datePar: any) => {
   const dateAsDate = new Date(datePar);
   const day = getDayByIndex(dateAsDate);
@@ -105,7 +83,7 @@ export const getShortDateAsString = (datePar: any) => {
   const month = getMonthByIndex(dateAsDate);
   return `${day.slice(0, 3)}, ${date} ${month.slice(0, 3)}`;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getSelectedDateAsString = (dateAsDate: {
   // date string for tasks looks like `2021-11-15`
   getFullYear: () => any;
@@ -129,7 +107,7 @@ export const getSelectedDateAsString = (dateAsDate: {
   }
   return dateAsString;
 };
-///////////////////////////////////////////////////////////////////
+
 export const getMinMaxDateAsString = (datePar: Date) => {
   // minimum date for task creation is present date
   // maximum date for task creation is one year from now
@@ -158,7 +136,7 @@ export const getMinMaxDateAsString = (datePar: Date) => {
     max: yearMonthDatePlus,
   };
 };
-///////////////////////////////////////////////////////////////////
+
 export const filterTasksByOverdue = async (tasks: taskInt[]) => {
   let array: taskInt[] = [];
   for (let i = 0; i < tasks.length; i++) {
@@ -171,7 +149,7 @@ export const filterTasksByOverdue = async (tasks: taskInt[]) => {
   }
   return array;
 };
-///////////////////////////////////////////////////////////////////
+
 export const checkTaskOverdue = async (date1: string, date2: string) => {
   const year1 = date1.slice(0, 4);
   const month1 = date1.slice(5, 7);

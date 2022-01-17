@@ -20,7 +20,6 @@ import ProfileBadge from "../__Components/ProfileBadge";
 import BambooPoints from "../__Components/XP";
 import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
-import { ICOCROWN } from "../../utils/appIcons";
 import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
 import returnIco, { CROWN } from "../../utils/funcs/f_ico";
