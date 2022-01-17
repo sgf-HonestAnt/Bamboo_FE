@@ -34,6 +34,9 @@ button,
 .btn-link {
   color: inherit !important;
 }
+.btn-link:hover {
+  text-decoration: none !important;
+}
 /* Rewards */
 .rewards .badge {
   margin: 5px;

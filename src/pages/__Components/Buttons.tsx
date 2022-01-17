@@ -55,9 +55,9 @@ export const LinkButton = (props: ButtonProps) => (
   </Button>
 );
 export const ClearNotification = (props: ButtonProps) => (
-  <Button variant='link' className='mb-3 mr-1' onClick={props.handleClick}>
+  <div onClick={props.handleClick}>
     {props.label} <FiRotateCcw />
-  </Button>
+  </div>
 );
 export const EditButton = (props: ButtonProps) => (
   <Button

@@ -1,13 +1,9 @@
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
-import { Card } from "react-bootstrap";
-import {
-  AcceptButton,
-  ClearNotification,
-  RejectButton,
-} from "../Buttons";
-import { ICOBELL, ICOSMILE } from "../../../utils/appIcons";
+import { Button } from "react-bootstrap";
+import { AcceptButton, ClearNotification, RejectButton } from "../Buttons";
+import { ICOSMILE } from "../../../utils/appIcons";
 import {
   acceptOrRejectUser,
   clearLastNotification,
@@ -16,7 +12,8 @@ import { removeSelfFromTask } from "../../../utils/funcs/f_tasks";
 import { fillUserAction } from "../../../redux/actions/user";
 
 type DashNotificationsProps = {};
-const DashNotifications = (props: DashNotificationsProps) => {
+
+export default function DashNotifications(props: DashNotificationsProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { currentTasks } = state;
@@ -77,46 +74,32 @@ const DashNotifications = (props: DashNotificationsProps) => {
   };
   //console.log("FIX NEEDED ON NOTIFICATIONS"); // 🔨 FIX NEEDED: WHEN ACCEPT A TASK, NEEDS TO ADD TASK TO STATE SO SIDEBAR REFLECTS CORRECT NUMBER
   return (
-    <div className={dashClass}>
-      <Card.Title>
-        <div className='dashboard__card-header'>
-          <ICOBELL /> You have {notifLength} notification
-          {notifLength > 1 || notifLength === 0 ? "s" : ""}!
-        </div>
-        {!isReq && !isTask && notifLength > 0 && (
-          <ClearNotification handleClick={handleReset} />
-        )}
-      </Card.Title>
-      <Card.Text>
-        {notifLength > 0 && isTask ? (
-          <span>
-            <img
-              src={avatar}
-              alt={username}
-              className='img-fluid x-tiny-round'
-            />
-            <strong>{username}</strong> included you in a shared task: "{title}
-            ". Do you accept? <AcceptButton handleClick={handleAcceptTask} />
-            <RejectButton handleClick={handleRejectTask} />
-          </span>
-        ) : notifLength > 0 && isReq ? (
-          <span>
-            {recentNotif}, do you accept?
-            <AcceptButton handleClick={handleAccept} />
-            <RejectButton handleClick={handleReject} />
-          </span>
-        ) : notifLength > 0 && isAcc ? (
-          <span>
-            {recentNotif} <ICOSMILE />
-          </span>
-        ) : notifLength > 0 ? (
-          <span>{recentNotif}</span>
-        ) : (
-          <></>
-        )}
-      </Card.Text>
-    </div>
+    <Button variant='link' className={`${dashClass} px-3 py-1 m-0 mb-2`}>
+      {notifLength > 0 && isTask ? (
+        <span>
+          <img src={avatar} alt={username} className='img-fluid x-tiny-round' />
+          <strong>{username}</strong> included you in a shared task: "{title}
+          ". Do you accept? <AcceptButton handleClick={handleAcceptTask} />
+          <RejectButton handleClick={handleRejectTask} />
+        </span>
+      ) : notifLength > 0 && isReq ? (
+        <span>
+          {recentNotif}, do you accept?
+          <AcceptButton handleClick={handleAccept} />
+          <RejectButton handleClick={handleReject} />
+        </span>
+      ) : notifLength > 0 && isAcc ? (
+        <span>
+          {recentNotif} <ICOSMILE />
+        </span>
+      ) : notifLength > 0 ? (
+        <span>{recentNotif.split(",")[0]}!</span>
+      ) : (
+        <></>
+      )}
+      {!isReq && !isTask && notifLength > 0 && (
+        <ClearNotification handleClick={handleReset} />
+      )}
+    </Button>
   );
-};
-
-export default DashNotifications;
+}
