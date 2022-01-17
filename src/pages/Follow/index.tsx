@@ -23,6 +23,7 @@ import "./styles.css";
 import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
 import returnIco, { CROWN } from "../../utils/funcs/f_ico";
+import { sendXpGift } from "../../utils/funcs/f_rewards";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -62,6 +63,13 @@ export default function FollowingPage(props: FollowingPageProps) {
     const xp = e.target.value;
     setGift({ ...gift, xp });
   };
+  async function handleSubmit(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    const { message } = await sendXpGift(gift.userId, gift.xp);
+    if (message) {
+      history.push("/");
+    }
+  }
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     if (location.search) {
@@ -141,7 +149,9 @@ export default function FollowingPage(props: FollowingPageProps) {
             {points! < 100 ? (
               <Modal show={show} onHide={handleClose}>
                 {u.admin ? (
-                  <Modal.Header>Send message to {gift.username}</Modal.Header>
+                  <Modal.Header>
+                    Send message to <strong>{gift.username}</strong>
+                  </Modal.Header>
                 ) : (
                   <>
                     <Modal.Header>
@@ -149,8 +159,8 @@ export default function FollowingPage(props: FollowingPageProps) {
                     </Modal.Header>
                     <Modal.Body>
                       You need a minimum of 100 Bamboo Points before you can
-                      send {gift.username} a gift. Come back later after
-                      completing some tasks!
+                      send <strong>{gift.username}</strong> a gift. Come back
+                      later after completing some tasks!
                     </Modal.Body>
                     <Modal.Footer>
                       {/* <Button variant='primary' onClick={handleDelete}>
@@ -182,9 +192,12 @@ export default function FollowingPage(props: FollowingPageProps) {
                     to <strong>{gift.username}</strong>?
                   </Modal.Body>
                 ) : (
-                  <>
-                    <div className='red'>NEEDS TO BE DONE</div>
-                  </>
+                  <div className='p-3'>
+                    You are about to send <strong>{gift.username}</strong>{" "}
+                    {gift.xp}
+                    <BambooPoints />
+                    Bamboo points. Continue?
+                  </div>
                 )}
                 {gift.xp === 0 ? (
                   <Modal.Footer>
@@ -212,7 +225,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                   </Modal.Footer>
                 ) : (
                   <Modal.Footer>
-                    <Button variant='primary' onClick={handleClose}>
+                    <Button variant='primary' onClick={handleSubmit}>
                       Yes, send
                     </Button>
                     <Button variant='secondary' onClick={handleClose}>

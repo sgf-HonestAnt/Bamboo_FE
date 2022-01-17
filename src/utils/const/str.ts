@@ -16,6 +16,7 @@ export const TASKS = "tasks";
 export const ENDPOINT_REFRESH = `${BE_URL}/${USERS}/${SESSION}/${REFRESH}`;
 export const ENDPOINT_USERS = `${BE_URL}/${USERS}`;
 export const ENDPOINT_TASKS = `${BE_URL}/${TASKS}`;
+export const ENDPOINT_GIFTS = `${BE_URL}/${USERS}/gift`;
 export const ENDPOINT_MYACH = `${BE_URL}/${ACHIEVEMENTS}/me`;
 export const ENDPOINT_MYREWARDS = `${BE_URL}/${USERS}/me/rewards`;
 // ********** STORE **********

@@ -147,12 +147,12 @@ const DraggableTask = (props: DraggableTaskProps) => {
               <div>
                 <span onClick={handleShow}>
                   {task!.desc}{" "}
-                  {task!.type === SOLO || task!.sharedWith!.length < 2 ? (
+                  {/* {task!.type === SOLO || task!.sharedWith!.length < 2 ? (
                     ""
                   ) : (
                     <ICOUSERS />
                   )}
-                  {task!.sharedWith!.length > 1 && task!.sharedWith!.length}
+                  {task!.sharedWith!.length > 1 && task!.sharedWith!.length} */}
                 </span>
                 {task!.deadline && (
                   <span>

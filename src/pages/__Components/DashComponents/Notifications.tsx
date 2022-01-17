@@ -10,6 +10,7 @@ import {
 } from "../../../utils/funcs/f_users";
 import { removeSelfFromTask } from "../../../utils/funcs/f_tasks";
 import { fillUserAction } from "../../../redux/actions/user";
+import { FiGift } from "react-icons/fi";
 
 type DashNotificationsProps = {};
 
@@ -24,6 +25,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
   const isTask = recentNotif?.includes("included you in a shared task");
   const isReq = recentNotif?.includes("has sent you a request");
   const isAcc = recentNotif?.includes("accepted your request");
+  const isGift = recentNotif?.includes("sent you a gift");
   let username = "";
   let taskId = "";
   let title = "";
@@ -91,6 +93,15 @@ export default function DashNotifications(props: DashNotificationsProps) {
       ) : notifLength > 0 && isAcc ? (
         <span>
           {recentNotif} <ICOSMILE />
+        </span>
+      ) : notifLength > 0 && isGift ? (
+        <span>
+          <strong>{recentNotif.split("just")[0]}</strong>
+          just {recentNotif.split("just")[1].split(":::")[0]}
+          <br />
+          <FiGift />
+          <br />
+          ~{recentNotif.split(":::")[1]} xp~
         </span>
       ) : notifLength > 0 ? (
         <span>{recentNotif.split(",")[0]}!</span>
