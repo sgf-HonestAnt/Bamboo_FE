@@ -15,6 +15,7 @@ import {
   IN_PROGRESS,
   ANY_TYPE,
   OVERDUE,
+  TEAM,
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
@@ -124,6 +125,30 @@ export default function TasksPage(props: TasksPageProps) {
     retrieveTasks(queryWithoutAmpersand);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  useEffect(() => {
+    const { search } = location;
+    if (search.includes("?category")) {
+      setFilter({ ...filter, cat: search.split("=")[1] });
+    } else if (search.includes("?value")) {
+      setFilter({ ...filter, val: search.split("=")[1] });
+    } else if (search.includes("?sharedWith")) {
+      /// DEBUG IN AM . WANT TO SHOW TASKS SHARED WITH USER .
+      // setFilter({ ...filter, type: TEAM });
+      const sharedTasks = allTasks.filter((task) =>
+        task.sharedWith!.includes(search.split("=")[1])
+      );
+      console.log(sharedTasks);
+      setTaskList(sharedTasks);
+      ///////
+    } else if (search.includes("?type")) {
+      setFilter({ ...filter, type: search.split("=")[1] });
+    } else if (search.includes("?deadline")) {
+      setFilter({ ...filter, due: search.split("=")[1] });
+    } else {
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
   return (
     <Container fluid>
       <TasksFilterRow

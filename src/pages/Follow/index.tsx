@@ -24,6 +24,7 @@ import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
 import returnIco, { CROWN } from "../../utils/funcs/f_ico";
 import { sendXpGift } from "../../utils/funcs/f_rewards";
+import { Link } from "react-router-dom";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -104,6 +105,7 @@ export default function FollowingPage(props: FollowingPageProps) {
               total_in_progress={u.total_in_progress}
             />
             <Card.Title>{u.username} </Card.Title>
+            <Link to={`/tasks?sharedWith=${u._id}`}>TASKS</Link>
             <div>{u.bio}</div>
             <div className='rewards'>
               {u.admin && (
