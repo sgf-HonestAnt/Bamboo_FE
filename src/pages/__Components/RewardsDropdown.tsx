@@ -78,36 +78,42 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
     </Card>
   ) : formType === "select" ? (
     <>
+      {!loading && rewards.length > 0 && <hr />}
       <Form className='pt-1'>
         <Form.Label>{label}</Form.Label>
         <Form.Group controlId='rewards' className='row'>
-          {!loading &&
-            rewards.map((item, i) => (
-              <div className='col col-6 pb-3'>
-                <Row className='d-flex align-items-start justify-content-start mr-auto'>
-                  <Col>
-                    <Form.Check
-                      key={i}
-                      type='radio'
-                      name='rewards_group'
-                      onChange={handleChange}
-                      value={item._id}
-                      label={`${item.reward.split("||")[0]} (${item.value}xp)`}
-                      disabled={item.value > xp}
+          <Row className='d-flex align-items-center justify-content-start mr-auto mx-5'>
+            {!loading &&
+              rewards.map((item, i) => (
+                <Col className='col-12 col-lg-6 align-content-start m-0 pt-1'>
+                  <Form.Check
+                    key={i}
+                    type='radio'
+                    name='rewards_group'
+                    onChange={handleChange}
+                    value={item._id}
+                    label={`${item.reward.split("||")[0]} (${item.value}xp)`}
+                    disabled={item.value > xp}
+                  />
+                  {item.value > xp && (
+                    <Badge bg='light' className='m-1' style={{ color: "red" }}>
+                      {item.value - xp}XP NEEDED
+                    </Badge>
+                  )}
+                  {item.reward.includes("SPECIAL") && (
+                    <Badge bg='light' className='m-1'>
+                      {item.reward.split(" ").splice(-1)} ONLY
+                    </Badge>
+                  )}
+                  <div>
+                    <Image
+                      roundedCircle
+                      src={returnIco(item.reward)}
+                      alt={item.reward}
+                      className='m-1 p-1'
+                      style={{ backgroundColor: "white" }}
+                      height='38px'
                     />
-                    {item.value > xp && (
-                      <Badge
-                        bg='light'
-                        className='m-1'
-                        style={{ color: "red" }}>
-                        {item.value - xp}XP NEEDED
-                      </Badge>
-                    )}
-                    {item.reward.includes("SPECIAL") && (
-                      <Badge bg='light' className='m-1'>
-                        {item.reward.split(" ").splice(-1)} ONLY
-                      </Badge>
-                    )}
                     {reward && reward._id === item._id && (
                       <>
                         <Button
@@ -122,22 +128,13 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
                         </Button>
                       </>
                     )}
-                  </Col>
-                  <Col>
-                    <Image
-                      roundedCircle
-                      src={returnIco(item.reward)}
-                      alt={item.reward}
-                      className='p-1'
-                      style={{ backgroundColor: "white" }}
-                      height='40px'
-                    />
-                  </Col>
-                </Row>
-              </div>
-            ))}
+                  </div>
+                </Col>
+              ))}
+          </Row>
         </Form.Group>
       </Form>
+      {!loading && rewards.length > 0 && <hr />}
     </>
   ) : (
     <></>
