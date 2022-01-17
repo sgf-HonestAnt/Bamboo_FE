@@ -16,6 +16,7 @@ import FindFollows from "../__Components/FindFollows";
 import Achievements from "../__Components/DashComponents/Achievements";
 import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
+import ColorPalette from "../__Components/ColorPalette";
 import "./styles.css";
 
 type DashboardPageProps = {
@@ -109,6 +110,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
+              <ColorPalette />
               <DashProfileCard history={history} />
               {admin && (
                 <Link to='/admin-dash'>

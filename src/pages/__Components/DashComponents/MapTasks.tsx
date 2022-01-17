@@ -35,7 +35,10 @@ export function TaskButton(props: TaskButtonProps) {
         {task.value}xp
       </Badge>
       &nbsp;
-      <Badge bg='warning' className={`bg-warning ${task!.category}`}>
+      <Badge
+        bg='warning'
+        className={`bg-warning ${task!.category}`}
+        id={task.category}>
         {task.category === NONE ? (
           "no category"
         ) : task.category === URGENT ? (

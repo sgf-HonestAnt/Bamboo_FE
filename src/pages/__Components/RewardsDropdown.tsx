@@ -77,55 +77,68 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
       </Form>
     </Card>
   ) : formType === "select" ? (
-    <Form className='pt-1'>
-      <Form.Label>{label}</Form.Label>
-      <Form.Group controlId='rewards' className='row'>
-        {!loading &&
-          rewards.map((item, i) => (
-            <div className='col col-6 col-lg-3 pb-3'>
-              <Form.Check
-                key={i}
-                type='radio'
-                name='rewards_group'
-                onChange={handleChange}
-                value={item._id}
-                label={`${item.reward.split("||")[0]} (${item.value}xp)`}
-                disabled={item.value > xp}
-              />
-              <Image
-                roundedCircle
-                src={returnIco(item.reward)}
-                alt={item.reward}
-                className='p-1'
-                style={{ backgroundColor: "white" }}
-                height='40px'
-              />
-              {item.value > xp ? (
-                <Badge bg='light' className='m-1' style={{ color: "red" }}>
-                  {item.value - xp}XP NEEDED
-                </Badge>
-              ) : item.reward.includes("SPECIAL") ? (
-                <Badge bg='light' className='m-1'>
-                  {item.reward.split(" ").splice(-1)} ONLY
-                </Badge>
-              ) : (
-                <></>
-              )}
-              {reward && reward._id === item._id && (
-                <>
-                  <Button
-                    onClick={handleSubmit}
-                    variant='secondary'
-                    className='mr-1'>
-                    Purchase
-                  </Button>
-                  <Button onClick={handleReset}>Reset</Button>
-                </>
-              )}
-            </div>
-          ))}
-      </Form.Group>
-    </Form>
+    <>
+      <Form className='pt-1'>
+        <Form.Label>{label}</Form.Label>
+        <Form.Group controlId='rewards' className='row'>
+          {!loading &&
+            rewards.map((item, i) => (
+              <div className='col col-6 pb-3'>
+                <Row className='d-flex align-items-start justify-content-start mr-auto'>
+                  <Col>
+                    <Form.Check
+                      key={i}
+                      type='radio'
+                      name='rewards_group'
+                      onChange={handleChange}
+                      value={item._id}
+                      label={`${item.reward.split("||")[0]} (${item.value}xp)`}
+                      disabled={item.value > xp}
+                    />
+                    {item.value > xp && (
+                      <Badge
+                        bg='light'
+                        className='m-1'
+                        style={{ color: "red" }}>
+                        {item.value - xp}XP NEEDED
+                      </Badge>
+                    )}
+                    {item.reward.includes("SPECIAL") && (
+                      <Badge bg='light' className='m-1'>
+                        {item.reward.split(" ").splice(-1)} ONLY
+                      </Badge>
+                    )}
+                    {reward && reward._id === item._id && (
+                      <>
+                        <Button
+                          onClick={handleSubmit}
+                          variant='secondary'
+                          size='sm'
+                          className='mr-1'>
+                          Buy
+                        </Button>
+                        <Button size='sm' onClick={handleReset}>
+                          Reset
+                        </Button>
+                      </>
+                    )}
+                  </Col>
+                  <Col>
+                    <Image
+                      roundedCircle
+                      src={returnIco(item.reward)}
+                      alt={item.reward}
+                      className='p-1'
+                      style={{ backgroundColor: "white" }}
+                      height='40px'
+                    />
+                  </Col>
+                </Row>
+              </div>
+            ))}
+        </Form.Group>
+      </Form>
+    </>
   ) : (
     <></>
   );

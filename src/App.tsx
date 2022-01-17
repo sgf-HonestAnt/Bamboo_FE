@@ -9,7 +9,9 @@ import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import MainBody from "./pages/Main";
 import LogoutPage from "./pages/Logout";
-import "./styles/UniversalStyles.css";
+import "./styles/universal.css";
+import "./styles/forms.css"
+import "./styles/badges.css"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {

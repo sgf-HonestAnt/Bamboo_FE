@@ -1,0 +1,58 @@
+/* Bootstrap forms & modals */
+form select#rewards.form-control option.disabled {
+  color: #c7c7c7 !important;
+}
+input.form-control:focus::placeholder,
+textarea.form-control:focus::placeholder {
+  color: transparent;
+}
+.modal-header,
+.modal-body,
+.modal-footer {
+  background-color: hsla(var(--mint-cream), 1) !important;
+}
+.form-control,
+  .form-control:focus,
+  .form-control option:focus,
+  #title, #title:focus,
+  #value, #value:focus,
+  #category, #category:focus,
+  #desc, #desc:focus,
+  #deadline, #deadline:focus
+  /* #title:focus-visible, */ {
+  border-radius: 0 !important;
+  border: 1px solid #e5e9ee;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+  outline: none;
+}
+#title,
+#value,
+#category,
+#desc,
+#deadline {
+  background-color: hsla(var(--mint-cream), 0.7) !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+}
+#title:focus,
+#title:focus-visible,
+#value:focus,
+#category:focus,
+#desc:focus,
+#deadline:focus,
+.form-control:focus,
+.form-control option:focus {
+  background-color: hsla(var(--honeydew), 1) !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  outline: none;
+}
+#search:focus,
+.form-control:focus,
+.form-control option:focus {
+  border: none !important;
+  background-color: hsla(var(--pale-sunbeam), 1);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  outline: none;
+}
