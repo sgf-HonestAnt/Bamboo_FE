@@ -192,17 +192,20 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         className={taskState === "REWARDS" ? "selected" : "not-selected"}
       />
       {taskState === URGENT ? (
-        <MapTasks tasks={atAGlanceData.urgentTasks} />
+        <MapTasks
+          tasks={atAGlanceData.urgentTasks}
+          link={`/tasks?category=urgent`}
+        />
       ) : taskState === TODAY ? (
-        <MapTasks tasks={atAGlanceData.todayTasks} />
+        <MapTasks tasks={atAGlanceData.todayTasks} link={TODAY} />
       ) : taskState === AWAITED ? (
-        <MapTasks tasks={awaited} />
+        <MapTasks tasks={awaited} link={`/tasks?status=awaited`} />
       ) : taskState === IN_PROGRESS ? (
-        <MapTasks tasks={in_progress} />
+        <MapTasks tasks={in_progress} link={`/tasks?status=in_progress`} />
       ) : taskState === OVERDUE ? (
-        <MapTasks tasks={atAGlanceData.overdueTasks} />
+        <MapTasks tasks={atAGlanceData.overdueTasks} link={OVERDUE} />
       ) : taskState === "Shared" ? (
-        <MapTasks tasks={atAGlanceData.sharedTasks} />
+        <MapTasks tasks={atAGlanceData.sharedTasks} link={`/tasks?type=team`} />
       ) : taskState === "REWARDS" ? (
         <div>
           <RewardsDropdown
@@ -212,7 +215,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
           />
         </div>
       ) : (
-        <MapTasks tasks={allTasks} />
+        <MapTasks tasks={allTasks} link={`/tasks`} />
       )}
       <AddEditTaskModal
         show={show}

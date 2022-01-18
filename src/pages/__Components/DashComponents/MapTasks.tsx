@@ -9,6 +9,7 @@ import { createColorArray } from "../../../utils/funcs/f_styling";
 
 type MapTasksProps = {
   tasks: taskInt[];
+  link: string;
 };
 
 type TaskButtonProps = {
@@ -62,7 +63,7 @@ export function TaskButton(props: TaskButtonProps) {
 }
 
 export default function MapTasks(props: MapTasksProps) {
-  const { tasks } = props;
+  const { tasks, link } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { categories } = state.currentTasks;
   const { customColors } = state.currentSettings;
@@ -77,7 +78,7 @@ export default function MapTasks(props: MapTasksProps) {
       {
         // eslint-disable-next-line array-callback-return
         tasks.map((task, i) => (
-          <Link to={`/tasks?id=${task._id}`} key={task._id}>
+          <Link to={`${link}?id=${task._id}`} key={task._id}>
             <TaskButton
               i={i}
               task={task}

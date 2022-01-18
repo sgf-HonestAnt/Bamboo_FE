@@ -496,6 +496,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Control
                   required
                   type='text'
+                  maxLength={20}
                   value={form.title}
                   placeholder={
                     form.title ? form.title : 'for e.g. "Solve World Hunger"'
@@ -601,6 +602,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                   <Form.Control
                     required
                     type='text'
+                    maxLength={12}
                     value={form.newCategory}
                     placeholder='for e.g. "Knitting"'
                     onChange={handleChange}

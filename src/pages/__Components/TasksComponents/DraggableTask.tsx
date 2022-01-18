@@ -8,8 +8,8 @@ import {
   Draggable,
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
-import { NONE, SOLO, URGENT } from "../../../utils/const/str";
-import { ICOCLOCK, ICOUSERS } from "../../../utils/appIcons";
+import { NONE, URGENT } from "../../../utils/const/str";
+import { ICOCLOCK } from "../../../utils/appIcons";
 import { useEffect, useState } from "react";
 import AddEditTaskModal from "../AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
@@ -47,6 +47,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const { customColors } = state.currentSettings;
   const categories = state.currentTasks.categories;
   const { task, i, initialData, setInitialData, history, location } = props;
+  const { pathname } = location;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);

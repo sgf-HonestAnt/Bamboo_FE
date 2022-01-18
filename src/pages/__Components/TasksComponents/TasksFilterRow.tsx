@@ -13,10 +13,12 @@ import { TASK_VALUE_NUMS } from "../../../utils/const/arr";
 import {
   ANY_CAT,
   ANY_DUE,
+  ANY_STATUS,
   ANY_TYPE,
   ANY_VAL,
   TASKS_TO_SHOW,
   TASK_CATEGORIES,
+  TASK_STATUS_TYPES,
   TASK_TYPES,
   TODAY,
   TOMORROW,
@@ -50,6 +52,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     // query,
     // setQuery,
   } = props;
+  // const { search } = location;
   const allTasks = awaited.concat(in_progress, completed);
   const [selectDate, setSelectDate] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
@@ -63,14 +66,13 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       cat: ANY_CAT,
       val: ANY_VAL,
       type: ANY_TYPE,
+      status: ANY_STATUS,
     });
     setTaskList(allTasks);
     setSelectDate(false);
     setLoadingForm(true);
-    // 🔨 FIX NEEDED: DOES NOT RESET FORM
   };
   const handleChange = async (e: { target: { id: any; value: any } }) => {
-    // add dropdown category for date (Any, Overdue, Due Today, Due Tomorrow, No Due Date) and value (Any, ...values)
     const id = e.target.id;
     const value = e.target.value;
     if (id !== "due") {
@@ -95,6 +97,11 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
+  // console.log(
+  //   `${search.split("=")[1].charAt(0).toUpperCase()}${search
+  //     .split("=")[1]
+  //     .slice(1)}`
+  // );
   return (
     <Row className='pt-4'>
       <Col sm={12}>
@@ -146,6 +153,22 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   {TASK_CATEGORIES.map((cat, i) => (
                     <option key={i} value={cat}>
                       {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group controlId='status' className='mr-1'>
+                <Form.Control
+                  as='select'
+                  defaultValue={ANY_STATUS}
+                  onChange={handleChange}>
+                  <option value={ANY_STATUS}>Filter by Status</option>
+                  <option value='' disabled>
+                    ---
+                  </option>
+                  {TASK_STATUS_TYPES.map((status, i) => (
+                    <option key={i} value={status}>
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
                     </option>
                   ))}
                 </Form.Control>
