@@ -74,12 +74,12 @@ const DraggableTask = (props: DraggableTaskProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
   useEffect(() => {
-    if (location.search) {
-      if (locationSearch === task!._id) {
-        setShow(true);
-        setView(true);
-      }
-    }
+    // if (location.search) {
+    //   if (locationSearch === task!._id) {
+    //     setShow(true);
+    //     setView(true);
+    //   }
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   useEffect(() => {

@@ -108,8 +108,13 @@ export default function DashboardPage(props: DashboardPageProps) {
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
-            <Col className='col-12 p-3'>
-              {notification.length > 0 && <DashNotifications />}
+            {notification.length > 0 && (
+              <Col className='col-12 p-3'>
+                <DashNotifications />
+              </Col>
+            )}
+            <Col
+              className={`col-12 ${notification.length > 0 ? "px-3" : "p-3"}`}>
               <DashProfileCard history={history} />
               {admin && (
                 <Link to='/admin-dash'>

@@ -133,6 +133,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   useEffect(() => {}, [taskState, atAGlanceData]);
   useEffect(() => {
     console.log("tasks changed in state!", tasksLength);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [awaited.length, in_progress.length, completed.length]);
   return (
     <div className='dashboard__tasks-card'>

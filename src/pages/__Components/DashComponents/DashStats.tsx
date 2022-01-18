@@ -32,7 +32,9 @@ export default function DashStats(props: DashStatsProps) {
     <div
       className={`bamboo-card dashboard__dash-stats ${isBigScreen && "my-3"}`}>
       <Row>
-        {completed.length > 0 && (
+        {(completed.length > 0 ||
+          awaited.length > 0 ||
+          in_progress.length > 0) && (
           <Col sm={12}>
             <PieChartWithPaddingAngle
               deg360={true}

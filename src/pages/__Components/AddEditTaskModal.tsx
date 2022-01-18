@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
@@ -383,6 +383,24 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
+  useEffect(() => {
+    if (taskSet) {
+      setForm({
+        title: taskSet.title,
+        value: taskSet.value,
+        category: taskSet.category,
+        newCategory: "",
+        desc: taskSet.desc,
+        repeated: "no",
+        repeats: taskSet.repeats,
+        repeatsOther: 0,
+        repetitions: "0",
+        shared: "no",
+        sharedWith: taskSet.sharedWith!,
+        deadline: taskSet.deadline!,
+      });
+    }
+  }, [taskSet]);
   return (
     <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (

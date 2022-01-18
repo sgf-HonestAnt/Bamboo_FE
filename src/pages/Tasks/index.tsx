@@ -16,6 +16,8 @@ import {
   ANY_TYPE,
   OVERDUE,
   ANY_STATUS,
+  TEAM,
+  SOLO,
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
@@ -46,6 +48,20 @@ export default function TasksPage(props: TasksPageProps) {
     lists: [],
     listOrder: [],
   });
+  const filterTasksByType = async (type: string) => {
+    let allShared: taskInt[] = [];
+    if (type === TEAM) {
+      allShared = allTasks.filter(
+        (task) => task?.sharedWith && task.sharedWith.length > 1
+      );
+    }
+    if (type === SOLO) {
+      allShared = allTasks.filter(
+        (task) => task?.sharedWith && task.sharedWith.length < 2
+      );
+    }
+    setTaskList(allShared);
+  };
   const filterTasksByStatus = async (status: string) => {
     let tasksByStatus: taskInt[] = [];
     if (status === AWAITED) {
@@ -80,6 +96,8 @@ export default function TasksPage(props: TasksPageProps) {
         filterTasksOverdue(updatedTasks);
       } else if (filter.status !== ANY_STATUS) {
         filterTasksByStatus(filter.status);
+      } else if (filter.type !== ANY_TYPE) {
+        filterTasksByType(filter.type);
       } else {
         setTaskList(updatedTasks);
       }
@@ -142,6 +160,12 @@ export default function TasksPage(props: TasksPageProps) {
     const fullQuery = `${dueQuery}${catQuery}${valQuery}${typeQuery}`;
     const queryWithoutAmpersand = fullQuery.slice(0, fullQuery.length - 1);
     retrieveTasks(queryWithoutAmpersand);
+    // if (filter.type !== ANY_TYPE) {
+    //   const allShared = allTasks.filter(
+    //     (task) => task?.sharedWith && task.sharedWith.length > 1
+    //   );
+    //   setTaskList(allShared);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
   useEffect(() => {
