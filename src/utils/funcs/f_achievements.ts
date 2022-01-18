@@ -20,6 +20,7 @@ export const attemptPostAchievement = async (
       "Content-Type": "application/json",
     };
     const body = JSON.stringify({ item, category });
+    console.log(body)
     const response = await fetch(url, { method, headers, body });
     const responseAsJSON = await response.json();
     if (response.ok) {

@@ -8,7 +8,6 @@ import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
 import checkToken from "../../utils/funcs/f_checkToken";
 import SideBar from "../SideBar";
@@ -20,11 +19,13 @@ import AdminPage from "../Admin";
 import StatsPage from "../Stats";
 import ErrorPage from "../Error";
 import "./styles.css";
+// import { useMediaQuery } from "react-responsive";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
   // ****************************MEDIA********************************************
-  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-  // ****************************MEDIA********************************************
+  // const isMobileDevice = useMediaQuery({
+  //   query: "(max-width: 560px)",
+  // });
   const [mainLoading, setMainLoading] = useState(true);
   const [theme, setTheme] = useState("theme-light");
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -65,9 +66,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
   useEffect(() => {
     console.log("🔐", localStorage.getItem("token"));
   }, [token]);
-  return isPortrait ? (
-    <div>PORTRAIT DISPLAY</div>
-  ) : (
+  return (
     <Container fluid className='main-page m-0 p-0' id={theme}>
       {loading || mainLoading ? (
         <div>loading</div>
@@ -89,6 +88,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               setTheme={setTheme}
             />
           </div>
+
           {path === "/dash" ? (
             <div className='main-page__main-section'>
               <DashboardPage history={history} location={location} />

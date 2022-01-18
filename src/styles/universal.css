@@ -3,7 +3,7 @@
 :root {
   --black: 0, 0%, 0%;
   --gold: 51, 100%, 50%;
-  --blue-green-color-wheel: 166, 97%, 14%; 
+  --blue-green-color-wheel: 166, 97%, 14%;
   --castleton-green: 164, 93%, 17%;
   --bottle-green: 163, 93%, 22%;
   --spanish-viridian: 161, 92%, 25%;
@@ -37,7 +37,7 @@
   --font-weight: 400;
   --button-bg: #b4b4b4;
   --button-alt: #5b5b5b;
-  --code-red: rgba(255, 0, 0, 0.8);
+  --code-red: hsla(var(--sunset-beach), 1);
   --code-yellow: rgba(255, 255, 0, 0.8);
   --code-blue: rgba(0, 0, 255, 0.8);
 }
@@ -61,6 +61,9 @@
 a {
   color: var(--link-text) !important;
   font-weight: 500;
+}
+.code-red {
+  color: hsla(var(--sunset-beach), 1) !important;
 }
 /* divs */
 .bamboo-card,

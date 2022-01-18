@@ -208,6 +208,7 @@ export default function TasksPage(props: TasksPageProps) {
         // query={query}
         // setQuery={setQuery}
       />
+
       <DragDropContainer
         initialData={initialData}
         setInitialData={setInitialData}

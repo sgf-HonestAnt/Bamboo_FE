@@ -227,6 +227,7 @@ export const attemptUpdateTask = async (
       }
       if (status === COMPLETED) {
         const { title, category, value } = responseAsJSON;
+        console.log(title, category, value)
         await attemptPostAchievement(title, category, dispatch, achievements);
         await refreshUserPoints(user, value, dispatch);
         refreshUserLevel(user, value, dispatch);

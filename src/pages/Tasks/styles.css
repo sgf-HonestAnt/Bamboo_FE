@@ -1,7 +1,8 @@
 /* .tasks-page {
 } */
 .tasks-page__filter-row form {
-  display: flex;
+  display: inline-flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
 }
 .tasks-page__list {

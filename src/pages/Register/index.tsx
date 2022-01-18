@@ -7,9 +7,20 @@ import { SPECIAL_CHARS } from "../../utils/const/arr";
 import { BE_URL, USERS, REGISTER, POST } from "../../utils/const/str";
 import "./styles.css";
 
+type validateProps = {
+  username: string | null;
+  email: string | null;
+  password: string | null;
+};
+
 export default function RegisterPage({ history }: RouteComponentProps) {
-  const defaultClass = "form-control";
-  const errorClass = "form-control error-bg";
+  // const defaultClass = "form-control";
+  // const errorClass = "form-control error-bg";
+  const [validate, setValidate] = useState<validateProps>({
+    username: null,
+    email: null,
+    password: null,
+  });
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -17,36 +28,12 @@ export default function RegisterPage({ history }: RouteComponentProps) {
     email: "",
     password: "",
   });
-  const [validation, setValidation] = useState({
-    loginClass: "hidden",
-    firstName: {
-      text: "Enter first name",
-      class: defaultClass,
-    },
-    lastName: {
-      text: "Enter last name",
-      class: defaultClass,
-    },
-    username: {
-      text: "Enter username",
-      class: defaultClass,
-      error: "",
-    },
-    email: {
-      text: "Enter email",
-      class: defaultClass,
-      error: "",
-    },
-    password: {
-      text: "Enter password",
-      class: defaultClass,
-    },
-  });
   const handleChange = async (e: {
     preventDefault: () => void;
     target: { id: any; value: any };
   }) => {
     e.preventDefault();
+    setValidate({ username: null, email: null, password: null });
     const { id, value } = e.target;
     setForm({
       ...form,
@@ -67,57 +54,11 @@ export default function RegisterPage({ history }: RouteComponentProps) {
         SPECIAL_CHARS.some((string) => form.username?.includes(string)) ||
         form.username.includes(" ") ||
         form.password.length < 8 ||
-        form.password.length > 15 ||
-        !SPECIAL_CHARS.some((string) => form.password?.includes(string));
+        form.password.length > 15;
+      // 🌟 to insist upon special chars in password for future pushes:
+      // || !SPECIAL_CHARS.some((string) => form.password?.includes(string));
       if (isNotValid) {
-        setValidation({
-          ...validation,
-          firstName: {
-            text:
-              form.first_name.length === 0
-                ? "First name must exist"
-                : form.first_name.length < 2
-                ? "First name is too short"
-                : form.first_name.length > 20
-                ? "First name is too long"
-                : "Enter first name",
-            class:
-              form.first_name.length < 2 || form.first_name.length > 20
-                ? errorClass
-                : defaultClass,
-          },
-          lastName: {
-            text:
-              form.last_name.length === 0
-                ? "Last name must exist"
-                : form.last_name.length < 2
-                ? "Last name is too short"
-                : form.last_name.length > 20
-                ? "Last name is too long"
-                : "Enter last name",
-            class:
-              form.last_name.length < 2 || form.last_name.length > 20
-                ? errorClass
-                : defaultClass,
-          },
-          username: {
-            ...validation.username,
-            text: form.username.length < 1 ? "Username must exist" : "Enter",
-            class: form.username.length < 1 ? errorClass : defaultClass,
-          },
-          email: {
-            ...validation.email,
-            text: form.email.length < 1 ? "Email must exist" : "Enter email",
-            class: form.email.length < 1 ? errorClass : defaultClass,
-          },
-          password: {
-            text:
-              form.password.length < 7
-                ? "Password must be longer than 6 characters"
-                : "Enter password",
-            class: form.password.length < 7 ? errorClass : defaultClass,
-          },
-        });
+        console.log("isValid=>", !isNotValid);
       } else {
         const url = `${BE_URL}/${USERS}/${REGISTER}`;
         const method = POST;
@@ -136,28 +77,10 @@ export default function RegisterPage({ history }: RouteComponentProps) {
         } = await response.json();
         if (response.status === 409) {
           if (message === "USERNAME NOT AVAILABLE") {
-            setValidation({
-              ...validation,
-              username: {
-                ...validation.username,
-                class: errorClass,
-                error: "Selected username unavailable.",
-                // error: `Selected username unavailable. Try the following: ${available
-                //   .slice(0, 3)
-                //   .map((a: string) => a)}`,
-              },
-            });
+            setValidate({ ...validate, username: "Username not available" });
           }
           if (message === "EMAIL NOT AVAILABLE") {
-            setValidation({
-              ...validation,
-              loginClass: "visible",
-              email: {
-                ...validation.email,
-                class: errorClass,
-                error: "This email is already registered. Do you want to ",
-              },
-            });
+            setValidate({ ...validate, email: "Email not available" });
           }
         } else {
           localStorage.setItem("token", accessToken);
@@ -169,33 +92,8 @@ export default function RegisterPage({ history }: RouteComponentProps) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    setValidation({
-      loginClass: "hidden",
-      firstName: {
-        text: "Enter first name",
-        class: defaultClass,
-      },
-      lastName: {
-        text: "Enter last name",
-        class: defaultClass,
-      },
-      username: {
-        text: "Enter username",
-        class: defaultClass,
-        error: "",
-      },
-      email: {
-        text: "Enter email",
-        class: defaultClass,
-        error: "",
-      },
-      password: {
-        text: "Enter password",
-        class: defaultClass,
-      },
-    });
-  }, [form]);
+  useEffect(() => {}, [form]);
+  console.log(form);
   return (
     <Container fluid>
       <Row className='registration-form'>
@@ -206,63 +104,53 @@ export default function RegisterPage({ history }: RouteComponentProps) {
               <Form.Label>First name</Form.Label>
               <Form.Control
                 type='text'
+                minLength={3}
                 value={form.first_name}
-                placeholder={validation.firstName.text}
+                placeholder={"Enter first name"}
                 onChange={handleChange}
-                className={validation.firstName.class}
               />
             </Form.Group>
             <Form.Group controlId='last_name'>
               <Form.Label>Last name</Form.Label>
               <Form.Control
                 type='text'
+                minLength={3}
                 value={form.last_name}
-                placeholder={validation.lastName.text}
+                placeholder={"Enter last name"}
                 onChange={handleChange}
-                className={validation.lastName.class}
               />
             </Form.Group>
             <Form.Group controlId='username'>
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type='text'
+                minLength={5}
                 value={form.username}
-                placeholder={validation.username.text}
+                placeholder={"Enter username"}
                 onChange={handleChange}
-                className={validation.username.class}
               />
-              <Form.Text>{validation.username.error}</Form.Text>
+              <Form.Text className="code-red">{validate.username}</Form.Text>
             </Form.Group>
             <Form.Group controlId='email'>
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type='email'
                 value={form.email}
-                placeholder={validation.email.text}
+                placeholder={"Enter email"}
                 onChange={handleChange}
-                className={validation.email.class}
               />
-              <Form.Text>
-                {/* className='text-muted' */}
-                <div className={validation.loginClass}>
-                  {validation.email.error}
-                  <Link to='/login'>login</Link>?
-                </div>
-              </Form.Text>
+              <Form.Text className="code-red">{validate.email}</Form.Text>
             </Form.Group>
             <Form.Group controlId='password'>
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type='password'
+                minLength={8}
                 value={form.password}
-                placeholder={validation.password.text}
+                placeholder={"Enter password"}
                 onChange={handleChange}
-                className={validation.password.class}
               />
-              <Form.Text>
-                {validation.password.text !== "Enter password" &&
-                  validation.password.text}
-              </Form.Text>
+              <Form.Text></Form.Text>
             </Form.Group>
             <div className='mt-2'>
               <Link to='/login'>Login instead?</Link>

@@ -515,7 +515,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Control
                   required
                   type='text'
-                  maxLength={20}
+                  maxLength={30}
                   value={form.title}
                   placeholder={
                     form.title ? form.title : 'for e.g. "Solve World Hunger"'

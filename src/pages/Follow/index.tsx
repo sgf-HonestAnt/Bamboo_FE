@@ -34,6 +34,9 @@ export default function FollowingPage(props: FollowingPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { history, location } = props;
+  const islt836 = useMediaQuery({
+    query: "(max-width: 835px)",
+  });
   const isgt1261 = useMediaQuery({ query: "(min-width: 1261px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [search, setSearch] = useState("");
@@ -92,8 +95,8 @@ export default function FollowingPage(props: FollowingPageProps) {
         {usersToShow?.map((u, i) => (
           <Col
             key={i}
-            className={`following-page__profile-card m-1 ${
-              isgt1261 ? "col-2" : "col-3"
+            className={`following-page__profile-card m-1 p-1 ${
+              islt836 ? "col-5" : isgt1261 ? "col-2" : "col-3"
             }`}>
             <ProfileBadge
               isMine={false}
@@ -106,7 +109,7 @@ export default function FollowingPage(props: FollowingPageProps) {
             />
             <Card.Title>{u.username} </Card.Title>
             <Link to={`/tasks?sharedWith=${u._id}`}>TASKS</Link>
-            <div className="dashboard__profile-card__bio">{u.bio}</div>
+            <div className='dashboard__profile-card__bio m-2'>{u.bio}</div>
             <div className='rewards'>
               {u.admin && (
                 <Image
@@ -118,30 +121,34 @@ export default function FollowingPage(props: FollowingPageProps) {
                   height='35px'
                 />
               )}
-              {u.rewards &&
-                u.rewards
-                  .filter((item) => item.available < 1)
-                  .map((item, i) => (
-                    <Image
-                      key={i}
-                      roundedCircle
-                      src={returnIco(item.reward)}
-                      alt={item.reward}
-                      className='p-1 mr-1 mb-1'
-                      style={{ backgroundColor: "white" }}
-                      height='35px'
-                    />
-                  ))}
             </div>
-            <div>
+            <div className='mb-2'>
               {/* {u.admin && "Admin: "} */}
               {getUserRole(u.level)}
             </div>
             {u.admin ? (
-              <ContactAdminButton
-                value={`${u._id} ${u.username}`}
-                handleClick={sendGift}
-              />
+              <>
+                <ContactAdminButton
+                  value={`${u._id} ${u.username}`}
+                  handleClick={sendGift}
+                />
+                <div className='my-2'>
+                  {u.rewards &&
+                    u.rewards
+                      .filter((item) => item.available < 1)
+                      .map((item, i) => (
+                        <Image
+                          key={i}
+                          roundedCircle
+                          src={returnIco(item.reward)}
+                          alt={item.reward}
+                          className='p-1 mr-1 mb-1'
+                          style={{ backgroundColor: "white" }}
+                          height='25px'
+                        />
+                      ))}
+                </div>
+              </>
             ) : (
               <SendGiftButton
                 value={`${u._id} ${u.username}`}

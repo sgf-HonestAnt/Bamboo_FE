@@ -11,7 +11,6 @@ import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "../__Components/DashComponents/ProfileCard";
 // import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "../__Components/DashComponents/Notifications";
-// import DashChallCard from "./DashComponents/ChallengeCard";
 import FindFollows from "../__Components/FindFollows";
 import Achievements from "../__Components/DashComponents/Achievements";
 import DashStats from "../__Components/DashComponents/DashStats";
@@ -36,6 +35,13 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isSmallerTabletOrMobile = useMediaQuery({
+    query: "(max-width: 1089px)",
+  });
+  const isTiny = useMediaQuery({
+    query: "(max-width: 746px)",
+  });
+  const islt1314 = useMediaQuery({ query: "(max-width: 1314px)" });
   // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   // console.log("isBigScreen", isBigScreen, "isRetina", isRetina);
   // ****************************MEDIA********************************************
@@ -51,14 +57,16 @@ export default function DashboardPage(props: DashboardPageProps) {
   useEffect(() => {
     console.log(location.pathname);
   }, [location.pathname]);
-  // console.log(
-  //   "isbig=>",
-  //   isBigScreen,
-  //   "isdesktop=>",
-  //   isDesktopOrLaptop,
-  //   "istablet=>",
-  //   isTabletOrMobile
-  // );
+  console.log(
+    "isbig=>",
+    isBigScreen,
+    "isdesktop=>",
+    isDesktopOrLaptop,
+    "istablet=>",
+    isTabletOrMobile,
+    "issmallertablet=>",
+    isSmallerTabletOrMobile
+  );
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
@@ -95,8 +103,8 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
         </Col>
         <Col className='col dashboard__right-col p-0'>
-          <Row className='pl-3'>
-            <Col>
+          <Row className='pt-3 pl-3'>
+            <Col className="px-3">
               <Achievements />
             </Col>
           </Row>
@@ -105,7 +113,7 @@ export default function DashboardPage(props: DashboardPageProps) {
     </Container>
   ) : isDesktopOrLaptop ? (
     <Container fluid>
-      <Row className='dashboard'>
+      <Row className='dashboard pb-2'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             {notification.length > 0 && (
@@ -148,15 +156,16 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
         </Col>
         <Col className='col dashboard__right-col p-0'>
-          <Row className='pl-3'>
+          <Row className='pt-3 pl-3'>
             <Col>
+              {islt1314 && <hr />}
               <Achievements />
             </Col>
           </Row>
         </Col>
       </Row>
     </Container>
-  ) : isTabletOrMobile ? (
+  ) : isTabletOrMobile && !isSmallerTabletOrMobile ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-4 dashboard__left-col'>
@@ -198,6 +207,35 @@ export default function DashboardPage(props: DashboardPageProps) {
       </Row>
     </Container>
   ) : (
-    <div>IS NOT DESKTOP, LAPTOP, TABLET OR MOBILE</div>
+    <Container fluid>
+      <Row className='dashboard py-3'>
+        <Col className='col-12'>
+          <FindFollows
+            history={history}
+            search={search}
+            setSearch={setSearch}
+          />
+        </Col>
+        <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
+          {notification.length > 0 && <DashNotifications />}
+          <DashProfileCard history={history} />
+          {admin && (
+            <Link to='/admin-dash'>
+              <Button variant='info' className='dashboard__admin-card'>
+                Go to Admin
+              </Button>
+            </Link>
+          )}
+          {notification.length < 1 && (
+            <Col className='col-12 p-0 my-3'>
+              <DashStats />
+            </Col>
+          )}
+        </Col>
+        <Col className={`${isTiny ? "col-12" : "col-7"} px-3 pb-3`}>
+          <AtAGlance today={today} history={history} location={location} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
