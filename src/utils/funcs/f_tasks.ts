@@ -325,14 +325,14 @@ export const moveTaskBetweenStatus = async (
   if (destination === "awaited") {
     awaited.push(task!);
     dispatch(AddTaskToAwaited(awaited));
-  } else if (destination === "in_progress") {
+  } 
+  if (destination === "in_progress") {
     in_progress.push(task!);
     dispatch(AddTaskToInProgress(in_progress));
-  } else if (destination === "completed") {
+  } 
+  if (destination === "completed") {
     completed.push(task!);
-    dispatch(AddTaskToCompleted(completed));
-  } else {
-  }
+    dispatch(AddTaskToCompleted(completed));}
   if (source === "awaited") {
     const index = awaited.indexOf(task!);
     awaited.splice(index, 1);

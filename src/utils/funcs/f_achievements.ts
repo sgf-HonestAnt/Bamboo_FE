@@ -22,10 +22,7 @@ export const attemptPostAchievement = async (
     const body = JSON.stringify({ item, category });
     // console.log(body)
     const response = await fetch(url, { method, headers, body });
-    const responseAsJSON = await response.json();
-    if (response.ok) {
-      console.log("NOW LOAD ACHIEVEMENTS???", responseAsJSON);
-    }
+    await response.json();
   } catch (error) {
     console.log(error);
   }

@@ -11,7 +11,9 @@ import {
   SET_USER_EMAIL,
   SET_USER_FIRST_NAME,
   SET_USER_LEVEL,
+  SET_USER_POINTS,
   SET_USER_POINTS_AND_COMPLETED,
+  SET_USER_REWARDS,
   SET_USER_USERNAME,
 } from "../../utils/const/str";
 
@@ -81,6 +83,22 @@ const currentUserReducer = (
         my_user: {
           ...state.my_user,
           level: action.payload,
+        },
+      };
+    case SET_USER_POINTS:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          xp: action.payload,
+        },
+      };
+    case SET_USER_REWARDS:
+      return {
+        ...state,
+        my_user: {
+          ...state.my_user,
+          rewards: action.payload,
         },
       };
     case SET_USER_POINTS_AND_COMPLETED:

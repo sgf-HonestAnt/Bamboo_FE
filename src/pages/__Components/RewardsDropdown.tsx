@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { fillUserAction } from "../../redux/actions/user";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt, rewardsInt } from "../../typings/interfaces";
 import returnIco from "../../utils/funcs/f_ico";
 import { purchaseReward } from "../../utils/funcs/f_rewards";
-import { updateUserXp } from "../../utils/funcs/f_users";
+import { History } from "history";
 import BambooPoints from "./XP";
 
 type RewardsDropdownProps = {
   rewards: rewardsInt[];
   formType: string;
   label: string;
+  history: History<unknown> | string[];
 };
 
 export default function RewardsDropdown(props: RewardsDropdownProps) {
   const dispatch = useDispatch();
-  const { rewards, formType, label } = props;
+  const { rewards, formType, label, history } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const [loading, setLoading] = useState(false);
@@ -36,19 +36,14 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (reward && xp >= reward.value) {
-      const remainingXp = await purchaseReward(
-        reward._id,
-        reward.available,
-        xp
-      );
+      const remainingXp = await purchaseReward(rewards, reward, xp, dispatch);
       if (remainingXp) {
-        await updateUserXp(remainingXp, dispatch);
-        dispatch(fillUserAction); 
-        console.log("CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL") 
         setReward(undefined);
-        setLoading(true);
+        history.push("/reload");
       } else {
-        console.log("CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL") 
+        console.log(
+          "CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL"
+        );
       }
     }
   }

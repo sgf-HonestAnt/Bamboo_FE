@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
@@ -34,7 +34,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
-  const { history, location } = props;
+  const { history } = props;
   // const { notification } = my_user;
   // const achievements = state.currentAchievements;
   // const tasks = state.currentTasks;

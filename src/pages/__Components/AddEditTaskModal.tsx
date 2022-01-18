@@ -254,6 +254,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           history,
           location
         );
+        if (form.repeats !== "never") {
+          history.push(`/reload/${location.pathname}`);
+        }
         if (taskSet) {
           const editedStatus = taskSet.status;
           const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;

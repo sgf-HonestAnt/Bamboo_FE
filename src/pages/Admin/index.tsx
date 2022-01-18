@@ -51,7 +51,7 @@ export default function AdminPage(props: AdminPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
-  const { user, location, history } = props;
+  const { user, history } = props;
   const signedInId = my_user._id;
   const [usersData, setUsersData] = useState<userInt[]>();
   const [usersToDisplay, setUsersToDisplay] = useState<userInt[]>();

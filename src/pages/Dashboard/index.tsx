@@ -26,8 +26,8 @@ export default function DashboardPage(props: DashboardPageProps) {
   //console.log("FIX NEEDED ON DASHBOARDPAGE"); // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { notification, admin } = state.currentUser.my_user;
-  const { awaited, in_progress, completed } = state.currentTasks;
-  const currLength = awaited.concat(in_progress, completed).length;
+  // const { awaited, in_progress, completed } = state.currentTasks;
+  // const currLength = awaited.concat(in_progress, completed).length;
   const dispatch = useDispatch();
   const { history, location } = props;
   const [search, setSearch] = useState("");
@@ -59,17 +59,17 @@ export default function DashboardPage(props: DashboardPageProps) {
   // useEffect(() => {
   //   console.log(location.pathname);
   // }, [location.pathname]);
-  console.log(
-    "isbig=>",
-    isBigScreen,
-    "isdesktop=>",
-    isDesktopOrLaptop,
-    "istablet=>",
-    isTabletOrMobile,
-    "issmallertablet=>",
-    isSmallerTabletOrMobile
-  );
-  console.log("length at dashboard=>", currLength);
+  // console.log(
+  //   "isbig=>",
+  //   isBigScreen,
+  //   "isdesktop=>",
+  //   isDesktopOrLaptop,
+  //   "istablet=>",
+  //   isTabletOrMobile,
+  //   "issmallertablet=>",
+  //   isSmallerTabletOrMobile
+  // );
+  // console.log("length at dashboard=>", currLength);
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>

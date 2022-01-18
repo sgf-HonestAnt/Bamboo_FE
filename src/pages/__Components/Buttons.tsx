@@ -93,7 +93,7 @@ export const DeleteUserButton = (props: ButtonProps) => (
   </Button>
 );
 export const AddNewTaskButton = (props: ButtonProps) => (
-  <Button variant='light' className='mr-1 my-1' onClick={props.handleClick}>
+  <Button variant='light' className='my-1 mr-1' onClick={props.handleClick}>
     <FiPlus /> {props.label}
   </Button>
 );

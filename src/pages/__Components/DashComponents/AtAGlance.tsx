@@ -59,7 +59,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   const tasks = state.currentTasks;
   const categories = tasks.categories;
   const { awaited, in_progress, completed } = tasks;
-  const currLength = awaited.concat(in_progress, completed).length;
+  // const currLength = awaited.concat(in_progress, completed).length;
   const { history, location } = props; // today
   const [taskState, setTaskState] = useState(ALL_TASKS);
   const [atAGlanceData, setAtAGlanceData] = useState<AtAGlanceDataProps>({
@@ -107,13 +107,18 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     const sharedTasks = allTasks.filter((task) => task.sharedWith!.length > 1);
     const overdueTasks = await findIfTasksOverdue();
     const rewardsAvailable = await findRewardsAvailable();
-    setAtAGlanceData({
-      overdueTasks,
-      urgentTasks,
-      todayTasks,
-      sharedTasks,
-      rewardsAvailable,
-    });
+    overdueTasks &&
+      urgentTasks &&
+      todayTasks &&
+      sharedTasks &&
+      rewardsAvailable &&
+      setAtAGlanceData({
+        overdueTasks,
+        urgentTasks,
+        todayTasks,
+        sharedTasks,
+        rewardsAvailable,
+      });
   };
   const handleClick = (e: {
     preventDefault: () => void;
@@ -133,10 +138,16 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
   useEffect(() => {}, [taskState, atAGlanceData]);
-  console.log("length at ataglance=>", currLength);
+  // console.log("length at ataglance=>", currLength);
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
+      <DashTaskButton
+        label={`All tasks|${allTasks.length}`}
+        value={ALL_TASKS}
+        handleClick={handleClick}
+        className={taskState === ALL_TASKS ? "selected" : "not-selected"}
+      />
       {(allTasks.length > 0 || completed.length > 0) && (
         <>
           <DashTaskButton
@@ -183,12 +194,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         </>
       )}
       <DashTaskButton
-        label={`All tasks|${allTasks.length}`}
-        value={ALL_TASKS}
-        handleClick={handleClick}
-        className={taskState === ALL_TASKS ? "selected" : "not-selected"}
-      />
-      <DashTaskButton
         label={`Rewards|${atAGlanceData.rewardsAvailable.length}`}
         value={"REWARDS"}
         handleClick={handleClick}
@@ -197,24 +202,25 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
       {taskState === URGENT ? (
         <MapTasks
           tasks={atAGlanceData.urgentTasks}
-          link={`/tasks?category=urgent`}
+          link={`/tasks`} // /tasks?category=urgent
         />
       ) : taskState === TODAY ? (
-        <MapTasks tasks={atAGlanceData.todayTasks} link={TODAY} />
+        <MapTasks tasks={atAGlanceData.todayTasks} link={"/tasks"} />
       ) : taskState === AWAITED ? (
-        <MapTasks tasks={awaited} link={`/tasks?status=awaited`} />
+        <MapTasks tasks={awaited} link={`/tasks`} /> // /tasks?status=awaited
       ) : taskState === IN_PROGRESS ? (
-        <MapTasks tasks={in_progress} link={`/tasks?status=in_progress`} />
+        <MapTasks tasks={in_progress} link={`/tasks`} /> // /tasks?status=in_progress
       ) : taskState === OVERDUE ? (
-        <MapTasks tasks={atAGlanceData.overdueTasks} link={OVERDUE} />
+        <MapTasks tasks={atAGlanceData.overdueTasks} link={"/tasks"} />
       ) : taskState === "Shared" ? (
-        <MapTasks tasks={atAGlanceData.sharedTasks} link={`/tasks?type=team`} />
+        <MapTasks tasks={atAGlanceData.sharedTasks} link={`/tasks`} /> // /tasks?type=team
       ) : taskState === "REWARDS" ? (
         <div>
           <RewardsDropdown
             rewards={atAGlanceData.rewardsAvailable}
             formType='select'
             label='Celebrate your progress! Spend well-earned xp to display a reward badge:'
+            history={history}
           />
         </div>
       ) : (

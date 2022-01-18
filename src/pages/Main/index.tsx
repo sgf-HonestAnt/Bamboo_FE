@@ -33,7 +33,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     (state: reduxStateInt) => state.currentUser.my_user
   );
   const { refreshToken } = user;
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const { error, loading } = state.currentUser;
   const features = state.currentFeatures;
   const dispatch = useDispatch();

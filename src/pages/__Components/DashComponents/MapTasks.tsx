@@ -71,16 +71,14 @@ export default function MapTasks(props: MapTasksProps) {
   useEffect(() => {
     createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tasks]);
   return (
     <div className='dashboard__map-tasks'>
       {tasks.length > 0 && <hr />}
       {
         // eslint-disable-next-line array-callback-return
         tasks.map((task, i) => (
-          <Link
-            to={`${link}`} // ?id=${task._id}
-            key={task._id}>
+          <Link to={`${link}?id=${task._id}`} key={task._id}>
             <TaskButton
               i={i}
               task={task}

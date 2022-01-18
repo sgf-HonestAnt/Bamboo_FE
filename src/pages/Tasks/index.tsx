@@ -168,32 +168,40 @@ export default function TasksPage(props: TasksPageProps) {
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
-  useEffect(() => {
-    const { search } = location;
-    if (search.includes("?category")) {
-      setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
-    } else if (search.includes("?status")) {
-      setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
-    } else if (search.includes("?value")) {
-      setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
-    } else if (search.includes("?sharedWith")) {
-      /// DEBUG IN AM . WANT TO SHOW TASKS SHARED WITH USER .
-      // setFilter({ ...filter, type: TEAM });
-      const sharedTasks = allTasks.filter((task) =>
-        task.sharedWith!.includes(search.split("=")[1].split("?")[0])
-      );
-      // console.log(sharedTasks);
-      setTaskList(sharedTasks);
-      ///////
-    } else if (search.includes("?type")) {
-      setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
-    } else if (search.includes("?deadline")) {
-      setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
-    } else {
-      return;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+  // useEffect(() => {
+  //   const { search } = location;
+  //   if (search.includes("?category")) {
+  //     setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?status")) {
+  //     setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?value")) {
+  //     setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?sharedWith")) {
+  //     /// DEBUG IN AM . WANT TO SHOW TASKS SHARED WITH USER .
+  //     // setFilter({ ...filter, type: TEAM });
+  //     const sharedTasks = allTasks.filter((task) =>
+  //       task.sharedWith!.includes(search.split("=")[1].split("?")[0])
+  //     );
+  //     // console.log(sharedTasks);
+  //     setTaskList(sharedTasks);
+  //     ///////
+  //   } else if (search.includes("?type")) {
+  //     setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?deadline")) {
+  //     setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
+  //   } else {
+  //     return;
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location.search]);
+  // useEffect(() => {
+  //   const { search } = location;
+  //   if (search.includes(task!._id)) {
+  //     setShow(true);
+  //     setView(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location]);
   return (
     <Container fluid>
       <TasksFilterRow
@@ -208,7 +216,6 @@ export default function TasksPage(props: TasksPageProps) {
         // query={query}
         // setQuery={setQuery}
       />
-
       <DragDropContainer
         initialData={initialData}
         setInitialData={setInitialData}

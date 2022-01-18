@@ -12,7 +12,7 @@ import {
   Image,
 } from "react-bootstrap";
 import {
-  ContactAdminButton,
+  // ContactAdminButton,
   LinkButton,
   SendGiftButton,
 } from "../__Components/Buttons";
@@ -25,12 +25,14 @@ import { useMediaQuery } from "react-responsive";
 import returnIco, { CROWN } from "../../utils/funcs/f_ico";
 import { sendXpGift } from "../../utils/funcs/f_rewards";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
 export default function FollowingPage(props: FollowingPageProps) {
+  const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   const { history, location } = props;
@@ -39,13 +41,14 @@ export default function FollowingPage(props: FollowingPageProps) {
   });
   const isgt1261 = useMediaQuery({ query: "(min-width: 1261px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
   const points = my_user.xp;
   const [show, setShow] = useState(false);
   const handleClose = () => {
-    setGift({ username: "", userId: "", xp: 0 });
     setShow(false);
+    setGift({ username: "", userId: "", xp: 0 });
   };
   const handleShow = () => setShow(true);
   const sendGift = async (e: {
@@ -69,10 +72,9 @@ export default function FollowingPage(props: FollowingPageProps) {
   };
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    const { message } = await sendXpGift(gift.userId, gift.xp);
-    if (message) {
-      history.push("/");
-    }
+    await sendXpGift(gift.userId, gift.xp, points, dispatch);
+    handleClose();
+    setLoading(true);
   }
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
@@ -85,6 +87,10 @@ export default function FollowingPage(props: FollowingPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+  useEffect(() => {
+    setLoading(false);
+  }, [loading]);
+  console.log("I have ", points, "points");
   return (
     <Container fluid>
       <Row className='p-3'>
@@ -126,61 +132,60 @@ export default function FollowingPage(props: FollowingPageProps) {
               {/* {u.admin && "Admin: "} */}
               {getUserRole(u.level)}
             </div>
-            {u.admin ? (
+            {/* {u.admin && (
               <>
                 <ContactAdminButton
                   value={`${u._id} ${u.username}`}
                   handleClick={sendGift}
                 />
-                <div className='my-2'>
-                  {u.rewards &&
-                    u.rewards
-                      .filter((item) => item.available < 1)
-                      .map((item, i) => (
-                        <Image
-                          key={i}
-                          roundedCircle
-                          src={returnIco(item.reward)}
-                          alt={item.reward}
-                          className='p-1 mr-1 mb-1'
-                          style={{ backgroundColor: "white" }}
-                          height='25px'
-                        />
-                      ))}
-                </div>
               </>
-            ) : (
-              <SendGiftButton
-                value={`${u._id} ${u.username}`}
-                handleClick={sendGift}
-              />
-            )}
+            )} */}
+            <SendGiftButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+            <div className='my-2'>
+              {u.rewards &&
+                u.rewards
+                  .filter((item) => item.available < 1)
+                  .map((item, i) => (
+                    <Image
+                      key={i}
+                      roundedCircle
+                      src={returnIco(item.reward)}
+                      alt={item.reward}
+                      className='p-1 mr-1 mb-1'
+                      style={{ backgroundColor: "white" }}
+                      height='25px'
+                    />
+                  ))}
+            </div>
+
             {points! < 100 ? (
               <Modal show={show} onHide={handleClose}>
-                {u.admin ? (
+                {/* {u.admin && (
                   <Modal.Header>
                     Send message to <strong>{gift.username}</strong>
                   </Modal.Header>
-                ) : (
-                  <>
-                    <Modal.Header>
-                      <Modal.Title>You have {points} Bamboo Points</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      You need a minimum of 100 Bamboo Points before you can
-                      send <strong>{gift.username}</strong> a gift. Come back
-                      later after completing some tasks!
-                    </Modal.Body>
-                    <Modal.Footer>
-                      {/* <Button variant='primary' onClick={handleDelete}>
+                */}
+                <>
+                  <Modal.Header>
+                    <Modal.Title>You have {points} Bamboo Points</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    You need a minimum of 100 Bamboo Points before you can send{" "}
+                    <strong>{gift.username}</strong> a gift. Come back later
+                    after completing some tasks!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    {/* <Button variant='primary' onClick={handleDelete}>
                 Yes, delete my account
               </Button> */}
-                      <Button variant='secondary' onClick={handleClose}>
-                        Go back
-                      </Button>
-                    </Modal.Footer>
-                  </>
-                )}
+                    <Button variant='secondary' onClick={handleClose}>
+                      Go back
+                    </Button>
+                  </Modal.Footer>
+                </>
               </Modal>
             ) : (
               <Modal show={show} onHide={handleClose}>
