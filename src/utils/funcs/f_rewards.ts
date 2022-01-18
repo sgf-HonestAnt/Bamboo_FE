@@ -1,11 +1,11 @@
 import { ENDPOINT_GIFTS, ENDPOINT_MYREWARDS, POST, PUT } from "../const/str";
 
 export async function sendXpGift(userId: string, xp: number) {
-  console.log("🙋Sending Xp Gift");
+  // console.log("🙋Sending Xp Gift");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_GIFTS}/${userId}`;
-    console.log(url);
+    // console.log(url);
     const method = POST;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -30,11 +30,11 @@ export async function purchaseReward(
   numAvailable: number,
   xp: number
 ) {
-  console.log("🙋Purchasing Reward Badge");
+  // console.log("🙋Purchasing Reward Badge");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_MYREWARDS}/${rewardId}`;
-    console.log(url);
+    // console.log(url);
     const method = PUT;
     const headers = {
       Authorization: `Bearer ${token}`,

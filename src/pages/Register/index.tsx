@@ -93,7 +93,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
     }
   };
   useEffect(() => {}, [form]);
-  console.log(form);
+  // console.log(form);
   return (
     <Container fluid>
       <Row className='registration-form'>

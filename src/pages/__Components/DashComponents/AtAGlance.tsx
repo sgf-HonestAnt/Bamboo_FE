@@ -59,6 +59,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   const tasks = state.currentTasks;
   const categories = tasks.categories;
   const { awaited, in_progress, completed } = tasks;
+  const currLength = awaited.concat(in_progress, completed).length;
   const { history, location } = props; // today
   const [taskState, setTaskState] = useState(ALL_TASKS);
   const [atAGlanceData, setAtAGlanceData] = useState<AtAGlanceDataProps>({
@@ -123,16 +124,16 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     setTaskState(value);
   };
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
   useEffect(() => {
     setTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [show]);
   useEffect(() => {}, [taskState, atAGlanceData]);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [awaited.length, in_progress.length, completed.length]);
+  console.log("length at ataglance=>", currLength);
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />

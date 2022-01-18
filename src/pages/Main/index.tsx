@@ -63,9 +63,9 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
-  useEffect(() => {
-    console.log("🔐", localStorage.getItem("token"));
-  }, [token]);
+  // useEffect(() => {
+  //   console.log("🔐", localStorage.getItem("token"));
+  // }, [token]);
   return (
     <Container fluid className='main-page m-0 p-0' id={theme}>
       {loading || mainLoading ? (

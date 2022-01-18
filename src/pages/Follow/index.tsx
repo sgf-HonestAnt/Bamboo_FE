@@ -77,7 +77,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     if (location.search) {
-      console.log(location.search);
+      // console.log(location.search);
       const filteredUsers = followedUsers.filter(
         (user) => user._id === locationSearch
       );

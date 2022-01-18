@@ -127,7 +127,8 @@ export default function AdminPage(props: AdminPageProps) {
             user.email.toLowerCase().includes(search.toLowerCase())
         );
         setUsersToDisplay(filtered);
-      } else if (tasksData && dropdown.toLowerCase().includes(TASKS)) {
+      }
+      if (tasksData && dropdown.toLowerCase().includes(TASKS)) {
         const filtered = tasksData.filter(
           (task) =>
             task.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -137,8 +138,6 @@ export default function AdminPage(props: AdminPageProps) {
             task.category.toLowerCase().includes(search.toLowerCase())
         );
         setTasksToDisplay(filtered);
-      } else {
-        console.log("notifications drop");
       }
     } else {
       setUsersToDisplay(usersData);
@@ -146,9 +145,9 @@ export default function AdminPage(props: AdminPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   console.log(location.pathname);
+  // }, [location.pathname]);
   return !user.admin ? (
     <Container fluid className='admin-page'>
       <Row id='denied'>

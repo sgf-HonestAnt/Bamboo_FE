@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Form, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { fillUserAction } from "../../redux/actions/user";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt, rewardsInt } from "../../typings/interfaces";
 import returnIco from "../../utils/funcs/f_ico";
@@ -15,8 +16,8 @@ type RewardsDropdownProps = {
 };
 
 export default function RewardsDropdown(props: RewardsDropdownProps) {
-  const { rewards, formType, label } = props;
   const dispatch = useDispatch();
+  const { rewards, formType, label } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const [loading, setLoading] = useState(false);
@@ -42,14 +43,16 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
       );
       if (remainingXp) {
         await updateUserXp(remainingXp, dispatch);
+        dispatch(fillUserAction); 
+        console.log("CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL") 
+        setReward(undefined);
+        setLoading(true);
       } else {
-        console.log("PROBLEM UPDATING XP!")
+        console.log("CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL") 
       }
-    } else {
-      console.log("NO REWARD CHOSEN");
     }
   }
-  console.log(reward);
+  // console.log(reward);
   useEffect(() => {
     setLoading(false);
   }, [loading]);
@@ -102,9 +105,10 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
           <Row className='d-flex align-items-center justify-content-start mr-auto mx-5'>
             {!loading &&
               rewards.map((item, i) => (
-                <Col className='col-12 col-lg-6 align-content-start m-0 pt-1'>
+                <Col
+                  className='col-12 col-lg-6 align-content-start m-0 pt-1'
+                  key={item._id}>
                   <Form.Check
-                    key={item._id}
                     type='radio'
                     name='rewards_group'
                     onChange={handleChange}

@@ -102,9 +102,9 @@ export default function SettingsPage(props: SettingsPageProps) {
       history.push("/");
     }
   };
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   console.log(location.pathname);
+  // }, [location.pathname]);
   return (
     <div className='settings-page'>
       <Card className='my-3'>

@@ -48,14 +48,14 @@ const FindFollows = (props: FindFollowsProps) => {
   }
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("submit=>", search);
+    // console.log("submit=>", search);
     const { publicUsers } = await getUserByQuery(search);
     if (publicUsers.length > 0) {
       setResult({ found: true, user: publicUsers[0], message: "User found:" });
     } else setResult({ found: true, user: null, message: "No user found" });
   };
   const sendRequest = async () => {
-    console.log("send");
+    // console.log("send");
     const success = await requestFollow(result.user ? result.user?._id : "");
     if (success) {
       setResult({

@@ -16,6 +16,7 @@ import Achievements from "../__Components/DashComponents/Achievements";
 import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
 import "./styles.css";
+import { fillTasksAction } from "../../redux/actions/tasks";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -25,7 +26,8 @@ export default function DashboardPage(props: DashboardPageProps) {
   //console.log("FIX NEEDED ON DASHBOARDPAGE"); // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { notification, admin } = state.currentUser.my_user;
-  // const { awaited, in_progress, completed } = state.currentTasks;
+  const { awaited, in_progress, completed } = state.currentTasks;
+  const currLength = awaited.concat(in_progress, completed).length;
   const dispatch = useDispatch();
   const { history, location } = props;
   const [search, setSearch] = useState("");
@@ -41,7 +43,6 @@ export default function DashboardPage(props: DashboardPageProps) {
   const isTiny = useMediaQuery({
     query: "(max-width: 746px)",
   });
-  const islt1314 = useMediaQuery({ query: "(max-width: 1314px)" });
   // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   // console.log("isBigScreen", isBigScreen, "isRetina", isRetina);
   // ****************************MEDIA********************************************
@@ -49,14 +50,15 @@ export default function DashboardPage(props: DashboardPageProps) {
   const today = getSelectedDateAsString(todayAsDate);
   const attemptLoad = async () => {
     dispatch(fillUserAction());
+    dispatch(fillTasksAction());
   };
   useEffect(() => {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   console.log(location.pathname);
+  // }, [location.pathname]);
   console.log(
     "isbig=>",
     isBigScreen,
@@ -67,6 +69,7 @@ export default function DashboardPage(props: DashboardPageProps) {
     "issmallertablet=>",
     isSmallerTabletOrMobile
   );
+  console.log("length at dashboard=>", currLength);
   return isBigScreen ? (
     <Container fluid>
       <Row className='dashboard'>
@@ -103,8 +106,8 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
         </Col>
         <Col className='col dashboard__right-col p-0'>
-          <Row className='pt-3 pl-3'>
-            <Col className="px-3">
+          <Row className='pl-3'>
+            <Col className='px-3'>
               <Achievements />
             </Col>
           </Row>
@@ -113,7 +116,7 @@ export default function DashboardPage(props: DashboardPageProps) {
     </Container>
   ) : isDesktopOrLaptop ? (
     <Container fluid>
-      <Row className='dashboard pb-2'>
+      <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             {notification.length > 0 && (
@@ -156,9 +159,8 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
         </Col>
         <Col className='col dashboard__right-col p-0'>
-          <Row className='pt-3 pl-3'>
+          <Row className='p-0 pl-3'>
             <Col>
-              {islt1314 && <hr />}
               <Achievements />
             </Col>
           </Row>

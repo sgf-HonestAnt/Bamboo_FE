@@ -377,7 +377,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     setShowOtherRepeat(false);
     setShowShared(false);
     setShowSharedDropdown(false);
-    setView(true);
     handleClose();
   };
   if (taskId) {

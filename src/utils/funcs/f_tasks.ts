@@ -32,7 +32,7 @@ import { refreshUserLevel, refreshUserPoints } from "./f_users";
 
 export const getTask = async (id: string) => {
   // get single task belonging to the user
-  console.log("🙋Getting Single Task");
+  // console.log("🙋Getting Single Task");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_TASKS}/me/${id}`;
@@ -55,7 +55,7 @@ export const getTasks = async () => {
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_TASKS}/me`;
-    console.log("🙋Getting All My Tasks");
+    // console.log("🙋Getting All My Tasks");
     const method = GET;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export const getTasks = async () => {
 
 export const getTaskByQuery = async (criteria: string, _id: string) => {
   // query task created by specific user
-  console.log("🙋Searching Task Belonging To User With Criteria");
+  // console.log("🙋Searching Task Belonging To User With Criteria");
   try {
     const url = `${ENDPOINT_TASKS}/query?createdBy=${_id}&${criteria}`;
     const method = GET;
@@ -91,7 +91,7 @@ export const getTaskByQuery = async (criteria: string, _id: string) => {
 
 export const getTaskByDeadline = async (par: string | null) => {
   // get multiple, deadline-filtered tasks belonging to the user
-  console.log("🙋Getting Task By Deadline");
+  // console.log("🙋Getting Task By Deadline");
   const tasks = await getTasks();
   const { awaited, in_progress } = tasks;
   const allTasks = awaited.concat(in_progress);
@@ -103,7 +103,7 @@ export const getTaskByDeadline = async (par: string | null) => {
 
 export const getAllTasks = async (_id: string) => {
   // get all tasks or all tasks created by one user
-  console.log("🙋Getting Tasks Created By User");
+  // console.log("🙋Getting Tasks Created By User");
   try {
     const criteria = _id.length > 0 ? `?createdBy=${_id}` : "";
     const url = `${ENDPOINT_TASKS}/query${criteria}`;
@@ -123,7 +123,7 @@ export const getAllTasks = async (_id: string) => {
 
 export const getTasksPageTasksQuery = async (criteria: string) => {
   // get tasks for the tasks page, sorted by deadline and limited by criteria
-  console.log("🙋Getting Sorted, Queried Tasks");
+  // console.log("🙋Getting Sorted, Queried Tasks");
   try {
     const url = `${ENDPOINT_TASKS}/query?${criteria}&sort=deadline&limit=25`;
     const method = GET;
@@ -150,7 +150,7 @@ export const attemptPostOrEditTask = async (
   location: Location<unknown> | undefined
 ) => {
   try {
-    console.log("✏️Posting or Editing New Task");
+    // console.log("✏️Posting or Editing New Task");
     const token = localStorage.getItem("token");
     const username = await checkToken(refreshToken, history, location);
     if (username) {
@@ -184,7 +184,7 @@ export const attemptCompleteTasks = async (
   dispatch: Dispatch<any>
 ) => {
   try {
-    console.log("🙋Marking Task Complete");
+    // console.log("🙋Marking Task Complete");
     const username = await checkToken(refreshToken, history, location);
     if (username) {
       for (let i = 0; i < taskIds.length; i++) {
@@ -208,7 +208,7 @@ export const attemptUpdateTask = async (
   initialData?: beautifulDnD,
   setInitialData?: any
 ) => {
-  console.log("🙋Updating Single Task");
+  // console.log("🙋Updating Single Task");
   const token = localStorage.getItem("token");
   const { status } = taskUpdate;
   try {
@@ -227,7 +227,7 @@ export const attemptUpdateTask = async (
       }
       if (status === COMPLETED) {
         const { title, category, value } = responseAsJSON;
-        console.log(title, category, value)
+        // console.log(title, category, value)
         await attemptPostAchievement(title, category, dispatch, achievements);
         await refreshUserPoints(user, value, dispatch);
         refreshUserLevel(user, value, dispatch);
@@ -241,7 +241,7 @@ export const attemptUpdateTask = async (
 
 export const attemptDeleteTask = async (taskId: string) => {
   // delete single task
-  console.log("🙋Deleting Single Task");
+  // console.log("🙋Deleting Single Task");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_TASKS}/me/${taskId}`;
@@ -260,7 +260,7 @@ export const attemptDeleteTask = async (taskId: string) => {
 
 export const getCategories = async (tasks: taskInt[]) => {
   // get all categories in use by the user
-  console.log("🙋Getting My Categories");
+  // console.log("🙋Getting My Categories");
   let array: string[] = [];
   for (let i = 0; i < tasks.length; i++) {
     !array.includes(tasks[i].category) && array.push(tasks[i].category);
@@ -273,7 +273,7 @@ export const removeSelfFromTask = async (
   currentTasks: currentTasksInt,
   dispatch: Dispatch<any>
 ) => {
-  console.log("🙋Removing Me From Task");
+  // console.log("🙋Removing Me From Task");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_TASKS}/remove/${taskId}`;
@@ -316,7 +316,7 @@ export const moveTaskBetweenStatus = async (
   // setInitialData: any,
   dispatch: Dispatch<any>
 ) => {
-  console.log("🙋Changing Task Status / Deleting Completed Task");
+  // console.log("🙋Changing Task Status / Deleting Completed Task");
   // Unhandled Rejection (TypeError): Cannot set properties of undefined (setting 'status')
   const { awaited, in_progress, completed } = currentTasks;
   if (destination) {

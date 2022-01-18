@@ -182,7 +182,7 @@ export default function TasksPage(props: TasksPageProps) {
       const sharedTasks = allTasks.filter((task) =>
         task.sharedWith!.includes(search.split("=")[1].split("?")[0])
       );
-      console.log(sharedTasks);
+      // console.log(sharedTasks);
       setTaskList(sharedTasks);
       ///////
     } else if (search.includes("?type")) {

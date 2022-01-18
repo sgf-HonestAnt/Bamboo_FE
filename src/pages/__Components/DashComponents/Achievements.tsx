@@ -10,7 +10,6 @@ import {
   getIdByUsername,
 } from "../../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
-import { useMediaQuery } from "react-responsive";
 import { Table } from "react-bootstrap";
 
 type AchievementsProps = {};
@@ -21,9 +20,6 @@ const Achievements = (props: AchievementsProps) => {
   const achievements = state.currentAchievements;
   const { list, superlist } = achievements;
   const dispatch = useDispatch();
-  const islt1315 = useMediaQuery({
-    query: "(max-width: 1314px)",
-  });
   const loadAchievementCard = async () => {
     let super_list: achievementInt[] = [];
     followedUsers.map((user, i) => {
@@ -57,8 +53,7 @@ const Achievements = (props: AchievementsProps) => {
   useEffect(() => {}, [superlist]);
   return (
     <div
-      className='bamboo-card dashboard__activities p-0 mr-2'
-      id={islt1315 ? "smaller" : "larger"}>
+      className='bamboo-card dashboard__activities p-0'>
       {superlist?.length < 1 && (
         <>
           <div className='dashboard__card-header'>Achievements</div>
