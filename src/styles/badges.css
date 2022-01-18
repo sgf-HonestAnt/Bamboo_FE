@@ -37,6 +37,9 @@ button,
 .btn-link:hover {
   text-decoration: none !important;
 }
+.dashboard__profile-card__edit-btn {
+  color: hsla(var(--spanish-viridian), 1) !important;
+}
 /* Rewards */
 .rewards .badge {
   margin: 5px;

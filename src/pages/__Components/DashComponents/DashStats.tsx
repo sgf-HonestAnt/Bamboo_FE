@@ -32,16 +32,18 @@ export default function DashStats(props: DashStatsProps) {
     <div
       className={`bamboo-card dashboard__dash-stats ${isBigScreen && "my-3"}`}>
       <Row>
-        <Col sm={12}>
-          <PieChartWithPaddingAngle
-            deg360={true}
-            data={allByStatus}
-            colors={STATUS_COLORS}
-            stat='status'
-            innerRadius={20}
-            outerRadius={50}
-          />
-        </Col>
+        {completed.length > 0 && (
+          <Col sm={12}>
+            <PieChartWithPaddingAngle
+              deg360={true}
+              data={allByStatus}
+              colors={STATUS_COLORS}
+              stat='status'
+              innerRadius={20}
+              outerRadius={50}
+            />
+          </Col>
+        )}
         <Col sm={12}>
           <div className='dashboard__card-header'>
             {findMostCommonStatus(allByStatus, allTasks.length).split("|")[0]}

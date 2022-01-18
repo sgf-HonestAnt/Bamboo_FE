@@ -19,7 +19,10 @@ import {
   setUsername,
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
-import { attemptDeleteUser, attemptUpdateUser } from "../../utils/funcs/f_users";
+import {
+  attemptDeleteUser,
+  attemptUpdateUser,
+} from "../../utils/funcs/f_users";
 import ImageUploader from "../__Components/ImageUploader";
 import "./styles.css";
 
@@ -163,6 +166,8 @@ export default function SettingsPage(props: SettingsPageProps) {
                 <Form.Control
                   type='text'
                   value={form.bio}
+                  maxLength={20}
+                  minLength={2}
                   onChange={handleChange}
                   className='settings-page__profile-card__form-control'
                 />
@@ -211,4 +216,4 @@ export default function SettingsPage(props: SettingsPageProps) {
       </Card>
     </div>
   );
-};
+}

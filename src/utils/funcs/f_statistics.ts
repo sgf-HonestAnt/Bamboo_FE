@@ -239,10 +239,7 @@ export function findMostCommonStatus(
   )[0]
     ? data.filter((data: genericTaskInt) => data.name === COMPLETED)[0].total
     : 0;
-  if (
-    awaitedTasks > progressingTasks &&
-    awaitedTasks > completedTasks
-  ) {
+  if (awaitedTasks > progressingTasks && awaitedTasks > completedTasks) {
     return `Procrastinor|${Math.floor(
       (awaitedTasks / tasksTotal) * 100
     )}% of your tasks are marked 'Awaited'.`;
@@ -261,12 +258,13 @@ export function findMostCommonStatus(
       (completedTasks / tasksTotal) * 100
     )}% of your tasks are marked 'Completed'.`;
   } else if (
+    completedTasks > 0 && 
     completedTasks === awaitedTasks &&
     completedTasks === progressingTasks
   ) {
     return `Perfect Balance|Your tasks are split evenly between 'Awaited', 'In Progress' and 'Completed.`;
   } else {
-    return `?|?`;
+    return `No Tasks Completed|Finish some tasks to view your stats`;
   }
 }
 

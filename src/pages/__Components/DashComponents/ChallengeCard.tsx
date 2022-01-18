@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../redux/hooks";
 import { featureInt, reduxStateInt } from "../../../typings/interfaces";
-import { Button } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { getMonthByIndex } from "../../../utils/funcs/f_dates";
 
@@ -20,11 +20,11 @@ const DashChallCard = (props: DashChallCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
   return (
-    <div className='bamboo-card-x-dark dashboard__challenge-card'>
+    <Row className='bamboo-card-x-dark dashboard__challenge-card'>
       {/* For now, just show first feature with matched month */}
       {/* {featureList < 1 && } */}
       {featureList.length > 0 ? (
-        <>
+        <Col>
           <div className='dashboard__card-header'>Featured Challenge</div>
           {featureList[0].image && (
             <img
@@ -39,18 +39,18 @@ const DashChallCard = (props: DashChallCardProps) => {
             {featureList[0].value}XP
           </div>
           <Button>TAKE PART</Button>
-        </>
+        </Col>
       ) : (
-        <>
+        <Col>
           <AiOutlineQuestionCircle />
           <div className='dashboard__card-header'>How to Use</div>
           <div>
             I will write this in time for demo day in lieu of Featured
             Challenges
           </div>
-        </>
+        </Col>
       )}
-    </div>
+    </Row>
   );
 };
 

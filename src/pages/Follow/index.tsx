@@ -106,7 +106,7 @@ export default function FollowingPage(props: FollowingPageProps) {
             />
             <Card.Title>{u.username} </Card.Title>
             <Link to={`/tasks?sharedWith=${u._id}`}>TASKS</Link>
-            <div>{u.bio}</div>
+            <div className="dashboard__profile-card__bio">{u.bio}</div>
             <div className='rewards'>
               {u.admin && (
                 <Image
