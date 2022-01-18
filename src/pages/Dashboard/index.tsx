@@ -16,8 +16,8 @@ import FindFollows from "../__Components/FindFollows";
 import Achievements from "../__Components/DashComponents/Achievements";
 import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
-import ColorPalette from "../__Components/ColorPalette";
 import "./styles.css";
+import { fillTasksAction } from "../../redux/actions/tasks";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -27,6 +27,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   //console.log("FIX NEEDED ON DASHBOARDPAGE"); // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { notification, admin } = state.currentUser.my_user;
+  const { awaited, in_progress, completed } = state.currentTasks;
   const dispatch = useDispatch();
   const { history, location } = props;
   const [search, setSearch] = useState("");
@@ -110,7 +111,6 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              <ColorPalette />
               <DashProfileCard history={history} />
               {admin && (
                 <Link to='/admin-dash'>

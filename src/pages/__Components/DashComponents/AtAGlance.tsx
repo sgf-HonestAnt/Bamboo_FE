@@ -96,6 +96,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     const rewardsAvailable = generalRewards.concat(specialRewards);
     return rewardsAvailable;
   };
+  const tasksLength = awaited.concat(in_progress, completed).length;
   const allTasks = awaited.concat(in_progress);
   const setTasks = async () => {
     const today = await getSelectedDateAsString(new Date());
@@ -130,7 +131,9 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {}, [taskState, atAGlanceData]);
-  console.log(taskState, atAGlanceData);
+  useEffect(() => {
+    console.log("tasks changed in state!", tasksLength);
+  }, [awaited.length, in_progress.length, completed.length]);
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />

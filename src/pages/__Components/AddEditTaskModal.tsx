@@ -302,7 +302,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         setValueHelp({ ...valueHelp, class: "form-control" });
         handleClose();
         if (repeatsOther !== 0 || repeats !== "never") {
-          dispatch(setUserLoading(true)); // 👈HERE!
+          dispatch(setUserLoading(true)); //👈HERE!
         }
       } catch (error) {
         console.log(error);
@@ -377,13 +377,14 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     setShowOtherRepeat(false);
     setShowShared(false);
     setShowSharedDropdown(false);
+    setView(true);
     handleClose();
   };
   if (taskId) {
     // console.log(taskId);
   }
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (
         <>
           <Modal.Header>
@@ -431,7 +432,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
             <Button variant='primary' onClick={handleEdit}>
               Edit task?
             </Button>
-            <Button variant='secondary' onClick={handleClose}>
+            <Button variant='secondary' onClick={handleCloseModal}>
               No, go back
             </Button>
           </Modal.Footer>
@@ -463,7 +464,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 Yes, delete
               </Button>
             )}
-            <Button variant='secondary' onClick={handleClose}>
+            <Button variant='secondary' onClick={handleCloseModal}>
               No, go back
             </Button>
           </Modal.Footer>

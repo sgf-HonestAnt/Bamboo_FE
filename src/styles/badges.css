@@ -78,3 +78,9 @@ button,
   color: black !important;
   background-color: hsla(var(--sunset-beach), 1) !important;
 }
+.delete-task-badge.badge.bg-dark {
+  color: white !important;
+}
+.delete-task-badge.badge.bg-dark svg {
+  margin: 2px 1px;
+}

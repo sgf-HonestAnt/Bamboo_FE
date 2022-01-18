@@ -51,21 +51,6 @@
   max-width: 30px;
   background-color: rgba(0, 0, 0, 0.2);
 }
-.completed .delete-task-btn {
-  padding: 0;
-  align-items: center;
-  vertical-align: middle;
-  border-radius: 0;
-  border: 1px solid  hsla(var(--black), 1);
-  min-height: 30px;
-  min-width: 30px;
-  max-height: 30px;
-  max-width: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-.completed .delete-task-btn svg {
-  color: black;
-}
 .dnd-placeholder {
   font-size: 1px;
   color: white;

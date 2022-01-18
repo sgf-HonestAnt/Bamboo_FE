@@ -30,6 +30,7 @@
   --sidebar-bg: hsla(var(--bottle-green), 1);
   --main-text: #041008;
   --sidebar-text: hsla(var(--honeydew), 1);
+  --link-text: hsla(var(--blue-green-color-wheel), 1);
   --ray-of-sun: yellow;
   --font-family: "Ubuntu", sans-serif;
   --font-size: 1.05rem;
@@ -57,11 +58,16 @@
 ::-webkit-scrollbar {
   width: 0px;
 }
+a {
+  color: var(--link-text) !important;
+  font-weight: 500;
+}
 /* divs */
 .bamboo-card,
 .bamboo-card-light,
 .bamboo-card-mid,
-.bamboo-card-dark {
+.bamboo-card-dark,
+.bamboo-catd-x-dark {
   padding: 15px;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
@@ -78,6 +84,9 @@
 }
 .bamboo-card-dark {
   background-color: hsla(var(--caribbean-green), 0.6);
+}
+.bamboo-card-x-dark {
+  background-color: hsla(var(--caribbean-green), 0.9);
 }
 .bamboo-logo,
 .bamboo-logo.btn-link {

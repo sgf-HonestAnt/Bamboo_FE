@@ -78,13 +78,10 @@ export const OpenTaskButton = (props: ButtonProps) => (
     {props.label}
   </Button>
 );
-export const DeleteTaskButton = (props: ButtonProps) => (
-  <Button
-    variant='link'
-    className='delete-task-btn'
-    onClick={props.handleClick}>
+export const DeleteTaskBadge = (props: ButtonProps) => (
+  <Badge bg='dark' className='delete-task-badge' onClick={props.handleClick}>
     <FiTrash2 />
-  </Button>
+  </Badge>
 );
 export const DeleteUserButton = (props: ButtonProps) => (
   <Button
