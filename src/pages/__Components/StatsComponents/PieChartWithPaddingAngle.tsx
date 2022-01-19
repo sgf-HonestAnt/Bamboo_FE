@@ -6,6 +6,10 @@ type PieChartWithPaddingAngleProps = {
   colors: string[];
   deg360: boolean;
   stat: string;
+  width?: number;
+  height?: number;
+  cx?: number;
+  cy?: number;
   innerRadius?: number;
   outerRadius?: number;
 };
@@ -13,31 +17,20 @@ type PieChartWithPaddingAngleProps = {
 export default function PieChartWithPaddingAngle(
   props: PieChartWithPaddingAngleProps
 ) {
-  const { data, colors, deg360, innerRadius, outerRadius } = props;
+  const { data, colors, deg360, width, height, cx, cy, innerRadius, outerRadius } =
+    props;
   return (
     <PieChart
-      width={
-        innerRadius && outerRadius ? 2 * innerRadius + 2 * outerRadius : 350
-      }
-      height={
-        innerRadius && outerRadius ? 2 * innerRadius + 2 * outerRadius : 350
-      }
+      width={width || 350}
+      height={height || 350}
       style={{ margin: "auto" }}>
       {deg360 ? (
         <Pie
           data={data}
-          cx={
-            innerRadius && outerRadius
-              ? (2 * innerRadius + 2 * outerRadius) / 2
-              : 100
-          }
-          cy={
-            innerRadius && outerRadius
-              ? (2 * innerRadius + 2 * outerRadius) / 2
-              : 100
-          }
-          innerRadius={innerRadius ? innerRadius : 60}
-          outerRadius={outerRadius ? outerRadius : 80}
+          cx={cx||100}
+          cy={cy||100}
+          innerRadius={innerRadius||60}
+          outerRadius={outerRadius||80}
           fill='#8884d8'
           paddingAngle={5}
           dataKey='total'>

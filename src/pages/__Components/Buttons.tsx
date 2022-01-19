@@ -19,6 +19,24 @@ type ButtonProps = {
   value?: string | number;
   variant?: string;
 };
+
+export const LoginBtn = (props: ButtonProps) => (
+  <Button
+    variant={props.variant||'light'}
+    className={props.className || "mb-3 mr-1"}
+    onClick={props.handleClick}>
+    {props.label || "Login"}
+  </Button>
+);
+export const SubmitBtn = (props: ButtonProps) => (
+  <Button
+    variant={props.variant||'light'}
+    className={props.className || "mb-3 mr-1"}
+    type='submit'>
+    {props.label || "Submit"}
+  </Button>
+);
+
 export const XButton = (props: ButtonProps) => (
   <>
     <Button
@@ -145,11 +163,7 @@ export const RefreshButton = (props: ButtonProps) => (
     {props.label} <FiRefreshCcw />
   </Button>
 );
-export const SubmitButton = (props: ButtonProps) => (
-  <Button variant='light' className='mb-3 mr-1' type='submit'>
-    {props.label || "Submit"}
-  </Button>
-);
+
 export const CompleteButton = () => (
   <Button variant='light' className='mb-3 mr-1' type='submit'>
     Complete
@@ -170,7 +184,7 @@ export const BackToDashButton = () => (
     <FiCornerUpLeft />
   </Button>
 );
-export const SubmitButtonCol = (props: ButtonProps) => (
+export const SubmitBtnCol = (props: ButtonProps) => (
   <Button variant='light' className='m-1' type='submit'>
     {props.label}
   </Button>

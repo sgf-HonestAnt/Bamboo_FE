@@ -2,17 +2,17 @@ import { TagCloud } from "react-tagcloud";
 
 export default function SimpleCloud(props: any) {
   const { data } = props;
+  function viewCategory(tag: { value: string }) {
+    console.log(`/tasks?category=${tag.value}`);
+  }
   return (
     <>
       <TagCloud
         minSize={14}
-        maxSize={50}
+        maxSize={30}
         tags={data}
-        onClick={(tag: { value: string }) =>
-          alert(`'${tag.value}' was selected!`)
-        }
+        onClick={(tag: { value: string }) => viewCategory(tag)}
       />
-      <div>Rewrite code to use own colors</div>
     </>
   );
 }

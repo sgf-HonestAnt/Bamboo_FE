@@ -123,6 +123,9 @@
     hsla(var(--pale-stone), 1)
   );
 }
+.dashboard__at-a-glance-stats .bamboo-card {
+  min-height: 100px;
+}
 /* .dashboard__profile-card__bio:focus,
 .dashboard__profile-card__bio:focus-within,
 .dashboard__profile-card__bio:hover,

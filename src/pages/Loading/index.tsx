@@ -1,14 +1,13 @@
 import { History } from "history";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Spinner } from "react-bootstrap";
 import "./styles.css";
 
-type ErrorPageProps = {
+type LoadingPageProps = {
   history: History<unknown> | string[];
 };
 
-export default function ErrorPage(props: ErrorPageProps) {
+export default function LoadingPage(props: LoadingPageProps) {
   // 👏 change this page.
   const { history } = props;
   const [counter, setCounter] = useState(3);
@@ -24,8 +23,12 @@ export default function ErrorPage(props: ErrorPageProps) {
   return (
     <Row className='error-page p-1'>
       <Col>
-        Attempting redirect to <Link to='/dash'>dashboard</Link> in {counter}
+        {/* <h1 className='d-inline-block animate__animated animate__bounce'>An animated element</h1> */}
+        <Spinner animation='grow'>
+          <span className='visually-hidden'>Loading...</span>
+        </Spinner>
+        {/* Attempting redirect to <Link to='/dash'>dashboard</Link> in {counter} */}
       </Col>
     </Row>
   );
-};
+}

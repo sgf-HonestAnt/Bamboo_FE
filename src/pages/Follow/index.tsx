@@ -45,6 +45,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   useEffect(() => {
     dispatch(fillTasksAction());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     createColorArray(customColors, categories, setCategoryColors);

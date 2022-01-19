@@ -76,12 +76,18 @@ const renderActiveShape = (props: any) => {
 type CustomActiveShapePieChartProps = {
   data: genericTaskInt[];
   stat: string;
+  width?: number;
+  height?: number;
+  cx?: number;
+  cy?: number;
+  innerRadius?: number;
+  outerRadius?: number;
 };
 
 export default function CustomActiveShapePieChart(
   props: CustomActiveShapePieChartProps
 ) {
-  const { data } = props;
+  const { data, width, height, cx, cy, innerRadius, outerRadius } = props;
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -91,15 +97,15 @@ export default function CustomActiveShapePieChart(
   );
 
   return (
-    <PieChart width={350} height={350}>
+    <PieChart width={width || 350} height={height || 350} className='m-auto'>
       <Pie
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={100}
-        cy={100}
-        innerRadius={60}
-        outerRadius={80}
+        cx={cx || 90}
+        cy={cy || 90}
+        innerRadius={innerRadius || 60}
+        outerRadius={outerRadius || 80}
         fill='#8884d8'
         dataKey='total'
         onMouseEnter={onPieEnter}

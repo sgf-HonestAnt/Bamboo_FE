@@ -16,7 +16,7 @@ import DashboardPage from "../Dashboard";
 import TasksPage from "../Tasks";
 import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
-import ErrorPage from "../Error";
+import LoadingPage from "../Loading";
 import "./styles.css";
 // import { useMediaQuery } from "react-responsive";
 
@@ -87,7 +87,6 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               setTheme={setTheme}
             />
           </div>
-
           {path === "/dash" ? (
             <div className='main-page__main-section'>
               <DashboardPage history={history} location={location} />
@@ -115,7 +114,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
             </div>
           ) : (
             <div className='main-page__main-section'>
-              <ErrorPage history={history} />
+              <LoadingPage history={history} />
             </div>
           )}
         </div>

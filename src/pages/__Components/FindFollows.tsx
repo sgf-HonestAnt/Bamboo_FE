@@ -7,7 +7,7 @@ import {
   reduxStateInt,
 } from "../../typings/interfaces";
 import { Form, FormControl, Button, Col } from "react-bootstrap";
-import { SubmitButton } from "./Buttons";
+import { SubmitBtn } from "./Buttons";
 import { requestFollow } from "../../utils/funcs/f_follows";
 import { getUserByQuery } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
@@ -82,7 +82,7 @@ const FindFollows = (props: FindFollowsProps) => {
           id='search'
           onChange={handleChange}
         />
-        <SubmitButton label='Search' />
+        <SubmitBtn label='Search' />
       </Form>
       {result.found && result.user ? (
         <>

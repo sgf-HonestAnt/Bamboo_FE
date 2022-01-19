@@ -38,10 +38,12 @@ export default function DashStats(props: DashStatsProps) {
             <PieChartWithPaddingAngle
               deg360={true}
               data={allByStatus}
-              colors={STATUS_COLORS}
+              colors={STATUS_COLORS} 
               stat='status'
-              innerRadius={20}
-              outerRadius={50}
+              width={200}
+              height={200}
+              innerRadius={40}
+              outerRadius={80}
             />
           </Col>
         )}

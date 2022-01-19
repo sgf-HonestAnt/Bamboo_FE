@@ -1,7 +1,7 @@
 import { History, Location } from "history";
 import { useAppSelector } from "../../../redux/hooks";
 import { dataInt, reduxStateInt } from "../../../typings/interfaces";
-import { Carousel, Col, Row } from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import { getDayMonthYearAsString } from "../../../utils/funcs/f_dates";
 import { FiCalendar } from "react-icons/fi";
 // import { useMediaQuery } from "react-responsive";
@@ -99,159 +99,173 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
       </div>
       {total_xp > 0 || awaited.length > 0 || in_progress.length > 0 ? (
         <Row>
-          <Carousel fade nextLabel={""} prevLabel={""}>
-            {taskData.allByCategory && (
-              <Carousel.Item interval={3000}>
-                <div>
-                  <h5>
-                    {categories.length / allTasks.length <= 0.7
-                      ? "Minimalist"
-                      : categories.length / allTasks.length > 0.7 &&
-                        categories.length / allTasks.length < 1
-                      ? "Prepper"
-                      : "Accumulator"}
-                  </h5>
-                  <div className='mb-3'>
-                    <span>
-                      You're using{" "}
-                      {taskData.allByCategory.length -
-                        taskData.unusedCategories.length}{" "}
-                      {taskData.allByCategory.length -
-                        taskData.unusedCategories.length >
-                      1
-                        ? "categories"
-                        : "category"}{" "}
-                      to organise {allTasks.length}{" "}
-                      {allTasks.length > 1 ? "tasks" : "task"}.
-                    </span>
-                    <span>
-                      {taskData.unusedCategories.length > 0 &&
-                        ` You have ${taskData.unusedCategories.length} unused ${
-                          taskData.unusedCategories.length > 1
-                            ? "categories."
-                            : "category."
-                        }`}
-                    </span>
-                  </div>
-                  <MixedBarChart
-                    data={taskData.allByCategory}
-                    stat='category'
-                  />
-                </div>{" "}
-              </Carousel.Item>
-            )}
-            {categories.length > 2 && taskData.allByCategory && (
-              <Carousel.Item interval={3000}>
+          <Col sm={12} className='m-0 p-2'>
+            <Card className='bamboo-card dashboard__dash-stats'>
+              <Card.Body>
+                {/* <Card.Title>Your categories</Card.Title> */}
                 <SimpleCloud data={taskData.tagCloud} />
-              </Carousel.Item>
-            )}
-            {taskData.allByValue && (
-              <Carousel.Item interval={3000}>
-                <div>
-                  <h5>
-                    {
-                      findMostUsedValue(
-                        taskData.allByValue,
-                        allTasks.length
-                      ).split("|")[0]
-                    }
-                  </h5>
-                  <div className='mb-3'>
-                    <span>
-                      {
-                        findMostUsedValue(
-                          taskData.allByValue,
-                          allTasks.length
-                        ).split("|")[2]
-                      }
-                    </span>
-                  </div>
-                  <SimpleBarChart data={taskData.allByValue} stat='value' />{" "}
-                </div>{" "}
-              </Carousel.Item>
-            )}
-            {taskData.allByStatus && (
-              <Carousel.Item interval={3000}>
-                <div>
-                  <h5>
-                    {
-                      findMostCommonStatus(
-                        taskData.allByStatus,
-                        allTasks.length
-                      ).split("|")[0]
-                    }
-                  </h5>
-                  <div className='mb-3'>
-                    {
-                      findMostCommonStatus(
-                        taskData.allByStatus,
-                        allTasks.length
-                      ).split("|")[1]
-                    }
-                  </div>
-                  <PieChartWithPaddingAngle
-                    deg360={true}
-                    data={taskData.allByStatus}
-                    colors={STATUS_COLORS}
-                    stat='status'
-                  />
-                </div>
-              </Carousel.Item>
-            )}
-            {taskData.allByType && (
-              <Carousel.Item interval={3000}>
-                <div>
-                  <h5>
-                    {
-                      findMostUsedType(
-                        taskData.allByType,
-                        allTasks.length
-                      ).split("|")[0]
-                    }
-                  </h5>
-                  <div className='mb-3'>
-                    {
-                      findMostUsedType(
-                        taskData.allByType,
-                        allTasks.length
-                      ).split("|")[1]
-                    }
-                  </div>
-                  <PieChartWithCustomizedLabel
-                    data={taskData.allByType}
-                    colors={STATUS_COLORS}
-                    stat='type'
-                  />
-                </div>
-              </Carousel.Item>
-            )}
-            {taskData.allByDueDate && (
-              <Carousel.Item interval={3000}>
-                <div>
-                  <h5>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={4} className='m-0 p-2'>
+            <Card className='dashboard__dash-stats'>
+              <PieChartWithPaddingAngle
+                deg360={true}
+                data={taskData.allByStatus}
+                colors={STATUS_COLORS}
+                stat='status'
+                width={200}
+                height={200}
+                innerRadius={40}
+                outerRadius={80}
+              />
+              <Card.Body className='bamboo-card m-auto'>
+                {/* <Card.Title>
+                  {
+                    findMostCommonStatus(
+                      taskData.allByStatus,
+                      allTasks.length
+                    ).split("|")[0]
+                  }
+                </Card.Title> */}
+                <Card.Text>
+                  {
+                    findMostCommonStatus(
+                      taskData.allByStatus,
+                      allTasks.length
+                    ).split("|")[1]
+                  }
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={4} className='m-0 p-2'>
+            <Card className='dashboard__dash-stats'>
+              <PieChartWithCustomizedLabel
+                data={taskData.allByType}
+                colors={STATUS_COLORS}
+                stat='type'
+                width={200}
+                height={200}
+              />
+              <Card.Body className='bamboo-card'>
+                {/* <Card.Title>
+                  {
+                    findMostUsedType(taskData.allByType, allTasks.length).split(
+                      "|"
+                    )[0]
+                  }
+                </Card.Title> */}
+                <Card.Text>
+                  {
+                    findMostUsedType(taskData.allByType, allTasks.length).split(
+                      "|"
+                    )[1]
+                  }
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={4} className='m-0 p-2'>
+            <Card className='dashboard__dash-stats'>
+              <CustomActiveShapePieChart
+                data={taskData.allByDueDate}
+                stat='deadline'
+                width={200}
+                height={200}
+                innerRadius={50}
+                outerRadius={80}
+              />
+              <Card.Body className='bamboo-card'>
+                {/* <Card.Title>
                     {
                       findMostUsedDeadline(
                         taskData.allByDueDate,
                         allTasks.length
                       ).split("|")[0]
                     }
-                  </h5>
-                  <div className='mb-3'>
-                    {
-                      findMostUsedDeadline(
-                        taskData.allByDueDate,
-                        allTasks.length
-                      ).split("|")[1]
-                    }
-                  </div>{" "}
-                  <CustomActiveShapePieChart
-                    data={taskData.allByDueDate}
-                    stat='deadline'
-                  />
-                </div>
-              </Carousel.Item>
-            )}
-          </Carousel>
+                </Card.Title> */}
+                <Card.Text>
+                  {
+                    findMostUsedDeadline(
+                      taskData.allByDueDate,
+                      allTasks.length
+                    ).split("|")[1]
+                  }
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={6} className='m-0 p-2'>
+            <Card className='dashboard__dash-stats'>
+              <MixedBarChart
+                data={taskData.allByCategory}
+                stat='category'
+                width={300}
+                height={200}
+              />
+              <Card.Body className='bamboo-card mt-3'>
+                {/* <Card.Title>
+                  {categories.length / allTasks.length <= 0.7
+                    ? "Minimalist"
+                    : categories.length / allTasks.length > 0.7 &&
+                      categories.length / allTasks.length < 1
+                    ? "Prepper"
+                    : "Accumulator"}
+                </Card.Title> */}
+                <Card.Text>
+                  <span>
+                    You're using{" "}
+                    {taskData.allByCategory.length -
+                      taskData.unusedCategories.length}{" "}
+                    {taskData.allByCategory.length -
+                      taskData.unusedCategories.length >
+                    1
+                      ? "categories"
+                      : "category"}{" "}
+                    to organise {allTasks.length}{" "}
+                    {allTasks.length > 1 ? "tasks" : "task"}.
+                  </span>
+                  <span>
+                    {taskData.unusedCategories.length > 0 &&
+                      ` You have ${taskData.unusedCategories.length} unused ${
+                        taskData.unusedCategories.length > 1
+                          ? "categories."
+                          : "category."
+                      }`}
+                  </span>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col sm={12} md={6} className='m-0 p-2'>
+            <Card className='dashboard__dash-stats'>
+              <SimpleBarChart
+                data={taskData.allByValue}
+                stat='value'
+                width={300}
+                height={200}
+              />
+              <Card.Body className='bamboo-card mt-3'>
+                {/* <Card.Title>
+                  {
+                    findMostUsedValue(
+                      taskData.allByValue,
+                      allTasks.length
+                    ).split("|")[0]
+                  }
+                </Card.Title> */}
+                <Card.Text>
+                  {
+                    findMostUsedValue(
+                      taskData.allByValue,
+                      allTasks.length
+                    ).split("|")[2]
+                  }
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       ) : (
         <></>

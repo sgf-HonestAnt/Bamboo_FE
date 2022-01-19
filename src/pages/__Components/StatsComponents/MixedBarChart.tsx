@@ -7,29 +7,41 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { useAppSelector } from "../../../redux/hooks";
-import { categoryTaskInt, reduxStateInt } from "../../../typings/interfaces";
+import { categoryTaskInt } from "../../../typings/interfaces";
 
 type MixedBarChartProps = {
   data: categoryTaskInt[];
   stat: string;
-}; 
+  height?: number;
+  width?: number;
+  marginTop?: number;
+  marginRight?: number;
+  marginLeft?: number;
+  marginBottom?: number;
+};
 
 export default function MixedBarChart(props: MixedBarChartProps) {
-  const { data, stat } = props;
-  const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { categories } = state.currentTasks;
+  const {
+    data,
+    width,
+    height,
+    marginTop,
+    marginRight,
+    marginLeft,
+    marginBottom,
+  } = props;
   return (
     <BarChart
-      width={stat === "category" && categories.length > 4 ? categories.length * 85 : 350}
-      height={350}
+      width={width || 350}
+      height={height || 350}
       data={data}
       margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}>
+        top: marginTop || 0,
+        right: marginRight || 0,
+        left: marginLeft || 0,
+        bottom: marginBottom || 0,
+      }}
+      className='m-auto'>
       <CartesianGrid strokeDasharray='3 3' />
       <XAxis dataKey='category' />
       <YAxis />
