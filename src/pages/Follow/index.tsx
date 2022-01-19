@@ -28,6 +28,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TaskButton } from "../__Components/DashComponents/MapTasks";
 import { createColorArray } from "../../utils/funcs/f_styling";
+import { COMPLETED } from "../../utils/const/str";
+import { fillTasksAction } from "../../redux/actions/tasks";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -41,6 +43,9 @@ export default function FollowingPage(props: FollowingPageProps) {
   const allTasks = awaited.concat(in_progress, completed);
   const { customColors } = state.currentSettings;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  useEffect(() => {
+    dispatch(fillTasksAction());
+  }, []);
   useEffect(() => {
     createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,7 +280,28 @@ export default function FollowingPage(props: FollowingPageProps) {
           <Col>
             <div className='d-flex'>
               {allTasks
-                .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
+                .filter(
+                  (task) =>
+                    task.sharedWith?.includes(usersToShow[0]._id) &&
+                    task.status === COMPLETED
+                )
+                .map((task, i) => (
+                  <TaskButton
+                    i={i}
+                    task={task}
+                    bgColor={
+                      categoryColors[
+                        categories.findIndex((cat) => cat === task.category)
+                      ]
+                    }
+                  />
+                ))}
+              {allTasks
+                .filter(
+                  (task) =>
+                    task.sharedWith?.includes(usersToShow[0]._id) &&
+                    task.status !== COMPLETED
+                )
                 .map((task, i) => (
                   <Link to={`/tasks?id=${task._id}`} key={task._id}>
                     <TaskButton
