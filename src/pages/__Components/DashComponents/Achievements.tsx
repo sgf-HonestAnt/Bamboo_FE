@@ -52,20 +52,21 @@ const Achievements = (props: AchievementsProps) => {
   }, []);
   useEffect(() => {}, [superlist]);
   return (
-    <div
-      className='bamboo-card dashboard__activities p-0'>
+    <div className='bamboo-card dashboard__activities p-0'>
       {superlist?.length < 1 && (
-        <>
-          <div className='dashboard__card-header'>Achievements</div>
-          <hr />
-          <p>
-            You have no achievements yet! Complete a task or follow a friend to
-            view achievements.
-          </p>
-        </>
+        <Table>
+          <tbody>
+            <tr>
+              <td>
+                You have no achievements yet! Complete a task or follow a friend
+                to view achievements.
+              </td>
+            </tr>
+          </tbody>
+        </Table>
       )}
       {superlist?.length > 0 && (
-        <Table striped bordered hover>
+        <Table striped hover>
           <tbody>
             {superlist.map((ach, i) => {
               return ach.includes("completed") &&

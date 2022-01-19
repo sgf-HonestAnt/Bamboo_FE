@@ -16,6 +16,7 @@ export default function DashStats(props: DashStatsProps) {
   // const {} = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks } = state;
+  const { total_xp } = state.currentUser.my_user;
   const { awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
@@ -32,9 +33,7 @@ export default function DashStats(props: DashStatsProps) {
     <div
       className={`bamboo-card dashboard__dash-stats ${isBigScreen && "my-3"}`}>
       <Row>
-        {(completed.length > 0 ||
-          awaited.length > 0 ||
-          in_progress.length > 0) && (
+        {(total_xp > 0 || awaited.length > 0 || in_progress.length > 0) && (
           <Col sm={12}>
             <PieChartWithPaddingAngle
               deg360={true}

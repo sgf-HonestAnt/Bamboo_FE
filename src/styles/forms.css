@@ -14,6 +14,11 @@ textarea.form-control:focus::placeholder {
 .form-control,
   .form-control:focus,
   .form-control option:focus,
+  #first_name, #first_name:focus,
+  #last_name, #last_name:focus,
+  #username, #username:focus,
+  #bio, #bio:focus,
+  #email, #email:focus,
   #title, #title:focus,
   #value, #value:focus,
   #category, #category:focus,
@@ -27,6 +32,11 @@ textarea.form-control:focus::placeholder {
   transition: all 0.5s;
   outline: none;
 }
+#first_name,
+#last_name,
+#username,
+#bio,
+#email,
 #title,
 #value,
 #category,
@@ -35,6 +45,16 @@ textarea.form-control:focus::placeholder {
   background-color: hsla(var(--mint-cream), 0.7) !important;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
+#first_name:focus,
+#first_name:focus-visible,
+#last_name:focus,
+#last_name:focus-visible,
+#username:focus,
+#username:focus-visible,
+#bio:focus,
+#bio:focus-visible,
+#email:focus,
+#email:focus-visible,
 #title:focus,
 #title:focus-visible,
 #value:focus,

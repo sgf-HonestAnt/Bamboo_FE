@@ -7,7 +7,7 @@ import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
 import { getUserRole } from "../../../utils/funcs/f_users";
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
-import returnIco, { CROWN } from "../../../utils/funcs/f_ico";
+import returnIco from "../../../utils/funcs/f_ico";
 import { FiEdit } from "react-icons/fi";
 
 type DashProfileCardProps = {
@@ -17,7 +17,7 @@ type DashProfileCardProps = {
 const DashProfileCard = (props: DashProfileCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { username, admin, bio, level, xp, rewards } = my_user;
+  const { username, bio, level, xp, rewards } = my_user;
   const { isBigScreen, history } = props;
   const pushToSettings = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       }`}>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
-        {admin && (
+        {/* {admin && (
           <Image
             roundedCircle
             src={CROWN}
@@ -40,7 +40,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
             height='35px'
           />
         )}
-        <br />
+        <br /> */}
         {username}
         <Button
           className='p-1 dashboard__profile-card__edit-btn'

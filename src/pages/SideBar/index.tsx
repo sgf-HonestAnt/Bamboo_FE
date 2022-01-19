@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Button } from "react-bootstrap";
-import { ICOCROWN } from "../../utils/appIcons";
 import { attemptLogout } from "../../utils/funcs/f_users";
 import BambooLogo from "../__Components/Logo";
 import "./styles.css";
@@ -19,8 +18,8 @@ type SidebarProps = {
 export default function SideBar(props: SidebarProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { level } = my_user;
-  const { awaited, in_progress } = state.currentTasks;
+  const { total_xp } = my_user;
+  const { awaited, in_progress, completed } = state.currentTasks;
   const allTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
   const { history, location } = props;
@@ -40,27 +39,32 @@ export default function SideBar(props: SidebarProps) {
           pathIsAdmin ? "-admin" : ""
         } my-3`}>
         <BambooLogo />
-        <div className='main-side-bar__blurb'>Blurb goes here.</div>
-        {!pathIsAdmin && <div className='main-side-bar__updates'>&nbsp;</div>}
+        {/* <div className='main-side-bar__blurb'>Task app</div> */}
+        {/* {!pathIsAdmin && <div className='main-side-bar__updates'>&nbsp;</div>} */}
       </div>
       {!pathIsAdmin ? (
         <>
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
             <div className='text-bigger'>
-              <Link to='/dash'>{my_user.username}</Link>{" "}
-              {my_user.admin && (
-                <span className='bamboo-crown'>
-                  <ICOCROWN />
-                </span>
-              )}
+              <Link to='/dash'>
+                {my_user.username} {my_user.admin && "(admin)"}
+              </Link>{" "}
+              <div>{completed.length} tasks completed</div>
+              <div>{total_xp}xp earned</div>
+              <div>
+                <Link to='/user-settings'>
+                  <RiSettings5Line />
+                </Link>
+              </div>
+              {/* {my_user.admin && (
+                <>
+                  <div className='bamboo-crown'>
+                    <ICOCROWN />
+                  </div>
+                </>
+              )} */}
             </div>
-            <div>
-              <Link to='/user-settings'>
-                <RiSettings5Line />
-              </Link>
-            </div>
-            <div>level {level}</div>
             {/* <div>
               {xp}
               <BambooPoints />
@@ -71,25 +75,24 @@ export default function SideBar(props: SidebarProps) {
               className={`main-side-bar__links${
                 pathIsAdmin ? "-admin" : ""
               } pb-3`}>
-              {my_user.admin && (
+              {/* {my_user.admin && (
                 <Link to='/admin-dash'>
                   <FiChevronRight />
                   &nbsp;admin
                 </Link>
-              )}
-              <Link to='/stats'>
+              )} */}
+              {/* <Link to='/stats'>
                 <FiChevronRight />
                 &nbsp;view stats
-              </Link>
-              <Link to='/tasks'>
-                <FiChevronRight />
-                &nbsp;tasks ({allTasks.length})
-              </Link>
+              </Link> */}
+              <Button variant='link' className='d-inline-block p-0'>
+                <Link to='/tasks'>tasks ({allTasks.length})</Link>
+              </Button>
+              <br />
               {numOfUsers > 0 ? (
-                <Link to='/following'>
-                  <FiChevronRight />
-                  &nbsp;team ({numOfUsers})
-                </Link>
+                <Button variant='link' className='d-inline-block p-0'>
+                  <Link to='/following'>team ({numOfUsers})</Link>
+                </Button>
               ) : (
                 <></>
               )}

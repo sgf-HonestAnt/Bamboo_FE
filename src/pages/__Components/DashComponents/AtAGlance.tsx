@@ -31,6 +31,7 @@ import DashStats from "./DashStats";
 import DashChallCard from "./ChallengeCard";
 import { useMediaQuery } from "react-responsive";
 import RewardsDropdown from "../RewardsDropdown";
+import { Link } from "react-router-dom";
 
 type AtAGlanceDataProps = {
   overdueTasks: taskInt[] | never[];
@@ -242,14 +243,23 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
 
 export default function AtAGlance(props: AtAGlanceProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { notification } = state.currentUser.my_user;
+  const { my_user } = state.currentUser;
+  const { notification, total_xp } = my_user;
+  const { awaited, in_progress } = state.currentTasks;
   const { today, history, location } = props;
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
     <div className='dashboard__at-a-glance m-2'>
       <div className='dashboard__alt__card-header'>
-        At A Glance
+        At A Glance | <Link to='/dash'>Tasks</Link>{" "}
+        {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
+          <></>
+        ) : (
+          <>
+            | <Link to='/stats'>Stats</Link>
+          </>
+        )}
         <h5>
           <FiCalendar />
           &nbsp;{dayMonthYearAsString}
@@ -275,7 +285,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
                 </Col>
               </>
             ) : (
-              <Col>
+              <Col className='col-12'>
                 <DashChallCard />
               </Col>
             )}

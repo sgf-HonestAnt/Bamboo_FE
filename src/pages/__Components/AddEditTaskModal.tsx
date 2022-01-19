@@ -566,9 +566,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               {!showNewCat ? (
                 <Form.Group controlId='category'>
                   <Form.Label>What's the category?</Form.Label>
-                  {
-                    //!taskSet && console.log("FIX NEEDED ON ADDEDITTASKMODAL") // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
-                  }
                   <Form.Control
                     required
                     as='select'
@@ -602,19 +599,23 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         {c}
                       </option>
                     ))}
-                    <option value='' disabled>
-                      -------
-                    </option>
                     {/* <option value={NONE}>{NONE}</option>
                     <option value='' disabled>
-                      -------
-                    </option> */}
-                    <option
-                      value='new'
-                      // selected={form.category === "new"}
-                    >
-                      create new category
-                    </option>
+                    -------
+                  </option> */}
+                    {!taskSet && (
+                      <>
+                        <option value='' disabled>
+                          -------
+                        </option>
+                        <option
+                          value='new'
+                          // selected={form.category === "new"}
+                        >
+                          create new category
+                        </option>
+                      </>
+                    )}
                   </Form.Control>
                 </Form.Group>
               ) : (
@@ -635,6 +636,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Control
                   required
                   as='textarea'
+                  value={form.desc}
                   rows={2}
                   placeholder={
                     taskSet

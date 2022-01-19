@@ -130,7 +130,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='last_name'>
+            <Form.Group as={Row} controlId='last_name' className='pb-2'>
               <Form.Label column sm='4'>
                 last name
               </Form.Label>
@@ -144,7 +144,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='username'>
+            <Form.Group as={Row} controlId='username' className='pb-2'>
               <Form.Label column sm='4'>
                 username
               </Form.Label>
@@ -158,7 +158,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='bio'>
+            <Form.Group as={Row} controlId='bio' className='pb-2'>
               <Form.Label column sm='4'>
                 bio
               </Form.Label>
@@ -174,7 +174,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='email'>
+            <Form.Group as={Row} controlId='email' className='pb-2'>
               <Form.Label column sm='4'>
                 email
               </Form.Label>

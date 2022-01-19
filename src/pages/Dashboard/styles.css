@@ -37,9 +37,14 @@
 .dashboard__activities {
   text-align: left;
   font-size: 1rem;
-  min-height: 100vh;
+  min-height: 100%;
   max-height: 100vh;
   overflow-y: scroll;
+  background: linear-gradient(
+    to bottom right,
+    hsla(var(--blue-green-color-wheel), 0.1),
+    hsla(var(--castleton-green), 0.1)
+  );
 }
 .dashboard__activities#smaller {
   min-height: 170px !important;
@@ -51,7 +56,6 @@
   text-transform: uppercase;
   line-height: 1.05em;
   letter-spacing: 0.3px;
-  border-bottom: 0.5px dashed black;
 }
 .dashboard__activities table td a:hover {
   text-decoration: none !important;
@@ -111,6 +115,13 @@
   padding: 1px 0;
   border-radius: 7px;
   text-align: center;
+}
+#notification-button {
+  background: linear-gradient(
+    to bottom right,
+    hsla(var(--pale-sunbeam), 1),
+    hsla(var(--pale-stone), 1)
+  );
 }
 /* .dashboard__profile-card__bio:focus,
 .dashboard__profile-card__bio:focus-within,

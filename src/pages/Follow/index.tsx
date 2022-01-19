@@ -22,10 +22,12 @@ import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
 import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
-import returnIco, { CROWN } from "../../utils/funcs/f_ico";
+import returnIco from "../../utils/funcs/f_ico";
 import { sendXpGift } from "../../utils/funcs/f_rewards";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { TaskButton } from "../__Components/DashComponents/MapTasks";
+import { createColorArray } from "../../utils/funcs/f_styling";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -35,6 +37,14 @@ export default function FollowingPage(props: FollowingPageProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
+  const { categories, awaited, in_progress, completed } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress, completed);
+  const { customColors } = state.currentSettings;
+  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  useEffect(() => {
+    createColorArray(customColors, categories, setCategoryColors);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allTasks]);
   const { history, location } = props;
   const islt836 = useMediaQuery({
     query: "(max-width: 835px)",
@@ -90,7 +100,12 @@ export default function FollowingPage(props: FollowingPageProps) {
   useEffect(() => {
     setLoading(false);
   }, [loading]);
-  console.log("I have ", points, "points");
+  useEffect(() => {
+    if (!location.search) {
+      setUsersToShow(followedUsers);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   return (
     <Container fluid>
       <Row className='p-3'>
@@ -114,9 +129,15 @@ export default function FollowingPage(props: FollowingPageProps) {
               total_in_progress={u.total_in_progress}
             />
             <Card.Title>{u.username} </Card.Title>
-            <Link to={`/tasks?sharedWith=${u._id}`}>TASKS</Link>
+            <Link to={`/following?id=${u._id}`}>
+              {location.search.includes("?id=") &&
+                allTasks.filter((task) =>
+                  task.sharedWith?.includes(usersToShow[0]._id)
+                ).length}{" "}
+              Tasks Shared
+            </Link>
             <div className='dashboard__profile-card__bio m-2'>{u.bio}</div>
-            <div className='rewards'>
+            {/* <div className='rewards'>
               {u.admin && (
                 <Image
                   roundedCircle
@@ -127,7 +148,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                   height='35px'
                 />
               )}
-            </div>
+            </div> */}
             <div className='mb-2'>
               {/* {u.admin && "Admin: "} */}
               {getUserRole(u.level)}
@@ -160,7 +181,6 @@ export default function FollowingPage(props: FollowingPageProps) {
                     />
                   ))}
             </div>
-
             {points! < 100 ? (
               <Modal show={show} onHide={handleClose}>
                 {/* {u.admin && (
@@ -251,6 +271,27 @@ export default function FollowingPage(props: FollowingPageProps) {
             )}
           </Col>
         ))}
+        {location.search.includes("?id=") && (
+          <Col>
+            <div className='d-flex'>
+              {allTasks
+                .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
+                .map((task, i) => (
+                  <Link to={`/tasks?id=${task._id}`} key={task._id}>
+                    <TaskButton
+                      i={i}
+                      task={task}
+                      bgColor={
+                        categoryColors[
+                          categories.findIndex((cat) => cat === task.category)
+                        ]
+                      }
+                    />
+                  </Link>
+                ))}
+            </div>
+          </Col>
+        )}
       </Row>
     </Container>
   );

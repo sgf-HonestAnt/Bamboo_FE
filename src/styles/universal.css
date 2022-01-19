@@ -53,6 +53,7 @@
   font-size: var(--font-size);
   font-weight: var(--font-weight);
   text-align: center;
+  transition: width 2s, height 4s;
 }
 /* Scrollbars */
 ::-webkit-scrollbar {

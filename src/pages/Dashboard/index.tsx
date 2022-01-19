@@ -6,6 +6,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
+import { fillTasksAction } from "../../redux/actions/tasks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "../__Components/DashComponents/ProfileCard";
@@ -15,8 +16,8 @@ import FindFollows from "../__Components/FindFollows";
 import Achievements from "../__Components/DashComponents/Achievements";
 import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
+import AtAGlanceStats from "../__Components/DashComponents/AtAGlanceStats";
 import "./styles.css";
-import { fillTasksAction } from "../../redux/actions/tasks";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -101,7 +102,19 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
           <Row className='p-0'>
             <Col className='col-12'>
-              <AtAGlance today={today} history={history} location={location} />
+              {location.pathname === "/dash" ? (
+                <AtAGlance
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              ) : (
+                <AtAGlanceStats
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              )}
             </Col>
           </Row>
         </Col>
@@ -134,7 +147,7 @@ export default function DashboardPage(props: DashboardPageProps) {
                   </Button>
                 </Link>
               )}
-              {notification.length < 1 && (
+              {notification.length < 1 && location.pathname !== "/stats" && (
                 <Col className='col-12 p-0 my-3'>
                   <DashStats />
                 </Col>
@@ -154,7 +167,19 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
           <Row className='p-0'>
             <Col className='col-12'>
-              <AtAGlance today={today} history={history} location={location} />
+              {location.pathname === "/dash" ? (
+                <AtAGlance
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              ) : (
+                <AtAGlanceStats
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              )}{" "}
             </Col>
           </Row>
         </Col>
@@ -182,7 +207,7 @@ export default function DashboardPage(props: DashboardPageProps) {
                   </Button>
                 </Link>
               )}
-              {notification.length < 1 && (
+              {notification.length < 1 && location.pathname !== "/stats" && (
                 <Col className='col-12 p-0 my-3'>
                   <DashStats />
                 </Col>
@@ -202,7 +227,19 @@ export default function DashboardPage(props: DashboardPageProps) {
           </Row>
           <Row className='p-0'>
             <Col className='col-12'>
-              <AtAGlance today={today} history={history} location={location} />
+              {location.pathname === "/dash" ? (
+                <AtAGlance
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              ) : (
+                <AtAGlanceStats
+                  today={today}
+                  history={history}
+                  location={location}
+                />
+              )}{" "}
             </Col>
           </Row>
         </Col>
@@ -228,14 +265,22 @@ export default function DashboardPage(props: DashboardPageProps) {
               </Button>
             </Link>
           )}
-          {notification.length < 1 && (
+          {notification.length < 1 && location.pathname !== "/stats" && (
             <Col className='col-12 p-0 my-3'>
               <DashStats />
             </Col>
           )}
         </Col>
         <Col className={`${isTiny ? "col-12" : "col-7"} px-3 pb-3`}>
-          <AtAGlance today={today} history={history} location={location} />
+          {location.pathname === "/dash" ? (
+            <AtAGlance today={today} history={history} location={location} />
+          ) : (
+            <AtAGlanceStats
+              today={today}
+              history={history}
+              location={location}
+            />
+          )}{" "}
         </Col>
       </Row>
     </Container>

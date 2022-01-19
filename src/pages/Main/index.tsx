@@ -16,7 +16,6 @@ import DashboardPage from "../Dashboard";
 import TasksPage from "../Tasks";
 import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
-import StatsPage from "../Stats";
 import ErrorPage from "../Error";
 import "./styles.css";
 // import { useMediaQuery } from "react-responsive";
@@ -95,7 +94,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
             </div>
           ) : path === "/stats" ? (
             <div className='main-page__main-section'>
-              <StatsPage />
+              <DashboardPage history={history} location={location} />
             </div>
           ) : path === "/tasks" ? (
             <div className='main-page__main-section'>

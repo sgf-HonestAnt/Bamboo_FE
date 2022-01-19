@@ -34,7 +34,7 @@ export const SET_USER_POINTS_AND_COMPLETED = "SET_USER_POINTS_AND_COMPLETED";
 export const SET_USER_POINTS = "SET_USER_POINTS";
 export const SET_USER_POINTS_TOTAL = "SET_USER_POINTS_TOTAL";
 export const SET_USER_COMPLETED_TOTAL = "SET_USER_COMPLETED_TOTAL";
-export const SET_USER_REWARDS = "SET_USER_REWARDS"
+export const SET_USER_REWARDS = "SET_USER_REWARDS";
 export const SPEND_USER_POINTS = "SPEND_USER_POINTS";
 export const CLEAR_LAST_NOTIFICATION = "CLEAR_LAST_NOTIFICATION";
 export const SET_REFRESH_TOKEN = "SET_REFRESH_TOKEN";
@@ -90,7 +90,7 @@ export const FITNESS = "fitness";
 export const PETS = "pets";
 export const WELLBEING = "wellbeing";
 export const NONE = "none";
-export const TASK_CATEGORIES = [NONE]; // [URGENT, WORK, FINANCE, FITNESS]
+export const TASK_CATEGORIES = [URGENT, NONE];
 export const TASK_CATEGORY_ICONS = [ICOURGENT, ICOWORK, ICOFINANCE, ICOFIT];
 // task repetition
 export const NEVER = "never";

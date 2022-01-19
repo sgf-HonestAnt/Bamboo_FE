@@ -121,14 +121,14 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
           />{" "}
           <Button
             variant='light'
-            className='mr-1 mb-1'
+            className='my-1 mr-1'
             id='changeAll'
             onClick={handleReset}>
             <FiRefreshCcw />
           </Button>
           {!loadingForm && (
             <Form>
-              <Form.Group controlId='cat' className='mr-1 mb-1'>
+              <Form.Group controlId='cat' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_CAT}
@@ -157,7 +157,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='status' className='mr-1 mb-1'>
+              <Form.Group controlId='status' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_STATUS}
@@ -173,7 +173,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='val' className='mr-1 mb-1'>
+              <Form.Group controlId='val' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_VAL}
@@ -192,7 +192,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   })}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='type' className='mr-1 mb-1'>
+              <Form.Group controlId='type' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_TYPE}
@@ -212,7 +212,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                 </Form.Control>
               </Form.Group>
               {!selectDate ? (
-                <Form.Group controlId='due' className='mr-1 mb-1'>
+                <Form.Group controlId='due' className='mr-1 my-1'>
                   <Form.Control
                     as='select'
                     defaultValue={ANY_DUE}
@@ -233,7 +233,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   </Form.Control>
                 </Form.Group>
               ) : (
-                <Form.Group controlId='due' className='mr-1 mb-1'>
+                <Form.Group controlId='due' className='mr-1 my-1'>
                   <Form.Control type='date' onChange={handleChange} />
                 </Form.Group>
               )}
