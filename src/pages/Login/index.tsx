@@ -31,7 +31,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
     e.preventDefault();
     setLoading(true);
     const loggedIn = await attemptLoginUser(form, setLoading, dispatch);
-    setTimeout(() => loggedIn && history.push("/"), 1000);
+    setTimeout(() => loggedIn && history.push("/"), 1500);
     !loggedIn && setFailed(true);
   };
   useEffect(() => {}, [loading]);

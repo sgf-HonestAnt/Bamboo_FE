@@ -39,6 +39,10 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+    // ****************************MEDIA********************************************
+  // const isMobileDevice = useMediaQuery({
+  //   query: "(max-width: 560px)",
+  // });
   const isSmallerTabletOrMobile = useMediaQuery({
     query: "(max-width: 1089px)",
   });
