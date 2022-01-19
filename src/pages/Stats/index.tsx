@@ -83,7 +83,7 @@ export default function StatsPage() {
               <Tabs defaultActiveKey='category' id='uncontrolled-tab-example'>
                 <Tab eventKey='category' title='Tasks by Category'>
                   <StatisticsHeader />
-                  <div className='flex-row'>
+                  <div className='d-flex'>
                     <div>
                       <h5>
                         {categories.length / allTasks.length <= 0.7

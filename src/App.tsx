@@ -8,7 +8,6 @@ import {
 import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import MainBody from "./pages/Main";
-import LogoutPage from "./pages/Logout";
 import "./styles/universal.css";
 import "./styles/forms.css"
 import "./styles/badges.css"
@@ -31,13 +30,6 @@ function App() {
             path='/register'
             render={(routerProps: RouteComponentProps) => (
               <RegisterPage {...routerProps} />
-            )}
-          />
-          <Route
-            exact
-            path='/session-closed'
-            render={(routerProps: RouteComponentProps) => (
-              <LogoutPage {...routerProps} />
             )}
           />
           <Route exact path='/'>

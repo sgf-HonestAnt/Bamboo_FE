@@ -115,9 +115,6 @@ a {
 .bamboo-logo.btn-link {
   color: hsla(var(--medium-aquamarine), 1);
 }
-.bamboo-crown {
-  color: var(--ray-of-sun);
-}
 /* Task Buttons for Dash and Tasks Page */
 .bamboo-task,
 .bamboo-task.btn.btn-link {
@@ -125,6 +122,10 @@ a {
   background-color: white;
   color: var(--main-text) !important;
   border-radius: 0;
+}
+.bamboo-task:hover,
+.bamboo-task.btn.btn-link:hover {
+  transform: scale(1.02);
 }
 .bamboo-task-completed {
   background-color: rgba(214, 194, 194, 0.3) !important;
@@ -161,25 +162,11 @@ a {
 .cursor-point:hover {
   cursor: pointer;
 }
-.opaquish {
-  opacity: 0.5;
-}
 .hidden {
   display: none;
 }
 .visible {
   visibility: visible;
-}
-.red {
-  color: red;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
-.yellow {
-  background-color: hsla(var(--pale-sunbeam), 1) !important;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;
 }
 .float-center {
   margin: auto;
