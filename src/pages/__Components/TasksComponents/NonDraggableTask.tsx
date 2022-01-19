@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import {
   AcceptButton,
-  DeleteTaskButton,
+  DeleteTaskBadge,
   RejectButton,
 } from "../Buttons";
 import { NONE, URGENT } from "../../../utils/const/str";
@@ -68,10 +68,10 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
       <Button variant='link' className='m-1 bamboo-task-completed'>
         <div>
           <span className={`bamboo-task__title ${task!.category}`}>
-            {!showDeleteMessage && (
-              <DeleteTaskButton handleClick={handleClick} />
-            )}&nbsp;
             {task!.title}&nbsp;
+            {!showDeleteMessage && (
+              <DeleteTaskBadge handleClick={handleClick} />
+            )}&nbsp;
             <Badge bg='light'>{task!.value}xp</Badge>
             &nbsp;
             <Badge bg='light'>

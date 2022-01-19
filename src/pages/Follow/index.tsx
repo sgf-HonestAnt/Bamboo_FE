@@ -12,7 +12,7 @@ import {
   Image,
 } from "react-bootstrap";
 import {
-  ContactAdminButton,
+  // ContactAdminButton,
   LinkButton,
   SendGiftButton,
 } from "../__Components/Buttons";
@@ -20,28 +20,45 @@ import ProfileBadge from "../__Components/ProfileBadge";
 import BambooPoints from "../__Components/XP";
 import { getUserRole } from "../../utils/funcs/f_users";
 import "./styles.css";
-import { ICOCROWN } from "../../utils/appIcons";
 import FindFollows from "../__Components/FindFollows";
 import { useMediaQuery } from "react-responsive";
-import returnIco, { CROWN } from "../../utils/funcs/f_ico";
+import returnIco from "../../utils/funcs/f_ico";
+import { sendXpGift } from "../../utils/funcs/f_rewards";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { TaskButton } from "../__Components/DashComponents/MapTasks";
+import { createColorArray } from "../../utils/funcs/f_styling";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
 export default function FollowingPage(props: FollowingPageProps) {
+  const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
+  const { categories, awaited, in_progress, completed } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress, completed);
+  const { customColors } = state.currentSettings;
+  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  useEffect(() => {
+    createColorArray(customColors, categories, setCategoryColors);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allTasks]);
   const { history, location } = props;
+  const islt836 = useMediaQuery({
+    query: "(max-width: 835px)",
+  });
   const isgt1261 = useMediaQuery({ query: "(min-width: 1261px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [gift, setGift] = useState({ username: "", userId: "", xp: 0 });
   const points = my_user.xp;
   const [show, setShow] = useState(false);
   const handleClose = () => {
-    setGift({ username: "", userId: "", xp: 0 });
     setShow(false);
+    setGift({ username: "", userId: "", xp: 0 });
   };
   const handleShow = () => setShow(true);
   const sendGift = async (e: {
@@ -63,14 +80,29 @@ export default function FollowingPage(props: FollowingPageProps) {
     const xp = e.target.value;
     setGift({ ...gift, xp });
   };
+  async function handleSubmit(e: { preventDefault: () => void }) {
+    e.preventDefault();
+    await sendXpGift(gift.userId, gift.xp, points, dispatch);
+    handleClose();
+    setLoading(true);
+  }
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     if (location.search) {
-      console.log(location.search);
+      // console.log(location.search);
       const filteredUsers = followedUsers.filter(
         (user) => user._id === locationSearch
       );
       setUsersToShow(filteredUsers);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
+  useEffect(() => {
+    setLoading(false);
+  }, [loading]);
+  useEffect(() => {
+    if (!location.search) {
+      setUsersToShow(followedUsers);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
@@ -84,8 +116,8 @@ export default function FollowingPage(props: FollowingPageProps) {
         {usersToShow?.map((u, i) => (
           <Col
             key={i}
-            className={`following-page__profile-card m-1 ${
-              isgt1261 ? "col-2" : "col-3"
+            className={`following-page__profile-card m-1 p-1 ${
+              islt836 ? "col-5" : isgt1261 ? "col-2" : "col-3"
             }`}>
             <ProfileBadge
               isMine={false}
@@ -97,8 +129,15 @@ export default function FollowingPage(props: FollowingPageProps) {
               total_in_progress={u.total_in_progress}
             />
             <Card.Title>{u.username} </Card.Title>
-            <div>{u.bio}</div>
-            <div className='rewards'>
+            <Link to={`/following?id=${u._id}`}>
+              {location.search.includes("?id=") &&
+                allTasks.filter((task) =>
+                  task.sharedWith?.includes(usersToShow[0]._id)
+                ).length}{" "}
+              Tasks Shared
+            </Link>
+            <div className='dashboard__profile-card__bio m-2'>{u.bio}</div>
+            {/* <div className='rewards'>
               {u.admin && (
                 <Image
                   roundedCircle
@@ -109,6 +148,24 @@ export default function FollowingPage(props: FollowingPageProps) {
                   height='35px'
                 />
               )}
+            </div> */}
+            <div className='mb-2'>
+              {/* {u.admin && "Admin: "} */}
+              {getUserRole(u.level)}
+            </div>
+            {/* {u.admin && (
+              <>
+                <ContactAdminButton
+                  value={`${u._id} ${u.username}`}
+                  handleClick={sendGift}
+                />
+              </>
+            )} */}
+            <SendGiftButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
+            <div className='my-2'>
               {u.rewards &&
                 u.rewards
                   .filter((item) => item.available < 1)
@@ -120,49 +177,35 @@ export default function FollowingPage(props: FollowingPageProps) {
                       alt={item.reward}
                       className='p-1 mr-1 mb-1'
                       style={{ backgroundColor: "white" }}
-                      height='35px'
+                      height='25px'
                     />
                   ))}
             </div>
-            <div>
-              {/* {u.admin && "Admin: "} */}
-              {getUserRole(u.level)}
-            </div>
-            {u.admin ? (
-              <ContactAdminButton
-                value={`${u._id} ${u.username}`}
-                handleClick={sendGift}
-              />
-            ) : (
-              <SendGiftButton
-                value={`${u._id} ${u.username}`}
-                handleClick={sendGift}
-              />
-            )}
             {points! < 100 ? (
               <Modal show={show} onHide={handleClose}>
-                {u.admin ? (
-                  <Modal.Header>Send message to {gift.username}</Modal.Header>
-                ) : (
-                  <>
-                    <Modal.Header>
-                      <Modal.Title>You have {points} Bamboo Points</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                      You need a minimum of 100 Bamboo Points before you can
-                      send {gift.username} a gift. Come back later after
-                      completing some tasks!
-                    </Modal.Body>
-                    <Modal.Footer>
-                      {/* <Button variant='primary' onClick={handleDelete}>
+                {/* {u.admin && (
+                  <Modal.Header>
+                    Send message to <strong>{gift.username}</strong>
+                  </Modal.Header>
+                */}
+                <>
+                  <Modal.Header>
+                    <Modal.Title>You have {points} Bamboo Points</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    You need a minimum of 100 Bamboo Points before you can send{" "}
+                    <strong>{gift.username}</strong> a gift. Come back later
+                    after completing some tasks!
+                  </Modal.Body>
+                  <Modal.Footer>
+                    {/* <Button variant='primary' onClick={handleDelete}>
                 Yes, delete my account
               </Button> */}
-                      <Button variant='secondary' onClick={handleClose}>
-                        Go back
-                      </Button>
-                    </Modal.Footer>
-                  </>
-                )}
+                    <Button variant='secondary' onClick={handleClose}>
+                      Go back
+                    </Button>
+                  </Modal.Footer>
+                </>
               </Modal>
             ) : (
               <Modal show={show} onHide={handleClose}>
@@ -183,9 +226,12 @@ export default function FollowingPage(props: FollowingPageProps) {
                     to <strong>{gift.username}</strong>?
                   </Modal.Body>
                 ) : (
-                  <>
-                    <div className='red'>NEEDS TO BE DONE</div>
-                  </>
+                  <div className='p-3'>
+                    You are about to send <strong>{gift.username}</strong>{" "}
+                    {gift.xp}
+                    <BambooPoints />
+                    Bamboo points. Continue?
+                  </div>
                 )}
                 {gift.xp === 0 ? (
                   <Modal.Footer>
@@ -213,7 +259,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                   </Modal.Footer>
                 ) : (
                   <Modal.Footer>
-                    <Button variant='primary' onClick={handleClose}>
+                    <Button variant='primary' onClick={handleSubmit}>
                       Yes, send
                     </Button>
                     <Button variant='secondary' onClick={handleClose}>
@@ -225,6 +271,27 @@ export default function FollowingPage(props: FollowingPageProps) {
             )}
           </Col>
         ))}
+        {location.search.includes("?id=") && (
+          <Col>
+            <div className='d-flex'>
+              {allTasks
+                .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
+                .map((task, i) => (
+                  <Link to={`/tasks?id=${task._id}`} key={task._id}>
+                    <TaskButton
+                      i={i}
+                      task={task}
+                      bgColor={
+                        categoryColors[
+                          categories.findIndex((cat) => cat === task.category)
+                        ]
+                      }
+                    />
+                  </Link>
+                ))}
+            </div>
+          </Col>
+        )}
       </Row>
     </Container>
   );

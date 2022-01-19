@@ -19,7 +19,7 @@ import {
   SET_USER_POINTS_AND_COMPLETED,
 } from "../../utils/const/str";
 import { SET_REFRESH_TOKEN } from "../../utils/const/str";
-import { userInt } from "../../typings/interfaces";
+import { rewardsInt, userInt } from "../../typings/interfaces";
 
 export const setUserAvatar = (avatar: string | undefined) => ({
   type: SET_USER_AVATAR,
@@ -48,6 +48,10 @@ export const setUserEmail = (email: string | undefined) => ({
 export const setUserLevel = (level: number) => ({
   type: SET_USER_LEVEL,
   payload: level,
+});
+export const setUserRewards = (rewards: rewardsInt[]) => ({
+  type: SET_USER_LEVEL,
+  payload: rewards,
 });
 export const setUserPointsAndCompleted = (user: userInt) => ({
   type: SET_USER_POINTS_AND_COMPLETED,

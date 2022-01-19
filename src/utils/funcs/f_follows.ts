@@ -1,10 +1,10 @@
-import { BE_URL, USERS, POST } from "../const/str";
+import { POST, ENDPOINT_USERS } from "../const/str";
 
 export const requestFollow = async (sendee: string) => {
-  console.log("🙋Requesting User Follow");
+  // console.log("🙋Requesting User Follow");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/request/${sendee}`;
+    const url = `${ENDPOINT_USERS}/request/${sendee}`;
     const method = POST;
     const headers = {
       "Content-Type": "application/json",
@@ -22,10 +22,10 @@ export const requestFollow = async (sendee: string) => {
   }
 };
 export const acceptFollow = async (sendee: string) => {
-  console.log("🙋Accepting User Follow");
+  // console.log("🙋Accepting User Follow");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/accept/${sendee}`;
+    const url = `${ENDPOINT_USERS}/accept/${sendee}`;
     const method = POST;
     const headers = {
       "Content-Type": "application/json",
@@ -43,10 +43,10 @@ export const acceptFollow = async (sendee: string) => {
   }
 };
 export const rejectFollow = async (sendee: string) => {
-  console.log("🙋Rejecting User Follow");
+  // console.log("🙋Rejecting User Follow");
   const token = localStorage.getItem("token");
   try {
-    const url = `${BE_URL}/${USERS}/reject/${sendee}`;
+    const url = `${ENDPOINT_USERS}/reject/${sendee}`;
     const method = POST;
     const headers = {
       "Content-Type": "application/json",

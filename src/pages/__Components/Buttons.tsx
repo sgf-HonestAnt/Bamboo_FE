@@ -55,9 +55,9 @@ export const LinkButton = (props: ButtonProps) => (
   </Button>
 );
 export const ClearNotification = (props: ButtonProps) => (
-  <Button variant='link' className='mb-3 mr-1' onClick={props.handleClick}>
+  <div onClick={props.handleClick}>
     {props.label} <FiRotateCcw />
-  </Button>
+  </div>
 );
 export const EditButton = (props: ButtonProps) => (
   <Button
@@ -78,13 +78,10 @@ export const OpenTaskButton = (props: ButtonProps) => (
     {props.label}
   </Button>
 );
-export const DeleteTaskButton = (props: ButtonProps) => (
-  <Button
-    variant='link'
-    className='delete-task-btn'
-    onClick={props.handleClick}>
+export const DeleteTaskBadge = (props: ButtonProps) => (
+  <Badge bg='dark' className='delete-task-badge' onClick={props.handleClick}>
     <FiTrash2 />
-  </Button>
+  </Badge>
 );
 export const DeleteUserButton = (props: ButtonProps) => (
   <Button
@@ -96,7 +93,7 @@ export const DeleteUserButton = (props: ButtonProps) => (
   </Button>
 );
 export const AddNewTaskButton = (props: ButtonProps) => (
-  <Button variant='light' className='mr-1' onClick={props.handleClick}>
+  <Button variant='light' className='my-1 mr-1' onClick={props.handleClick}>
     <FiPlus /> {props.label}
   </Button>
 );
@@ -105,6 +102,11 @@ export const DashTaskButton = (props: ButtonProps) =>
     <Button
       variant={props.label.includes("All tasks") ? "info" : "info"}
       className={`${props.className} my-1 mr-1`}
+      id={`custom-bg-${props.label
+        .split("|")[0]
+        .toLowerCase()
+        .replace("_", " ")
+        .replace(/\s/g, "-")}`}
       value={props.value}
       onClick={props.handleClick}>
       {props.label.split("|")[0].charAt(0)?.toUpperCase()}
@@ -120,7 +122,13 @@ export const DashTaskButton = (props: ButtonProps) =>
             : props.label && parseInt(props.label.split("|")[1]) < 1
             ? "secondary"
             : "primary"
-        }`}>
+        }`}
+        id={`custom-bg-${props.label
+          .split("|")[0]
+          .toLowerCase()
+          .replace("_", " ")
+          .replace(/\s/g, "-")}`}>
+        {/* regex match whitespace globally */}
         {props.label.split("|")[1]}
       </Badge>
     </Button>
@@ -139,7 +147,7 @@ export const RefreshButton = (props: ButtonProps) => (
 );
 export const SubmitButton = (props: ButtonProps) => (
   <Button variant='light' className='mb-3 mr-1' type='submit'>
-    {props.label||"Submit"}
+    {props.label || "Submit"}
   </Button>
 );
 export const CompleteButton = () => (

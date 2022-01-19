@@ -1,42 +1,14 @@
 import { History } from "history";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
-import { Form, Image } from "react-bootstrap";
-import { ICOACTIVITY, ICOCROWN, ICOUSERS } from "../../../utils/appIcons";
-import { EditButton } from "../Buttons";
-import { getUserRole, updateUserBio } from "../../../utils/funcs/f_users";
+import { Button, Image } from "react-bootstrap";
+import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
+import { getUserRole } from "../../../utils/funcs/f_users";
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
-import {
-  BONSAI,
-  BUSINESSDEVIL,
-  CACTUS,
-  CACTUS2,
-  CARROT,
-  CHECKLIST,
-  CHRISTMASTREE,
-  CONSTELLATION,
-  DEADLINE,
-  EARTH,
-  EASTEREGG,
-  FIREWOMAN,
-  GOALS,
-  GOTH,
-  GROWPLANT,
-  LOVEMESSAGE,
-  MANAGER,
-  POISON,
-  PUMPKIN,
-  SNOWGLOBE,
-  TROPHY,
-  TULIPS,
-  TURTLE,
-  VEGETARIAN,
-} from "../../../utils/const/ico";
-import returnIco, { ANATOMICALHEART, CROWN } from "../../../utils/funcs/f_ico";
+import returnIco from "../../../utils/funcs/f_ico";
+import { FiEdit } from "react-icons/fi";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -45,26 +17,8 @@ type DashProfileCardProps = {
 const DashProfileCard = (props: DashProfileCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { username, admin, bio, level, xp, rewards } = my_user;
+  const { username, bio, level, xp, rewards } = my_user;
   const { isBigScreen, history } = props;
-  const dispatch = useDispatch();
-  const [newBio, setNewBio] = useState(bio);
-  const [formClass, setFormClass] = useState(false); // WAIT, where do I use setFormClass???
-  const [showTip, setShowTip] = useState(false);
-  const handleChange = (e: { target: { value: any } }) => {
-    const value = e.target.value;
-    setNewBio(value);
-  };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (newBio.length >= 2 && newBio.length <= 20) {
-      await updateUserBio(newBio, dispatch);
-      setFormClass(!formClass);
-      setShowTip(false);
-    } else {
-      setShowTip(true);
-    }
-  };
   const pushToSettings = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     history.push("/user-settings");
@@ -77,7 +31,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       }`}>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
-        {admin && (
+        {/* {admin && (
           <Image
             roundedCircle
             src={CROWN}
@@ -86,9 +40,14 @@ const DashProfileCard = (props: DashProfileCardProps) => {
             height='35px'
           />
         )}
-        <br />
+        <br /> */}
         {username}
-        <EditButton handleClick={pushToSettings} />
+        <Button
+          className='p-1 dashboard__profile-card__edit-btn'
+          variant='link'
+          onClick={pushToSettings}>
+          <FiEdit />
+        </Button>{" "}
       </div>
       <div>{role}</div>
       <div className='dashboard__profile-card__holder-xp'>
@@ -109,31 +68,15 @@ const DashProfileCard = (props: DashProfileCardProps) => {
             />
           ))}
       </div>
-      <Form
-        className='dashboard__profile-card__form mx-3 p-0'
-        onSubmit={handleSubmit}>
-        <Form.Control
-          required
-          type='text'
-          value={newBio}
-          placeholder={newBio}
-          aria-describedby='bioHelpBlock'
-          className={
-            formClass
-              ? "dashboard__profile-card__bio mt-2"
-              : "dashboard__profile-card__bio mt-2 clicked"
-          }
-          onChange={handleChange}></Form.Control>
-        {showTip && (
-          <Form.Text id='bioHelpBlock' muted>
-            {newBio.length < 2
-              ? "Bio too short!"
-              : newBio.length > 20
-              ? "Bio too long!"
-              : ""}
-          </Form.Text>
-        )}
-      </Form>
+      <div className='d-flex align-items-center justify-content-center dashboard__profile-card__bio'>
+        <span>{bio}</span>
+        <Button
+          className='p-1 dashboard__profile-card__edit-btn'
+          variant='link'
+          onClick={pushToSettings}>
+          <FiEdit />
+        </Button>
+      </div>
       <div className='dashboard__profile-card__stats'>
         <div>
           <ICOACTIVITY />

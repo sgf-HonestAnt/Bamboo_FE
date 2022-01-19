@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
-import { Row, Button, Badge } from "react-bootstrap";
+import { Button, Badge } from "react-bootstrap";
 import { NONE, URGENT, COMPLETED } from "../../../utils/const/str";
 import { FiFlag, FiUsers } from "react-icons/fi";
 import { createColorArray } from "../../../utils/funcs/f_styling";
 
 type MapTasksProps = {
   tasks: taskInt[];
+  link: string;
 };
 
 type TaskButtonProps = {
@@ -22,7 +23,7 @@ export function TaskButton(props: TaskButtonProps) {
   return (
     <Button
       variant='link'
-      className={`m-1 bamboo-task${
+      className={`mr-2 my-1 bamboo-task${
         task.status === COMPLETED ? "-completed" : ""
       }`}
       style={{ backgroundColor: `${bgColor}` }}
@@ -35,7 +36,10 @@ export function TaskButton(props: TaskButtonProps) {
         {task.value}xp
       </Badge>
       &nbsp;
-      <Badge bg='warning' className={`bg-warning ${task!.category}`}>
+      <Badge
+        bg='warning'
+        className={`bg-warning ${task!.category}`}
+        id={task.category}>
         {task.category === NONE ? (
           "no category"
         ) : task.category === URGENT ? (
@@ -59,7 +63,7 @@ export function TaskButton(props: TaskButtonProps) {
 }
 
 export default function MapTasks(props: MapTasksProps) {
-  const { tasks } = props;
+  const { tasks, link } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { categories } = state.currentTasks;
   const { customColors } = state.currentSettings;
@@ -67,15 +71,15 @@ export default function MapTasks(props: MapTasksProps) {
   useEffect(() => {
     createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [tasks]);
   return (
-    <Row className='dashboard__map-tasks px-2'>
+    <div className='dashboard__map-tasks'>
+      {tasks.length > 0 && <hr />}
       {
         // eslint-disable-next-line array-callback-return
         tasks.map((task, i) => (
-          <Link to={`/tasks?id=${task._id}`}>
+          <Link to={`${link}?id=${task._id}`} key={task._id}>
             <TaskButton
-              key={task._id}
               i={i}
               task={task}
               bgColor={
@@ -87,6 +91,7 @@ export default function MapTasks(props: MapTasksProps) {
           </Link>
         ))
       }
-    </Row>
+      {tasks.length > 0 && <hr />}
+    </div>
   );
 }

@@ -15,6 +15,9 @@ import {
   IN_PROGRESS,
   ANY_TYPE,
   OVERDUE,
+  ANY_STATUS,
+  TEAM,
+  SOLO,
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
@@ -31,18 +34,47 @@ export default function TasksPage(props: TasksPageProps) {
   const { awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const { history, location } = props;
+  // const { search } = location;
   const [taskList, setTaskList] = useState<taskInt[]>(allTasks);
   const [filter, setFilter] = useState({
     due: ANY_DUE,
     cat: ANY_CAT,
     val: ANY_VAL,
     type: ANY_TYPE,
+    status: ANY_STATUS,
   });
   const [initialData, setInitialData] = useState<beautifulDnD>({
     tasks: [],
     lists: [],
     listOrder: [],
   });
+  const filterTasksByType = async (type: string) => {
+    let allShared: taskInt[] = [];
+    if (type === TEAM) {
+      allShared = allTasks.filter(
+        (task) => task?.sharedWith && task.sharedWith.length > 1
+      );
+    }
+    if (type === SOLO) {
+      allShared = allTasks.filter(
+        (task) => task?.sharedWith && task.sharedWith.length < 2
+      );
+    }
+    setTaskList(allShared);
+  };
+  const filterTasksByStatus = async (status: string) => {
+    let tasksByStatus: taskInt[] = [];
+    if (status === AWAITED) {
+      tasksByStatus = awaited;
+    }
+    if (status === IN_PROGRESS) {
+      tasksByStatus = in_progress;
+    }
+    if (status === COMPLETED) {
+      tasksByStatus = completed;
+    }
+    setTaskList(tasksByStatus);
+  };
   const filterTasksOverdue = async (updatedTasks: taskInt[]) => {
     let overdueTasks: taskInt[] = [];
     const tasksWithDeadlines = updatedTasks.filter(
@@ -62,6 +94,10 @@ export default function TasksPage(props: TasksPageProps) {
       updatedTasks = data.tasks;
       if (filter.due === OVERDUE) {
         filterTasksOverdue(updatedTasks);
+      } else if (filter.status !== ANY_STATUS) {
+        filterTasksByStatus(filter.status);
+      } else if (filter.type !== ANY_TYPE) {
+        filterTasksByType(filter.type);
       } else {
         setTaskList(updatedTasks);
       }
@@ -71,6 +107,8 @@ export default function TasksPage(props: TasksPageProps) {
       setTaskList(updatedTasks);
       if (filter.due === OVERDUE) {
         filterTasksOverdue(updatedTasks);
+      } else if (filter.status !== ANY_STATUS) {
+        filterTasksByStatus(filter.status);
       } else {
         setTaskList(updatedTasks);
       }
@@ -122,8 +160,48 @@ export default function TasksPage(props: TasksPageProps) {
     const fullQuery = `${dueQuery}${catQuery}${valQuery}${typeQuery}`;
     const queryWithoutAmpersand = fullQuery.slice(0, fullQuery.length - 1);
     retrieveTasks(queryWithoutAmpersand);
+    // if (filter.type !== ANY_TYPE) {
+    //   const allShared = allTasks.filter(
+    //     (task) => task?.sharedWith && task.sharedWith.length > 1
+    //   );
+    //   setTaskList(allShared);
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+  // useEffect(() => {
+  //   const { search } = location;
+  //   if (search.includes("?category")) {
+  //     setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?status")) {
+  //     setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?value")) {
+  //     setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?sharedWith")) {
+  //     /// DEBUG IN AM . WANT TO SHOW TASKS SHARED WITH USER .
+  //     // setFilter({ ...filter, type: TEAM });
+  //     const sharedTasks = allTasks.filter((task) =>
+  //       task.sharedWith!.includes(search.split("=")[1].split("?")[0])
+  //     );
+  //     // console.log(sharedTasks);
+  //     setTaskList(sharedTasks);
+  //     ///////
+  //   } else if (search.includes("?type")) {
+  //     setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
+  //   } else if (search.includes("?deadline")) {
+  //     setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
+  //   } else {
+  //     return;
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location.search]);
+  // useEffect(() => {
+  //   const { search } = location;
+  //   if (search.includes(task!._id)) {
+  //     setShow(true);
+  //     setView(true);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [location]);
   return (
     <Container fluid>
       <TasksFilterRow

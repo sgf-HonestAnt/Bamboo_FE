@@ -1,6 +1,7 @@
 import { TASK_CATEGORIES, TASK_CATEGORY_ICONS } from "../const/str";
 import { ICOSTAR } from "../appIcons";
 
+// NOT USING //
 const getIcon = (category: string) => {
   // return category icons
   const index = TASK_CATEGORIES.findIndex(

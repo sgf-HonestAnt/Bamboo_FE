@@ -8,7 +8,6 @@ import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { useMediaQuery } from "react-responsive";
 import { Container } from "react-bootstrap";
 import checkToken from "../../utils/funcs/f_checkToken";
 import SideBar from "../SideBar";
@@ -17,14 +16,15 @@ import DashboardPage from "../Dashboard";
 import TasksPage from "../Tasks";
 import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
-import StatsPage from "../Stats";
 import ErrorPage from "../Error";
 import "./styles.css";
+// import { useMediaQuery } from "react-responsive";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
   // ****************************MEDIA********************************************
-  const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
-  // ****************************MEDIA********************************************
+  // const isMobileDevice = useMediaQuery({
+  //   query: "(max-width: 560px)",
+  // });
   const [mainLoading, setMainLoading] = useState(true);
   const [theme, setTheme] = useState("theme-light");
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
@@ -32,7 +32,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     (state: reduxStateInt) => state.currentUser.my_user
   );
   const { refreshToken } = user;
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const { error, loading } = state.currentUser;
   const features = state.currentFeatures;
   const dispatch = useDispatch();
@@ -62,12 +62,10 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
-  useEffect(() => {
-    console.log("🔐", localStorage.getItem("token"));
-  }, [token]);
-  return isPortrait ? (
-    <div>PORTRAIT DISPLAY</div>
-  ) : (
+  // useEffect(() => {
+  //   console.log("🔐", localStorage.getItem("token"));
+  // }, [token]);
+  return (
     <Container fluid className='main-page m-0 p-0' id={theme}>
       {loading || mainLoading ? (
         <div>loading</div>
@@ -89,13 +87,14 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               setTheme={setTheme}
             />
           </div>
+
           {path === "/dash" ? (
             <div className='main-page__main-section'>
               <DashboardPage history={history} location={location} />
             </div>
           ) : path === "/stats" ? (
             <div className='main-page__main-section'>
-              <StatsPage />
+              <DashboardPage history={history} location={location} />
             </div>
           ) : path === "/tasks" ? (
             <div className='main-page__main-section'>

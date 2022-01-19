@@ -10,6 +10,7 @@ import {
   getIdByUsername,
 } from "../../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
 
 type AchievementsProps = {};
 const Achievements = (props: AchievementsProps) => {
@@ -51,74 +52,90 @@ const Achievements = (props: AchievementsProps) => {
   }, []);
   useEffect(() => {}, [superlist]);
   return (
-    <div className='bamboo-card dashboard__activities'>
-      <div className='dashboard__card-header'>Achievements</div>
-      <hr />
-      {superlist?.length < 1 ? (
-        <p>
-          You have no achievements yet! Complete a task or follow a friend to
-          view achievements.
-        </p>
-      ) : (
-        superlist.map((ach, i) => {
-          return (
-            <div key={i}>
-              {ach.includes("completed") && ach.split(" ")[0] !== "you" ? (
-                // ach.includes("sent you a") ||
-                // !ach.includes("Send")
-                <>
-                  <Link
-                    to={`/following?id=${getIdByUsername(
-                      followedUsers,
-                      ach.split(" ")[0]
-                    )}`}>
-                    <img
-                      src={getAvatarByUsername(
+    <div className='bamboo-card dashboard__activities p-0'>
+      {superlist?.length < 1 && (
+        <Table>
+          <tbody>
+            <tr>
+              <td>
+                You have no achievements yet! Complete a task or follow a friend
+                to view achievements.
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      )}
+      {superlist?.length > 0 && (
+        <Table striped hover>
+          <tbody>
+            {superlist.map((ach, i) => {
+              return ach.includes("completed") &&
+                ach.split(" ")[0] !== "you" ? (
+                <tr key={i}>
+                  <td>
+                    <Link
+                      to={`/following?id=${getIdByUsername(
                         followedUsers,
                         ach.split(" ")[0]
-                      )}
-                      alt={ach.split(" ")[0]}
-                      className='dashboard__activities__img mr-1' 
+                      )}`}>
+                      <img
+                        src={getAvatarByUsername(
+                          followedUsers,
+                          ach.split(" ")[0]
+                        )}
+                        alt={ach.split(" ")[0]}
+                        className='dashboard__activities__img mr-1'
+                      />
+                      {ach.split(" ")[0]} completed a task on{" "}
+                      {ach.split(" task on ")[1]}
+                    </Link>
+                  </td>
+                </tr>
+              ) : ach.includes("completed") && ach.split(" ")[0] === "you" ? (
+                <tr key={i}>
+                  <td>
+                    {" "}
+                    <img
+                      src={avatar}
+                      alt={username}
+                      className='dashboard__activities__img mr-1'
                     />
-                  </Link>
-                  <strong>{ach.split(" ")[0]}</strong>
-                  <span> completed a task on </span>
-                  <em>{ach.split(" task on ")[1]}</em>
-                  <hr />
-                </>
-              ) : ach.split(" ")[0] === "you" ? (
-                // ach.includes("sent you a") ||
-                // !ach.includes("Send")
-                <>
-                  <img
-                    src={avatar}
-                    alt={username}
-                    className='x-tiny-round mr-1'
-                  />
-                  <strong>{ach.split(" ")[0]}</strong>
-                  <span> completed a task:</span>
-                  <strong>
-                    <em>{ach.split("task:")[1].split(" on ")[0]}</em>
-                  </strong>
-                  <span> on </span>
-                  <em>{ach.split("on")[1].split("|")[0]}</em>
-                  <hr />
-                  {/* <span>{ach.split("|")[0]}</span>
-                  <span>{ach.split("|")[1]}</span> */}
-                </>
+                    you completed task:{" "}
+                    <em>
+                      {ach
+                        .split("you completed task:")[1]
+                        .split("|")[0]
+                        .split(" ")
+                        .slice(0, -8)
+                        .toString()
+                        .replace(/,/g, " ")}
+                    </em>{" "}
+                    {ach
+                      .split("you completed task:")[1]
+                      .split("|")[0]
+                      .split(" ")
+                      .slice(-8)
+                      .toString()
+                      .replace(/,/g, " ")}
+                    {/* {ach.split("|")[1]} */}
+                  </td>
+                </tr>
               ) : (
-                <>
-                  <div>{ach.split("|")[0]}</div>
-                  <LinkButton
-                    value={ach}
-                    handleClick={handleClick}
-                    label={`${ach.split("|")[0]}`}
-                  />
-                </>
-              )}
-            </div>
-          );
-        })
+                <tr key={i}>
+                  <td>
+                    {" "}
+                    <span>{ach.split("|")[0]}</span>
+                    <LinkButton
+                      value={ach}
+                      handleClick={handleClick}
+                      label={`${ach.split("|")[0]}`}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
       )}
     </div>
   );

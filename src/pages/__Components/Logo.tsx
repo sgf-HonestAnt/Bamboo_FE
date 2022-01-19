@@ -5,7 +5,7 @@ export default function BambooLogo() {
   return (
     <div className="bamboo-logo">
       <Image fluid src={BAMBOO} />
-      <h3>Bamboo</h3> 
+      <h3>Bamboo tasks</h3> 
     </div>
   );
 }

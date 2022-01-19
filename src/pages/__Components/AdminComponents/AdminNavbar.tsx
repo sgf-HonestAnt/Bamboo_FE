@@ -78,7 +78,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(form);
+  // console.log(form);
   return !loadingForm ? (
     <Form>
       <Nav className='admin-page__form p-2'>

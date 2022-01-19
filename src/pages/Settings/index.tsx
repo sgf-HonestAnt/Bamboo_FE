@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
@@ -19,7 +19,10 @@ import {
   setUsername,
 } from "../../redux/actions/user";
 import { userUpdateType } from "../../typings/types";
-import { attemptDeleteUser, attemptUpdateUser } from "../../utils/funcs/f_users";
+import {
+  attemptDeleteUser,
+  attemptUpdateUser,
+} from "../../utils/funcs/f_users";
 import ImageUploader from "../__Components/ImageUploader";
 import "./styles.css";
 
@@ -31,7 +34,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
-  const { history, location } = props;
+  const { history } = props;
   // const { notification } = my_user;
   // const achievements = state.currentAchievements;
   // const tasks = state.currentTasks;
@@ -99,9 +102,9 @@ export default function SettingsPage(props: SettingsPageProps) {
       history.push("/");
     }
   };
-  useEffect(() => {
-    console.log(location.pathname);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   console.log(location.pathname);
+  // }, [location.pathname]);
   return (
     <div className='settings-page'>
       <Card className='my-3'>
@@ -127,7 +130,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='last_name'>
+            <Form.Group as={Row} controlId='last_name' className='pb-2'>
               <Form.Label column sm='4'>
                 last name
               </Form.Label>
@@ -141,7 +144,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='username'>
+            <Form.Group as={Row} controlId='username' className='pb-2'>
               <Form.Label column sm='4'>
                 username
               </Form.Label>
@@ -155,7 +158,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='bio'>
+            <Form.Group as={Row} controlId='bio' className='pb-2'>
               <Form.Label column sm='4'>
                 bio
               </Form.Label>
@@ -163,13 +166,15 @@ export default function SettingsPage(props: SettingsPageProps) {
                 <Form.Control
                   type='text'
                   value={form.bio}
+                  maxLength={20}
+                  minLength={2}
                   onChange={handleChange}
                   className='settings-page__profile-card__form-control'
                 />
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='email'>
+            <Form.Group as={Row} controlId='email' className='pb-2'>
               <Form.Label column sm='4'>
                 email
               </Form.Label>
@@ -211,4 +216,4 @@ export default function SettingsPage(props: SettingsPageProps) {
       </Card>
     </div>
   );
-};
+}

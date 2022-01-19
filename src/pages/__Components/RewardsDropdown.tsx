@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Form, Image, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt, rewardsInt } from "../../typings/interfaces";
 import returnIco from "../../utils/funcs/f_ico";
+import { purchaseReward } from "../../utils/funcs/f_rewards";
+import { History } from "history";
 import BambooPoints from "./XP";
 
 type RewardsDropdownProps = {
   rewards: rewardsInt[];
   formType: string;
   label: string;
+  history: History<unknown> | string[];
 };
 
 export default function RewardsDropdown(props: RewardsDropdownProps) {
-  const { rewards, formType, label } = props;
+  const dispatch = useDispatch();
+  const { rewards, formType, label, history } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const [loading, setLoading] = useState(false);
@@ -28,11 +33,21 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
       setReward(foundReward);
     }
   }
-  function handleSubmit(e: { preventDefault: () => void }) {
+  async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("HANDLE SUBMIT");
+    if (reward && xp >= reward.value) {
+      const remainingXp = await purchaseReward(rewards, reward, xp, dispatch);
+      if (remainingXp) {
+        setReward(undefined);
+        history.push("/reload");
+      } else {
+        console.log(
+          "CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL"
+        );
+      }
+    }
   }
-  console.log(reward);
+  // console.log(reward);
   useEffect(() => {
     setLoading(false);
   }, [loading]);
@@ -77,55 +92,66 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
       </Form>
     </Card>
   ) : formType === "select" ? (
-    <Form className='pt-1'>
-      <Form.Label>{label}</Form.Label>
-      <Form.Group controlId='rewards' className='row'>
-        {!loading &&
-          rewards.map((item, i) => (
-            <div className='col col-6 col-lg-3 pb-3'>
-              <Form.Check
-                key={i}
-                type='radio'
-                name='rewards_group'
-                onChange={handleChange}
-                value={item._id}
-                label={`${item.reward.split("||")[0]} (${item.value}xp)`}
-                disabled={item.value > xp}
-              />
-              <Image
-                roundedCircle
-                src={returnIco(item.reward)}
-                alt={item.reward}
-                className='p-1'
-                style={{ backgroundColor: "white" }}
-                height='40px'
-              />
-              {item.value > xp ? (
-                <Badge bg='light' className='m-1' style={{ color: "red" }}>
-                  {item.value - xp}XP NEEDED
-                </Badge>
-              ) : item.reward.includes("SPECIAL") ? (
-                <Badge bg='light' className='m-1'>
-                  {item.reward.split(" ").splice(-1)} ONLY
-                </Badge>
-              ) : (
-                <></>
-              )}
-              {reward && reward._id === item._id && (
-                <>
-                  <Button
-                    onClick={handleSubmit}
-                    variant='secondary'
-                    className='mr-1'>
-                    Purchase
-                  </Button>
-                  <Button onClick={handleReset}>Reset</Button>
-                </>
-              )}
-            </div>
-          ))}
-      </Form.Group>
-    </Form>
+    <>
+      {!loading && rewards.length > 0 && <hr />}
+      <Form className='pt-1'>
+        <Form.Label>{label}</Form.Label>
+        <Form.Group controlId='rewards' className='row'>
+          <Row className='d-flex align-items-center justify-content-start mr-auto mx-5'>
+            {!loading &&
+              rewards.map((item, i) => (
+                <Col
+                  className='col-12 col-lg-6 align-content-start m-0 pt-1'
+                  key={item._id}>
+                  <Form.Check
+                    type='radio'
+                    name='rewards_group'
+                    onChange={handleChange}
+                    value={item._id}
+                    label={`${item.reward.split("||")[0]} (${item.value}xp)`}
+                    disabled={item.value > xp}
+                  />
+                  {item.value > xp && (
+                    <Badge bg='light' className='m-1' style={{ color: "red" }}>
+                      {item.value - xp}XP NEEDED
+                    </Badge>
+                  )}
+                  {item.reward.includes("SPECIAL") && (
+                    <Badge bg='light' className='m-1'>
+                      {item.reward.split(" ").splice(-1)} ONLY
+                    </Badge>
+                  )}
+                  <div>
+                    <Image
+                      roundedCircle
+                      src={returnIco(item.reward)}
+                      alt={item.reward}
+                      className='m-1 p-1'
+                      style={{ backgroundColor: "white" }}
+                      height='38px'
+                    />
+                    {reward && reward._id === item._id && (
+                      <>
+                        <Button
+                          onClick={handleSubmit}
+                          variant='secondary'
+                          size='sm'
+                          className='mr-1'>
+                          Buy
+                        </Button>
+                        <Button size='sm' onClick={handleReset}>
+                          Reset
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </Col>
+              ))}
+          </Row>
+        </Form.Group>
+      </Form>
+      {!loading && rewards.length > 0 && <hr />}
+    </>
   ) : (
     <></>
   );

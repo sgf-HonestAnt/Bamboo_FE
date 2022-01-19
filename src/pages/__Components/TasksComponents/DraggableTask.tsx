@@ -8,8 +8,8 @@ import {
   Draggable,
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
-import { NONE, SOLO, URGENT } from "../../../utils/const/str";
-import { ICOCLOCK, ICOUSERS } from "../../../utils/appIcons";
+import { NONE, URGENT } from "../../../utils/const/str";
+import { ICOCLOCK } from "../../../utils/appIcons";
 import { useEffect, useState } from "react";
 import AddEditTaskModal from "../AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
@@ -47,6 +47,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const { customColors } = state.currentSettings;
   const categories = state.currentTasks.categories;
   const { task, i, initialData, setInitialData, history, location } = props;
+  // const { pathname } = location;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
@@ -73,11 +74,10 @@ const DraggableTask = (props: DraggableTaskProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData]);
   useEffect(() => {
-    if (location.search) {
-      if (locationSearch === task!._id) {
-        setShow(true);
-        setView(true);
-      }
+    const { search } = location;
+    if (search.includes(task!._id)) {
+      setShow(true);
+      setView(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
@@ -86,105 +86,108 @@ const DraggableTask = (props: DraggableTaskProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Draggable draggableId={`${task!._id}/${task!.value}`} index={i}>
-      {(provided, snapshot) => {
-        const taskClass = `tasks-page__list-task ${task!.status}`;
-        return (
-          <div
-            {...provided.draggableProps}
-            // {...provided.dragHandleProps} // move to seperate element if we want to drag by specific handle!
-            ref={provided.innerRef}
-            // isDragging={snapshot.isDragging}
-            className={taskClass}
-            key={i}>
-            <Button
-              variant='link'
-              className='m-1 bamboo-task'
-              style={{
-                backgroundColor: `${
-                  categoryColors[
-                    categories.findIndex((cat) => cat === task!.category)
-                  ]
-                }`,
-              }}>
-              <div>
-                <span
-                  onClick={handleShow}
-                  className={`bamboo-task__title ${task!.category}`}>
-                  {task!.title} &nbsp;
-                  <Badge bg='dark' style={{ color: "gold" }}>
-                    {task!.value}xp
-                  </Badge>
-                  &nbsp;
-                  <Badge
-                    bg='warning'
-                    className={`bg-warning ${task!.category}`}>
-                    {task!.category === NONE ? (
-                      "no category"
-                    ) : task!.category === URGENT ? (
-                      <>
-                        <FiFlag />
-                        &nbsp;
-                        {task!.category}
-                      </>
-                    ) : (
-                      task!.category
-                    )}
-                  </Badge>
-                  &nbsp;
-                  {task!.sharedWith && task!.sharedWith.length > 1 && (
-                    <Badge bg='info'>
-                      <FiUsers />+{task!.sharedWith.length - 1}
+    task && (
+      <Draggable draggableId={`${task._id}/${task.value}`} index={i}>
+        {(provided, snapshot) => {
+          const taskClass = `tasks-page__list-task ${task.status}`;
+          return (
+            <div
+              {...provided.draggableProps}
+              // {...provided.dragHandleProps} // move to seperate element if we want to drag by specific handle!
+              ref={provided.innerRef}
+              // isDragging={snapshot.isDragging}
+              className={taskClass}
+              key={i}>
+              <Button
+                variant='link'
+                className='m-1 bamboo-task'
+                style={{
+                  backgroundColor: `${
+                    categoryColors[
+                      categories.findIndex((cat) => cat === task.category)
+                    ]
+                  }`,
+                }}>
+                <div>
+                  <span
+                    onClick={handleShow}
+                    className={`bamboo-task__title ${task.category}`}
+                    id={task._id}>
+                    {task.title} &nbsp;
+                    <Badge bg='dark' style={{ color: "gold" }}>
+                      {task.value}xp
                     </Badge>
-                  )}
-                  {taskIsOverdue && (
-                    <span style={{ color: "red" }}>
-                      <ICOCLOCK />
-                    </span>
-                  )}
-                </span>
-              </div>
-              <div>
-                <span onClick={handleShow}>
-                  {task!.desc}{" "}
-                  {task!.type === SOLO || task!.sharedWith!.length < 2 ? (
+                    &nbsp;
+                    <Badge
+                      bg='warning'
+                      className={`bg-warning ${task.category}`}>
+                      {task.category === NONE ? (
+                        "no category"
+                      ) : task.category === URGENT ? (
+                        <>
+                          <FiFlag />
+                          &nbsp;
+                          {task.category}
+                        </>
+                      ) : (
+                        task.category
+                      )}
+                    </Badge>
+                    &nbsp;
+                    {task.sharedWith && task.sharedWith.length > 1 && (
+                      <Badge bg='info'>
+                        <FiUsers />+{task.sharedWith.length - 1}
+                      </Badge>
+                    )}
+                    {taskIsOverdue && (
+                      <span style={{ color: "red" }}>
+                        <ICOCLOCK />
+                      </span>
+                    )}
+                  </span>
+                </div>
+                <div>
+                  <span onClick={handleShow}>
+                    {task.desc}{" "}
+                    {/* {task.type === SOLO || task.sharedWith!.length < 2 ? (
                     ""
                   ) : (
                     <ICOUSERS />
                   )}
-                  {task!.sharedWith!.length > 1 && task!.sharedWith!.length}
-                </span>
-                {task!.deadline && (
-                  <span>
-                    {`${
-                      task!.desc.length > 1 || task!.sharedWith!.length > 1
-                        ? "|"
-                        : ""
-                    } ${getShortDateAsString(task.deadline)}`}{" "}
-                    {task.deadline.slice(0, 4)}
+                  {task.sharedWith!.length > 1 && task.sharedWith!.length} */}
                   </span>
-                )}
-              </div>
-              <AddEditTaskModal
-                view={view}
-                setView={setView}
-                show={show}
-                handleClose={handleClose}
-                user={my_user}
-                followedUsers={followedUsers}
-                categories={categories}
-                history={history}
-                location={location}
-                initialData={initialData}
-                setInitialData={setInitialData}
-                taskSet={task}
-              />
-            </Button>
-            <Handle dragHandleProps={provided.dragHandleProps} />
-          </div>
-        );
-      }}
-    </Draggable>
+                  {task.deadline && (
+                    <span>
+                      {`${
+                        task.desc.length > 1 || task.sharedWith!.length > 1
+                          ? "|"
+                          : ""
+                      } ${getShortDateAsString(task.deadline)}`}{" "}
+                      {task.deadline.slice(0, 4)}
+                    </span>
+                  )}
+                </div>
+                <AddEditTaskModal
+                  view={view}
+                  setView={setView}
+                  show={show}
+                  handleClose={handleClose}
+                  user={my_user}
+                  followedUsers={followedUsers}
+                  categories={categories}
+                  history={history}
+                  location={location}
+                  initialData={initialData}
+                  setInitialData={setInitialData}
+                  taskSet={task}
+                />
+              </Button>
+              <Handle dragHandleProps={provided.dragHandleProps} />
+            </div>
+          );
+        }}
+      </Draggable>
+    )
   );
 };
 

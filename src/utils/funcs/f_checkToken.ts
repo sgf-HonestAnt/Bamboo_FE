@@ -1,6 +1,5 @@
 import { History, Location } from "history";
 import { BE_URL, GET, USERS } from "../const/str";
-// import attemptRefresh from "./f_attemptRefresh";
 
 const checkToken = async (
   refresh: string | undefined,
@@ -9,7 +8,7 @@ const checkToken = async (
 ) => {
   try {
     // check token still valid. If not, push to "/login"
-    console.log("🙋Checking Token");
+    // console.log("🙋Checking Token");
     const access = localStorage.getItem("token");
     const url = `${BE_URL}/${USERS}/test`;
     const method = GET;

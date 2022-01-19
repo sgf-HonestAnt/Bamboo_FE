@@ -1,7 +1,8 @@
 /* .tasks-page {
 } */
 .tasks-page__filter-row form {
-  display: flex;
+  display: inline-flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
 }
 .tasks-page__list {
@@ -50,21 +51,6 @@
   max-height: 30px;
   max-width: 30px;
   background-color: rgba(0, 0, 0, 0.2);
-}
-.completed .delete-task-btn {
-  padding: 0;
-  align-items: center;
-  vertical-align: middle;
-  border-radius: 0;
-  border: 1px solid black;
-  min-height: 30px;
-  min-width: 30px;
-  max-height: 30px;
-  max-width: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-.completed .delete-task-btn svg {
-  color: black;
 }
 .dnd-placeholder {
   font-size: 1px;

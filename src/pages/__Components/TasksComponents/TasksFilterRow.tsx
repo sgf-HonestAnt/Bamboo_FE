@@ -13,10 +13,12 @@ import { TASK_VALUE_NUMS } from "../../../utils/const/arr";
 import {
   ANY_CAT,
   ANY_DUE,
+  ANY_STATUS,
   ANY_TYPE,
   ANY_VAL,
   TASKS_TO_SHOW,
   TASK_CATEGORIES,
+  TASK_STATUS_TYPES,
   TASK_TYPES,
   TODAY,
   TOMORROW,
@@ -50,6 +52,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     // query,
     // setQuery,
   } = props;
+  // const { search } = location;
   const allTasks = awaited.concat(in_progress, completed);
   const [selectDate, setSelectDate] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
@@ -63,14 +66,13 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
       cat: ANY_CAT,
       val: ANY_VAL,
       type: ANY_TYPE,
+      status: ANY_STATUS,
     });
     setTaskList(allTasks);
     setSelectDate(false);
     setLoadingForm(true);
-    // 🔨 FIX NEEDED: DOES NOT RESET FORM
   };
   const handleChange = async (e: { target: { id: any; value: any } }) => {
-    // add dropdown category for date (Any, Overdue, Due Today, Due Tomorrow, No Due Date) and value (Any, ...values)
     const id = e.target.id;
     const value = e.target.value;
     if (id !== "due") {
@@ -95,6 +97,11 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
+  // console.log(
+  //   `${search.split("=")[1].charAt(0).toUpperCase()}${search
+  //     .split("=")[1]
+  //     .slice(1)}`
+  // );
   return (
     <Row className='pt-4'>
       <Col sm={12}>
@@ -114,14 +121,14 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
           />{" "}
           <Button
             variant='light'
-            className='mr-1'
+            className='my-1 mr-1'
             id='changeAll'
             onClick={handleReset}>
             <FiRefreshCcw />
           </Button>
           {!loadingForm && (
             <Form>
-              <Form.Group controlId='cat' className='mr-1'>
+              <Form.Group controlId='cat' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_CAT}
@@ -150,7 +157,23 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   ))}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='val' className='mr-1'>
+              <Form.Group controlId='status' className='mr-1 my-1'>
+                <Form.Control
+                  as='select'
+                  defaultValue={ANY_STATUS}
+                  onChange={handleChange}>
+                  <option value={ANY_STATUS}>Filter by Status</option>
+                  <option value='' disabled>
+                    ---
+                  </option>
+                  {TASK_STATUS_TYPES.map((status, i) => (
+                    <option key={i} value={status}>
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
+              <Form.Group controlId='val' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_VAL}
@@ -169,7 +192,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   })}
                 </Form.Control>
               </Form.Group>
-              <Form.Group controlId='type' className='mr-1'>
+              <Form.Group controlId='type' className='mr-1 my-1'>
                 <Form.Control
                   as='select'
                   defaultValue={ANY_TYPE}
@@ -189,7 +212,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                 </Form.Control>
               </Form.Group>
               {!selectDate ? (
-                <Form.Group controlId='due' className='mr-1'>
+                <Form.Group controlId='due' className='mr-1 my-1'>
                   <Form.Control
                     as='select'
                     defaultValue={ANY_DUE}
@@ -210,7 +233,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
                   </Form.Control>
                 </Form.Group>
               ) : (
-                <Form.Group controlId='due' className='mr-1'>
+                <Form.Group controlId='due' className='mr-1 my-1'>
                   <Form.Control type='date' onChange={handleChange} />
                 </Form.Group>
               )}

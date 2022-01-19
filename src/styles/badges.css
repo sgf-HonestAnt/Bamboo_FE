@@ -1,0 +1,89 @@
+/* Bootstrap buttons & badges */
+button,
+.btn,
+.badge {
+  border-radius: 0.15rem !important;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px !important;
+}
+.btn-light {
+  background-color: hsla(var(--honeydew), 1) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+.btn-primary {
+  background-color: hsla(var(--castleton-green), 1) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+.btn-primary.disabled,
+.btn-primary:disabled {
+  opacity: 0.5 !important;
+}
+.btn-primary:hover {
+  background-color: hsla(var(--blue-green-color-wheel), 1) !important;
+}
+.btn-secondary {
+  background-color: hsla(var(--caribbean-green), 0.5) !important;
+  color: hsla(var(--castleton-green), 1) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+.btn-secondary:hover {
+  background-color: hsla(var(--caribbean-green), 0.7) !important;
+}
+.btn-link {
+  color: inherit !important;
+}
+.btn-link:hover {
+  text-decoration: none !important;
+}
+.dashboard__profile-card__edit-btn {
+  color: hsla(var(--spanish-viridian), 1) !important;
+}
+/* Rewards */
+.rewards .badge {
+  margin: 5px;
+  padding: 2px;
+  font-size: 50px;
+}
+#custom-bg-urgent.badge.bg-primary,
+#custom-bg-today.badge.bg-primary,
+#custom-bg-awaited.badge.bg-primary,
+#custom-bg-in-progress.badge.bg-primary,
+#custom-bg-overdue.badge.bg-primary,
+#custom-bg-shared.badge.bg-primary,
+#custom-bg-all-tasks.badge.bg-primary,
+#custom-bg-rewards.badge.bg-primary {
+  background-color: hsla(var(--beachhouse-blue), 1) !important;
+}
+#custom-bg-urgent.badge.bg-secondary,
+#custom-bg-today.badge.bg-secondary,
+#custom-bg-awaited.badge.bg-secondary,
+#custom-bg-in-progress.badge.bg-secondary,
+#custom-bg-overdue.badge.bg-secondary,
+#custom-bg-shared.badge.bg-secondary,
+#custom-bg-all-tasks.badge.bg-secondary,
+#custom-bg-rewards.badge.bg-secondary {
+  color: hsla(var(--blue-green-color-wheel), 0.7);
+  background-color: hsla(var(--pale-stone), 0.7) !important;
+}
+#custom-bg-urgent.badge.bg-warning,
+#custom-bg-overdue.badge.bg-warning,
+#custom-bg-today.badge.bg-warning {
+  color: hsla(var(--sunset-beach), 1);
+  background-color: hsla(var(--gold), 0.9) !important;
+}
+.bg-warning.badge {
+  color: black;
+  background-color: hsla(var(--gold), 1) !important;
+}
+#urgent.bg-warning.urgent.badge {
+  color: black !important;
+  background-color: hsla(var(--sunset-beach), 1) !important;
+}
+.delete-task-badge.badge.bg-dark {
+  color: white !important;
+}
+.delete-task-badge.badge.bg-dark svg {
+  margin: 2px 1px;
+}

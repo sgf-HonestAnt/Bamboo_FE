@@ -34,7 +34,10 @@ const FindFollows = (props: FindFollowsProps) => {
     user: null,
     message: "",
   });
-  const handleChange = (e: { target: { value: any } }) => {
+  const foundUserNotInNotifications = !notification.includes(
+    `${result.user?.username} has sent you a request`
+  );
+  function handleChange(e: { target: { value: any } }) {
     const value = e.target.value;
     setResult({
       found: false,
@@ -42,15 +45,17 @@ const FindFollows = (props: FindFollowsProps) => {
       message: "",
     });
     setSearch(value);
-  };
+  }
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const { publicUsers } = await getUserByQuery(`/^${search}$/i`);
+    // console.log("submit=>", search);
+    const { publicUsers } = await getUserByQuery(search);
     if (publicUsers.length > 0) {
       setResult({ found: true, user: publicUsers[0], message: "User found:" });
     } else setResult({ found: true, user: null, message: "No user found" });
   };
   const sendRequest = async () => {
+    // console.log("send");
     const success = await requestFollow(result.user ? result.user?._id : "");
     if (success) {
       setResult({
@@ -93,9 +98,7 @@ const FindFollows = (props: FindFollowsProps) => {
                   />
                 </Link>
               </div>
-            ) : !notification[notification.length - 1].includes(
-                result.user?.username
-              ) ? (
+            ) : foundUserNotInNotifications ? (
               <>
                 <div>
                   Found user with {search.includes("@") ? "email" : "username"}{" "}

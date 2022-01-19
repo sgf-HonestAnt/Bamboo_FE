@@ -1,5 +1,5 @@
 import { History, Location } from "history";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { Modal, Form, Button, Row, Col } from "react-bootstrap";
@@ -254,6 +254,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           history,
           location
         );
+        if (form.repeats !== "never") {
+          history.push(`/reload/${location.pathname}`);
+        }
         if (taskSet) {
           const editedStatus = taskSet.status;
           const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
@@ -302,7 +305,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         setValueHelp({ ...valueHelp, class: "form-control" });
         handleClose();
         if (repeatsOther !== 0 || repeats !== "never") {
-          dispatch(setUserLoading(true)); // 👈HERE!
+          dispatch(setUserLoading(true)); //👈HERE!
         }
       } catch (error) {
         console.log(error);
@@ -382,8 +385,26 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   if (taskId) {
     // console.log(taskId);
   }
+  useEffect(() => {
+    if (taskSet) {
+      setForm({
+        title: taskSet.title,
+        value: taskSet.value,
+        category: taskSet.category,
+        newCategory: "",
+        desc: taskSet.desc,
+        repeated: "no",
+        repeats: taskSet.repeats,
+        repeatsOther: 0,
+        repetitions: "0",
+        shared: "no",
+        sharedWith: taskSet.sharedWith!,
+        deadline: taskSet.deadline!,
+      });
+    }
+  }, [taskSet]);
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (
         <>
           <Modal.Header>
@@ -431,7 +452,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
             <Button variant='primary' onClick={handleEdit}>
               Edit task?
             </Button>
-            <Button variant='secondary' onClick={handleClose}>
+            <Button variant='secondary' onClick={handleCloseModal}>
               No, go back
             </Button>
           </Modal.Footer>
@@ -463,7 +484,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 Yes, delete
               </Button>
             )}
-            <Button variant='secondary' onClick={handleClose}>
+            <Button variant='secondary' onClick={handleCloseModal}>
               No, go back
             </Button>
           </Modal.Footer>
@@ -496,6 +517,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Control
                   required
                   type='text'
+                  maxLength={30}
                   value={form.title}
                   placeholder={
                     form.title ? form.title : 'for e.g. "Solve World Hunger"'
@@ -544,9 +566,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               {!showNewCat ? (
                 <Form.Group controlId='category'>
                   <Form.Label>What's the category?</Form.Label>
-                  {
-                    //!taskSet && console.log("FIX NEEDED ON ADDEDITTASKMODAL") // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST
-                  }
                   <Form.Control
                     required
                     as='select'
@@ -580,19 +599,23 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         {c}
                       </option>
                     ))}
-                    <option value='' disabled>
-                      -------
-                    </option>
                     {/* <option value={NONE}>{NONE}</option>
                     <option value='' disabled>
-                      -------
-                    </option> */}
-                    <option
-                      value='new'
-                      // selected={form.category === "new"}
-                    >
-                      create new category
-                    </option>
+                    -------
+                  </option> */}
+                    {!taskSet && (
+                      <>
+                        <option value='' disabled>
+                          -------
+                        </option>
+                        <option
+                          value='new'
+                          // selected={form.category === "new"}
+                        >
+                          create new category
+                        </option>
+                      </>
+                    )}
                   </Form.Control>
                 </Form.Group>
               ) : (
@@ -601,6 +624,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                   <Form.Control
                     required
                     type='text'
+                    maxLength={12}
                     value={form.newCategory}
                     placeholder='for e.g. "Knitting"'
                     onChange={handleChange}
@@ -612,6 +636,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 <Form.Control
                   required
                   as='textarea'
+                  value={form.desc}
                   rows={2}
                   placeholder={
                     taskSet
