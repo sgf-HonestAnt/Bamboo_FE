@@ -16,27 +16,20 @@ import DashboardPage from "../Dashboard";
 import TasksPage from "../Tasks";
 import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
-import ErrorPage from "../Error";
+import LoadingPage from "../Loading";
 import "./styles.css";
-// import { useMediaQuery } from "react-responsive";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
-  // ****************************MEDIA********************************************
-  // const isMobileDevice = useMediaQuery({
-  //   query: "(max-width: 560px)",
-  // });
-  const [mainLoading, setMainLoading] = useState(true);
-  const [theme, setTheme] = useState("theme-light");
+  const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
     (state: reduxStateInt) => state.currentUser.my_user
   );
   const { refreshToken } = user;
-  // const token = localStorage.getItem("token");
   const { error, loading } = state.currentUser;
   const features = state.currentFeatures;
-  const dispatch = useDispatch();
   const path = location.pathname;
+  const [theme, setTheme] = useState("theme-light");
   const attemptLoad = async () => {
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
@@ -52,7 +45,6 @@ export default function MainBody({ history, location }: RouteComponentProps) {
         dispatch(fillSettingsAction());
       }
       setTimeout(() => {
-        setMainLoading(false);
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
       }, 500);
@@ -62,64 +54,60 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
-  // useEffect(() => {
-  //   console.log("🔐", localStorage.getItem("token"));
-  // }, [token]);
   return (
-    <Container fluid className='main-page m-0 p-0' id={theme}>
-      {loading || mainLoading ? (
-        <div>loading</div>
-      ) : path === "/user-settings" ? (
-        <div>
-          <div className='p-0'>
-            <SettingsPage history={history} location={location} />
+    <>
+      <Container fluid className='main-page m-0 p-0' id={theme}>
+        {path === "/user-settings" ? (
+          <div>
+            <div className='p-0'>
+              <SettingsPage history={history} location={location} />
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className='main-page__wrapper'>
-          <div
-            className={`main-page__sidebar${
-              location.pathname === "/admin-dash" ? "-admin" : ""
-            }`}>
-            <SideBar
-              history={history}
-              location={location}
-              setTheme={setTheme}
-            />
-          </div>
-
-          {path === "/dash" ? (
-            <div className='main-page__main-section'>
-              <DashboardPage history={history} location={location} />
-            </div>
-          ) : path === "/stats" ? (
-            <div className='main-page__main-section'>
-              <DashboardPage history={history} location={location} />
-            </div>
-          ) : path === "/tasks" ? (
-            <div className='main-page__main-section'>
-              <TasksPage history={history} location={location} />
-            </div>
-          ) : path === "/following" ? (
-            <div className='main-page__main-section'>
-              <FollowingPage history={history} location={location} />
-            </div>
-          ) : path === "/admin-dash" ? (
-            <div className='main-page__main-section-admin'>
-              <AdminPage
-                user={user}
-                features={features}
+        ) : (
+          <div className='main-page__wrapper'>
+            <div
+              className={`sidebar${
+                location.pathname === "/admin-dash" ? "-admin" : ""
+              }`}>
+              <SideBar
                 history={history}
                 location={location}
+                setTheme={setTheme}
               />
             </div>
-          ) : (
-            <div className='main-page__main-section'>
-              <ErrorPage history={history} />
-            </div>
-          )}
-        </div>
-      )}
-    </Container>
+            {path === "/dash" ? (
+              <div className='main-section'>
+                <DashboardPage history={history} location={location} />
+              </div>
+            ) : path === "/stats" ? (
+              <div className='main-section'>
+                <DashboardPage history={history} location={location} />
+              </div>
+            ) : path === "/tasks" ? (
+              <div className='main-section'>
+                <TasksPage history={history} location={location} />
+              </div>
+            ) : path === "/following" ? (
+              <div className='main-section'>
+                <FollowingPage history={history} location={location} />
+              </div>
+            ) : path === "/admin-dash" ? (
+              <div className='admin'>
+                <AdminPage
+                  user={user}
+                  features={features}
+                  history={history}
+                  location={location}
+                />
+              </div>
+            ) : (
+              <div className='main-section'>
+                <LoadingPage history={history} />
+              </div>
+            )}
+          </div>
+        )}
+      </Container>
+    </>
   );
 }

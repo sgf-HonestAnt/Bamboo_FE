@@ -18,12 +18,31 @@ type ButtonProps = {
   handleClick?: any;
   value?: string | number;
   variant?: string;
+  bg?: string;
 };
+
+export const LoginBtn = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}
+    onClick={props.handleClick}>
+    {props.label || "Login"}
+  </Button>
+);
+export const SubmitBtn = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}
+    type='submit'>
+    {props.label || "Submit"}
+  </Button>
+);
+
 export const XButton = (props: ButtonProps) => (
   <>
     <Button
-      variant='link'
-      className='x-btn'
+      variant={props.variant || "link"}
+      className={props.className || "x-btn"}
       value={props.value}
       onClick={props.handleClick}>
       x
@@ -32,23 +51,23 @@ export const XButton = (props: ButtonProps) => (
 );
 export const RejectButton = (props: ButtonProps) => (
   <Button
-    variant='link'
-    className='m-0 p-0 link-button'
+    variant={props.variant || "link"}
+    className={props.className || "m-0 p-0 link-button"}
     onClick={props.handleClick}>
     <FiXSquare />
   </Button>
 );
 export const AcceptButton = (props: ButtonProps) => (
   <Button
-    variant='link'
-    className='m-0 p-0 link-button'
+    variant={props.variant || "link"}
+    className={props.variant || "m-0 p-0 link-button"}
     onClick={props.handleClick}>
     <FiCheckSquare />
   </Button>
 );
 export const LinkButton = (props: ButtonProps) => (
   <Button
-    className={!props.variant ? "m-0 p-0 btn-link" : `btn-${props.variant}`}
+    className={props.variant ? "m-0 p-0 btn-link" : `btn-${props.variant}`}
     value={props.value}
     onClick={props.handleClick}>
     {props.label}
@@ -61,39 +80,51 @@ export const ClearNotification = (props: ButtonProps) => (
 );
 export const EditButton = (props: ButtonProps) => (
   <Button
-    variant='link'
-    className='m-0 p-0 small-button'
+    variant={props.variant || "link"}
+    className={props.className || "m-0 p-0 small-button"}
     value={props.value}
     onClick={props.handleClick}>
     {props.label} <FiEdit />
   </Button>
 );
 export const DeleteButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "link"}
+    className={props.className || "m-0 p-0"}
+    onClick={props.handleClick}>
     {props.label} <FiTrash2 />
   </Button>
 );
 export const OpenTaskButton = (props: ButtonProps) => (
-  <Button variant='link' className='m-0 p-0' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "link"}
+    className={props.className || "m-0 p-0"}
+    onClick={props.handleClick}>
     {props.label}
   </Button>
 );
 export const DeleteTaskBadge = (props: ButtonProps) => (
-  <Badge bg='dark' className='delete-task-badge' onClick={props.handleClick}>
+  <Badge
+    bg={props.bg || "dark"}
+    className={props.className || "delete-task-badge"}
+    onClick={props.handleClick}>
     <FiTrash2 />
   </Badge>
 );
 export const DeleteUserButton = (props: ButtonProps) => (
   <Button
-    variant='link'
-    className='m-0 p-0'
+    variant={props.variant || "link"}
+    className={props.className || "m-0 p-0"}
     value={props.value}
     onClick={props.handleClick}>
     <FiTrash2 />
   </Button>
 );
 export const AddNewTaskButton = (props: ButtonProps) => (
-  <Button variant='light' className='my-1 mr-1' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "my-1 mr-1"}
+    onClick={props.handleClick}>
     <FiPlus /> {props.label}
   </Button>
 );
@@ -136,57 +167,81 @@ export const DashTaskButton = (props: ButtonProps) =>
     <></>
   );
 export const ResetButton = (props: ButtonProps) => (
-  <Button variant='light' className='mr-1' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mr-1"}
+    onClick={props.handleClick}>
     {props.label} <FiRefreshCcw />
   </Button>
 );
 export const RefreshButton = (props: ButtonProps) => (
-  <Button variant='light' className='mb-3 mr-1' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}
+    onClick={props.handleClick}>
     {props.label} <FiRefreshCcw />
   </Button>
 );
-export const SubmitButton = (props: ButtonProps) => (
-  <Button variant='light' className='mb-3 mr-1' type='submit'>
-    {props.label || "Submit"}
-  </Button>
-);
-export const CompleteButton = () => (
-  <Button variant='light' className='mb-3 mr-1' type='submit'>
+
+export const CompleteButton = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}
+    type='submit'>
     Complete
   </Button>
 );
-export const ProgressTaskButton = () => (
-  <Button variant='light' className='mb-3 mr-1'>
+export const ProgressTaskButton = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}>
     Task Started
   </Button>
 );
-export const CompleteTaskButton = () => (
-  <Button variant='light' className='mb-3 mr-1'>
+export const CompleteTaskButton = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}>
     Mark Complete
   </Button>
 );
-export const BackToDashButton = () => (
-  <Button variant='light' className='mb-3 mr-1' href='/dash'>
+export const BackToDashButton = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "mb-3 mr-1"}
+    href='/dash'>
     <FiCornerUpLeft />
   </Button>
 );
-export const SubmitButtonCol = (props: ButtonProps) => (
-  <Button variant='light' className='m-1' type='submit'>
+export const SubmitBtnCol = (props: ButtonProps) => (
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "m-1"}
+    type='submit'>
     {props.label}
   </Button>
 );
 export const BackToDashButtonCol = (props: ButtonProps) => (
-  <Button variant='light' className='m-1' onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "light"}
+    className={props.className || "m-1"}
+    onClick={props.handleClick}>
     <FiCornerUpLeft /> {props.label}
   </Button>
 );
 export const SendGiftButton = (props: ButtonProps) => (
-  <Button variant='secondary' value={props.value} onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "primary"}
+    value={props.value}
+    onClick={props.handleClick}>
     Send gift <FiGift />
   </Button>
 );
 export const ContactAdminButton = (props: ButtonProps) => (
-  <Button variant='primary' value={props.value} onClick={props.handleClick}>
+  <Button
+    variant={props.variant || "primary"}
+    value={props.value}
+    onClick={props.handleClick}>
     Send a message
   </Button>
 );

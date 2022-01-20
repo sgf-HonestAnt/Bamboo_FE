@@ -27,7 +27,7 @@ export default function SideBar(props: SidebarProps) {
   // const dispatch = useDispatch();
   const logout = async () => {
     await attemptLogout();
-    history.push("/login"); // was: "/session-closed"
+    history.push("/login");
   };
   return (
     <div className='main-side-bar'>
@@ -57,13 +57,6 @@ export default function SideBar(props: SidebarProps) {
                   <RiSettings5Line />
                 </Link>
               </div>
-              {/* {my_user.admin && (
-                <>
-                  <div className='bamboo-crown'>
-                    <ICOCROWN />
-                  </div>
-                </>
-              )} */}
             </div>
             {/* <div>
               {xp}

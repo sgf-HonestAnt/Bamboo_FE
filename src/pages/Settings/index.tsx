@@ -7,7 +7,7 @@ import { Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
 import {
   BackToDashButtonCol,
   DeleteButton,
-  SubmitButtonCol,
+  SubmitBtnCol,
 } from "../__Components/Buttons";
 import { ICOEDIT } from "../../utils/appIcons";
 import {
@@ -107,7 +107,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   // }, [location.pathname]);
   return (
     <div className='settings-page'>
-      <Card className='my-3'>
+      <Card className='bamboo-card-mid my-3'>
         <Card.Body className='settings-page__profile-card'>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
@@ -193,7 +193,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 label='Back to dashboard'
                 handleClick={handleReturn}
               />
-              <SubmitButtonCol label='Submit changes' />
+              <SubmitBtnCol label='Submit changes' />
             </div>
           </Form>
           {/* the delete account modal */}

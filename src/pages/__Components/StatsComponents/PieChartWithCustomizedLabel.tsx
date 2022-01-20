@@ -31,19 +31,24 @@ type PieChartWithCustomizedLabelProps = {
   data: genericTaskInt[];
   colors: string[];
   stat: string;
+  width?: number;
+  height?: number;
+  cx?: number;
+  cy?: number;
+  labelLine?: boolean;
 };
 
 export default function PieChartWithCustomizedLabel(
   props: PieChartWithCustomizedLabelProps
 ) {
-  const { data, colors } = props;
+  const { data, colors, width, height, cx, cy, labelLine } = props;
   return (
-    <PieChart width={350} height={350} className='pieChart'>
+    <PieChart width={width || 350} height={height || 350} className='pieChart m-auto'>
       <Pie
         data={data}
-        cx={100}
-        cy={100}
-        labelLine={false}
+        cx={cx || 100}
+        cy={cy || 100}
+        labelLine={labelLine || false}
         label={renderCustomizedLabel}
         outerRadius={80}
         fill='#8884d8'

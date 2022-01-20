@@ -5,7 +5,6 @@ import { beautifulDnD, reduxStateInt, taskInt } from "../../typings/interfaces";
 import { Container } from "react-bootstrap";
 import TasksFilterRow from "../__Components/TasksComponents/TasksFilterRow";
 import DragDropContainer from "../__Components/TasksComponents/DragDropContainer";
-import "./styles.css";
 import {
   ANY_DUE,
   ANY_CAT,
@@ -21,6 +20,7 @@ import {
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
+import "./styles.css";
 
 type TasksPageProps = {
   history: History<unknown> | string[];
@@ -34,7 +34,7 @@ export default function TasksPage(props: TasksPageProps) {
   const { awaited, in_progress, completed } = tasks;
   const allTasks = awaited.concat(in_progress, completed);
   const { history, location } = props;
-  // const { search } = location;
+  const { search } = location;
   const [taskList, setTaskList] = useState<taskInt[]>(allTasks);
   const [filter, setFilter] = useState({
     due: ANY_DUE,
@@ -168,32 +168,24 @@ export default function TasksPage(props: TasksPageProps) {
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
-  // useEffect(() => {
-  //   const { search } = location;
-  //   if (search.includes("?category")) {
-  //     setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
-  //   } else if (search.includes("?status")) {
-  //     setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
-  //   } else if (search.includes("?value")) {
-  //     setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
-  //   } else if (search.includes("?sharedWith")) {
-  //     /// DEBUG IN AM . WANT TO SHOW TASKS SHARED WITH USER .
-  //     // setFilter({ ...filter, type: TEAM });
-  //     const sharedTasks = allTasks.filter((task) =>
-  //       task.sharedWith!.includes(search.split("=")[1].split("?")[0])
-  //     );
-  //     // console.log(sharedTasks);
-  //     setTaskList(sharedTasks);
-  //     ///////
-  //   } else if (search.includes("?type")) {
-  //     setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
-  //   } else if (search.includes("?deadline")) {
-  //     setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
-  //   } else {
-  //     return;
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [location.search]);
+  useEffect(() => {
+    if (search.includes("?category")) {
+      setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
+    }
+    // if (search.includes("?status")) {
+    //   setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
+    // }
+    // if (search.includes("?value")) {
+    //   setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
+    // }
+    // if (search.includes("?type")) {
+    //   setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
+    // }
+    // if (search.includes("?deadline")) {
+    //   setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
+    // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
   // useEffect(() => {
   //   const { search } = location;
   //   if (search.includes(task!._id)) {

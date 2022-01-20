@@ -1,4 +1,3 @@
-import { History } from "history";
 import { Dispatch } from "redux";
 import {
   setRefreshToken,
@@ -37,7 +36,7 @@ export const findUsernameByEmail = async (email: string) => {
 
 export const attemptLoginUser = async (
   form: loginFormProps,
-  history: string[] | History<unknown>,
+  setLoading: any,
   dispatch: Dispatch<any>
 ) => {
   try {
@@ -62,6 +61,7 @@ export const attemptLoginUser = async (
       }
       return responseAsJSON;
     } else {
+      setLoading(false);
       console.log("😥TROUBLE LOGGING IN");
     }
   } catch (error) {
@@ -210,7 +210,7 @@ export const updateUserXp = async (xp: number, dispatch: Dispatch<any>) => {
     const updated = await fetch(url, { method, headers, body });
     if (updated) {
       dispatch(setUserPoints(xp));
-    } 
+    }
     return updated;
   } catch (error) {
     console.log(error);

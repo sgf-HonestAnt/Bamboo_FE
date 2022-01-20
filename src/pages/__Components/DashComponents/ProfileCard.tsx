@@ -25,10 +25,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div
-      className={`bamboo-card-mid dashboard__profile-card ${
-        isBigScreen ? "px-5" : ""
-      }`}>
+    <div className={`bamboo-card-mid ${isBigScreen ? "px-5" : ""}`}>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {/* {admin && (

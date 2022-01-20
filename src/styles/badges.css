@@ -5,6 +5,10 @@ button,
   border-radius: 0.15rem !important;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px !important;
 }
+.button:hover,
+.btn:hover {
+  transform: scale(1.02);
+}
 .btn-light {
   background-color: hsla(var(--honeydew), 1) !important;
   border: none !important;
@@ -21,6 +25,8 @@ button,
 }
 .btn-primary:hover {
   background-color: hsla(var(--blue-green-color-wheel), 1) !important;
+  transform: scale(1.02);
+  z-index: 9;
 }
 .btn-secondary {
   background-color: hsla(var(--caribbean-green), 0.5) !important;
@@ -30,9 +36,11 @@ button,
 }
 .btn-secondary:hover {
   background-color: hsla(var(--caribbean-green), 0.7) !important;
+  transform: scale(1.02);
 }
 .btn-link {
   color: inherit !important;
+  box-shadow: none !important;
 }
 .btn-link:hover {
   text-decoration: none !important;
@@ -55,6 +63,7 @@ button,
 #custom-bg-all-tasks.badge.bg-primary,
 #custom-bg-rewards.badge.bg-primary {
   background-color: hsla(var(--beachhouse-blue), 1) !important;
+  transition: 0.7s;
 }
 #custom-bg-urgent.badge.bg-secondary,
 #custom-bg-today.badge.bg-secondary,

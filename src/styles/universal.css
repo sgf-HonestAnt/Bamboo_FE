@@ -42,12 +42,20 @@
   --code-blue: rgba(0, 0, 255, 0.8);
 }
 .App {
+  background-color: hsla(var(--medium-aquamarine), 1);
+  background-image: url("https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80");
   background: linear-gradient(
-    to bottom right,
-    hsla(var(--medium-aquamarine), 1),
-    hsla(var(--aero-blue), 1),
-    hsla(var(--honeydew), 1)
-  );
+      to bottom right,
+      hsla(var(--medium-aquamarine), 0.6),
+      hsla(var(--aero-blue), 0.6),
+      hsla(var(--honeydew), 0.6)
+    ),
+    url("https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80")
+      no-repeat fixed center center;
+  /* background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed; */
+  background-size: cover;
   color: var(--main-text);
   font-family: var(--font-family);
   font-size: var(--font-size);
@@ -67,37 +75,45 @@ a {
   color: hsla(var(--sunset-beach), 1) !important;
 }
 /* divs */
+.card {
+  border: none;
+  padding: 15px;
+  border-radius: 3px;
+  background: 0% !important;
+}
 .bamboo-card,
+.bamboo-card-x-light,
 .bamboo-card-light,
 .bamboo-card-mid,
 .bamboo-card-dark,
 .bamboo-card-x-dark {
+  border: none;
   padding: 15px;
   border-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
 }
+.bamboo-card-x-light {
+  background-color: hsla(var(--mint-cream), 0.3) !important;
+}
 .bamboo-card {
   background-color: hsla(var(--mint-cream), 0.9) !important;
 }
 .bamboo-card-light {
-  background-color: hsla(var(--caribbean-green), 0.2);
+  background-color: hsla(var(--caribbean-green), 0.2) !important;
 }
 .bamboo-card-mid {
-  background-color: hsla(var(--caribbean-green), 0.4);
+  background-color: hsla(var(--caribbean-green), 0.4) !important;
 }
 .bamboo-card-dark {
-  background-color: hsla(var(--caribbean-green), 0.6);
+  background-color: hsla(var(--caribbean-green), 0.6) !important;
 }
 .bamboo-card-x-dark {
-  background-color: hsla(var(--caribbean-green), 0.9);
+  background-color: hsla(var(--caribbean-green), 0.9) !important;
 }
 .bamboo-logo,
 .bamboo-logo.btn-link {
   color: hsla(var(--medium-aquamarine), 1);
-}
-.bamboo-crown {
-  color: var(--ray-of-sun);
 }
 /* Task Buttons for Dash and Tasks Page */
 .bamboo-task,
@@ -106,6 +122,10 @@ a {
   background-color: white;
   color: var(--main-text) !important;
   border-radius: 0;
+}
+.bamboo-task:hover,
+.bamboo-task.btn.btn-link:hover {
+  transform: scale(1.02);
 }
 .bamboo-task-completed {
   background-color: rgba(214, 194, 194, 0.3) !important;
@@ -142,25 +162,11 @@ a {
 .cursor-point:hover {
   cursor: pointer;
 }
-.opaquish {
-  opacity: 0.5;
-}
 .hidden {
   display: none;
 }
 .visible {
   visibility: visible;
-}
-.red {
-  color: red;
-  font-family: "Comic Sans MS", "Comic Sans", cursive;
-}
-.yellow {
-  background-color: hsla(var(--pale-sunbeam), 1) !important;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;
 }
 .float-center {
   margin: auto;

@@ -74,9 +74,8 @@ export default function DashNotifications(props: DashNotificationsProps) {
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
-  //console.log("FIX NEEDED ON NOTIFICATIONS"); // 🔨 FIX NEEDED: WHEN ACCEPT A TASK, NEEDS TO ADD TASK TO STATE SO SIDEBAR REFLECTS CORRECT NUMBER
   return (
-    <Button variant='link' style={{width:"100%"}} id="notification-button" className={`${dashClass} px-3 py-1 m-0 mb-2`}>
+    <Button variant='link' style={{width:"100%"}} id="notification-button" className={`${dashClass} px-3 py-1 m-0`}>
       {notifLength > 0 && isTask ? (
         <span>
           <img src={avatar} alt={username} className='img-fluid x-tiny-round' />

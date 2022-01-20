@@ -18,6 +18,7 @@ import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
 import AtAGlanceStats from "../__Components/DashComponents/AtAGlanceStats";
 import "./styles.css";
+import ProfileSettings from "../__Components/DashComponents/ProfileSettings";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -38,6 +39,10 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+    // ****************************MEDIA********************************************
+  // const isMobileDevice = useMediaQuery({
+  //   query: "(max-width: 560px)",
+  // });
   const isSmallerTabletOrMobile = useMediaQuery({
     query: "(max-width: 1089px)",
   });
@@ -78,7 +83,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              {location.pathname === "/user-settings" ? (
+                <ProfileSettings history={history} isBigScreen={isBigScreen} />
+              ) : (
+                <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              )}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -86,7 +95,7 @@ export default function DashboardPage(props: DashboardPageProps) {
                   </Button>
                 </Link>
               )}
-              <DashStats />
+              {location.pathname !== "/stats" && <DashStats />}
             </Col>
           </Row>
         </Col>
@@ -139,7 +148,11 @@ export default function DashboardPage(props: DashboardPageProps) {
             )}
             <Col
               className={`col-12 ${notification.length > 0 ? "px-3" : "p-3"}`}>
-              <DashProfileCard history={history} />
+              {location.pathname === "/user-settings" ? (
+                <ProfileSettings history={history} />
+              ) : (
+                <DashProfileCard history={history} />
+              )}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -199,7 +212,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              <DashProfileCard history={history} />
+              {location.pathname === "/user-settings" ? (
+                <ProfileSettings history={history} />
+              ) : (
+                <DashProfileCard history={history} />
+              )}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -257,7 +274,11 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
         <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
           {notification.length > 0 && <DashNotifications />}
-          <DashProfileCard history={history} />
+          {location.pathname === "/user-settings" ? (
+            <ProfileSettings history={history} />
+          ) : (
+            <DashProfileCard history={history} />
+          )}
           {admin && (
             <Link to='/admin-dash'>
               <Button variant='info' className='dashboard__admin-card'>
