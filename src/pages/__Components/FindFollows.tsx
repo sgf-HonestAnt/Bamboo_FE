@@ -27,7 +27,7 @@ const FindFollows = (props: FindFollowsProps) => {
     (state: reduxStateInt) => state.currentUser
   );
   const { followedUsers, my_user } = currentUser;
-  const { notification } = my_user;
+  const { notification, username, email } = my_user;
   const { search, setSearch } = props;
   const [result, setResult] = useState<ResultProps>({
     found: false,
@@ -89,7 +89,7 @@ const FindFollows = (props: FindFollowsProps) => {
           <div>
             {followedUsers.some((u) => u._id === result.user?._id) ? (
               <div>
-                <div>You are already teamed with {result.user?.username}</div>
+                <h4>You are already teamed with {result.user?.username}</h4>
                 <Link to={`/following?id=${result.user?._id}`}>
                   <img
                     src={result.user?.avatar}
@@ -98,30 +98,32 @@ const FindFollows = (props: FindFollowsProps) => {
                   />
                 </Link>
               </div>
+            ) : search === email || search === username ? (
+              <h4>You can't add yourself.</h4>
             ) : foundUserNotInNotifications ? (
               <>
-                <div>
+                <h4>
                   Found user with {search.includes("@") ? "email" : "username"}{" "}
                   "{search}"
-                </div>
+                </h4>
                 <img
                   src={result.user?.avatar}
                   alt=''
                   className='dotted-border x-tiny-round'
                 />
                 <Button variant='link' onClick={sendRequest}>
-                  Request teammate?
+                  <h5>Request teammate?</h5>
                 </Button>
               </>
             ) : (
-              <div>
+              <h4>
                 This user already awaits your response (see notifications).
-              </div>
+              </h4>
             )}
           </div>
         </>
       ) : result.found ? (
-        <div>{result.message}</div>
+        <h4>{result.message}</h4>
       ) : (
         <></>
       )}
