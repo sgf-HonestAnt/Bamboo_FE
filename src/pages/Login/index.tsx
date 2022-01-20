@@ -38,6 +38,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
     !loggedIn && setFailed(true);
   };
   useEffect(() => {}, [loading]);
+  console.log("LOGIN PAGE")
   return (
     <Container fluid>
       <Row className='login-form px-5'>

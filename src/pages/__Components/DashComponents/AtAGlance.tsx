@@ -141,7 +141,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   useEffect(() => {}, [taskState, atAGlanceData]);
   // console.log("length at ataglance=>", currLength);
   return (
-    <div className='dashboard__tasks-card'> 
+    <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       <DashTaskButton
         label={`All tasks|${allTasks.length}`}
@@ -252,7 +252,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   return (
     <div className='dashboard__at-a-glance m-2'>
       <Row className='dashboard__alt__card-header'>
-        <Col>
+        <Col className='m-1'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
           {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
             <></>

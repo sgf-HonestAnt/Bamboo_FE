@@ -8,7 +8,7 @@ const attemptRefresh = async (
   token: string | undefined
 ) => {
   try {
-    // console.log("🙋Refreshing Token");
+    console.log("🙋Refreshing Token");
     const url = `${ENDPOINT_REFRESH}`;
     const method = POST;
     const headers = { "Content-Type": "application/json" };

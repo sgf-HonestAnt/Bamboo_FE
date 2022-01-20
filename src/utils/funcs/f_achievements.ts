@@ -8,7 +8,7 @@ export const attemptPostAchievement = async (
   dispatch: Dispatch<any>,
   achievements: achievementInt[]
 ) => {
-  // console.log("🙋Posting New Achievement");
+  console.log("🙋Posting New Achievement");
   const token = localStorage.getItem("token");
   try {
     // post an achievement

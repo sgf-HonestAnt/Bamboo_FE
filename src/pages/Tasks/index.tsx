@@ -194,6 +194,7 @@ export default function TasksPage(props: TasksPageProps) {
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [location]);
+  console.log("TASKS PAGE")
   return (
     <Container fluid>
       <TasksFilterRow

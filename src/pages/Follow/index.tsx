@@ -102,6 +102,7 @@ export default function FollowingPage(props: FollowingPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+  console.log("TEAM")
   return (
     <Container fluid>
       <Row className='p-3'>
