@@ -43,11 +43,9 @@ export default function FollowingPage(props: FollowingPageProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTasks]);
   const { history, location } = props;
-  const isgt1273 = useMediaQuery({ query: "(min-width: 1273px)" });
-  const isgt1173 = useMediaQuery({ query: "(min-width: 1173px)" });
-  const islt1072 = useMediaQuery({
-    query: "(max-width: 1073px)",
-  });
+  const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
+  const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
+  const isgt595 = useMediaQuery({ query: "(min-width: 595px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -114,7 +112,9 @@ export default function FollowingPage(props: FollowingPageProps) {
         {usersToShow?.map((u, i) => (
           <Col
             key={i}
-            className={`bamboo-card-x-dark m-1 p-2 col-12 col-sm-6 col-md-4 col-lg-2`}>
+            className={`bamboo-card-x-dark m-1 p-2 ${
+              isgt1330 ? "col-2" : isgt975? "col-3" : isgt595 ? "col-5" : "col-12"
+            }`}>
             {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge
               isMine={false}

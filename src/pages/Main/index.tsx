@@ -8,7 +8,7 @@ import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import checkToken from "../../utils/funcs/f_checkToken";
 import SideBar from "../SideBar";
 import SettingsPage from "../Settings";
