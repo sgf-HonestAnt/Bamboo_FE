@@ -39,7 +39,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-    // ****************************MEDIA********************************************
+  // ****************************MEDIA********************************************
   // const isMobileDevice = useMediaQuery({
   //   query: "(max-width: 560px)",
   // });
@@ -83,11 +83,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              {location.pathname === "/user-settings" ? (
+              {/* {location.pathname === "/user-settings" ? (
                 <ProfileSettings history={history} isBigScreen={isBigScreen} />
-              ) : (
-                <DashProfileCard history={history} isBigScreen={isBigScreen} />
-              )}
+              ) : ( */}
+              <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              {/* )} */}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -95,8 +95,12 @@ export default function DashboardPage(props: DashboardPageProps) {
                   </Button>
                 </Link>
               )}
-              {location.pathname !== "/stats" && <DashStats />}
             </Col>
+            {location.pathname !== "/stats" && (
+              <Col className='col-12 px-3 pb-3'>
+                <DashStats />
+              </Col>
+            )}
           </Row>
         </Col>
         <Col className='col-7 dashboard__center-col p-0'>
@@ -148,11 +152,11 @@ export default function DashboardPage(props: DashboardPageProps) {
             )}
             <Col
               className={`col-12 ${notification.length > 0 ? "px-3" : "p-3"}`}>
-              {location.pathname === "/user-settings" ? (
+              {/* {location.pathname === "/user-settings" ? (
                 <ProfileSettings history={history} />
-              ) : (
-                <DashProfileCard history={history} />
-              )}
+              ) : ( */}
+              <DashProfileCard history={history} />
+              {/* )} */}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -160,12 +164,12 @@ export default function DashboardPage(props: DashboardPageProps) {
                   </Button>
                 </Link>
               )}
-              {notification.length < 1 && location.pathname !== "/stats" && (
-                <Col className='col-12 p-0 my-3'>
-                  <DashStats />
-                </Col>
-              )}
             </Col>
+            {notification.length < 1 && location.pathname !== "/stats" && (
+              <Col className='col-12 px-3'>
+                <DashStats />
+              </Col>
+            )}
           </Row>
         </Col>
         <Col className='col-7 dashboard__center-col p-0'>
@@ -212,11 +216,11 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              {location.pathname === "/user-settings" ? (
+              {/* {location.pathname === "/user-settings" ? (
                 <ProfileSettings history={history} />
-              ) : (
-                <DashProfileCard history={history} />
-              )}
+              ) : ( */}
+              <DashProfileCard history={history} />
+              {/* )} */}
               {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
@@ -274,11 +278,11 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
         <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
           {notification.length > 0 && <DashNotifications />}
-          {location.pathname === "/user-settings" ? (
+          {/* {location.pathname === "/user-settings" ? (
             <ProfileSettings history={history} />
-          ) : (
-            <DashProfileCard history={history} />
-          )}
+          ) : ( */}
+          <DashProfileCard history={history} />
+          {/* )} */}
           {admin && (
             <Link to='/admin-dash'>
               <Button variant='info' className='dashboard__admin-card'>

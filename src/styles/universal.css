@@ -51,11 +51,13 @@
       hsla(var(--honeydew), 0.6)
     ),
     url("https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80")
-      no-repeat fixed center center;
+      no-repeat center center fixed;
   /* background-repeat: no-repeat;
   background-position: center; */
   background-attachment: fixed;
   background-size: cover;
+  height: 100%;
+  overflow: hidden;
   color: var(--main-text);
   font-family: var(--font-family);
   font-size: var(--font-size);
