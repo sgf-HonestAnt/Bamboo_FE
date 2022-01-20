@@ -107,7 +107,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   // }, [location.pathname]);
   return (
     <div className='settings-page'>
-      <Card className='bamboo-card-mid my-3'>
+      <Card className='bamboo-card-mid'>
         <Card.Body className='settings-page__profile-card'>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
@@ -188,7 +188,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <div className='user-settings-buttons m-2'>
+            <div className='user-settings-buttons mt-3'>
               <BackToDashButtonCol
                 label='Back to dashboard'
                 handleClick={handleReturn}

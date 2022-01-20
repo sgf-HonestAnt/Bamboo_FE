@@ -5,9 +5,12 @@ import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/funcs/f_users";
 import { LoginBtn, SubmitBtn } from "../__Components/Buttons";
 import "./styles.css";
+import { useMediaQuery } from "react-responsive";
 
 export default function LoginPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
+  const isGt530 = useMediaQuery({ query: "(min-width: 530px)" });
+  const isGt475 = useMediaQuery({ query: "(min-width: 475px)" });
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });
@@ -38,7 +41,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
   return (
     <Container fluid>
       <Row className='login-form px-5'>
-        <Col sm={6} md={5} lg={4} className='px-5 login-form__col'>
+        <Col className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
           <h1>Login to Bamboo</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group as={Row} controlId='username'>
@@ -75,15 +78,14 @@ export default function LoginPage({ history }: RouteComponentProps) {
             {loading ? (
               <Spinner animation='grow' className='my-4' />
             ) : (
-              <>
-                <SubmitBtn variant='secondary' className='my-3 mr-3' />
+              <div className='py-3'>
+                <SubmitBtn variant='secondary' />
                 <LoginBtn
                   variant='secondary'
                   label='Register instead?'
                   handleClick={handleClick}
-                  className='my-3'
                 />
-              </>
+              </div>
             )}
           </Form>
         </Col>

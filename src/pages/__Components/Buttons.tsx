@@ -24,7 +24,7 @@ type ButtonProps = {
 export const LoginBtn = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     {props.label || "Login"}
   </Button>
@@ -32,7 +32,7 @@ export const LoginBtn = (props: ButtonProps) => (
 export const SubmitBtn = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}
+    className={props.className || "m-1"}
     type='submit'>
     {props.label || "Submit"}
   </Button>
@@ -51,23 +51,23 @@ export const XButton = (props: ButtonProps) => (
 );
 export const RejectButton = (props: ButtonProps) => (
   <Button
-    variant={props.variant || "link"}
-    className={props.className || "m-0 p-0 link-button"}
+    variant={props.variant || "primary"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
-    <FiXSquare />
+    <FiXSquare /> Reject
   </Button>
 );
 export const AcceptButton = (props: ButtonProps) => (
   <Button
-    variant={props.variant || "link"}
-    className={props.variant || "m-0 p-0 link-button"}
+    variant={props.variant || "secondary"}
+    className={props.variant || "m-1"}
     onClick={props.handleClick}>
-    <FiCheckSquare />
+    <FiCheckSquare /> Accept
   </Button>
 );
 export const LinkButton = (props: ButtonProps) => (
   <Button
-    className={props.variant ? "m-0 p-0 btn-link" : `btn-${props.variant}`}
+    className={props.variant ? "m-1 btn-link" : `m-1 btn-${props.variant}`}
     value={props.value}
     onClick={props.handleClick}>
     {props.label}
@@ -81,7 +81,7 @@ export const ClearNotification = (props: ButtonProps) => (
 export const EditButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "link"}
-    className={props.className || "m-0 p-0 small-button"}
+    className={props.className || "m-1 small-button"}
     value={props.value}
     onClick={props.handleClick}>
     {props.label} <FiEdit />
@@ -90,7 +90,7 @@ export const EditButton = (props: ButtonProps) => (
 export const DeleteButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "link"}
-    className={props.className || "m-0 p-2"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     {props.label} <FiTrash2 />
   </Button>
@@ -98,7 +98,7 @@ export const DeleteButton = (props: ButtonProps) => (
 export const OpenTaskButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "link"}
-    className={props.className || "m-0 p-0"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     {props.label}
   </Button>
@@ -106,7 +106,7 @@ export const OpenTaskButton = (props: ButtonProps) => (
 export const DeleteTaskBadge = (props: ButtonProps) => (
   <Badge
     bg={props.bg || "dark"}
-    className={props.className || "delete-task-badge"}
+    className={props.className || "delete-task-badge m-1"}
     onClick={props.handleClick}>
     <FiTrash2 />
   </Badge>
@@ -114,7 +114,7 @@ export const DeleteTaskBadge = (props: ButtonProps) => (
 export const DeleteUserButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "link"}
-    className={props.className || "m-0 p-0"}
+    className={props.className || "m-1"}
     value={props.value}
     onClick={props.handleClick}>
     <FiTrash2 />
@@ -123,7 +123,7 @@ export const DeleteUserButton = (props: ButtonProps) => (
 export const AddNewTaskButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "my-1 mr-1"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     <FiPlus /> {props.label}
   </Button>
@@ -132,7 +132,7 @@ export const DashTaskButton = (props: ButtonProps) =>
   props.label ? (
     <Button
       variant={props.label.includes("All tasks") ? "info" : "info"}
-      className={`${props.className} my-1 mr-1`}
+      className={`${props.className} m-1`}
       id={`custom-bg-${props.label
         .split("|")[0]
         .toLowerCase()
@@ -169,7 +169,7 @@ export const DashTaskButton = (props: ButtonProps) =>
 export const ResetButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mr-1"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     {props.label} <FiRefreshCcw />
   </Button>
@@ -177,7 +177,7 @@ export const ResetButton = (props: ButtonProps) => (
 export const RefreshButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}
+    className={props.className || "m-1"}
     onClick={props.handleClick}>
     {props.label} <FiRefreshCcw />
   </Button>
@@ -186,7 +186,7 @@ export const RefreshButton = (props: ButtonProps) => (
 export const CompleteButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}
+    className={props.className || "m-1"}
     type='submit'>
     Complete
   </Button>
@@ -194,21 +194,21 @@ export const CompleteButton = (props: ButtonProps) => (
 export const ProgressTaskButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}>
+    className={props.className || "m-1"}>
     Task Started
   </Button>
 );
 export const CompleteTaskButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}>
+    className={props.className || "m-1"}>
     Mark Complete
   </Button>
 );
 export const BackToDashButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "light"}
-    className={props.className || "mb-3 mr-1"}
+    className={props.className || "m-1"}
     href='/dash'>
     <FiCornerUpLeft />
   </Button>
@@ -232,6 +232,7 @@ export const BackToDashButtonCol = (props: ButtonProps) => (
 export const SendGiftButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "primary"}
+    className={props.className || "m-1"}
     value={props.value}
     onClick={props.handleClick}>
     Send gift <FiGift />
@@ -240,6 +241,7 @@ export const SendGiftButton = (props: ButtonProps) => (
 export const ContactAdminButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "primary"}
+    className={props.className || "m-1"}
     value={props.value}
     onClick={props.handleClick}>
     Send a message
