@@ -277,10 +277,10 @@ export default function AtAGlance(props: AtAGlanceProps) {
           <>
             {notification.length > 0 ? (
               <>
-                <Col className='col-12 col-md-6'>
+                <Col className='col-12 col-lg-6 p-1'>
                   <DashStats />
                 </Col>
-                <Col className='col-12 col-md-6'>
+                <Col className='col-12 col-lg-6 p-1'>
                   <DashChallCard />
                 </Col>
               </>
