@@ -103,7 +103,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
             <Card className='bamboo-card dashboard__dash-stats'>
               <Card.Body>
                 {/* <Card.Title>Your categories</Card.Title> */}
-                <SimpleCloud data={taskData.tagCloud} />
+                <SimpleCloud history={props.history} data={taskData.tagCloud} />
               </Card.Body>
             </Card>
           </Col>

@@ -231,7 +231,7 @@ export const BackToDashButtonCol = (props: ButtonProps) => (
 );
 export const SendGiftButton = (props: ButtonProps) => (
   <Button
-    variant={props.variant || "secondary"}
+    variant={props.variant || "primary"}
     value={props.value}
     onClick={props.handleClick}>
     Send gift <FiGift />

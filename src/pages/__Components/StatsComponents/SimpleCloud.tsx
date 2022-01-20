@@ -1,9 +1,9 @@
 import { TagCloud } from "react-tagcloud";
 
 export default function SimpleCloud(props: any) {
-  const { data } = props;
+  const { history, data } = props;
   function viewCategory(tag: { value: string }) {
-    console.log(`/tasks?category=${tag.value}`);
+    history.push(`/tasks?category=${tag.value}`);
   }
   return (
     <>
@@ -12,6 +12,7 @@ export default function SimpleCloud(props: any) {
         maxSize={30}
         tags={data}
         onClick={(tag: { value: string }) => viewCategory(tag)}
+        className="tagcloud"
       />
     </>
   );

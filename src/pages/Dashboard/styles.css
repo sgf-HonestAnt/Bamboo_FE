@@ -230,3 +230,9 @@
 .dashboard__challenge-card__img {
   max-width: 90%;
 }
+/* At A Glance Stats */
+.tag-cloud-tag:hover {
+  text-decoration: underline;
+  transform: scale(1.05);
+  cursor: pointer;
+}
