@@ -141,7 +141,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   useEffect(() => {}, [taskState, atAGlanceData]);
   // console.log("length at ataglance=>", currLength);
   return (
-    <div className='dashboard__tasks-card'>
+    <div className='dashboard__tasks-card'> 
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       <DashTaskButton
         label={`All tasks|${allTasks.length}`}
@@ -251,22 +251,24 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
     <div className='dashboard__at-a-glance m-2'>
-      <div className='dashboard__alt__card-header'>
-        At A Glance | <Link to='/dash'>Tasks</Link>{" "}
-        {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
-          <></>
-        ) : (
-          <>
-            | <Link to='/stats'>Stats</Link>
-          </>
-        )}
-        <h5>
-          <FiCalendar />
-          &nbsp;{dayMonthYearAsString}
-        </h5>
-      </div>
+      <Row className='dashboard__alt__card-header'>
+        <Col>
+          At A Glance | <Link to='/dash'>Tasks</Link>{" "}
+          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
+            <></>
+          ) : (
+            <>
+              | <Link to='/stats'>Stats</Link>
+            </>
+          )}
+          <h5>
+            <FiCalendar />
+            &nbsp;{dayMonthYearAsString}
+          </h5>
+        </Col>
+      </Row>
       <Row>
-        <Col className='col-12 pb-2'>
+        <Col className='col-12'>
           <AtAGlanceTasks today={today} history={history} location={location} />
         </Col>
         {isBigScreen ? (
@@ -277,10 +279,10 @@ export default function AtAGlance(props: AtAGlanceProps) {
           <>
             {notification.length > 0 ? (
               <>
-                <Col className='col-12 col-lg-6 p-1'>
+                <Col className='col-12 col-lg-6 pr-1'>
                   <DashStats />
                 </Col>
-                <Col className='col-12 col-lg-6 p-1'>
+                <Col className='col-12 col-lg-6 pl-1'>
                   <DashChallCard />
                 </Col>
               </>

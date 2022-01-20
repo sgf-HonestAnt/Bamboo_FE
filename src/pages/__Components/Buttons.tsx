@@ -54,7 +54,7 @@ export const RejectButton = (props: ButtonProps) => (
     variant={props.variant || "primary"}
     className={props.className || "m-1"}
     onClick={props.handleClick}>
-    <FiXSquare /> Reject
+    <FiXSquare /> No
   </Button>
 );
 export const AcceptButton = (props: ButtonProps) => (
@@ -62,7 +62,7 @@ export const AcceptButton = (props: ButtonProps) => (
     variant={props.variant || "secondary"}
     className={props.variant || "m-1"}
     onClick={props.handleClick}>
-    <FiCheckSquare /> Accept
+    <FiCheckSquare /> Yes
   </Button>
 );
 export const LinkButton = (props: ButtonProps) => (

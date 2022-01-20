@@ -22,7 +22,7 @@ const DashChallCard = (props: DashChallCardProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [features]);
   return (
-    <div className='bamboo-card-x-dark dashboard__challenge-card'>
+    <div className='m-1 bamboo-card-x-dark dashboard__challenge-card'>
       <Row>
         {/* For now, just show first feature with matched month */}
         {/* {featureList < 1 && } */}

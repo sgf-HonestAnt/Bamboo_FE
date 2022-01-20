@@ -31,7 +31,7 @@ export default function DashStats(props: DashStatsProps) {
   }, []);
   return (
     <div
-      className={`bamboo-card dashboard__dash-stats ${isBigScreen && "my-3"}`}>
+      className={`bamboo-card m-1 dashboard__dash-stats`}> {/* ${isBigScreen && "my-3"} */}
       <Row>
         {(total_xp > 0 || awaited.length > 0 || in_progress.length > 0) && (
           <Col sm={12}>
