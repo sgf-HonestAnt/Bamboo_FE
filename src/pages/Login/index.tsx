@@ -5,12 +5,9 @@ import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/funcs/f_users";
 import { LoginBtn, SubmitBtn } from "../__Components/Buttons";
 import "./styles.css";
-import { useMediaQuery } from "react-responsive";
 
 export default function LoginPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
-  const isGt530 = useMediaQuery({ query: "(min-width: 530px)" });
-  const isGt475 = useMediaQuery({ query: "(min-width: 475px)" });
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [form, setForm] = useState({ username: "", password: "" });

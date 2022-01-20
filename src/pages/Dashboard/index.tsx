@@ -18,7 +18,6 @@ import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
 import AtAGlanceStats from "../__Components/DashComponents/AtAGlanceStats";
 import "./styles.css";
-import ProfileSettings from "../__Components/DashComponents/ProfileSettings";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
