@@ -82,7 +82,7 @@ const FindFollows = (props: FindFollowsProps) => {
           id='search'
           onChange={handleChange}
         />
-        <SubmitBtn label='Search' />
+        <SubmitBtn label='Search' className="ml-1 mb-3" />
       </Form>
       {result.found && result.user ? (
         <>

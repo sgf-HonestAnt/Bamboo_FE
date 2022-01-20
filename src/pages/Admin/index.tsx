@@ -149,7 +149,7 @@ export default function AdminPage(props: AdminPageProps) {
   //   console.log(location.pathname);
   // }, [location.pathname]);
   return !user.admin ? (
-    <Container fluid className='admin-page'>
+    <Container fluid className='admin-page m-0 p-0 pl-2'>
       <Row id='denied'>
         <Col sm={6}>
           <h1>Access Denied</h1>
@@ -157,7 +157,7 @@ export default function AdminPage(props: AdminPageProps) {
       </Row>
     </Container>
   ) : usersToDisplay && tasksToDisplay ? (
-    <Container fluid className='admin-page'>
+    <Container fluid className='admin-page m-0 p-0 pl-2'>
       <Row>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar

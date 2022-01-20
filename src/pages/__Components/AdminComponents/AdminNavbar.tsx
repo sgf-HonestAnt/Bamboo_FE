@@ -83,7 +83,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
     <Form>
       <Nav className='admin-page__form p-2'>
         <div className='d-flex mr-auto'>
-          <ResetButton label='Reset' handleClick={handleReset} />
+          <ResetButton label='Reset' className="my-0 mr-2" handleClick={handleReset} />
           {form.dropdown.toLowerCase().includes(USERS) && (
             <Form.Group
               controlId='dropdown'

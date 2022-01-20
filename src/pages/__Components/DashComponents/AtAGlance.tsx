@@ -266,7 +266,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
         </h5>
       </div>
       <Row>
-        <Col className='col-12 pb-3'>
+        <Col className='col-12 pb-2'>
           <AtAGlanceTasks today={today} history={history} location={location} />
         </Col>
         {isBigScreen ? (
@@ -277,10 +277,10 @@ export default function AtAGlance(props: AtAGlanceProps) {
           <>
             {notification.length > 0 ? (
               <>
-                <Col className='col-6'>
+                <Col className='col-12 col-md-6'>
                   <DashStats />
                 </Col>
-                <Col className='col-6'>
+                <Col className='col-12 col-md-6'>
                   <DashChallCard />
                 </Col>
               </>
