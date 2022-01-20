@@ -97,7 +97,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               )}
             </Col>
             {location.pathname !== "/stats" && (
-              <Col className='col-12 px-3'>
+              <Col className='col-12 px-3 pb-3'>
                 <DashStats />
               </Col>
             )}
