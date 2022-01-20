@@ -26,6 +26,9 @@
 .dashboard__alt__card-header h5 {
   font-size: 18px;
 }
+.dashboard__admin-card:hover {
+  transform: scale(1) !important;
+}
 /* .dashboard__profile-card,
 .dashboard__calendar-card,
 .dashboard__search-bar,

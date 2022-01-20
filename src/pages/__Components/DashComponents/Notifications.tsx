@@ -75,17 +75,23 @@ export default function DashNotifications(props: DashNotificationsProps) {
     dispatch(fillUserAction()); // 👈HERE!
   };
   return (
-    <Button variant='link' style={{width:"100%"}} id="notification-button" className={`${dashClass} px-3 py-1 m-0`}>
+    <Button
+      variant='link'
+      style={{ width: "100%" }}
+      id='notification-button'
+      className={`${dashClass} px-3 py-1 m-0 mb-2`}>
       {notifLength > 0 && isTask ? (
         <span>
           <img src={avatar} alt={username} className='img-fluid x-tiny-round' />
           <strong>{username}</strong> included you in a shared task: "{title}
-          ". Do you accept? <AcceptButton handleClick={handleAcceptTask} />
+          ". Do you accept? <br />
+          <AcceptButton handleClick={handleAcceptTask} />
           <RejectButton handleClick={handleRejectTask} />
         </span>
       ) : notifLength > 0 && isReq ? (
         <span>
           {recentNotif}, do you accept?
+          <br />
           <AcceptButton handleClick={handleAccept} />
           <RejectButton handleClick={handleReject} />
         </span>
@@ -99,8 +105,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
           just {recentNotif.split("just")[1].split(":::")[0]}
           <br />
           <FiGift />
-          <br />
-          ~{recentNotif.split(":::")[1]} xp~
+          <br />~{recentNotif.split(":::")[1]} xp~
         </span>
       ) : notifLength > 0 ? (
         <span>{recentNotif.split(",")[0]}!</span>

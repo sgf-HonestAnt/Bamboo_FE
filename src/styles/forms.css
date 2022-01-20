@@ -24,7 +24,13 @@ textarea.form-control:focus::placeholder {
   #value, #value:focus,
   #category, #category:focus,
   #desc, #desc:focus,
-  #deadline, #deadline:focus
+  #deadline, #deadline:focus,
+  #dropdown.form-control
+  #cat, #cat:focus,
+  #status, #status:focus,
+  #val, #val:focus,
+  #type, #type:focus,
+  #due, #due:focus,
   /* #title:focus-visible, */ {
   border-radius: 0 !important;
   border: 1px solid #e5e9ee;
@@ -43,7 +49,13 @@ textarea.form-control:focus::placeholder {
 #value,
 #category,
 #desc,
-#deadline {
+#deadline,
+#cat,
+#status,
+#val,
+#type,
+#due,
+#dropdown.form-control {
   background-color: hsla(var(--mint-cream), 0.7) !important;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
@@ -62,11 +74,29 @@ textarea.form-control:focus::placeholder {
 #title:focus,
 #title:focus-visible,
 #value:focus,
+#value:focus-visible,
 #category:focus,
+#category:focus-visible,
 #desc:focus,
+#desc:focus-visible,
 #deadline:focus,
+#deadline:focus-visible,
+#cat:focus,
+#cat:focus-visible,
+#status:focus,
+#status:focus-visible,
+#val:focus,
+#val:focus-visible,
+#type:focus,
+#type:focus-visible,
+#due:focus,
+#due:focus-visible,
 .form-control:focus,
-.form-control option:focus {
+.form-control:focus-visible,
+.form-control option:focus,
+.form-control option:focus-visible,
+#dropdown.form-control:focus,
+#dropdown.form-control:focus-visible {
   background-color: hsla(var(--honeydew), 1) !important;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
     rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;

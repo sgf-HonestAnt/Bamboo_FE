@@ -113,7 +113,13 @@ export default function FollowingPage(props: FollowingPageProps) {
           <Col
             key={i}
             className={`bamboo-card-x-dark m-1 p-2 ${
-              isgt1330 ? "col-2" : isgt975? "col-3" : isgt595 ? "col-5" : "col-12"
+              isgt1330
+                ? "col-2"
+                : isgt975
+                ? "col-3"
+                : isgt595
+                ? "col-5"
+                : "col-12"
             }`}>
             {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge
@@ -126,13 +132,25 @@ export default function FollowingPage(props: FollowingPageProps) {
               total_in_progress={u.total_in_progress}
             />
             <Card.Title>{u.username} </Card.Title>
-            <Link to={`/following?id=${u._id}`}>
-              {location.search.includes("?id=") &&
-                allTasks.filter((task) =>
+            {!location.search.includes("?id=") ? (
+              <Link to={`/following?id=${u._id}`}>View Tasks Shared</Link>
+            ) : (
+              <>
+                {
+                  allTasks.filter((task) =>
+                    task.sharedWith?.includes(usersToShow[0]._id)
+                  ).length
+                }{" "}
+                Task
+                {allTasks.filter((task) =>
                   task.sharedWith?.includes(usersToShow[0]._id)
-                ).length}{" "}
-              Tasks Shared
-            </Link>
+                ).length === 1
+                  ? ""
+                  : "s"}
+                  {" "}
+                Shared
+              </>
+            )}
             <div className='dashboard__profile-card__bio m-2'>{u.bio}</div>
             {/* <div className='rewards'>
               {u.admin && (
