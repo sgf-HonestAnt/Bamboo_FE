@@ -90,7 +90,7 @@ export const EditButton = (props: ButtonProps) => (
 export const DeleteButton = (props: ButtonProps) => (
   <Button
     variant={props.variant || "link"}
-    className={props.className || "m-0 p-0"}
+    className={props.className || "m-0 p-2"}
     onClick={props.handleClick}>
     {props.label} <FiTrash2 />
   </Button>

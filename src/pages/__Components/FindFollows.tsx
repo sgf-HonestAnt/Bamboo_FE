@@ -73,12 +73,12 @@ const FindFollows = (props: FindFollowsProps) => {
   };
   return (
     <Col className='col-12 bamboo-card-mid dashboard__search-bar p-0 px-3 pb-1'>
-      <div className='dashboard__alt__card-header pt-1'>Find Teammates</div>
+      <div className='dashboard__alt__card-header py-2'>Find Teammates</div>
       <Form onSubmit={handleSubmit}>
         <FormControl
           type='text'
           placeholder='Search by username or email'
-          className='mr-sm-2'
+          className='mr-1 mb-3'
           id='search'
           onChange={handleChange}
         />

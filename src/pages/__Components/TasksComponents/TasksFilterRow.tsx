@@ -106,7 +106,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     <Row className='pt-4'>
       <Col sm={12}>
         <Row className='tasks-page__filter-row m-0 p-1'>
-          <AddNewTaskButton label='Add task' handleClick={handleShow} />
+          <AddNewTaskButton variant="secondary" label='Add task' handleClick={handleShow} />
           <AddEditTaskModal
             show={show}
             handleClose={handleClose}
@@ -120,8 +120,8 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
             taskSet={null}
           />{" "}
           <Button
-            variant='light'
-            className='my-1 mr-1'
+            variant='secondary'
+            className='my-1 mr-2'
             id='changeAll'
             onClick={handleReset}>
             <FiRefreshCcw />

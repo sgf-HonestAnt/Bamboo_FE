@@ -197,9 +197,9 @@ export default function SettingsPage(props: SettingsPageProps) {
             </div>
           </Form>
           {/* the delete account modal */}
-          <DeleteButton label='Delete My Account' handleClick={handleShow} />
+          <DeleteButton variant="primary" label='Delete My Account' handleClick={handleShow} />
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title>Are you sure?</Modal.Title>
             </Modal.Header>
             <Modal.Body>This cannot be undone.</Modal.Body>
