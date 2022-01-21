@@ -6,6 +6,13 @@ input.form-control:focus::placeholder,
 textarea.form-control:focus::placeholder {
   color: transparent;
 }
+#title.form-control.is-invalid,
+#value.form-control.is-invalid,
+#category.form-control.is-invalid,
+#desc.form-control.is-invalid,
+.invalid-feedback {
+  border-color: hsla(var(--pale-sunbeam), 1);
+}
 .modal-header,
 .modal-body,
 .modal-footer {

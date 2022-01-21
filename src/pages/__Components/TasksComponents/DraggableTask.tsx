@@ -73,7 +73,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
     }
     createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData]);
+  }, [initialData, setInitialData]);
   useEffect(() => {
     console.log("draggable task location use effect")
     const { search } = location;

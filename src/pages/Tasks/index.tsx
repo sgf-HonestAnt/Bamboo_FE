@@ -209,5 +209,5 @@ export default function TasksPage(props: TasksPageProps) {
         location={location}
       />
     </Container>
-  );
+  )
 }
