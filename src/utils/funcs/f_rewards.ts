@@ -9,7 +9,7 @@ export async function sendXpGift(
   currentPoints: number,
   dispatch: Dispatch<any>
 ) {
-  // console.log("🙋Sending Xp Gift");
+  console.log("🙋Sending Xp Gift");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_GIFTS}/${userId}`;
@@ -40,7 +40,7 @@ export async function purchaseReward(
   xp: number,
   dispatch: Dispatch<any>
 ) {
-  // console.log("🙋Purchasing Reward Badge");
+  console.log("🙋Purchasing Reward Badge");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_MYREWARDS}/${reward._id}`;

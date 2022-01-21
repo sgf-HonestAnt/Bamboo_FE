@@ -148,6 +148,7 @@ export default function AdminPage(props: AdminPageProps) {
   // useEffect(() => {
   //   console.log(location.pathname);
   // }, [location.pathname]);
+  console.log("ADMIN PAGE")
   return !user.admin ? (
     <Container fluid className='admin-page m-0 p-0 pl-2'>
       <Row id='denied'>

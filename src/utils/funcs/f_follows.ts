@@ -1,7 +1,7 @@
 import { POST, ENDPOINT_USERS } from "../const/str";
 
 export const requestFollow = async (sendee: string) => {
-  // console.log("🙋Requesting User Follow");
+  console.log("🙋Requesting User Follow");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/request/${sendee}`;
@@ -22,7 +22,7 @@ export const requestFollow = async (sendee: string) => {
   }
 };
 export const acceptFollow = async (sendee: string) => {
-  // console.log("🙋Accepting User Follow");
+  console.log("🙋Accepting User Follow");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/accept/${sendee}`;
@@ -43,7 +43,7 @@ export const acceptFollow = async (sendee: string) => {
   }
 };
 export const rejectFollow = async (sendee: string) => {
-  // console.log("🙋Rejecting User Follow");
+  console.log("🙋Rejecting User Follow");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/reject/${sendee}`;

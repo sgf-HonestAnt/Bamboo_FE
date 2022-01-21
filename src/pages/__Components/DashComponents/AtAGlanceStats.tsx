@@ -83,20 +83,22 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return !loading ? (
     <div className='dashboard__at-a-glance-stats m-2'>
-      <div className='dashboard__alt__card-header'>
-        At A Glance | <Link to='/dash'>Tasks</Link>{" "}
-        {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
-          <></>
-        ) : (
-          <>
-            | <Link to='/stats'>Stats</Link>
-          </>
-        )}
-        <h5>
-          <FiCalendar />
-          &nbsp;{dayMonthYearAsString}
-        </h5>
-      </div>
+      <Row className='dashboard__alt__card-header'>
+        <Col className='m-1'>
+          At A Glance | <Link to='/dash'>Tasks</Link>{" "}
+          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
+            <></>
+          ) : (
+            <>
+              | <Link to='/stats'>Stats</Link>
+            </>
+          )}
+          <h5>
+            <FiCalendar />
+            &nbsp;{dayMonthYearAsString}
+          </h5>
+        </Col>
+      </Row>
       {total_xp > 0 || awaited.length > 0 || in_progress.length > 0 ? (
         <Row>
           <Col sm={12} className='m-0 p-2'>

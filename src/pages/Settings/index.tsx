@@ -105,6 +105,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   // useEffect(() => {
   //   console.log(location.pathname);
   // }, [location.pathname]);
+  console.log("SETTINGS PAGE")
   return (
     <div className='settings-page'>
       <Card className='bamboo-card-mid'>

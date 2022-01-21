@@ -145,8 +145,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
         <Link to='/stats'>View Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
-        <ICOUSERS className='mr-1' />
-        Following: <Link to='/following'>{followedUsers.length}</Link>
+        My Team: <Link to='/following'>{followedUsers.length}</Link> <ICOUSERS className='mr-1' />
       </div>
       <div>
         {followedUsers.length > 3 ? (

@@ -18,7 +18,6 @@ import DashStats from "../__Components/DashComponents/DashStats";
 import AtAGlance from "../__Components/DashComponents/AtAGlance";
 import AtAGlanceStats from "../__Components/DashComponents/AtAGlanceStats";
 import "./styles.css";
-import ProfileSettings from "../__Components/DashComponents/ProfileSettings";
 
 type DashboardPageProps = {
   history: History<unknown> | string[];
@@ -76,9 +75,10 @@ export default function DashboardPage(props: DashboardPageProps) {
   //   isSmallerTabletOrMobile
   // );
   // console.log("length at dashboard=>", currLength);
+  console.log("DASHBOARD")
   return isBigScreen ? (
     <Container fluid>
-      <Row className='dashboard'>
+      <Row className='dashboard px-1'>
         <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             <Col className='col-12 p-3'>

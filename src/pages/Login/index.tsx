@@ -1,93 +1,123 @@
-import { useEffect, useState } from "react";
+import { Formik } from "formik";
+import * as yup from "yup";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Spinner,
+  InputGroup,
+} from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/funcs/f_users";
 import { LoginBtn, SubmitBtn } from "../__Components/Buttons";
 import "./styles.css";
-import { useMediaQuery } from "react-responsive";
+
+const schema = yup.object().shape({
+  username: yup.string().required("No email or username provided."),
+  password: yup.string().required("No password provided."),
+});
 
 export default function LoginPage({ history }: RouteComponentProps) {
   const dispatch = useDispatch();
-  const isGt530 = useMediaQuery({ query: "(min-width: 530px)" });
-  const isGt475 = useMediaQuery({ query: "(min-width: 475px)" });
-  const [loading, setLoading] = useState(false);
+  const [loadingLoginPage, setLoadingLoginPage] = useState(false);
   const [failed, setFailed] = useState(false);
-  const [form, setForm] = useState({ username: "", password: "" });
-  const formClass = failed ? "login-form__failed-text" : "";
   function handleClick() {
     history.push("/register");
   }
-  const handleChange = async (e: {
-    preventDefault: () => void;
-    target: { id: any; value: any };
-  }) => {
-    e.preventDefault();
-    setFailed(false);
-    const { id, value } = e.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
+  const handleSubmit = async (e: any) => {
+    setLoadingLoginPage(true);
+    const loggedIn = await attemptLoginUser(e, setLoadingLoginPage, dispatch);
+    loggedIn ? history.push("/") : setFailed(true)
   };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setLoading(true);
-    const loggedIn = await attemptLoginUser(form, setLoading, dispatch);
-    setTimeout(() => loggedIn && history.push("/"), 1500);
-    !loggedIn && setFailed(true);
-  };
-  useEffect(() => {}, [loading]);
+  console.log("LOGIN PAGE");
   return (
     <Container fluid>
       <Row className='login-form px-5'>
-        <Col className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
+        <Col
+          className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
           <h1>Login to Bamboo</h1>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group as={Row} controlId='username'>
-              <Form.Label column sm={12}>
-                Email or username
-              </Form.Label>
-              <Col sm={12}>
-                <Form.Control
-                  type='text'
-                  value={form.username}
-                  placeholder='Enter email or username'
-                  onChange={handleChange}
-                  className={formClass}
-                />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} controlId='password'>
-              <Form.Label column sm='12'>
-                Password
-              </Form.Label>
-              <Col sm='12'>
-                <Form.Control
-                  type='password'
-                  value={form.password}
-                  placeholder='Enter password'
-                  onChange={handleChange}
-                  className={formClass}
-                />
-              </Col>
-            </Form.Group>
-            <div className='my-2 login-form__failed-text'>
-              {failed ? "Login failed." : ""}
-            </div>
-            {loading ? (
-              <Spinner animation='grow' className='my-4' />
-            ) : (
-              <div className='py-3'>
-                <SubmitBtn variant='secondary' />
-                <LoginBtn
-                  variant='secondary'
-                  label='Register instead?'
-                  handleClick={handleClick}
-                />
-              </div>
+          <Formik
+            validationSchema={schema}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                handleSubmit(values);
+                setSubmitting(false);
+              }, 400);
+            }}
+            initialValues={{
+              username: "",
+              password: "",
+            }}>
+            {({
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              values,
+              touched,
+              isValid,
+              errors,
+            }) => (
+              <Form onSubmit={handleSubmit}>
+                <Form.Group as={Row} controlId='username'>
+                  <Form.Label column sm={12}>
+                    Email or username
+                  </Form.Label>
+                  <Col sm={12}>
+                    <InputGroup hasValidation>
+                      <Form.Control
+                        type='text'
+                        value={values.username}
+                        placeholder='Enter email or username'
+                        aria-describedby='enter email or username'
+                        onChange={handleChange}
+                        isInvalid={!!errors.username}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        {errors.username}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </Col>
+                </Form.Group>
+                <Form.Group as={Row} controlId='password'>
+                  <Form.Label column sm='12'>
+                    Password
+                  </Form.Label>
+                  <Col sm='12'>
+                    <InputGroup hasValidation>
+                      <Form.Control
+                        type='password'
+                        value={values.password}
+                        placeholder='Enter password'
+                        onChange={handleChange}
+                        isInvalid={!!errors.password}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        {errors.password}
+                      </Form.Control.Feedback>
+                    </InputGroup>
+                  </Col>
+                </Form.Group>
+                <div className='my-2 login-form__failed-text'>
+                  {failed ? "Login failed." : ""}
+                </div>
+                {loadingLoginPage ? (
+                  <Spinner animation='grow' className='my-4' />
+                ) : (
+                  <div className='py-3'>
+                    <SubmitBtn variant='secondary' />
+                    <LoginBtn
+                      variant='secondary'
+                      label='Register instead?'
+                      handleClick={handleClick}
+                    />
+                  </div>
+                )}
+              </Form>
             )}
-          </Form>
+          </Formik>
         </Col>
       </Row>
     </Container>

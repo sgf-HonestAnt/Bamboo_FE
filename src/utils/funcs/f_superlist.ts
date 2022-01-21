@@ -13,7 +13,7 @@ const createSuperlist = async (
   followedUsers: followedUserInt[],
   dispatch: Dispatch<any>
 ) => {
-  // console.log("🙋Creating Achievement SuperList");
+  console.log("🙋Creating Achievement SuperList");
   let super_list: string[] = [];
   let nice: string[] = CONGRATS;
   list.map((ach, i) => {

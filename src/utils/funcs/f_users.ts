@@ -22,7 +22,7 @@ import {
 } from "../const/str";
 
 export const findUsernameByEmail = async (email: string) => {
-  // console.log("🙋Finding Username By Email");
+  console.log("🙋Finding Username By Email");
   const url = `${ENDPOINT_USERS}?email=${email.toLowerCase()}`;
   const method = GET;
   const response = await fetch(url, { method });
@@ -89,7 +89,7 @@ export const attemptLogout = async () => {
 export const getUsers = async () => {
   // get all users to a limit of 25 - public info only
   try {
-    // console.log("🙋Getting Public User Info");
+    console.log("🙋Getting Public User Info");
     const url = `${ENDPOINT_USERS}?limit=25`;
     const method = GET;
     const response = await fetch(url, { method });
@@ -108,7 +108,7 @@ export const getUserByQuery = async (query: string) => {
     const criteria = queryIsEmail
       ? `email=${query.toLowerCase()}`
       : `username=${query.toLowerCase()}`;
-    // console.log("🙋Getting User By Email or Username=>", criteria);
+    console.log("🙋Getting User By Email or Username=>", criteria);
     const url = `${ENDPOINT_USERS}?${criteria}`;
     const method = GET;
     const response = await fetch(url, { method });
@@ -123,7 +123,7 @@ export const getUserByQuery = async (query: string) => {
 
 export const getUsersAsAdmin = async (_id: string) => {
   // get all users as admin - all info except refresh token
-  // console.log("🙋Getting Users As Admin");
+  console.log("🙋Getting Users As Admin");
   const token = localStorage.getItem("token");
   try {
     const url =
@@ -147,14 +147,14 @@ export const getUsersAsAdmin = async (_id: string) => {
 
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
-  // console.log("🙋Getting User Role");
+  console.log("🙋Getting User Role");
   return !level || level === null || level === 0
     ? `🌟New user`
     : `Level ${level}`;
 };
 
 export const clearLastNotification = async (notification: string[]) => {
-  // console.log("🙋Clearing Last Notification");
+  console.log("🙋Clearing Last Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -176,7 +176,7 @@ export const clearLastNotification = async (notification: string[]) => {
 };
 
 export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
-  // console.log("🙋Updating User Bio");
+  console.log("🙋Updating User Bio");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -197,7 +197,7 @@ export const updateUserBio = async (bio: string, dispatch: Dispatch<any>) => {
 };
 
 export const updateUserXp = async (xp: number, dispatch: Dispatch<any>) => {
-  // console.log("🙋Updating User Xp");
+  console.log("🙋Updating User Xp");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -221,7 +221,7 @@ export const AddUserNotification = async (
   user: userInt,
   newNotification: string
 ) => {
-  // console.log("🙋Adding User Notification");
+  console.log("🙋Adding User Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -241,7 +241,7 @@ export const AddUserNotification = async (
 };
 
 export const attemptUpdateUser = async (bodyPar: userUpdateType, file: any) => {
-  // console.log("🙋Updating My User");
+  console.log("🙋Updating My User");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -271,7 +271,7 @@ export const addIDToTasksToHide = async (
   username: string,
   email: string
 ) => {
-  // console.log("🙋Updating Users Completed Tasks To Hide");
+  console.log("🙋Updating Users Completed Tasks To Hide");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;
@@ -290,7 +290,7 @@ export const addIDToTasksToHide = async (
 };
 
 export const sendUsersNotification = async (notification: string) => {
-  // console.log("🙋Sending Users A Notification");
+  console.log("🙋Sending Users A Notification");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/notification`;
@@ -312,7 +312,7 @@ export const refreshUserPoints = async (
   value: number,
   dispatch: Dispatch<any>
 ) => {
-  // console.log("🙋Refreshing User Points");
+  console.log("🙋Refreshing User Points");
   const { total_completed, total_xp, xp } = user;
   const newTotalCompleted = total_completed + 1;
   const newTotalPoints = total_xp + value;
@@ -332,7 +332,7 @@ export const refreshUserLevel = async (
   value: number,
   dispatch: Dispatch<any>
 ) => {
-  // console.log("🙋Refreshing User Level");
+  console.log("🙋Refreshing User Level");
   const token = localStorage.getItem("token");
   const { username, level, total_xp } = user;
   // each level corresponds to approximately 5 hard tasks (50)
@@ -366,7 +366,7 @@ export const refreshUserLevel = async (
 };
 
 export const acceptOrRejectUser = async (username: string, action: string) => {
-  // console.log("🙋Accepting/Rejecting Follow");
+  console.log("🙋Accepting/Rejecting Follow");
   const token = localStorage.getItem("token");
   try {
     const { publicUsers } = await getUserByQuery(username);
@@ -383,7 +383,7 @@ export const acceptOrRejectUser = async (username: string, action: string) => {
 };
 
 export const attemptDeleteUser = async () => {
-  // console.log("🙋Deleting My User");
+  console.log("🙋Deleting My User");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_USERS}/me`;

@@ -34,15 +34,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const allTasks = awaited.concat(in_progress, completed);
   const { customColors } = state.currentSettings;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
-  useEffect(() => {
-    dispatch(fillTasksAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    createColorArray(customColors, categories, setCategoryColors);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allTasks]);
-  const { history, location } = props;
+    const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
   const isgt595 = useMediaQuery({ query: "(min-width: 595px)" });
@@ -84,6 +76,14 @@ export default function FollowingPage(props: FollowingPageProps) {
   }
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
+    dispatch(fillTasksAction());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    createColorArray(customColors, categories, setCategoryColors);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allTasks]);
+  useEffect(() => {
     if (location.search) {
       // console.log(location.search);
       const filteredUsers = followedUsers.filter(
@@ -102,6 +102,7 @@ export default function FollowingPage(props: FollowingPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+  console.log("TEAM")
   return (
     <Container fluid>
       <Row className='p-3'>

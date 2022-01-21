@@ -14,6 +14,7 @@ export default function LoadingPage(props: LoadingPageProps) {
     }, 200);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log("LOADING")
   return (
     <Row className='error-page p-1'>
       <Col>{/* <Spinner animation='grow' /> */}</Col>
