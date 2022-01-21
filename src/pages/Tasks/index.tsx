@@ -28,13 +28,12 @@ type TasksPageProps = {
 };
 export default function TasksPage(props: TasksPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { my_user } = state.currentUser;
-  const tasks = state.currentTasks;
-  const { tasks_to_hide } = my_user;
-  const { awaited, in_progress, completed } = tasks;
-  const allTasks = awaited.concat(in_progress, completed);
   const { history, location } = props;
   const { search } = location;
+  const { my_user } = state.currentUser;
+  const { tasks_to_hide } = my_user;
+  const { awaited, in_progress, completed } = state.currentTasks;
+  const allTasks = awaited.concat(in_progress, completed);
   const [taskList, setTaskList] = useState<taskInt[]>(allTasks);
   const [filter, setFilter] = useState({
     due: ANY_DUE,
@@ -60,7 +59,7 @@ export default function TasksPage(props: TasksPageProps) {
         (task) => task?.sharedWith && task.sharedWith.length < 2
       );
     }
-    setTaskList(allShared);
+    return allShared;
   };
   const filterTasksByStatus = async (status: string) => {
     let tasksByStatus: taskInt[] = [];
@@ -73,7 +72,7 @@ export default function TasksPage(props: TasksPageProps) {
     if (status === COMPLETED) {
       tasksByStatus = completed;
     }
-    setTaskList(tasksByStatus);
+    return tasksByStatus;
   };
   const filterTasksOverdue = async (updatedTasks: taskInt[]) => {
     let overdueTasks: taskInt[] = [];
@@ -83,38 +82,43 @@ export default function TasksPage(props: TasksPageProps) {
     if (tasksWithDeadlines) {
       overdueTasks = await filterTasksByOverdue(tasksWithDeadlines);
     }
-    setTaskList(overdueTasks);
+    return overdueTasks;
   };
   const retrieveTasks = async (query?: string) => {
     const data = query
       ? await getTaskByQuery(query, my_user._id)
       : await getTasks();
-    let updatedTasks;
     if (query) {
-      updatedTasks = data.tasks;
+      let updatedTasks = data.tasks;
       if (filter.due === OVERDUE) {
-        filterTasksOverdue(updatedTasks);
+        const overdueTasks = await filterTasksOverdue(updatedTasks);
+        setTaskList(overdueTasks);
       } else if (filter.status !== ANY_STATUS) {
-        filterTasksByStatus(filter.status);
+        const tasksByStatus = await filterTasksByStatus(filter.status);
+        setTaskList(tasksByStatus);
       } else if (filter.type !== ANY_TYPE) {
-        filterTasksByType(filter.type);
+        const allShared = await filterTasksByType(filter.type);
+        setTaskList(allShared);
       } else {
         setTaskList(updatedTasks);
       }
     } else {
       const { awaited, in_progress, completed } = data;
-      updatedTasks = awaited.concat(in_progress, completed);
+      const updatedTasks = awaited.concat(in_progress, completed);
       setTaskList(updatedTasks);
       if (filter.due === OVERDUE) {
-        filterTasksOverdue(updatedTasks);
+        const overdueTasks = await filterTasksOverdue(updatedTasks);
+        setTaskList(overdueTasks);
       } else if (filter.status !== ANY_STATUS) {
-        filterTasksByStatus(filter.status);
+        const tasksByStatus = await filterTasksByStatus(filter.status);
+        setTaskList(tasksByStatus);
       } else {
         setTaskList(updatedTasks);
       }
     }
   };
   useEffect(() => {
+    console.log("tasks page use effect");
     if (taskList) {
       setInitialData({
         tasks: taskList, //[{}]
@@ -147,9 +151,12 @@ export default function TasksPage(props: TasksPageProps) {
         listOrder: [AWAITED, IN_PROGRESS, COMPLETED],
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [taskList]);
+  }, [taskList, tasks_to_hide]);
   useEffect(() => {
+    console.log("tasks page use effect for queries");
+    if (search.includes("?category")) {
+      setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
+    }
     const dueQuery =
       filter.due !== ANY_DUE && filter.due !== OVERDUE
         ? `deadline=${filter.due}&`
@@ -167,25 +174,10 @@ export default function TasksPage(props: TasksPageProps) {
     //   setTaskList(allShared);
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, search]);
   useEffect(() => {
-    if (search.includes("?category")) {
-      setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
-    }
-    // if (search.includes("?status")) {
-    //   setFilter({ ...filter, status: search.split("=")[1].split("?")[0] });
-    // }
-    // if (search.includes("?value")) {
-    //   setFilter({ ...filter, val: search.split("=")[1].split("?")[0] });
-    // }
-    // if (search.includes("?type")) {
-    //   setFilter({ ...filter, type: search.split("=")[1].split("?")[0] });
-    // }
-    // if (search.includes("?deadline")) {
-    //   setFilter({ ...filter, due: search.split("=")[1].split("?")[0] });
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.search]);
+    console.log("tasks page initial data use effect");
+  }, [initialData]);
   // useEffect(() => {
   //   const { search } = location;
   //   if (search.includes(task!._id)) {
@@ -194,7 +186,6 @@ export default function TasksPage(props: TasksPageProps) {
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [location]);
-  console.log("TASKS PAGE")
   return (
     <Container fluid>
       <TasksFilterRow

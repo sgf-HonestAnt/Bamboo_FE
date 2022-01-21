@@ -65,7 +65,7 @@ const NonDraggableTask = (props: NonDraggableTaskProps) => {
   };
   return (
     <div className={taskClass} key={i}>
-      <Button variant='link' className='m-1 bamboo-task-completed'>
+      <Button variant='link' className='m-1 bamboo-task-completed' id="completed">
         <div>
           <span className={`bamboo-task__title ${task!.category}`}>
             {task!.title}&nbsp;

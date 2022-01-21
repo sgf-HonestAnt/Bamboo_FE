@@ -10,6 +10,7 @@ import {
   Form,
   Spinner,
   InputGroup,
+  Card,
 } from "react-bootstrap";
 import { LoginBtn, SubmitBtn } from "../__Components/Buttons";
 import { BE_URL, USERS, REGISTER, POST } from "../../utils/const/str";
@@ -34,12 +35,12 @@ const schema = yup.object().shape({
 });
 
 export default function RegisterPage({ history }: RouteComponentProps) {
-  const [loading, setLoading] = useState(false);
+  const [loadingRegistration, setLoadingRegistration] = useState(false);
   const handleClick = () => {
     history.push("/login");
   };
   const handleSubmit = async (e: any) => {
-    setLoading(true);
+    setLoadingRegistration(true);
     try {
       console.log("✔️attempt registration!", e);
       const url = `${BE_URL}/${USERS}/${REGISTER}`;
@@ -57,9 +58,8 @@ export default function RegisterPage({ history }: RouteComponentProps) {
         accessToken,
         refreshToken,
       } = await response.json();
-      console.log(response.status);
       if (response.status === 409) {
-        setLoading(false);
+        setLoadingRegistration(false);
       } else {
         localStorage.setItem("token", accessToken);
         setRefreshToken(refreshToken);
@@ -74,154 +74,161 @@ export default function RegisterPage({ history }: RouteComponentProps) {
     <Container fluid>
       <Row className='registration-form'>
         <Col sm={4}>
-          <h1>Join Bamboo</h1>
-          <Formik
-            validationSchema={schema}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                handleSubmit(values);
-                setSubmitting(false);
-              }, 400);
-            }}
-            initialValues={{
-              first_name: "",
-              last_name: "",
-              username: "",
-              email: "",
-              password: "",
-            }}>
-            {({
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              touched,
-              isValid,
-              errors,
-            }) => (
-              <Form noValidate onSubmit={handleSubmit}>
-                <Form.Group as={Row} controlId='first_name' className='py-1'>
-                  <Form.Label column sm='3'>
-                    First name
-                  </Form.Label>
-                  <Col>
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type='text'
-                        placeholder='Jane'
-                        aria-describedby='first name'
-                        name='first_name'
-                        value={values.first_name}
-                        onChange={handleChange}
-                        isInvalid={!!errors.first_name}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.first_name}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} controlId='last_name' className='py-1'>
-                  <Form.Label column sm='3'>
-                    Last name
-                  </Form.Label>
-                  <Col>
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type='text'
-                        placeholder='Doe'
-                        aria-describedby='Last name'
-                        name='last_name'
-                        value={values.last_name}
-                        onChange={handleChange}
-                        isInvalid={!!errors.last_name}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.last_name}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} controlId='username' className='py-1'>
-                  <Form.Label column sm='3'>
-                    Username
-                  </Form.Label>
-                  <Col>
-                    <InputGroup hasValidation>
-                      <InputGroup.Text id='username'>@</InputGroup.Text>
-                      <Form.Control
-                        type='text'
-                        placeholder='janedoe'
-                        aria-describedby='username'
-                        name='username'
-                        value={values.username}
-                        onChange={handleChange}
-                        isInvalid={!!errors.username}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.username}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} controlId='email' className='py-1'>
-                  <Form.Label column sm='3'>
-                    Email
-                  </Form.Label>
-                  <Col>
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type='email'
-                        placeholder='janedoe@email.com'
-                        aria-describedby='email'
-                        name='email'
-                        value={values.email}
-                        onChange={handleChange}
-                        isInvalid={!!errors.email}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.email}
-                      </Form.Control.Feedback>{" "}
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} controlId='password' className='py-1'>
-                  <Form.Label column sm='3'>
-                    Password
-                  </Form.Label>
-                  <Col>
-                    <InputGroup hasValidation>
-                      <Form.Control
-                        type='text'
-                        placeholder='********'
-                        aria-describedby='password'
-                        name='password'
-                        value={values.password}
-                        onChange={handleChange}
-                        isInvalid={!!errors.password}
-                      />
-                      <Form.Control.Feedback type='invalid'>
-                        {errors.password}
-                      </Form.Control.Feedback>
-                    </InputGroup>
-                  </Col>
-                </Form.Group>
-                {loading ? (
-                  <Spinner animation='grow' className='my-4' />
-                ) : (
-                  <>
-                    <LoginBtn
-                      variant='secondary'
-                      label='Login instead?'
-                      handleClick={handleClick}
-                      className='my-3 mr-3'
-                    />
-                    <SubmitBtn variant='secondary' className='my-3' />
-                  </>
+          <Card>
+            <Card.Body>
+              <h1>Join Bamboo</h1>
+              <Formik
+                validationSchema={schema}
+                onSubmit={(values, { setSubmitting }) => {
+                  setTimeout(() => {
+                    handleSubmit(values);
+                    setSubmitting(false);
+                  }, 400);
+                }}
+                initialValues={{
+                  first_name: "",
+                  last_name: "",
+                  username: "",
+                  email: "",
+                  password: "",
+                }}>
+                {({
+                  handleSubmit,
+                  handleChange,
+                  handleBlur,
+                  values,
+                  touched,
+                  isValid,
+                  errors,
+                }) => (
+                  <Form noValidate onSubmit={handleSubmit}>
+                    <Form.Group
+                      as={Row}
+                      controlId='first_name'
+                      className='py-1'>
+                      <Form.Label column sm='3'>
+                        First name
+                      </Form.Label>
+                      <Col>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='text'
+                            placeholder='Jane'
+                            aria-describedby='first name'
+                            name='first_name'
+                            value={values.first_name}
+                            onChange={handleChange}
+                            isInvalid={!!errors.first_name}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.first_name}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId='last_name' className='py-1'>
+                      <Form.Label column sm='3'>
+                        Last name
+                      </Form.Label>
+                      <Col>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='text'
+                            placeholder='Doe'
+                            aria-describedby='Last name'
+                            name='last_name'
+                            value={values.last_name}
+                            onChange={handleChange}
+                            isInvalid={!!errors.last_name}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.last_name}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId='username' className='py-1'>
+                      <Form.Label column sm='3'>
+                        Username
+                      </Form.Label>
+                      <Col>
+                        <InputGroup hasValidation>
+                          <InputGroup.Text id='username'>@</InputGroup.Text>
+                          <Form.Control
+                            type='text'
+                            placeholder='janedoe'
+                            aria-describedby='username'
+                            name='username'
+                            value={values.username}
+                            onChange={handleChange}
+                            isInvalid={!!errors.username}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.username}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId='email' className='py-1'>
+                      <Form.Label column sm='3'>
+                        Email
+                      </Form.Label>
+                      <Col>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='email'
+                            placeholder='janedoe@email.com'
+                            aria-describedby='email'
+                            name='email'
+                            value={values.email}
+                            onChange={handleChange}
+                            isInvalid={!!errors.email}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.email}
+                          </Form.Control.Feedback>{" "}
+                        </InputGroup>
+                      </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} controlId='password' className='py-1'>
+                      <Form.Label column sm='3'>
+                        Password
+                      </Form.Label>
+                      <Col>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='text'
+                            placeholder='********'
+                            aria-describedby='password'
+                            name='password'
+                            value={values.password}
+                            onChange={handleChange}
+                            isInvalid={!!errors.password}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.password}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Col>
+                    </Form.Group>
+                    {loadingRegistration ? (
+                      <Spinner animation='grow' className='my-4' />
+                    ) : (
+                      <>
+                        <LoginBtn
+                          variant='secondary'
+                          label='Login instead?'
+                          handleClick={handleClick}
+                          className='my-3 mr-3'
+                        />
+                        <SubmitBtn variant='secondary' className='my-3' />
+                      </>
+                    )}
+                  </Form>
                 )}
-              </Form>
-            )}
-          </Formik>          
+              </Formik>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>

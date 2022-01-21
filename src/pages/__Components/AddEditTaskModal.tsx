@@ -1,8 +1,10 @@
 import { History, Location } from "history";
+import { Formik } from "formik";
+import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
-import { Modal, Form, Button, Row, Col } from "react-bootstrap";
+import { Modal, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
 import {
   beautifulDnD,
   followedUserInt,
@@ -10,46 +12,59 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
-import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  AWAITED,
-  NEVER,
-  POST,
-  PUT,
-  TASK_CATEGORIES,
-  URGENT,
-  WORK,
-  FINANCE,
-  FITNESS,
-  TEAM,
-} from "../../utils/const/str";
 import {
   EditTask,
   setNewCategory,
   setNewTask,
 } from "../../redux/actions/tasks";
+import { TASK_VALUES } from "../../utils/const/arr";
 import {
-  getMinMaxDateAsString,
+  PUT,
+  POST,
+  NEVER,
+  TASK_CATEGORIES,
+  TEAM,
+  AWAITED,
+} from "../../utils/const/str";
+import { FiUser } from "react-icons/fi";
+import {
   getShortDateAsString,
+  getMinMaxDateAsString,
 } from "../../utils/funcs/f_dates";
 import {
-  attemptDeleteTask,
   attemptPostOrEditTask,
+  attemptDeleteTask,
   removeSelfFromTask,
 } from "../../utils/funcs/f_tasks";
 import BambooPoints from "./XP";
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { XButton } from "./Buttons";
-import {
-  ICOFINANCE,
-  ICOFIT,
-  ICOSTAR,
-  ICOURGENT,
-  ICOUSER,
-  ICOWORK,
-} from "../../utils/appIcons";
 import { setUserLoading } from "../../redux/actions/user";
 import { Link } from "react-router-dom";
+
+const schema = yup.object().shape({
+  title: yup
+    .string()
+    .required("No title provided.")
+    .max(30, "Title cannot exceed 30 chars."),
+  value: yup
+    .number()
+    .required("No value provided.")
+    .min(10, "No value provided."),
+  category: yup
+    .string()
+    .required("No category provided.")
+    .min(1, "No category provided."),
+  newCategory: yup.string().max(12, "Category cannot exceed 12 chars."),
+  desc: yup.string(),
+  repeated: yup.string(),
+  repeats: yup.string(),
+  repeatsOther: yup.number(),
+  repetitions: yup.string().matches(/^(?=.*[0-9])/, "Must be numbers."),
+  shared: yup.string(),
+  sharedWith: yup.array().of(yup.string()),
+  deadline: yup.string(),
+});
 
 type AddEditTaskModalProps = {
   view?: any;
@@ -66,31 +81,19 @@ type AddEditTaskModalProps = {
   setInitialData?: any;
   taskSet: taskInt | null;
 };
-type FormProps = {
-  title: string;
-  value: number;
-  category: string;
-  newCategory: string | undefined;
-  desc: string;
-  repeated: string;
-  repeats: string;
-  repeatsOther: number;
-  repetitions: string;
-  shared: string;
-  sharedWith: string[];
-  deadline: string;
-};
 const AddEditTaskModal = (props: AddEditTaskModalProps) => {
+  const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
+  const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
     setView,
     show,
     handleClose,
-    taskId,
+    // taskId,
     history,
     location,
     initialData,
@@ -98,218 +101,98 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
-  const dispatch = useDispatch();
   const avatar =
     taskSet && taskSet.createdBy !== my_user._id
       ? getAvatarById(followedUsers, taskSet.createdBy)
       : my_user.avatar;
-  const { min, max } = getMinMaxDateAsString(new Date());
-  // validation
-  const [titleHelp, setTitleHelp] = useState({
-    text: "",
-    class: "form-control",
-  });
-  const [valueHelp, setValueHelp] = useState({
-    text: "Bamboo Points can be spent on future rewards.",
-    class: "form-control",
-  });
-  const defaultForm = {
-    title: taskSet ? taskSet.title : "",
-    value: taskSet ? taskSet.value : 0,
-    category: taskSet ? taskSet.category : "",
-    newCategory: "",
-    desc: taskSet ? taskSet.desc : " ",
-    repeated: "no",
-    repeats: taskSet ? taskSet.repeats : "never",
-    repeatsOther: 0,
-    repetitions: "0",
-    shared: "no",
-    sharedWith: taskSet ? taskSet.sharedWith! : [],
-    deadline: taskSet ? taskSet.deadline! : "",
-  };
-  const icon =
-    taskSet?.category === URGENT ? (
-      <ICOURGENT />
-    ) : taskSet?.category === WORK ? (
-      <ICOWORK />
-    ) : taskSet?.category === FINANCE ? (
-      <ICOFINANCE />
-    ) : taskSet?.category === FITNESS ? (
-      <ICOFIT />
-    ) : (
-      <ICOSTAR />
-    );
+  // const { min, max } = getMinMaxDateAsString(new Date());
   const [showWarning, setShowWarning] = useState(false);
-  const [form, setForm] = useState<FormProps>(defaultForm);
   const [changed, setChanged] = useState(false);
-  // const [sharedUsers, setSharedUsers] = useState<string[]>([])
-  const [showNewCat, setShowNewCat] = useState(false);
-  const [showRepeat, setShowRepeat] = useState(true);
-  const [showRepeatOptions, setShowRepeatOptions] = useState(false);
-  const [showOtherRepeat, setShowOtherRepeat] = useState(false);
-  const [showShared, setShowShared] = useState(false);
-  const [showSharedDropdown, setShowSharedDropdown] = useState(false);
-  const removeUserFromShared = (e: {
-    preventDefault: () => void;
-    target: { value: any };
-  }) => {
-    e.preventDefault();
-    const value = e.target.value;
-    const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
-    setForm({ ...form, sharedWith: updatedSharedUsers });
+  const removeUserFromShared = () => {
+    console.log("remove user...");
+    // e.preventDefault();
+    // const value = e.target.value;
+    // const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
+    // setForm({ ...form, sharedWith: updatedSharedUsers });
   };
-  const handleChange = (e: { target: { id: any; value: any } }) => {
-    const id = e.target.id;
-    const value = e.target.value;
-    setChanged(true);
-    setTitleHelp({ ...titleHelp, class: "form-control" });
-    setValueHelp({
-      text: "Bamboo Points can be spent on future rewards.",
-      class: "form-control",
-    });
-    if (id === "category" && value === "new") {
-      setShowNewCat(true);
-      setForm({ ...form, [id]: value });
-    } else if (id === "newCategory") {
-      setForm({ ...form, [id]: value });
-    } else if (id === "repeated" && value === "yes") {
-      setForm({
-        ...form,
-        repeated: "yes",
-        repeats: "daily",
-        repetitions: "28",
-      });
-      setShowRepeat(false);
-      setShowRepeatOptions(true);
-    } else if (id === "repeated" && value === "no") {
-      setShowRepeat(false);
-      setShowShared(true);
-    } else if (id === "repeats" && value === "never") {
-      setForm({ ...form, repeated: "no", repeats: "never", repetitions: "0" });
-    } else if (id === "repeats" && value === "other") {
-      setForm({ ...form, repeatsOther: 2, repetitions: "0" });
-      setShowRepeatOptions(false);
-      setShowOtherRepeat(true);
-    } else if (id === "repeats" && value === "daily") {
-      setForm({
-        ...form,
-        repeated: "yes",
-        repeats: "daily",
-        repetitions: "28",
-      });
-    } else if (id === "repeats" && value === "weekly") {
-      setForm({
-        ...form,
-        repeated: "yes",
-        repeats: "weekly",
-        repetitions: "20",
-      });
-    } else if (id === "repeats" && value === "monthly") {
-      setForm({
-        ...form,
-        repeated: "yes",
-        repeats: "monthly",
-        repetitions: "12",
-      });
-    } else if (id === "shared" && value === "yes") {
-      setShowShared(false);
-      setShowSharedDropdown(true);
-      setForm({ ...form, shared: "yes" });
-    } else if (id === "sharedWith") {
-      const array = form.sharedWith;
-      array.push(value.split("/")[0]);
-      setForm({ ...form, sharedWith: array });
-    } else {
-      setForm({ ...form, [id]: value });
-    }
-  };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    // console.log(form);
-    if (form.title.length < 3) {
-      setChanged(false);
-      setTitleHelp({
-        text: "Title must have a minimum 3 characters.",
-        class: "form-control error-bg",
-      });
-    } else if (form.value < 10) {
-      setChanged(false);
-      setValueHelp({
-        text: "Value must be chosen.",
-        class: "form-control error-bg",
-      });
-    } else {
-      try {
-        if (form.category === "") {
-          // 🔨 FIX NEEDED: ERROR WHEN CHOOSING CATEGORY AND ATTEMPTING TO POST (CHECK HERE)
-          setForm({ ...form, category: "none" });
-        }
-        const method = taskSet ? PUT : POST;
-        const taskId = taskSet ? taskSet._id : null;
-        const newTask = await attemptPostOrEditTask(
-          form,
-          refreshToken,
-          method,
-          taskId,
-          history,
-          location
+  const [formToSubmit, setFormToSubmit] = useState({});
+  const handleSubmitFormik = async (e: any) => {
+    console.log("submitting to post or edit=>", e);
+    const { repeatedRadio, repeatsRadio, repeats, repeatsOther } = e;
+    try {
+      // if (e.category === "") {
+      //   e.category = "none";
+      // }
+      const method = taskSet ? PUT : POST;
+      const taskId = taskSet ? taskSet._id : null;
+      const newTask = await attemptPostOrEditTask(
+        e,
+        refreshToken,
+        method,
+        taskId,
+        history,
+        location
+      );
+      console.log("POSTED OR EDITED TASK=>", newTask);
+      // if (repeats !== "never") {
+      //   history.push(`/reload/${location.pathname}`);
+      // } ?????
+      if (taskSet) {
+        console.log("TASK WAS SET, SO I AM DISPATCHING AN EDIT.");
+        const editedStatus = taskSet.status;
+        const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
+        const editedListOfTasks = listOfTasks.filter(
+          (t) => t._id !== taskSet._id
         );
-        if (form.repeats !== "never") {
-          history.push(`/reload/${location.pathname}`);
-        }
-        if (taskSet) {
-          const editedStatus = taskSet.status;
-          const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
-          const editedListOfTasks = listOfTasks.filter(
-            (t) => t._id !== taskSet._id
-          );
-          editedListOfTasks.push(newTask);
-          dispatch(EditTask(editedStatus, editedListOfTasks));
-        } else {
-          dispatch(setNewTask(newTask));
-        }
-        if (
-          !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
-          !categories.includes(newTask.category.toLowerCase())
-        ) {
-          categories.push(newTask.category.toLowerCase());
-          setNewCategory(categories);
-        }
-        if (initialData) {
-          if (taskSet) {
-            const index = initialData.tasks.findIndex(
-              (task: taskInt | undefined) => task?._id === taskSet._id
-            );
-            initialData.tasks[index] = newTask;
-          } else {
-            initialData.tasks.push(newTask); // push new task to list of tasks
-            initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
-          }
-          const newData = {
-            ...initialData,
-            tasks: [...initialData.tasks!],
-            lists: [...initialData.lists!],
-          };
-          setInitialData(newData);
-        }
-        const { repeats, repeatsOther } = form;
-        setForm(defaultForm);
-        setChanged(false);
-        setShowNewCat(false);
-        setShowRepeat(true);
-        setShowRepeatOptions(false);
-        setShowOtherRepeat(false);
-        setShowShared(false);
-        setShowSharedDropdown(false);
-        setTitleHelp({ ...titleHelp, class: "form-control" });
-        setValueHelp({ ...valueHelp, class: "form-control" });
-        handleClose();
-        if (repeatsOther !== 0 || repeats !== "never") {
-          dispatch(setUserLoading(true)); //👈HERE!
-        }
-      } catch (error) {
-        console.log(error);
+        editedListOfTasks.push(newTask);
+        dispatch(EditTask(editedStatus, editedListOfTasks));
+      } else {
+        console.log("TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK.");
+        dispatch(setNewTask(newTask));
       }
+      if (
+        !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
+        !categories.includes(newTask.category.toLowerCase())
+      ) {
+        console.log(
+          "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
+        );
+        categories.push(newTask.category.toLowerCase());
+        dispatch(setNewCategory(categories));
+      }
+      if (initialData) {
+        console.log(
+          "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
+        );
+        if (taskSet) {
+          const index = initialData.tasks.findIndex(
+            (task: taskInt | undefined) => task?._id === taskSet._id
+          );
+          initialData.tasks[index] = newTask;
+        } else {
+          initialData.tasks.push(newTask); // push new task to list of tasks
+          initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
+        }
+        const newData = {
+          ...initialData,
+          tasks: [...initialData.tasks!],
+          lists: [...initialData.lists!],
+        };
+        setInitialData(newData);
+      }
+      if (repeatsOther !== 0 || repeats !== "never") {
+        console.log("TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD.");
+        // force reload when tasks are repeated
+        history.push("/reload");
+      } else {
+        console.log(
+          "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+        );
+        handleClose();
+        setChanged(false);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   const handleDelete = () => {
@@ -318,91 +201,57 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const handleEdit = () => {
     setView(false);
   };
-  const removeTaskFromInitialData = async () => {
-    if (initialData) {
-      const updatedInitialDataTasks = initialData.tasks.filter(
-        (task) => task?._id !== taskSet!._id
-      );
-      const listIndex = initialData.lists.findIndex(
-        (list) => list.id === taskSet!.status
-      );
-      const indexedList = initialData.lists[listIndex];
-      const updatedTaskIds = indexedList.taskIds.filter(
-        (id) => id !== taskSet!._id
-      );
-      const updatedList = {
-        ...indexedList,
-        taskIds: updatedTaskIds,
-      };
-      const updatedInitialDataLists = initialData.lists;
-      updatedInitialDataLists[listIndex] = updatedList;
-      const newData = {
-        ...initialData,
-        tasks: [...updatedInitialDataTasks!],
-        lists: [...updatedInitialDataLists!],
-      };
-      setInitialData(newData);
-    }
-  };
+  // const removeTaskFromInitialData = async (selectedTask: taskInt) => {
+  //   console.log("removing task from initial data");
+  //   if (initialData) {
+  //     const updatedInitialDataTasks = initialData.tasks.filter(
+  //       (task) => task?._id !== selectedTask._id
+  //     );
+  //     const listIndex = initialData.lists.findIndex(
+  //       (list) => list.id === selectedTask.status
+  //     );
+  //     const indexedList = initialData.lists[listIndex];
+  //     const updatedTaskIds = indexedList.taskIds.filter(
+  //       (id) => id !== selectedTask._id
+  //     );
+  //     const updatedList = {
+  //       ...indexedList,
+  //       taskIds: updatedTaskIds,
+  //     };
+  //     const updatedInitialDataLists = initialData.lists;
+  //     updatedInitialDataLists[listIndex] = updatedList;
+  //     const newData = {
+  //       ...initialData,
+  //       tasks: [...updatedInitialDataTasks!],
+  //       lists: [...updatedInitialDataLists!],
+  //     };
+  //     setInitialData(newData);
+  //   }
+  // };
   const deleteTask = async () => {
+    console.log("deleting task at addedittaskmodal");
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
-      await removeTaskFromInitialData();
       handleClose();
+      history.push("/reload?pathname=tasks");
     }
   };
   const removeSelf = async () => {
+    console.log("removing task at addedittaskmodal");
     if (taskSet) {
       await removeSelfFromTask(taskSet._id, currentTasks, dispatch);
-      await removeTaskFromInitialData();
       handleClose();
+      history.push("/reload?pathname=tasks");
     }
   };
   const handleCloseModal = () => {
-    setForm({
-      title: "",
-      value: 0,
-      category: "",
-      newCategory: "",
-      desc: " ",
-      repeated: "no",
-      repeats: "never",
-      repeatsOther: 0,
-      repetitions: "0",
-      shared: "no",
-      sharedWith: [],
-      deadline: "",
-    });
     setChanged(false);
-    setShowNewCat(false);
-    setShowRepeat(true);
-    setShowRepeatOptions(false);
-    setShowOtherRepeat(false);
-    setShowShared(false);
-    setShowSharedDropdown(false);
     handleClose();
   };
-  if (taskId) {
-    // console.log(taskId);
-  }
-  useEffect(() => {
-    if (taskSet) {
-      setForm({
-        title: taskSet.title,
-        value: taskSet.value,
-        category: taskSet.category,
-        newCategory: "",
-        desc: taskSet.desc,
-        repeated: "no",
-        repeats: taskSet.repeats,
-        repeatsOther: 0,
-        repetitions: "0",
-        shared: "no",
-        sharedWith: taskSet.sharedWith!,
-        deadline: taskSet.deadline!,
-      });
-    }
-  }, [taskSet]);
+  // if (taskId) {
+  //   // console.log(taskId);
+  // }
+  console.log(formToSubmit);
   return (
     <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (
@@ -471,7 +320,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               <div>Are you sure you want to permanently delete this task? </div>
             )}
             <div className={`bamboo-task__title ${taskSet?.category}`}>
-              {icon} {taskSet?.title} ({taskSet?.value}XP)
+              {taskSet?.title} ({taskSet?.value}XP)
             </div>
           </Modal.Body>
           <Modal.Footer>
@@ -511,402 +360,665 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                   : "any time."}
               </div>
             )}
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId='title' className='py-2'>
-                <Form.Label>What's the name of this task?</Form.Label>
-                <Form.Control
-                  required
-                  type='text'
-                  maxLength={30}
-                  value={form.title}
-                  placeholder={
-                    form.title ? form.title : 'for e.g. "Solve World Hunger"'
-                  }
-                  aria-describedby='titleHelpBlock'
-                  className={titleHelp.class}
-                  onChange={handleChange}
-                />
-                {titleHelp.text !== "" && (
-                  <Form.Text id='titleHelpBlock' muted>
-                    {titleHelp.text}
-                  </Form.Text>
-                )}
-              </Form.Group>
-              <Form.Group controlId='value' className='py-2'>
-                <Form.Label>
-                  How many Bamboo Points <BambooPoints /> is it worth?
-                </Form.Label>
-                <Form.Control
-                  required
-                  as='select'
-                  onChange={handleChange}
-                  defaultValue={taskSet ? taskSet.value : "DEFAULT"}
-                  aria-describedby='valueHelpBlock'
-                  className={valueHelp.class}>
-                  <option value='DEFAULT' disabled>
-                    Select a value
-                  </option>
-                  {TASK_VALUES.map((script, i) => {
-                    let value = 10 * (i + 1);
-                    return (
-                      <option
-                        key={i}
-                        value={value}
-                        //   selected={form.value === value}
-                      >
-                        {value}XP: {script}
-                      </option>
-                    );
-                  })}
-                </Form.Control>
-                <Form.Text id='valueHelpBlock' muted>
-                  {valueHelp.text}
-                </Form.Text>
-              </Form.Group>
-              {!showNewCat ? (
-                <Form.Group controlId='category'>
-                  <Form.Label>What's the category?</Form.Label>
-                  <Form.Control
-                    required
-                    as='select'
-                    onChange={handleChange}
-                    defaultValue={taskSet ? taskSet.category : "DEFAULT"}>
-                    <option value='DEFAULT' disabled>
-                      Select a category
-                    </option>
-                    {categories
-                      .filter(
-                        (c) => c !== "none" && !TASK_CATEGORIES.includes(c)
-                      )
-                      .sort()
-                      .map((c, i) => {
-                        return (
-                          <option
-                            key={i}
-                            value={c}
-                            //   selected={form.category === c}
-                          >
-                            {c}
-                          </option>
-                        );
-                      })}
-                    {TASK_CATEGORIES.map((c) => (
-                      <option
-                        key={c}
-                        value={c}
-                        //   selected={form.category === c}
-                      >
-                        {c}
-                      </option>
-                    ))}
-                    {/* <option value={NONE}>{NONE}</option>
-                    <option value='' disabled>
-                    -------
-                  </option> */}
-                    {!taskSet && (
-                      <>
-                        <option value='' disabled>
-                          -------
-                        </option>
-                        <option
-                          value='new'
-                          // selected={form.category === "new"}
-                        >
-                          create new category
-                        </option>
-                      </>
-                    )}
-                  </Form.Control>
-                </Form.Group>
-              ) : (
-                <Form.Group controlId='newCategory' className='py-2'>
-                  <Form.Label>Create new category</Form.Label>
-                  <Form.Control
-                    required
-                    type='text'
-                    maxLength={12}
-                    value={form.newCategory}
-                    placeholder='for e.g. "Knitting"'
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              )}
-              <Form.Group controlId='desc' className='py-2'>
-                <Form.Label>Describe this task (optional)</Form.Label>
-                <Form.Control
-                  required
-                  as='textarea'
-                  value={form.desc}
-                  rows={2}
-                  placeholder={
-                    taskSet
-                      ? taskSet.desc
-                      : 'for e.g. "Put food before trade, find balance with nature&apos;s systems"'
-                  }
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              {!taskSet && (
-                <Form.Group controlId='deadline' className='py-2'>
-                  <Form.Label>Give it a deadline (optional)</Form.Label>
-                  <Form.Control
-                    type='date'
-                    min={min}
-                    max={max}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              )}
-              {taskSet ? (
-                <ul>
-                  {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
-                    <>
-                      <li>Any edits you make will be shared with</li>
-                      <div className='ml-3'>
-                        {taskSet.sharedWith
-                          .filter((id) => id !== my_user._id)
-                          .map((id, i) => {
-                            const username = getUsernameById(followedUsers, id);
-                            return (
-                              <div key={i}>
-                                <ICOUSER /> {username}
-                              </div>
-                            );
-                          })}
-                      </div>
-                      <li>
-                        You will only accrue Bamboo Points if you complete it.
-                      </li>
-                    </>
-                  ) : taskSet.type === TEAM ? (
-                    <li>
-                      This task is no longer shared because other users have
-                      removed themselves.
-                    </li>
-                  ) : (
-                    <li>This task is not shared.</li>
-                  )}
-                  {taskSet.createdBy !== my_user._id ? (
-                    <li>You can remove yourself from this task.</li>
-                  ) : (
-                    <li>Only you can delete this task.</li>
-                  )}
-                  {taskSet.repeats === NEVER ? (
-                    <li>This task is never repeated.</li>
-                  ) : (
-                    <li>This task is repeated {taskSet.repeats}.</li>
-                  )}
-                </ul>
-              ) : showRepeat ? (
-                <Form.Group controlId='repeated'>
-                  <Form.Label>Does it repeat?</Form.Label>
-                  <div className='mb-3'>
-                    <Form.Check
-                      inline
-                      label='yes'
-                      name='group1'
-                      type='radio'
-                      value='yes'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='no'
-                      name='group1'
-                      type='radio'
-                      value='no'
-                      onChange={handleChange}
-                    />
-                  </div>
-                </Form.Group>
-              ) : showRepeatOptions ? (
-                <Form.Group
-                  controlId='repeats'
-                  aria-describedby='repeatsHelpBlock'>
-                  <Form.Label>How often?</Form.Label>
-                  <div className='mb-3'>
-                    <Form.Check
-                      inline
-                      label='daily*'
-                      name='group1'
-                      type='radio'
-                      value='daily'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='weekly*'
-                      name='group1'
-                      type='radio'
-                      value='weekly'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='monthly*'
-                      name='group1'
-                      type='radio'
-                      value='monthly'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='other'
-                      name='group1'
-                      type='radio'
-                      value='other'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='never'
-                      name='group1'
-                      type='radio'
-                      value='never'
-                      onChange={handleChange}
-                    />
-                    <Form.Text id='repeatsHelpBlock' muted>
-                      * If set to repeat, tasks will be created for 28 days, 10
-                      weeks or 12 months by default. Don't want this? Select
-                      'other' and choose the number of repeats!
-                    </Form.Text>
-                  </div>
-                  <div></div>
-                </Form.Group>
-              ) : showOtherRepeat ? (
-                <Row>
-                  <Col>Task repeats</Col>
-                  <Col>
-                    <Form.Group controlId='repeatsOther'>
-                      <Form.Control
-                        as='select'
-                        onChange={handleChange}
-                        defaultValue='2'>
-                        <option value='1'>Daily</option>
-                        <option value='7'>Weekly</option>
-                        <option value='28'>Monthly</option>
-                        <option value='2'>Every other day</option>
-                        <option value='3'>Every third day</option>
-                      </Form.Control>
-                    </Form.Group>
-                  </Col>
-                  <Col sm={12}>
-                    <Form.Group as={Row} controlId='repetitions'>
-                      <Col>
-                        To a total of{" "}
+            <Formik
+              validationSchema={schema}
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  handleSubmitFormik(values);
+                  setSubmitting(false);
+                }, 400);
+              }}
+              initialValues={{
+                title: taskSet?.title || "",
+                value: taskSet?.value || 0,
+                category: taskSet?.category || "",
+                newCategory: "",
+                desc: taskSet?.desc || " ",
+                repeated: "no",
+                repeats: taskSet?.repeats || "never",
+                repeatsOther: 0,
+                repetitions: "0",
+                shared: "no",
+                sharedWith: taskSet?.sharedWith || [],
+                deadline: taskSet?.deadline || "",
+                repeatedRadio: null,
+                repeatsRadio: null,
+                sharedRadio: null,
+              }}>
+              {({
+                handleSubmit,
+                handleChange,
+                values,
+                touched,
+                isValid,
+                errors,
+              }) => (
+                <>
+                  <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId='title' className='py-2'>
+                      <Form.Label>What's the name of this task?</Form.Label>
+                      <InputGroup hasValidation>
                         <Form.Control
                           type='text'
-                          onChange={handleChange}
-                          value={form.repetitions}></Form.Control>
-                        repetitions
-                      </Col>
+                          value={values.title}
+                          placeholder={
+                            values.title
+                              ? values.title
+                              : 'for e.g. "Solve World Hunger"'
+                          }
+                          aria-describedby="what's the name of this task?"
+                          onChange={(e) => {
+                            if (!changed) {
+                              setChanged(true);
+                            }
+                            handleChange(e);
+                          }}
+                          isInvalid={!!errors.title}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                          {errors.title}
+                        </Form.Control.Feedback>
+                      </InputGroup>
                     </Form.Group>
-                  </Col>
-                </Row>
-              ) : (
-                <></>
-              )}
-              {showShared ? (
-                <Form.Group controlId='shared'>
-                  <Form.Label>Is it shared?</Form.Label>
-                  <div className='mb-3'>
-                    <Form.Check
-                      inline
-                      label='yes'
-                      name='group1'
-                      type='radio'
-                      value='yes'
-                      onChange={handleChange}
-                    />
-                    <Form.Check
-                      inline
-                      label='no'
-                      name='group1'
-                      type='radio'
-                      value='no'
-                      onChange={handleChange}
-                    />
-                  </div>
-                </Form.Group>
-              ) : showSharedDropdown ? (
-                <Form.Group controlId='sharedWith'>
-                  <Form.Label>Who would you like to share it with?</Form.Label>
-                  {form.sharedWith.length > 0 && (
-                    <Form.Text>
-                      {form.sharedWith.map((id) => {
-                        const username = getUsernameById(followedUsers, id);
-                        return (
-                          <span className='mr-3' key={id}>
-                            {username}{" "}
-                            <XButton
-                              value={id}
-                              handleClick={removeUserFromShared}
+                    <Form.Group controlId='value' className='py-2'>
+                      <Form.Label>
+                        How many Bamboo Points <BambooPoints /> is it worth?
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          as='select'
+                          defaultValue={taskSet ? taskSet.value : "DEFAULT"}
+                          aria-describedby='how many bamboo points is it worth?'
+                          onChange={(e) => {
+                            if (!changed) {
+                              setChanged(true);
+                            }
+                            handleChange(e);
+                          }}
+                          isInvalid={!!errors.value}
+                          // hasValidation
+                        >
+                          <option value='DEFAULT' disabled>
+                            Select a value
+                          </option>
+                          {TASK_VALUES.map((script, i) => {
+                            let value = 10 * (i + 1);
+                            return (
+                              <option
+                                key={i}
+                                value={value}
+                                //   selected={form.value === value}
+                              >
+                                {value}XP: {script}
+                              </option>
+                            );
+                          })}
+                        </Form.Control>
+                        <Form.Control.Feedback type='invalid'>
+                          {errors.value}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                    {values.category !== "new" ? (
+                      <Form.Group controlId='category' className='py-2'>
+                        <Form.Label>What's the category?</Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            as='select'
+                            defaultValue={
+                              taskSet ? taskSet.category : "DEFAULT"
+                            }
+                            aria-describedby="what's the category?"
+                            onChange={(e) => {
+                              if (!changed) {
+                                setChanged(true);
+                              }
+                              handleChange(e);
+                            }}
+                            isInvalid={!!errors.value}
+                            // hasValidation
+                          >
+                            <option value='DEFAULT' disabled>
+                              Select a category
+                            </option>
+                            {categories
+                              .filter(
+                                (c) =>
+                                  c !== "none" && !TASK_CATEGORIES.includes(c)
+                              )
+                              .sort()
+                              .map((c, i) => {
+                                return (
+                                  <option
+                                    key={i}
+                                    value={c}
+                                    //   selected={form.category === c}
+                                  >
+                                    {c}
+                                  </option>
+                                );
+                              })}
+                            {TASK_CATEGORIES.map((c, i) => {
+                              return (
+                                <option
+                                  key={i}
+                                  value={c}
+                                  //   selected={form.value === value}
+                                >
+                                  {c}
+                                </option>
+                              );
+                            })}
+                            {!taskSet && (
+                              <>
+                                <option value='' disabled>
+                                  -------
+                                </option>
+                                <option
+                                  value='new' // if value is new, showNewCat(true)
+                                  // selected={form.category === "new"}
+                                >
+                                  create new category
+                                </option>
+                              </>
+                            )}
+                          </Form.Control>
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.category}
+                          </Form.Control.Feedback>
+                          {/* {()=>{
+                          if (value === "new") 
+                          {console.log(value)}
+                        )}} */}
+                        </InputGroup>
+                      </Form.Group>
+                    ) : (
+                      <Form.Group controlId='newCategory' className='py-2'>
+                        <Form.Label>Create new category</Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='text'
+                            value={values.newCategory}
+                            placeholder='for e.g. "Knitting"'
+                            aria-describedby='create new category'
+                            onChange={(e) => {
+                              if (!changed) {
+                                setChanged(true);
+                              }
+                              handleChange(e);
+                            }}
+                            onKeyPress={(e) => {
+                              setFormToSubmit({
+                                ...formToSubmit,
+                                category: values.newCategory,
+                              });
+                            }}
+                            isInvalid={!!errors.newCategory}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.newCategory}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    )}
+                    <Form.Group controlId='desc' className='py-2'>
+                      <Form.Label>Describe this task (optional)</Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          as='textarea'
+                          rows={2}
+                          value={values.desc}
+                          placeholder={
+                            taskSet
+                              ? taskSet.desc
+                              : 'for e.g. "Put food before trade, find balance with nature&apos;s systems"'
+                          }
+                          aria-describedby='describe this task (optional)'
+                          onChange={(e) => {
+                            if (!changed) {
+                              setChanged(true);
+                            }
+                            setFormToSubmit({
+                              ...formToSubmit,
+                              desc: values.desc,
+                            });
+                            handleChange(e);
+                          }}
+                          isInvalid={!!errors.desc}
+                        />
+                        <Form.Control.Feedback type='invalid'>
+                          {errors.desc}
+                        </Form.Control.Feedback>
+                      </InputGroup>
+                    </Form.Group>
+                    {!taskSet && (
+                      <Form.Group controlId='deadline' className='py-2'>
+                        <Form.Label>Give it a deadline (optional)</Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='date'
+                            aria-describedby='Give it a deadline (optional)'
+                            min={min}
+                            max={max}
+                            onChange={(e) => {
+                              if (!changed) {
+                                setChanged(true);
+                              }
+                              setFormToSubmit({
+                                ...formToSubmit,
+                                deadline: values.deadline,
+                              });
+                              handleChange(e);
+                            }}
+                            isInvalid={!!errors.deadline}
+                          />
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.deadline}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    )}
+                    {taskSet ? (
+                      <ul>
+                        {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
+                          <>
+                            <li>Any edits you make will be shared with</li>
+                            <div className='ml-3'>
+                              {taskSet.sharedWith
+                                .filter((id) => id !== my_user._id)
+                                .map((id, i) => {
+                                  const username = getUsernameById(
+                                    followedUsers,
+                                    id
+                                  );
+                                  return (
+                                    <div key={i}>
+                                      <FiUser /> {username}
+                                    </div>
+                                  );
+                                })}
+                            </div>
+                            <li>
+                              You will only accrue Bamboo Points if you complete
+                              it.
+                            </li>
+                          </>
+                        ) : taskSet.type === TEAM ? (
+                          <li>
+                            This task is no longer shared because other users
+                            have removed themselves.
+                          </li>
+                        ) : (
+                          <li>This task is not shared.</li>
+                        )}
+                        {taskSet.createdBy !== my_user._id ? (
+                          <li>You can remove yourself from this task.</li>
+                        ) : (
+                          <li>Only you can delete this task.</li>
+                        )}
+                        {taskSet.repeats === NEVER ? (
+                          <li>This task is never repeated.</li>
+                        ) : (
+                          <li>This task is repeated {taskSet.repeats}.</li>
+                        )}
+                      </ul>
+                    ) : !values.repeatedRadio ? (
+                      <Form.Group
+                        controlId='repeated'
+                        aria-describedby='does it repeat?'>
+                        <Form.Label>Does it repeat?</Form.Label>
+                        <InputGroup hasValidation>
+                          <div className='mb-3'>
+                            <Form.Check
+                              inline
+                              label='yes'
+                              name='repeatedRadio'
+                              type='radio'
+                              value='yes'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeated: values.repeated,
+                                });
+                                handleChange(e);
+                              }}
                             />
-                          </span>
-                        );
-                      })}
-                    </Form.Text>
-                  )}
-                  <Form.Control
-                    required
-                    as='select'
-                    onChange={handleChange}
-                    aria-describedby='sharedWithHelpBlock'
-                    defaultValue={["DEFAULT"]}
-                    multiple>
-                    <option value='DEFAULT' disabled>
-                      Select a user
-                    </option>
-                    {followedUsers.map((u) => (
-                      <option key={u._id} value={`${u._id}/${u.username}`}>
-                        {u.username}
-                      </option>
-                    ))}
-                  </Form.Control>
-                  {followedUsers.length < 1 && (
-                    <Form.Text id='sharedWithHelpBlock' muted>
-                      No one to share with? Add users at the 'following' page.
-                    </Form.Text>
-                  )}
-                </Form.Group>
-              ) : (
-                <></>
+                            <Form.Check
+                              inline
+                              label='no'
+                              name='repeatedRadio'
+                              type='radio'
+                              value='no'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeated: values.repeated,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                          </div>
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.repeated}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
+                    ) : values.repeatedRadio === "yes" &&
+                      values.repeatsRadio === null ? (
+                      <Form.Group
+                        controlId='repeats'
+                        aria-describedby='how often?'>
+                        <Form.Label>How often?</Form.Label>
+                        <InputGroup hasValidation>
+                          <div className='mb-3'>
+                            <Form.Check
+                              inline
+                              label='daily*'
+                              name='repeatsRadio'
+                              type='radio'
+                              value='daily'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeats: values.repeats,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                            <Form.Check
+                              inline
+                              label='weekly*'
+                              name='repeatsRadio'
+                              type='radio'
+                              value='weekly'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeats: values.repeats,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                            <Form.Check
+                              inline
+                              label='monthly*'
+                              name='repeatsRadio'
+                              type='radio'
+                              value='monthly'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeats: values.repeats,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                            <Form.Check
+                              inline
+                              label='other'
+                              name='repeatsRadio'
+                              type='radio'
+                              value='other'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeats: values.repeats,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                            <Form.Check
+                              inline
+                              label='never'
+                              name='repeatsRadio'
+                              type='radio'
+                              value='never'
+                              onChange={(e) => {
+                                if (!changed) {
+                                  setChanged(true);
+                                }
+                                setFormToSubmit({
+                                  ...formToSubmit,
+                                  repeats: values.repeats,
+                                });
+                                handleChange(e);
+                              }}
+                            />
+                            <Form.Text id='repeats' muted>
+                              * If set to repeat, tasks will be created for 28
+                              days, 10 weeks or 12 months by default. Don't want
+                              this? Select 'other' and choose the number of
+                              repeats!
+                            </Form.Text>
+                          </div>
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.repeats}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                        <div></div>
+                      </Form.Group>
+                    ) : values.repeatedRadio === "yes" &&
+                      values.repeatsRadio === "other" ? (
+                      <Row>
+                        <Col>Task repeats</Col>
+                        <Col>
+                          <Form.Group controlId='repeatsOther'>
+                            <Form.Label>Task Repeats</Form.Label>
+                            <InputGroup hasValidation>
+                              <Form.Control
+                                as='select'
+                                onChange={(e) => {
+                                  if (!changed) {
+                                    setChanged(true);
+                                  }
+                                  setFormToSubmit({
+                                    ...formToSubmit,
+                                    repeatsOther: values.repeatsOther,
+                                  });
+                                  handleChange(e);
+                                }}
+                                defaultValue='1'
+                                aria-describedby='task repeats'
+                                isInvalid={!!errors.repeatsOther}>
+                                <option value='1'>Daily</option>
+                                <option value='7'>Weekly</option>
+                                <option value='28'>Monthly</option>
+                                <option value='2'>Every other day</option>
+                                <option value='3'>Every third day</option>
+                              </Form.Control>
+                              <Form.Control.Feedback type='invalid'>
+                                {errors.repeatsOther}
+                              </Form.Control.Feedback>
+                            </InputGroup>
+                          </Form.Group>
+                        </Col>
+                        <Col sm={12}>
+                          <Form.Group as={Row} controlId='repetitions'>
+                            <Col>
+                              <Form.Label>To a total of</Form.Label>
+                              <InputGroup hasValidation>
+                                <Form.Control
+                                  type='text'
+                                  onChange={(e) => {
+                                    if (!changed) {
+                                      setChanged(true);
+                                    }
+                                    setFormToSubmit({
+                                      ...formToSubmit,
+                                      repetitions: values.repetitions,
+                                    });
+                                    handleChange(e);
+                                  }}
+                                  value={values.repetitions}
+                                  isInvalid={
+                                    !!errors.repetitions
+                                  }></Form.Control>
+                                repetitions
+                                <Form.Control.Feedback type='invalid'>
+                                  {errors.repetitions}
+                                </Form.Control.Feedback>
+                              </InputGroup>
+                            </Col>
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    ) : (
+                      <></>
+                    )}
+                    {values.repeatedRadio === "no" && !values.sharedRadio ? (
+                      <Form.Group
+                        controlId='shared'
+                        aria-describedby='is it shared?'>
+                        <Form.Label>Is it shared?</Form.Label>
+                        <div className='mb-3'>
+                          <Form.Check
+                            inline
+                            label='yes'
+                            name='sharedRadio'
+                            type='radio'
+                            value={"yes"}
+                            onChange={handleChange}
+                          />
+                          <Form.Check
+                            inline
+                            label='no'
+                            name='sharedRadio'
+                            type='radio'
+                            value={"no"}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </Form.Group>
+                    ) : values.sharedRadio === "yes" ? (
+                      <Form.Group controlId='sharedWith'>
+                        <Form.Label>
+                          Who would you like to share it with?
+                        </Form.Label>
+                        {values.sharedWith.length > 0 && (
+                          <Form.Text>
+                            {values.sharedWith.map((id) => {
+                              const username = getUsernameById(
+                                followedUsers,
+                                id
+                              );
+                              return (
+                                <span className='mr-3' key={id}>
+                                  {username}{" "}
+                                  <XButton
+                                    value={id}
+                                    handleClick={removeUserFromShared}
+                                  />
+                                </span>
+                              );
+                            })}
+                          </Form.Text>
+                        )}
+                        <Form.Control
+                          required
+                          as='select'
+                          onChange={handleChange}
+                          aria-describedby='who would you like to share it with?'
+                          defaultValue={["DEFAULT"]}
+                          isInvalid={!!errors.sharedWith}
+                          multiple>
+                          <option value='DEFAULT' disabled>
+                            Select a user
+                          </option>
+                          {followedUsers.map((u) => (
+                            <option
+                              key={u._id}
+                              value={`${u._id}/${u.username}`}>
+                              {u.username}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {followedUsers.length < 1 && (
+                          <Form.Text id='sharedWithHelpBlock' muted>
+                            No one to share with? Add users at the 'following'
+                            page.
+                          </Form.Text>
+                        )}
+                        <Form.Control.Feedback type='invalid'>
+                          {errors.sharedWith}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    ) : (
+                      <></>
+                    )}
+                    {
+                      // taskSet && !changed ? (
+                      //   <Button variant='primary' className="mx-1" type='submit' disabled>
+                      //     Save edit
+                      //   </Button>
+                      // ) :
+                      taskSet ? (
+                        <Button
+                          variant='primary'
+                          className='mx-1'
+                          type='submit'>
+                          Save edit
+                        </Button>
+                      ) : (
+                        // !changed ? (
+                        //   <Button variant='primary' type='submit' disabled>
+                        //     Save task
+                        //   </Button>
+                        // ) :
+                        <Button
+                          variant='primary'
+                          className='mx-1'
+                          type='submit'>
+                          Save task
+                        </Button>
+                      )
+                    }
+                    {taskSet && taskSet.createdBy === my_user._id ? (
+                      <Button
+                        variant='secondary'
+                        className='mx-1'
+                        onClick={handleDelete}>
+                        Delete task
+                      </Button>
+                    ) : taskSet && taskSet.createdBy !== my_user._id ? (
+                      <Button
+                        variant='secondary'
+                        className='mx-1'
+                        onClick={handleDelete}>
+                        Remove myself
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+                    <Button
+                      variant='secondary'
+                      className='mx-1'
+                      onClick={handleCloseModal}>
+                      Go back
+                    </Button>
+                  </Form>
+                </>
               )}
-            </Form>
+            </Formik>
           </Modal.Body>
-          <Modal.Footer>
-            {taskSet && !changed ? (
-              <Button variant='primary' onClick={handleSubmit} disabled>
-                Save edit
-              </Button>
-            ) : taskSet ? (
-              <Button variant='primary' onClick={handleSubmit}>
-                Save edit
-              </Button>
-            ) : !changed ? (
-              <Button variant='primary' onClick={handleSubmit} disabled>
-                Save task
-              </Button>
-            ) : (
-              <Button variant='primary' onClick={handleSubmit}>
-                Save task
-              </Button>
-            )}
-            {taskSet && taskSet.createdBy === my_user._id ? (
-              <Button variant='secondary' onClick={handleDelete}>
-                Delete task
-              </Button>
-            ) : taskSet && taskSet.createdBy !== my_user._id ? (
-              <Button variant='secondary' onClick={handleDelete}>
-                Remove myself
-              </Button>
-            ) : (
-              <></>
-            )}
-            <Button variant='secondary' onClick={handleCloseModal}>
-              Go back
-            </Button>
-          </Modal.Footer>
+          {/* <Modal.Footer></Modal.Footer> */}
         </>
       )}
     </Modal>

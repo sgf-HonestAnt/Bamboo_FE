@@ -102,7 +102,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               </div>
             ) : (
               <div className='main-section'>
-                <LoadingPage history={history} />
+                <LoadingPage history={history} location={location} />
               </div>
             )}
           </div>
