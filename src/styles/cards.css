@@ -1,0 +1,47 @@
+.card {
+    border: none;
+    padding: 15px;
+    border-radius: 3px;
+    background: 0% !important;
+  }
+  .stats-card {
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    background-color: hsla(var(--mint-cream), 1) !important;
+  }
+  .bamboo-card,
+  .bamboo-card-x-light,
+  .bamboo-card-light,
+  .bamboo-card-mid,
+  .bamboo-card-dark,
+  .bamboo-card-x-dark,
+  #login-card.bamboo-card,
+  #register-card.bamboo-card {
+    border: none;
+    padding: 15px;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+      rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  }
+  .bamboo-card-x-light {
+    background-color: hsla(var(--mint-cream), 0.3) !important;
+  }
+  .bamboo-card {
+    background-color: hsla(var(--mint-cream), 0.9) !important;
+  }
+  .bamboo-card-light {
+    background-color: hsla(var(--caribbean-green), 0.2) !important;
+  }
+  .bamboo-card-mid {
+    background-color: hsla(var(--caribbean-green), 0.4) !important;
+  }
+  .bamboo-card-dark {
+    background-color: hsla(var(--caribbean-green), 0.6) !important;
+  }
+  .bamboo-card-x-dark {
+    background-color: hsla(var(--caribbean-green), 0.9) !important;
+  }
+  #login-card.bamboo-card, #register-card.bamboo-card {
+    background-color: hsla(var(--mint-cream), 1) !important;
+  }

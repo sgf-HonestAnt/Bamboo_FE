@@ -82,7 +82,7 @@ const FindFollows = (props: FindFollowsProps) => {
           id='search'
           onChange={handleChange}
         />
-        <SubmitBtn label='Search' className="ml-1 mb-3" />
+        <SubmitBtn label='Search' className='ml-1 mb-3' />
       </Form>
       {result.found && result.user ? (
         <>
@@ -105,14 +105,14 @@ const FindFollows = (props: FindFollowsProps) => {
                 <h4>
                   Found user with {search.includes("@") ? "email" : "username"}{" "}
                   "{search}"
+                  <img
+                    src={result.user?.avatar}
+                    alt=''
+                    className='dotted-border x-tiny-round'
+                  />
                 </h4>
-                <img
-                  src={result.user?.avatar}
-                  alt=''
-                  className='dotted-border x-tiny-round'
-                />
-                <Button variant='link' onClick={sendRequest}>
-                  <h5>Request teammate?</h5>
+                <Button variant='secondary' onClick={sendRequest}>
+                  Request teammate?
                 </Button>
               </>
             ) : (

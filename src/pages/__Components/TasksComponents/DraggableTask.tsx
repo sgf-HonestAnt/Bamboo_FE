@@ -47,7 +47,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const { customColors } = state.currentSettings;
   const categories = state.currentTasks.categories;
   const { task, i, initialData, setInitialData, history, location } = props;
-  // const { pathname } = location;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
@@ -59,7 +58,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
     setShow(true);
   };
   const checkIfTaskIsOverdue = async () => {
-    const today = getSelectedDateAsString(new Date());
+    const today = await getSelectedDateAsString(new Date());
     const boolean = task.deadline
       ? await checkTaskOverdue(today, task.deadline.slice(0, 10))
       : false;
@@ -67,13 +66,16 @@ const DraggableTask = (props: DraggableTaskProps) => {
   };
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
+    console.log("draggable task initial data use effect")
     checkIfTaskIsOverdue();
     if (locationSearch !== task!._id) {
       setShow(false);
     }
+    createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData]);
+  }, [initialData, setInitialData]);
   useEffect(() => {
+    console.log("draggable task location use effect")
     const { search } = location;
     if (search.includes(task!._id)) {
       setShow(true);
@@ -81,10 +83,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-  useEffect(() => {
-    createColorArray(customColors, categories, setCategoryColors);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     task && (
       <Draggable draggableId={`${task._id}/${task.value}`} index={i}>

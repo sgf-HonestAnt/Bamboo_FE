@@ -18,8 +18,10 @@ import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
 import LoadingPage from "../Loading";
 import "./styles.css";
+import { useMediaQuery } from "react-responsive";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
+  const isLt755 = useMediaQuery({ query: "(max-width: 755px)" });
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const user: userInt = useAppSelector(
@@ -76,19 +78,31 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               />
             </div>
             {path === "/dash" ? (
-              <div className='main-section'>
+              <div
+                className={`main-section ${
+                  isLt755 ? "overflow-x-scroll" : ""
+                }`}>
                 <DashboardPage history={history} location={location} />
               </div>
             ) : path === "/stats" ? (
-              <div className='main-section'>
+              <div
+                className={`main-section ${
+                  isLt755 ? "overflow-x-scroll" : ""
+                }`}>
                 <DashboardPage history={history} location={location} />
               </div>
             ) : path === "/tasks" ? (
-              <div className='main-section'>
+              <div
+                className={`main-section ${
+                  isLt755 ? "overflow-x-scroll" : ""
+                }`}>
                 <TasksPage history={history} location={location} />
               </div>
             ) : path === "/following" ? (
-              <div className='main-section'>
+              <div
+                className={`main-section ${
+                  isLt755 ? "overflow-x-scroll" : ""
+                }`}>
                 <FollowingPage history={history} location={location} />
               </div>
             ) : path === "/admin-dash" ? (
@@ -102,7 +116,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               </div>
             ) : (
               <div className='main-section'>
-                <LoadingPage history={history} />
+                <LoadingPage history={history} location={location} />
               </div>
             )}
           </div>

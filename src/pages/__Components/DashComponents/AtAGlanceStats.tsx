@@ -101,27 +101,28 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
       </Row>
       {total_xp > 0 || awaited.length > 0 || in_progress.length > 0 ? (
         <Row>
-          <Col sm={12} className='m-0 p-2'>
-            <Card className='bamboo-card dashboard__dash-stats'>
+          {/* <Col sm={12} className='m-0 p-0'>
+            <Card className='stats-card dashboard__dash-stats'>
               <Card.Body>
-                {/* <Card.Title>Your categories</Card.Title> */}
                 <SimpleCloud history={props.history} data={taskData.tagCloud} />
               </Card.Body>
             </Card>
-          </Col>
-          <Col sm={12} md={4} className='m-0 p-2'>
-            <Card className='dashboard__dash-stats'>
-              <PieChartWithPaddingAngle
-                deg360={true}
-                data={taskData.allByStatus}
-                colors={STATUS_COLORS}
-                stat='status'
-                width={200}
-                height={200}
-                innerRadius={40}
-                outerRadius={80}
-              />
-              <Card.Body className='bamboo-card m-auto'>
+          </Col> */}
+          <Col sm={12} md={4} className='m-0 p-0'>
+            <Card className='border-0 dashboard__dash-stats'>
+              <div className='stats-card'>
+                <PieChartWithPaddingAngle
+                  deg360={true}
+                  data={taskData.allByStatus}
+                  colors={STATUS_COLORS}
+                  stat='status'
+                  width={200}
+                  height={200}
+                  innerRadius={40}
+                  outerRadius={80}
+                />
+              </div>
+              <Card.Body className='m-auto'>
                 {/* <Card.Title>
                   {
                     findMostCommonStatus(
@@ -131,26 +132,30 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                   }
                 </Card.Title> */}
                 <Card.Text>
-                  {
-                    findMostCommonStatus(
-                      taskData.allByStatus,
-                      allTasks.length
-                    ).split("|")[1]
-                  }
+                  <h5>
+                    {
+                      findMostCommonStatus(
+                        taskData.allByStatus,
+                        allTasks.length
+                      ).split("|")[1]
+                    }
+                  </h5>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={4} className='m-0 p-2'>
-            <Card className='dashboard__dash-stats'>
-              <PieChartWithCustomizedLabel
-                data={taskData.allByType}
-                colors={STATUS_COLORS}
-                stat='type'
-                width={200}
-                height={200}
-              />
-              <Card.Body className='bamboo-card'>
+          <Col sm={12} md={4} className='m-0 p-0'>
+            <Card className='border-0 dashboard__dash-stats'>
+              <div className='stats-card'>
+                <PieChartWithCustomizedLabel
+                  data={taskData.allByType}
+                  colors={STATUS_COLORS}
+                  stat='type'
+                  width={200}
+                  height={200}
+                />
+              </div>
+              <Card.Body className='m-auto'>
                 {/* <Card.Title>
                   {
                     findMostUsedType(taskData.allByType, allTasks.length).split(
@@ -159,26 +164,31 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                   }
                 </Card.Title> */}
                 <Card.Text>
-                  {
-                    findMostUsedType(taskData.allByType, allTasks.length).split(
-                      "|"
-                    )[1]
-                  }
+                  <h5>
+                    {
+                      findMostUsedType(
+                        taskData.allByType,
+                        allTasks.length
+                      ).split("|")[1]
+                    }
+                  </h5>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={4} className='m-0 p-2'>
-            <Card className='dashboard__dash-stats'>
-              <CustomActiveShapePieChart
-                data={taskData.allByDueDate}
-                stat='deadline'
-                width={200}
-                height={200}
-                innerRadius={50}
-                outerRadius={80}
-              />
-              <Card.Body className='bamboo-card'>
+          <Col sm={12} md={4} className='m-0 p-0'>
+            <Card className='border-0 dashboard__dash-stats'>
+              <div className='stats-card'>
+                <CustomActiveShapePieChart
+                  data={taskData.allByDueDate}
+                  stat='deadline'
+                  width={200}
+                  height={200}
+                  innerRadius={50}
+                  outerRadius={80}
+                />
+              </div>
+              <Card.Body className='m-auto'>
                 {/* <Card.Title>
                     {
                       findMostUsedDeadline(
@@ -188,25 +198,29 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                     }
                 </Card.Title> */}
                 <Card.Text>
-                  {
-                    findMostUsedDeadline(
-                      taskData.allByDueDate,
-                      allTasks.length
-                    ).split("|")[1]
-                  }
+                  <h5>
+                    {
+                      findMostUsedDeadline(
+                        taskData.allByDueDate,
+                        allTasks.length
+                      ).split("|")[1]
+                    }
+                  </h5>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} className='m-0 p-2'>
-            <Card className='dashboard__dash-stats'>
-              <MixedBarChart
-                data={taskData.allByCategory}
-                stat='category'
-                width={300}
-                height={200}
-              />
-              <Card.Body className='bamboo-card mt-3'>
+          <Col sm={12} md={6} className='m-0 p-0'>
+            <Card className='border-0 dashboard__dash-stats'>
+              <div className='stats-card'>
+                <MixedBarChart
+                  data={taskData.allByCategory}
+                  stat='category'
+                  width={300}
+                  height={200}
+                />
+              </div>
+              <Card.Body className='m-auto'>
                 {/* <Card.Title>
                   {categories.length / allTasks.length <= 0.7
                     ? "Minimalist"
@@ -216,7 +230,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                     : "Accumulator"}
                 </Card.Title> */}
                 <Card.Text>
-                  <span>
+                  <h5>
                     You're using{" "}
                     {taskData.allByCategory.length -
                       taskData.unusedCategories.length}{" "}
@@ -227,28 +241,28 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                       : "category"}{" "}
                     to organise {allTasks.length}{" "}
                     {allTasks.length > 1 ? "tasks" : "task"}.
-                  </span>
-                  <span>
                     {taskData.unusedCategories.length > 0 &&
                       ` You have ${taskData.unusedCategories.length} unused ${
                         taskData.unusedCategories.length > 1
                           ? "categories."
                           : "category."
                       }`}
-                  </span>
+                  </h5>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-          <Col sm={12} md={6} className='m-0 p-2'>
-            <Card className='dashboard__dash-stats'>
-              <SimpleBarChart
-                data={taskData.allByValue}
-                stat='value'
-                width={300}
-                height={200}
-              />
-              <Card.Body className='bamboo-card mt-3'>
+          <Col sm={12} md={6} className='m-0 p-0'>
+            <Card className='border-0 dashboard__dash-stats'>
+              <div className='stats-card'>
+                <SimpleBarChart
+                  data={taskData.allByValue}
+                  stat='value'
+                  width={300}
+                  height={200}
+                />
+              </div>
+              <Card.Body className='m-auto'>
                 {/* <Card.Title>
                   {
                     findMostUsedValue(
@@ -258,12 +272,14 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                   }
                 </Card.Title> */}
                 <Card.Text>
-                  {
-                    findMostUsedValue(
-                      taskData.allByValue,
-                      allTasks.length
-                    ).split("|")[2]
-                  }
+                  <h5>
+                    {
+                      findMostUsedValue(
+                        taskData.allByValue,
+                        allTasks.length
+                      ).split("|")[2]
+                    }
+                  </h5>
                 </Card.Text>
               </Card.Body>
             </Card>

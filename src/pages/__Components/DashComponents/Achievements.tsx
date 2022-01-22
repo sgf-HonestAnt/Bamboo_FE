@@ -84,7 +84,7 @@ const Achievements = (props: AchievementsProps) => {
                           ach.split(" ")[0]
                         )}
                         alt={ach.split(" ")[0]}
-                        className='dashboard__activities__img mr-1'
+                        className='dotted-border dashboard__activities__img mr-1'
                       />
                       {ach.split(" ")[0]} completed a task on{" "}
                       {ach.split(" task on ")[1]}
@@ -98,7 +98,7 @@ const Achievements = (props: AchievementsProps) => {
                     <img
                       src={avatar}
                       alt={username}
-                      className='dashboard__activities__img mr-1'
+                      className='dotted-border dashboard__activities__img mr-1'
                     />
                     you completed task:{" "}
                     <em>

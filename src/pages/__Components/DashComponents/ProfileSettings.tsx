@@ -158,7 +158,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
                   <img
                     src={avatar}
                     alt={username}
-                    className='x-tiny-round mr-1'
+                    className='dotted-border x-tiny-round mr-1'
                   />
                 </Link>
               );
@@ -174,7 +174,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
                 <img
                   src={avatar}
                   alt={username}
-                  className='x-tiny-round mr-1'
+                  className='dotted-border x-tiny-round mr-1'
                 />
               </Link>
             );

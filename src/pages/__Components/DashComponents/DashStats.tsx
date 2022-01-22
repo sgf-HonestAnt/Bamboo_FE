@@ -38,7 +38,7 @@ export default function DashStats(props: DashStatsProps) {
       {/* ${isBigScreen && "my-3"} */}
       <Row>
         {(total_xp > 0 || awaited.length > 0 || in_progress.length > 0) && (
-          <Col sm={12}>
+          <Col sm={12} >
             <PieChartWithPaddingAngle
               deg360={true}
               data={allByStatus}
