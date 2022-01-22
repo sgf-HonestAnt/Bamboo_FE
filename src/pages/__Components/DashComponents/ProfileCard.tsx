@@ -14,7 +14,7 @@ type DashProfileCardProps = {
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const isGt755 = useMediaQuery({ query: "(min-width: 755px)" });
+  const isLt756 = useMediaQuery({ query: "(max-width: 756px)" });
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username, bio, level, xp, rewards } = my_user;
@@ -24,7 +24,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     history.push("/user-settings");
   };
   const role = getUserRole(level);
-  return isGt755 ? (
+  return !isLt756 ? (
     <div className='bamboo-card-mid'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
@@ -120,7 +120,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     </div>
   ) : (
     <Row className='bamboo-card-mid m-0'>
-      <Col sm={6} className='border-right m-auto'>
+      <Col className='col-6 border-right m-auto'>
         <ProfileBadge isMine={true} />
         <div className='dashboard__card-header'>
           {/* {admin && (
@@ -147,7 +147,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           <span>{bio}</span>
         </div>
       </Col>
-      <Col sm={6}>
+      <Col className='col-6'>
         <div className='dashboard__profile-card__following py-3'>
           My Team: <Link to='/following'>{followedUsers.length}</Link>{" "}
           <FiUsers className='mr-1' />

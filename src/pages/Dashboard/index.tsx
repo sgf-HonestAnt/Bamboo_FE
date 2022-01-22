@@ -44,21 +44,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isGt999 = useMediaQuery({ query: "(min-width: 999px)" });
   const isGt755 = useMediaQuery({ query: "(min-width: 755px)" });
-  const isGt580 = useMediaQuery({ query: "(max-width: 580px)" });
-
-  // ****************************MEDIA********************************************
-  // const isMobileDevice = useMediaQuery({
-  //   query: "(max-width: 560px)",
-  // });
-  const isSmallerTabletOrMobile = useMediaQuery({
-    query: "(max-width: 1089px)",
-  });
-  const isTiny = useMediaQuery({
-    query: "(max-width: 746px)",
-  });
   // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
-  // console.log("isBigScreen", isBigScreen, "isRetina", isRetina);
-  // ****************************MEDIA********************************************
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
   const attemptLoad = async () => {
@@ -83,7 +69,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   //   isSmallerTabletOrMobile
   // );
   // console.log("length at dashboard=>", currLength);
-  console.log("DASHBOARD", !isGt580);
+  console.log("DASHBOARD", isGt1660, isGt1500, isGt1390, isGt999, isGt755);
   return isGt1660 ? (
     <Container fluid>
       <Row className='dashboard'>
@@ -281,8 +267,8 @@ export default function DashboardPage(props: DashboardPageProps) {
     </Container>
   ) : isGt999 ? (
     <Container fluid>
-      <Row className='dashboard pt-3'>
-        <Col className='col-12'>
+      <Row className='dashboard'>
+        <Col className='col-12 my-3'>
           <FindFollows
             history={history}
             search={search}
@@ -309,7 +295,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
           )}
         </Col>
-        <Col className='p-0 pt-3'>
+        <Col className='p-0'>
           {location.pathname === "/dash" ? (
             <AtAGlance today={today} history={history} location={location} />
           ) : (
@@ -322,55 +308,17 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : !isGt580 ? (
+  ) : isGt755 ? (
     <Container fluid>
-      <Row className='dashboard pt-3'>
-        <Col className='col-12'>
+      <Row className='dashboard'>
+        <Col className='col-12 my-3'>
           <FindFollows
             history={history}
             search={search}
             setSearch={setSearch}
           />
         </Col>
-        <Col className={`${isGt755 ? "col-6" : "col-12"} pt-3 pl-3 pr-3 pb-0`}>
-          {notification.length > 0 && <DashNotifications />}
-          {/* {location.pathname === "/user-settings" ? (
-            <ProfileSettings history={history} />
-          ) : ( */}
-          <DashProfileCard history={history} />
-          {/* )} */}
-          {admin && (
-            <Link to='/admin-dash'>
-              <Button variant='info' className='dashboard__admin-card'>
-                Go to Admin
-              </Button>
-            </Link>
-          )}
-        </Col>
-        <Col className='pr-3 pb-3 ${isGt755 ? "pt-3 pl-0" : "pt-2 pl-3"}'>
-          {location.pathname === "/dash" ? (
-            <AtAGlance today={today} history={history} location={location} />
-          ) : (
-            <AtAGlanceStats
-              today={today}
-              history={history}
-              location={location}
-            />
-          )}{" "}
-        </Col>
-      </Row>
-    </Container>
-  ) : (
-    <Container fluid>
-      <Row className='dashboard py-3'>
-        <Col className='col-12'>
-          <FindFollows
-            history={history}
-            search={search}
-            setSearch={setSearch}
-          />
-        </Col>
-        <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
+        <Col className='col-6 pt-3 pl-3 pr-3 pb-0'>
           {notification.length > 0 && <DashNotifications />}
           {/* {location.pathname === "/user-settings" ? (
             <ProfileSettings history={history} />
@@ -390,7 +338,45 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
           )}
         </Col>
-        <Col className={`${isTiny ? "col-12" : "col-7"} px-3 pb-3`}>
+        <Col className='p-0'>
+          {location.pathname === "/dash" ? (
+            <AtAGlance today={today} history={history} location={location} />
+          ) : (
+            <AtAGlanceStats
+              today={today}
+              history={history}
+              location={location}
+            />
+          )}{" "}
+        </Col>
+      </Row>
+    </Container>
+  ) : (
+    <Container fluid>
+      <Row className='dashboard'>
+        <Col className='col-12 my-3'>
+          <FindFollows
+            history={history}
+            search={search}
+            setSearch={setSearch}
+          />
+        </Col>
+        <Col className='col-12 pt-3 pl-3 pr-3 pb-3'>
+          {notification.length > 0 && <DashNotifications />}
+          {/* {location.pathname === "/user-settings" ? (
+            <ProfileSettings history={history} />
+          ) : ( */}
+          <DashProfileCard history={history} />
+          {/* )} */}
+          {admin && (
+            <Link to='/admin-dash'>
+              <Button variant='info' className='dashboard__admin-card'>
+                Go to Admin
+              </Button>
+            </Link>
+          )}
+        </Col>
+        <Col className='pr-3 pb-3 pl-2 pt-0'>
           {location.pathname === "/dash" ? (
             <AtAGlance today={today} history={history} location={location} />
           ) : (
@@ -404,4 +390,48 @@ export default function DashboardPage(props: DashboardPageProps) {
       </Row>
     </Container>
   );
+  // : (
+  //   <Container fluid>
+  //     <Row className='dashboard py-3'>
+  //       <Col className='col-12'>
+  //         <FindFollows
+  //           history={history}
+  //           search={search}
+  //           setSearch={setSearch}
+  //         />
+  //       </Col>
+  //       <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
+  //         {notification.length > 0 && <DashNotifications />}
+  //         {/* {location.pathname === "/user-settings" ? (
+  //           <ProfileSettings history={history} />
+  //         ) : ( */}
+  //         <DashProfileCard history={history} />
+  //         {/* )} */}
+  //         {admin && (
+  //           <Link to='/admin-dash'>
+  //             <Button variant='info' className='dashboard__admin-card'>
+  //               Go to Admin
+  //             </Button>
+  //           </Link>
+  //         )}
+  //         {notification.length < 1 && location.pathname !== "/stats" && (
+  //           <Col className='col-12 p-0 my-3'>
+  //             <DashStats />
+  //           </Col>
+  //         )}
+  //       </Col>
+  //       <Col className={`${isTiny ? "col-12" : "col-7"} px-3 pb-3`}>
+  //         {location.pathname === "/dash" ? (
+  //           <AtAGlance today={today} history={history} location={location} />
+  //         ) : (
+  //           <AtAGlanceStats
+  //             today={today}
+  //             history={history}
+  //             location={location}
+  //           />
+  //         )}{" "}
+  //       </Col>
+  //     </Row>
+  //   </Container>
+  // );
 }
