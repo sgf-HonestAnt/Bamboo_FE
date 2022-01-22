@@ -36,12 +36,12 @@ export default function LoginPage({ history }: RouteComponentProps) {
   console.log("LOGIN PAGE");
   return (
     <Container fluid>
-      <Row className='login-form px-5'>
+      <Row className='login-form px-1 px-md-5'>
         <Col
           className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
-          <Card>
+          <Card className="bamboo-card px-4 pb-0 pt-1 m-0" id="login-card">
             <Card.Body>
-              <h1>Login to Bamboo</h1>
+              <h2>Login to Bamboo</h2>
               <Formik
                 validationSchema={schema}
                 onSubmit={(values, { setSubmitting }) => {

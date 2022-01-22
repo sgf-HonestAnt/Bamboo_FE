@@ -3,12 +3,11 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Button, Image } from "react-bootstrap";
-import { ICOACTIVITY, ICOUSERS } from "../../../utils/appIcons";
 import { getUserRole } from "../../../utils/funcs/f_users";
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
 import returnIco from "../../../utils/funcs/f_ico";
-import { FiEdit } from "react-icons/fi";
+import { FiActivity, FiEdit, FiUsers } from "react-icons/fi";
 
 type DashProfileCardProps = {
   isBigScreen?: boolean;
@@ -25,7 +24,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   };
   const role = getUserRole(level);
   return (
-    <div className={`bamboo-card-mid ${isBigScreen ? "px-5" : ""}`}>
+    <div className='bamboo-card-mid'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
         {/* {admin && (
@@ -38,19 +37,67 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           />
         )}
         <br /> */}
-        {username}
-        <Button
-          className='p-1 dashboard__profile-card__edit-btn'
-          variant='link'
-          onClick={pushToSettings}>
-          <FiEdit />
-        </Button>{" "}
+        <h4 className='mt-3'>
+          {username}
+          <Button
+            className='p-1 dashboard__profile-card__edit-btn'
+            variant='link'
+            onClick={pushToSettings}>
+            <FiEdit />
+          </Button>{" "}
+        </h4>
       </div>
-      <div>{role}</div>
-      <div className='dashboard__profile-card__holder-xp'>
-        {xp} <BambooPoints />
+      <div className='pb-2'>
+        <span>{bio}</span>
       </div>
-      <div className='rewards'>
+      <div className='dashboard__profile-card__following py-2'>
+        My Team: <Link to='/following'>{followedUsers.length}</Link>{" "}
+        <FiUsers className='mr-1' />
+        <div>
+          {followedUsers.length > 3 ? (
+            <>
+              {followedUsers.slice(0, 3).map((user, i) => {
+                const avatar = user.avatar;
+                const username = user.username;
+                return (
+                  <Link to={`/following?id=${user._id}`} key={i}>
+                    <img
+                      src={avatar}
+                      alt={username}
+                      className='dotted-border x-tiny-round mr-1'
+                    />
+                  </Link>
+                );
+              })}
+              <Link to='/following'>+{followedUsers.length - 3}</Link>
+            </>
+          ) : followedUsers.length > 0 ? (
+            followedUsers.map((user, i) => {
+              const avatar = user.avatar;
+              const username = user.username;
+              return (
+                <Link to={`/following?id=${user._id}`} key={i}>
+                  <img
+                    src={avatar}
+                    alt={username}
+                    className='dotted-border x-tiny-round mr-1'
+                  />
+                </Link>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
+      <div className='dashboard__profile-card__level d-flex justify-content-between px-3 py-3'>
+        <h3 className='w-50'>
+          {xp}
+          <BambooPoints />
+        </h3>
+        <h4 className='w-50'>{role}</h4>
+      </div>
+      <div className='rewards py-2'>
         {rewards
           .filter((item) => item.available < 1)
           .map((item, i) => (
@@ -65,59 +112,9 @@ const DashProfileCard = (props: DashProfileCardProps) => {
             />
           ))}
       </div>
-      <div className='d-flex align-items-center justify-content-center dashboard__profile-card__bio'>
-        <span>{bio}</span>
-        <Button
-          className='p-1 dashboard__profile-card__edit-btn'
-          variant='link'
-          onClick={pushToSettings}>
-          <FiEdit />
-        </Button>
-      </div>
       <div className='dashboard__profile-card__stats'>
-        <div>
-          <ICOACTIVITY />
-        </div>
+        <FiActivity />
         <Link to='/stats'>View Stats</Link>
-      </div>
-      <div className='dashboard__profile-card__following'>
-        My Team: <Link to='/following'>{followedUsers.length}</Link> <ICOUSERS className='mr-1' />
-      </div>
-      <div>
-        {followedUsers.length > 3 ? (
-          <>
-            {followedUsers.slice(0, 3).map((user, i) => {
-              const avatar = user.avatar;
-              const username = user.username;
-              return (
-                <Link to={`/following?id=${user._id}`} key={i}>
-                  <img
-                    src={avatar}
-                    alt={username}
-                    className='x-tiny-round mr-1'
-                  />
-                </Link>
-              );
-            })}
-            <Link to='/following'>+{followedUsers.length - 3}</Link>
-          </>
-        ) : followedUsers.length > 0 ? (
-          followedUsers.map((user, i) => {
-            const avatar = user.avatar;
-            const username = user.username;
-            return (
-              <Link to={`/following?id=${user._id}`} key={i}>
-                <img
-                  src={avatar}
-                  alt={username}
-                  className='x-tiny-round mr-1'
-                />
-              </Link>
-            );
-          })
-        ) : (
-          <></>
-        )}
       </div>
     </div>
   );

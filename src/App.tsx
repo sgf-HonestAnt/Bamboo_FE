@@ -9,6 +9,7 @@ import RegisterPage from "./pages/Register";
 import LoginPage from "./pages/Login";
 import MainBody from "./pages/Main";
 import "./styles/universal.css";
+import "./styles/cards.css"
 import "./styles/forms.css"
 import "./styles/badges.css"
 import "bootstrap/dist/css/bootstrap.min.css";

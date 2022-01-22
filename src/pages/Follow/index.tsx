@@ -34,7 +34,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const allTasks = awaited.concat(in_progress, completed);
   const { customColors } = state.currentSettings;
   const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
-    const { history, location } = props;
+  const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
   const isgt595 = useMediaQuery({ query: "(min-width: 595px)" });
@@ -102,7 +102,7 @@ export default function FollowingPage(props: FollowingPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-  console.log("TEAM")
+  console.log("TEAM");
   return (
     <Container fluid>
       <Row className='p-3'>
@@ -113,7 +113,7 @@ export default function FollowingPage(props: FollowingPageProps) {
         {usersToShow?.map((u, i) => (
           <Col
             key={i}
-            className={`bamboo-card-x-dark m-1 p-2 ${
+            className={`bamboo-card-x-dark m-1 py-2 ${
               isgt1330
                 ? "col-2"
                 : isgt975
@@ -132,7 +132,7 @@ export default function FollowingPage(props: FollowingPageProps) {
               total_awaited={u.total_awaited}
               total_in_progress={u.total_in_progress}
             />
-            <Card.Title>{u.username} </Card.Title>
+            <h5>{u.username}</h5>
             {!location.search.includes("?id=") ? (
               <Link to={`/following?id=${u._id}`}>View Tasks Shared</Link>
             ) : (
@@ -147,12 +147,11 @@ export default function FollowingPage(props: FollowingPageProps) {
                   task.sharedWith?.includes(usersToShow[0]._id)
                 ).length === 1
                   ? ""
-                  : "s"}
-                  {" "}
+                  : "s"}{" "}
                 Shared
               </>
             )}
-            <div className='dashboard__profile-card__bio m-2'>{u.bio}</div>
+            <div className='py-2'>{u.bio}</div>
             {/* <div className='rewards'>
               {u.admin && (
                 <Image
@@ -165,9 +164,9 @@ export default function FollowingPage(props: FollowingPageProps) {
                 />
               )}
             </div> */}
-            <div className='mb-2'>
+            <div className='py-2'>
               {/* {u.admin && "Admin: "} */}
-              {getUserRole(u.level)}
+              <h5>{getUserRole(u.level)}</h5>
             </div>
             {/* {u.admin && (
               <>
@@ -181,7 +180,7 @@ export default function FollowingPage(props: FollowingPageProps) {
               value={`${u._id} ${u.username}`}
               handleClick={sendGift}
             />
-            <div className='my-2'>
+            <div className='py-2'>
               {u.rewards &&
                 u.rewards
                   .filter((item) => item.available < 1)

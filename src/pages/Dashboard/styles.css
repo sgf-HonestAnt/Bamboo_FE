@@ -103,14 +103,11 @@
   font-weight: 600;
   text-align: center;
 }
-.dashboard__profile-card__holder-xp {
-  font-size: 18px;
-  font-weight: 500;
-  text-align: center;
-  text-size-adjust: 100%;
-}
 .dashboard__profile-card__form {
   text-align: center;
+}
+.dashboard__profile-card__level h3 {
+  border-right: 1px solid hsla(var(--bottle-green), 0.3) !important;
 }
 .dashboard__profile-card__bio {
   background-color: hsla(var(--mint-cream), 1) !important;
@@ -220,9 +217,9 @@
   max-height: 70vh;
 }
 .dashboard__activities__img {
-  width: 35px;
+  width: 35px; 
   height: 35px;
-  border-radius: 50%;
+  border-radius: 50%; 
   float: left;
 }
 /* .dashboard__alerts-card {

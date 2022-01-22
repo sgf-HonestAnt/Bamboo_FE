@@ -46,6 +46,7 @@ const schema = yup.object().shape({
   title: yup
     .string()
     .required("No title provided.")
+    .min(1, "No title provided.")
     .max(30, "Title cannot exceed 30 chars."),
   value: yup
     .number()
@@ -107,7 +108,16 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       : my_user.avatar;
   // const { min, max } = getMinMaxDateAsString(new Date());
   const [showWarning, setShowWarning] = useState(false);
-  const [changed, setChanged] = useState(false);
+  const [changed, setChanged] = useState<{
+    title: boolean;
+    value: boolean;
+    category: boolean;
+  }>({
+    title: false,
+    value: false,
+    category: false,
+  });
+  console.log(changed);
   const removeUserFromShared = () => {
     console.log("remove user...");
     // e.preventDefault();
@@ -115,12 +125,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     // const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
     // setForm({ ...form, sharedWith: updatedSharedUsers });
   };
-  const [formToSubmit, setFormToSubmit] = useState({});
   const handleChangeFormik = async (id: string, value: any) => {
     console.log(id, value);
   };
   const handleSubmitFormik = async (e: any) => {
     console.log("submitting to post or edit=>", e);
+    console.log(e.sharedWith.selectedOptions);
     const { repeatedRadio, sharedRadio, repeats } = e;
     e.repeated = repeatedRadio;
     e.shared = sharedRadio;
@@ -195,7 +205,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
         );
         handleClose();
-        setChanged(false);
+        setChanged({ title: false, value: false, category: false });
       }
     } catch (error) {
       console.log(error);
@@ -251,7 +261,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     }
   };
   const handleCloseModal = () => {
-    setChanged(false);
+    setChanged({ title: false, value: false, category: false });
     handleClose();
   };
   // if (taskId) {
@@ -269,13 +279,21 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           <Modal.Body>
             <ul>
               {taskSet.deadline && (
-                <li>Deadline: {getShortDateAsString(taskSet.deadline)}</li>
+                <li className='py-1'>
+                  Deadline: {getShortDateAsString(taskSet.deadline)}
+                </li>
               )}
-              {taskSet.category && <li>Category: {taskSet.category}</li>}
-              {taskSet.desc && <li>Description: {taskSet.desc}</li>}
-              {taskSet.repeats && <li>Repeats: {taskSet.repeats}</li>}
+              {taskSet.category && (
+                <li className='py-1'>Category: {taskSet.category}</li>
+              )}
+              {taskSet.desc && (
+                <li className='py-1'>Description: {taskSet.desc}</li>
+              )}
+              {taskSet.repeats && (
+                <li className='py-1'>Repeats: {taskSet.repeats}</li>
+              )}
               {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
-                <li>
+                <li className='py-1'>
                   Shared with:
                   <br />
                   {taskSet.sharedWith
@@ -289,7 +307,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             <img
                               src={avatar}
                               alt={username}
-                              className='x-tiny-round mr-1'
+                              className='dotted-border x-tiny-round mr-1'
                             />
                             {username}
                           </Link>
@@ -298,7 +316,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     })}
                 </li>
               ) : (
-                <li>Shared with: not shared</li>
+                <li className='py-1'>Shared with: not shared</li>
               )}
             </ul>
           </Modal.Body>
@@ -345,15 +363,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
         </>
       ) : (
         <>
-          <Modal.Header>
-            <Modal.Title>
-              {!taskSet ? "Add new task" : "Edit a task"}
-            </Modal.Title>
-          </Modal.Header>
           <Modal.Body>
             {taskSet && (
-              <div>
-                <img src={avatar} alt='' className='x-tiny-round' />{" "}
+              <div className='px-2 pb-3'>
+                <img src={avatar} alt='' className='dotted-border x-tiny-round' />{" "}
                 <strong>
                   {taskSet.createdBy !== my_user._id
                     ? getUsernameById(followedUsers, taskSet.createdBy)
@@ -399,93 +412,89 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 errors,
               }) => (
                 <>
-                  <Form onSubmit={handleSubmit}>
-                    <Row className='m-0'>
-                      <Col className='px-0 mr-1'>
-                        <Form.Group controlId='title' className='py-2'>
-                          <Form.Label>
-                            {taskSet
+                  <Form onSubmit={handleSubmit} className='px-2'>
+                    <h4 className='py-1'>
+                      {!taskSet ? "Add new task" : "Edit a task"}
+                    </h4>
+                    <Form.Group controlId='title' className='py-1'>
+                      <Form.Label>
+                        {taskSet ? "Edit name (optional)." : "Name your task."}
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          type='text'
+                          value={values.title}
+                          placeholder={
+                            errors.title
+                              ? errors.title
+                              : values.title
+                              ? values.title
+                              : 'for e.g. "Solve World Hunger"'
+                          }
+                          aria-describedby={
+                            taskSet
                               ? "Edit name (optional)."
-                              : "Name your task."}
-                          </Form.Label>
-                          <InputGroup hasValidation>
-                            <Form.Control
-                              type='text'
-                              value={values.title}
-                              placeholder={
-                                values.title
-                                  ? values.title
-                                  : 'for e.g. "Solve World Hunger"'
-                              }
-                              aria-describedby={
-                                taskSet
-                                  ? "Edit name (optional)."
-                                  : "Name your task."
-                              }
-                              onChange={(e) => {
-                                if (!changed) {
-                                  setChanged(true);
-                                }
-                                handleChange(e);
-                              }}
-                              isInvalid={!!errors.title}
-                            />
-                            <Form.Control.Feedback type='invalid'>
-                              {errors.title}
-                            </Form.Control.Feedback>
-                          </InputGroup>
-                        </Form.Group>
-                      </Col>
-                      <Col className='px-0 ml-1'>
-                        <Form.Group controlId='value' className='py-2'>
-                          <Form.Label>
-                            {taskSet
+                              : "Name your task."
+                          }
+                          onChange={(e) => {
+                            if (values.title !== undefined) {
+                              setChanged({ ...changed, title: true });
+                            }
+                            handleChange(e);
+                          }}
+                          isInvalid={!!errors.title}
+                        />
+                        {/* <Form.Control.Feedback type='invalid'>
+                          {errors.title}
+                        </Form.Control.Feedback> */}
+                      </InputGroup>
+                    </Form.Group>
+                    <Form.Group controlId='value' className='py-1'>
+                      <Form.Label>
+                        {taskSet
+                          ? "Edit value (optional)."
+                          : "What's its value?"}
+                      </Form.Label>
+                      <InputGroup hasValidation>
+                        <Form.Control
+                          as='select'
+                          defaultValue={taskSet ? taskSet.value : 0}
+                          aria-describedby={
+                            taskSet
                               ? "Edit value (optional)."
-                              : "What's its value?"}
-                          </Form.Label>
-                          <InputGroup hasValidation>
-                            <Form.Control
-                              as='select'
-                              defaultValue={taskSet ? taskSet.value : "DEFAULT"}
-                              aria-describedby={
-                                taskSet
-                                  ? "Edit value (optional)."
-                                  : "What's its value?"
-                              }
-                              onChange={(e) => {
-                                if (!changed) {
-                                  setChanged(true);
-                                }
-                                handleChange(e);
-                              }}
-                              isInvalid={!!errors.value}
-                              // hasValidation
-                            >
-                              <option value='DEFAULT' disabled>
-                                Select a value
+                              : "What's its value?"
+                          }
+                          onChange={(e) => {
+                            setChanged({ ...changed, value: true });
+                            handleChange(e);
+                          }}
+                          isInvalid={!!errors.value}
+                          // hasValidation
+                        >
+                          <option value={0} disabled>
+                            Select a value
+                          </option>
+                          {TASK_VALUES.map((script, i) => {
+                            let value = 10 * (i + 1);
+                            return (
+                              <option
+                                key={i}
+                                value={value}
+                                //   selected={form.value === value}
+                              >
+                                {value}XP: {script}
                               </option>
-                              {TASK_VALUES.map((script, i) => {
-                                let value = 10 * (i + 1);
-                                return (
-                                  <option
-                                    key={i}
-                                    value={value}
-                                    //   selected={form.value === value}
-                                  >
-                                    {value}XP: {script}
-                                  </option>
-                                );
-                              })}
-                            </Form.Control>
-                            <Form.Control.Feedback type='invalid'>
-                              {errors.value}
-                            </Form.Control.Feedback>
-                          </InputGroup>
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    {values.category !== "new" ? (
-                      <Form.Group controlId='category' className='py-2'>
+                            );
+                          })}
+                        </Form.Control>
+                        {/* <Form.Control.Feedback type='invalid'>
+                          {errors.value}
+                        </Form.Control.Feedback> */}
+                      </InputGroup>
+                    </Form.Group>
+                    {values.category !== "new" ||
+                    (taskSet && values.category === "new") ? (
+                      <Form.Group controlId='category' className='py-1'>
                         <Form.Label>
                           {taskSet
                             ? "Edit category (optional)."
@@ -503,12 +512,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                                 : "Choose a category."
                             }
                             onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
+                              if (values.category !== undefined) {
+                                setChanged({ ...changed, category: true });
                               }
                               handleChange(e);
                             }}
-                            isInvalid={!!errors.value}
+                            isInvalid={!!errors.category}
                             // hasValidation
                           >
                             <option value='DEFAULT' disabled>
@@ -556,9 +565,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               </>
                             )}
                           </Form.Control>
-                          <Form.Control.Feedback type='invalid'>
+                          {/* <Form.Control.Feedback type='invalid'>
                             {errors.category}
-                          </Form.Control.Feedback>
+                          </Form.Control.Feedback> */}
                           {/* {()=>{
                           if (value === "new") 
                           {console.log(value)}
@@ -566,7 +575,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         </InputGroup>
                       </Form.Group>
                     ) : (
-                      <Form.Group controlId='newCategory' className='py-2'>
+                      <Form.Group controlId='newCategory' className='py-1'>
                         <Form.Label>Create new category.</Form.Label>
                         <InputGroup hasValidation>
                           <Form.Control
@@ -574,16 +583,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             value={values.newCategory}
                             placeholder='for e.g. "Knitting"'
                             aria-describedby='create new category'
-                            onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
-                              }
-                              handleChangeFormik(
-                                "category",
-                                values.newCategory
-                              );
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                             isInvalid={!!errors.newCategory}
                           />
                           <Form.Control.Feedback type='invalid'>
@@ -592,7 +592,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         </InputGroup>
                       </Form.Group>
                     )}
-                    <Form.Group controlId='desc' className='py-2'>
+                    <Form.Group controlId='desc' className='py-1'>
                       <Form.Label>
                         {taskSet
                           ? "Edit description (optional)."
@@ -608,19 +608,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               ? taskSet.desc
                               : 'for e.g. "Put food before trade, find balance with nature&apos;s systems"'
                           }
-                          aria-describedby={taskSet
-                            ? "Edit description (optional)."
-                            : "Describe your task (optional)."}
-                          onChange={(e) => {
-                            if (!changed) {
-                              setChanged(true);
-                            }
-                            setFormToSubmit({
-                              ...formToSubmit,
-                              desc: values.desc,
-                            });
-                            handleChange(e);
-                          }}
+                          aria-describedby={
+                            taskSet
+                              ? "Edit description (optional)."
+                              : "Describe your task (optional)."
+                          }
+                          onChange={handleChange}
                           isInvalid={!!errors.desc}
                         />
                         <Form.Control.Feedback type='invalid'>
@@ -629,7 +622,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </InputGroup>
                     </Form.Group>
                     {!taskSet && (
-                      <Form.Group controlId='deadline' className='py-2'>
+                      <Form.Group controlId='deadline' className='py-1'>
                         <Form.Label>Give it a deadline (optional).</Form.Label>
                         <InputGroup hasValidation>
                           <Form.Control
@@ -637,16 +630,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             aria-describedby='Give it a deadline (optional)'
                             min={min}
                             max={max}
-                            onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
-                              }
-                              setFormToSubmit({
-                                ...formToSubmit,
-                                deadline: values.deadline,
-                              });
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                             isInvalid={!!errors.deadline}
                           />
                           <Form.Control.Feedback type='invalid'>
@@ -656,10 +640,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       </Form.Group>
                     )}
                     {taskSet ? (
-                      <ul>
+                      <ul className='pt-2'>
                         {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
                           <>
-                            <li>Any edits you make will be shared with</li>
+                            <li className='py-1'>
+                              Any edits you make will be shared with
+                            </li>
                             <div className='ml-3'>
                               {taskSet.sharedWith
                                 .filter((id) => id !== my_user._id)
@@ -675,35 +661,41 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                                   );
                                 })}
                             </div>
-                            <li>
+                            <li className='py-1'>
                               You will only accrue Bamboo Points if you complete
                               it.
                             </li>
                           </>
                         ) : taskSet.type === TEAM ? (
-                          <li>
+                          <li className='py-1'>
                             This task is no longer shared because other users
                             have removed themselves.
                           </li>
                         ) : (
-                          <li>This task is not shared.</li>
+                          <li className='py-1'>This task is not shared.</li>
                         )}
                         {taskSet.createdBy !== my_user._id ? (
-                          <li>You can remove yourself from this task.</li>
+                          <li className='py-1'>
+                            You can remove yourself from this task.
+                          </li>
                         ) : (
-                          <li>Only you can delete this task.</li>
+                          <li className='py-1'>
+                            Only you can delete this task.
+                          </li>
                         )}
                         {taskSet.repeats === NEVER ? (
-                          <li>This task is never repeated.</li>
+                          <li className='py-1'>This task is never repeated.</li>
                         ) : (
-                          <li>This task is repeated {taskSet.repeats}.</li>
+                          <li className='py-1'>
+                            This task is repeated {taskSet.repeats}.
+                          </li>
                         )}
                       </ul>
                     ) : !values.repeatedRadio ? (
                       <Form.Group
                         controlId='repeated'
                         aria-describedby='does it repeat?'
-                        className='py-2'>
+                        className='py-1'>
                         <Form.Label>Does it repeat?</Form.Label>
                         <InputGroup hasValidation>
                           <div className='mb-3'>
@@ -714,13 +706,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               type='radio'
                               value='yes'
                               onChange={(e) => {
-                                if (!changed) {
-                                  setChanged(true);
-                                }
-                                setFormToSubmit({
-                                  ...formToSubmit,
-                                  repeated: values.repeated,
-                                });
                                 handleChange(e);
                               }}
                             />
@@ -730,16 +715,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               name='repeatedRadio'
                               type='radio'
                               value='no'
-                              onChange={(e) => {
-                                if (!changed) {
-                                  setChanged(true);
-                                }
-                                setFormToSubmit({
-                                  ...formToSubmit,
-                                  repeated: values.repeated,
-                                });
-                                handleChange(e);
-                              }}
+                              onChange={handleChange}
                             />
                           </div>
                           <Form.Control.Feedback type='invalid'>
@@ -752,7 +728,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       values.repeats !== "other" ? (
                       <Form.Group
                         controlId='repeats'
-                        className='py-2'
+                        className='py-1'
                         aria-describedby='how often?'>
                         <Form.Label>How often?</Form.Label>
                         <InputGroup hasValidation>
@@ -762,12 +738,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               // taskSet ? taskSet.repeats :
                               "DEFAULT"
                             }
-                            onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
-                              }
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                             isInvalid={!!errors.repeats}
                             // hasValidation
                           >
@@ -788,17 +759,12 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     ) : values.repeats === "other" ? (
                       <Row>
                         <Col sm={6}>
-                          <Form.Group controlId='repeatsOther' className='py-2'>
+                          <Form.Group controlId='repeatsOther' className='py-1'>
                             Task Repeats...
                             <InputGroup hasValidation>
                               <Form.Control
                                 as='select'
-                                onChange={(e) => {
-                                  if (!changed) {
-                                    setChanged(true);
-                                  }
-                                  handleChange(e);
-                                }}
+                                onChange={handleChange}
                                 defaultValue='1'
                                 aria-describedby='task repeats'
                                 isInvalid={!!errors.repeatsOther}>
@@ -818,18 +784,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                           <Form.Group
                             as={Row}
                             controlId='repetitions'
-                            className='py-2'>
+                            className='py-1'>
                             <Col>
                               For a total of ... reps
                               <InputGroup hasValidation>
                                 <Form.Control
                                   type='text'
-                                  onChange={(e) => {
-                                    if (!changed) {
-                                      setChanged(true);
-                                    }
-                                    handleChange(e);
-                                  }}
+                                  onChange={handleChange}
                                   value={values.repetitions}
                                   isInvalid={!!errors.repetitions}
                                 />
@@ -845,7 +806,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       <Form.Group
                         controlId='shared'
                         aria-describedby='is it shared?'
-                        className='py-2'>
+                        className='py-1'>
                         <Form.Label>Is it shared?</Form.Label>
                         <div className='mb-3'>
                           <Form.Check
@@ -854,12 +815,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             name='sharedRadio'
                             type='radio'
                             value='yes'
-                            onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
-                              }
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                           />
                           <Form.Check
                             inline
@@ -867,21 +823,16 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             name='sharedRadio'
                             type='radio'
                             value='no'
-                            onChange={(e) => {
-                              if (!changed) {
-                                setChanged(true);
-                              }
-                              handleChange(e);
-                            }}
+                            onChange={handleChange}
                           />
                         </div>
                       </Form.Group>
                     ) : values.sharedRadio === "yes" ? (
-                      <Form.Group controlId='sharedWith' className='py-2'>
+                      <Form.Group controlId='sharedWith' className='py-1'>
                         <Form.Label>
                           Who would you like to share it with?
                         </Form.Label>
-                        {values.sharedWith.length > 0 && (
+                        {/* {values.sharedWith.length > 0 && (
                           <Form.Text>
                             {values.sharedWith.map((id) => {
                               const username = getUsernameById(
@@ -899,11 +850,43 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               );
                             })}
                           </Form.Text>
-                        )}
+                        )} */}
                         <Form.Control
-                          required
                           as='select'
+                          aria-label='Who would you like to share it with?'
+                          // isInvalid={!!errors.sharedWith}
                           onChange={handleChange}
+                          multiple
+                          // value={field}
+                        >
+                          <option value='DEFAULT' disabled>
+                            Select a user
+                          </option>
+                          {followedUsers.map((u, i) => (
+                            <option
+                              key={i}
+                              value={`${u._id}/${u.username}`}
+                              // onSelect={(e) => {
+                              //   if (!changed) {
+                              //     setChanged(true);
+                              //   }
+                              //   console.log(values.sharedWith);
+                              //   handleSelectFormik(e);
+                              // }}
+                            >
+                              {u.username}
+                            </option>
+                          ))}
+                        </Form.Control>
+                        {/* <Form.Control
+                          as='select'
+                          onChange={(e) => {
+                            if (!changed) {
+                              setChanged(true);
+                            }
+                            console.log(e);
+                            handleChange(e);
+                          }}
                           aria-describedby='who would you like to share it with?'
                           defaultValue={["DEFAULT"]}
                           isInvalid={!!errors.sharedWith}
@@ -918,7 +901,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               {u.username}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Control> */}
                         {followedUsers.length < 1 && (
                           <Form.Text id='sharedWithHelpBlock' muted>
                             No one to share with? Add users at the 'following'
@@ -932,7 +915,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     ) : (
                       <></>
                     )}
-                    <div className='py-3'>
+                    <div className='py-1'>
                       {
                         // taskSet && !changed ? (
                         //   <Button variant='primary' className="mx-1" type='submit' disabled>
@@ -946,12 +929,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             type='submit'>
                             Edit task
                           </Button>
+                        ) : !changed.title ||
+                          !changed.category ||
+                          !changed.value ? (
+                          <Button variant='primary' type='submit' disabled>
+                            Save task
+                          </Button>
                         ) : (
-                          // !changed ? (
-                          //   <Button variant='primary' type='submit' disabled>
-                          //     Save task
-                          //   </Button>
-                          // ) :
                           <Button
                             variant='primary'
                             className='mx-1'

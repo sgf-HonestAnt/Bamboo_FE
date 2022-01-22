@@ -82,7 +82,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
       className={`${dashClass} px-3 py-1 m-0 mb-2`}>
       {notifLength > 0 && isTask ? (
         <span>
-          <img src={avatar} alt={username} className='img-fluid x-tiny-round' />
+          <img src={avatar} alt={username} className='img-fluid dotted-border x-tiny-round' />
           <strong>{username}</strong> included you in a shared task: "{title}
           ". Do you accept? <br />
           <AcceptButton handleClick={handleAcceptTask} />

@@ -72,11 +72,13 @@ export default function RegisterPage({ history }: RouteComponentProps) {
   console.log("REGISTRATION PAGE");
   return (
     <Container fluid>
-      <Row className='registration-form'>
-        <Col sm={4}>
-          <Card>
+      <Row className='registration-form px-1'>
+        <Col
+          sm={4}
+          className='col-12 col-sm-8 col-md-6 col-lg-4 px-0 register-form__col'>
+          <Card className='bamboo-card px-4 pb-0 pt-1 m-0' id='register-card'>
             <Card.Body>
-              <h1>Join Bamboo</h1>
+              <h1 className='pb-1 align-left'>Join Bamboo</h1>
               <Formik
                 validationSchema={schema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -106,7 +108,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       as={Row}
                       controlId='first_name'
                       className='py-1'>
-                      <Form.Label column sm='3'>
+                      <Form.Label column sm='3' className="align-left">
                         First name
                       </Form.Label>
                       <Col>
@@ -127,7 +129,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='last_name' className='py-1'>
-                      <Form.Label column sm='3'>
+                      <Form.Label column sm='3' className="align-left">
                         Last name
                       </Form.Label>
                       <Col>
@@ -148,7 +150,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='username' className='py-1'>
-                      <Form.Label column sm='3'>
+                      <Form.Label column sm='3' className="align-left">
                         Username
                       </Form.Label>
                       <Col>
@@ -170,7 +172,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='email' className='py-1'>
-                      <Form.Label column sm='3'>
+                      <Form.Label column sm='3' className="align-left">
                         Email
                       </Form.Label>
                       <Col>
@@ -191,7 +193,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='password' className='py-1'>
-                      <Form.Label column sm='3'>
+                      <Form.Label column sm='3' className="align-left">
                         Password
                       </Form.Label>
                       <Col>
