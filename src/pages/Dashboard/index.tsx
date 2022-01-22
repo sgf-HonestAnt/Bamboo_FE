@@ -33,11 +33,19 @@ export default function DashboardPage(props: DashboardPageProps) {
   const { history, location } = props;
   const [search, setSearch] = useState("");
   // ****************************MEDIA********************************************
-  const isDesktopOrLaptop = useMediaQuery({
-    query: "(min-width: 1224px)",
+  const isGt1660 = useMediaQuery({
+    query: "(min-width: 1660px)",
   });
-  const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  const isGt1500 = useMediaQuery({
+    query: "(min-width: 1390px)",
+  });
+  const isGt1390 = useMediaQuery({
+    query: "(min-width: 1390px)",
+  });
+  const isGt999 = useMediaQuery({ query: "(min-width: 999px)" });
+  const isGt755 = useMediaQuery({ query: "(min-width: 755px)" });
+  const isGt580 = useMediaQuery({ query: "(max-width: 580px)" });
+
   // ****************************MEDIA********************************************
   // const isMobileDevice = useMediaQuery({
   //   query: "(max-width: 560px)",
@@ -68,25 +76,25 @@ export default function DashboardPage(props: DashboardPageProps) {
   //   "isbig=>",
   //   isBigScreen,
   //   "isdesktop=>",
-  //   isDesktopOrLaptop,
+  //   isGt1500,
   //   "istablet=>",
-  //   isTabletOrMobile,
+  //   isGt999,
   //   "issmallertablet=>",
   //   isSmallerTabletOrMobile
   // );
   // console.log("length at dashboard=>", currLength);
-  console.log("DASHBOARD")
-  return isBigScreen ? (
+  console.log("DASHBOARD", !isGt580);
+  return isGt1660 ? (
     <Container fluid>
-      <Row className='dashboard px-1'>
-        <Col className='col-3 dashboard__left-col'>
+      <Row className='dashboard'>
+        <Col className='col-3 dashboard__left-col p-3'>
           <Row className='p-0'>
-            <Col className='col-12 p-3'>
+            <Col className='col-12'>
               {notification.length > 0 && <DashNotifications />}
               {/* {location.pathname === "/user-settings" ? (
                 <ProfileSettings history={history} isBigScreen={isBigScreen} />
               ) : ( */}
-              <DashProfileCard history={history} isBigScreen={isBigScreen} />
+              <DashProfileCard history={history} />
               {/* )} */}
               {admin && (
                 <Link to='/admin-dash'>
@@ -97,13 +105,13 @@ export default function DashboardPage(props: DashboardPageProps) {
               )}
             </Col>
             {location.pathname !== "/stats" && (
-              <Col className='col-12 px-3 pb-3'>
+              <Col className='col-12 px-3 pt-3'>
                 <DashStats />
               </Col>
             )}
           </Row>
         </Col>
-        <Col className='col-7 dashboard__center-col p-0'>
+        <Col className='dashboard__center-col p-0'>
           <Row className='py-3'>
             <Col className='col-12'>
               <FindFollows
@@ -131,16 +139,14 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
           </Row>
         </Col>
-        <Col className='col dashboard__right-col p-0'>
-          <Row className='pl-3'>
-            <Col className='px-3'>
-              <Achievements />
-            </Col>
-          </Row>
+        <Col className='col-2 dashboard__right-col p-0'>
+          <div className='pl-3'>
+            <Achievements />
+          </div>
         </Col>
       </Row>
     </Container>
-  ) : isDesktopOrLaptop ? (
+  ) : isGt1500 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
@@ -209,16 +215,16 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : isTabletOrMobile && !isSmallerTabletOrMobile ? (
+  ) : isGt1390 ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-4 dashboard__left-col'>
+        <Col className='col-3 dashboard__left-col'>
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
               {/* {location.pathname === "/user-settings" ? (
-                <ProfileSettings history={history} />
-              ) : ( */}
+              <ProfileSettings history={history} />
+            ) : ( */}
               <DashProfileCard history={history} />
               {/* )} */}
               {admin && (
@@ -263,6 +269,94 @@ export default function DashboardPage(props: DashboardPageProps) {
               )}{" "}
             </Col>
           </Row>
+        </Col>
+        <Col className='col-2 dashboard__right-col p-0'>
+          <Row className='p-0 pl-3'>
+            <Col>
+              <Achievements />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
+  ) : isGt999 ? (
+    <Container fluid>
+      <Row className='dashboard pt-3'>
+        <Col className='col-12'>
+          <FindFollows
+            history={history}
+            search={search}
+            setSearch={setSearch}
+          />
+        </Col>
+        <Col className='col-4 pt-3 pl-3 pr-3 pb-0'>
+          {notification.length > 0 && <DashNotifications />}
+          {/* {location.pathname === "/user-settings" ? (
+            <ProfileSettings history={history} />
+          ) : ( */}
+          <DashProfileCard history={history} />
+          {/* )} */}
+          {admin && (
+            <Link to='/admin-dash'>
+              <Button variant='info' className='dashboard__admin-card'>
+                Go to Admin
+              </Button>
+            </Link>
+          )}
+          {notification.length < 1 && location.pathname !== "/stats" && (
+            <Col className='col-12 p-0 my-3'>
+              <DashStats />
+            </Col>
+          )}
+        </Col>
+        <Col className='p-0 pt-3'>
+          {location.pathname === "/dash" ? (
+            <AtAGlance today={today} history={history} location={location} />
+          ) : (
+            <AtAGlanceStats
+              today={today}
+              history={history}
+              location={location}
+            />
+          )}{" "}
+        </Col>
+      </Row>
+    </Container>
+  ) : !isGt580 ? (
+    <Container fluid>
+      <Row className='dashboard pt-3'>
+        <Col className='col-12'>
+          <FindFollows
+            history={history}
+            search={search}
+            setSearch={setSearch}
+          />
+        </Col>
+        <Col className={`${isGt755 ? "col-6" : "col-12"} pt-3 pl-3 pr-3 pb-0`}>
+          {notification.length > 0 && <DashNotifications />}
+          {/* {location.pathname === "/user-settings" ? (
+            <ProfileSettings history={history} />
+          ) : ( */}
+          <DashProfileCard history={history} />
+          {/* )} */}
+          {admin && (
+            <Link to='/admin-dash'>
+              <Button variant='info' className='dashboard__admin-card'>
+                Go to Admin
+              </Button>
+            </Link>
+          )}
+        </Col>
+        <Col className='pr-3 pb-3 ${isGt755 ? "pt-3 pl-0" : "pt-2 pl-3"}'>
+          {location.pathname === "/dash" ? (
+            <AtAGlance today={today} history={history} location={location} />
+          ) : (
+            <AtAGlanceStats
+              today={today}
+              history={history}
+              location={location}
+            />
+          )}{" "}
         </Col>
       </Row>
     </Container>

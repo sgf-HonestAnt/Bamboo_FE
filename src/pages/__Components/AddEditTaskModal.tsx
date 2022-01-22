@@ -117,7 +117,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     value: false,
     category: false,
   });
-  console.log(changed);
   const removeUserFromShared = () => {
     console.log("remove user...");
     // e.preventDefault();
