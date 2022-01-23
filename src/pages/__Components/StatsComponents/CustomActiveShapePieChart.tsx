@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { PieChart, Pie, Sector } from "recharts";
 import { genericTaskInt } from "../../../typings/interfaces";
+import { CUSTOM_COLORS } from "../../../utils/const/arr";
 
 const renderActiveShape = (props: any) => {
   //const RADIAN = Math.PI / 180;
@@ -78,16 +79,12 @@ type CustomActiveShapePieChartProps = {
   stat: string;
   width?: number;
   height?: number;
-  cx?: number;
-  cy?: number;
-  innerRadius?: number;
-  outerRadius?: number;
 };
 
 export default function CustomActiveShapePieChart(
   props: CustomActiveShapePieChartProps
 ) {
-  const { data, width, height, cx, cy, innerRadius, outerRadius } = props;
+  const { data, width, height } = props;
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = useCallback(
     (_, index) => {
@@ -95,18 +92,18 @@ export default function CustomActiveShapePieChart(
     },
     [setActiveIndex]
   );
-
+  const fillColor = CUSTOM_COLORS[6];
   return (
-    <PieChart width={width || 350} height={height || 350} className='m-auto'>
+    <PieChart width={width || 200} height={height || 200} className='m-auto'>
       <Pie
         activeIndex={activeIndex}
         activeShape={renderActiveShape}
         data={data}
-        cx={cx || 90}
-        cy={cy || 90}
-        innerRadius={innerRadius || 60}
-        outerRadius={outerRadius || 80}
-        fill='#8884d8'
+        cx='50%'
+        cy='50%'
+        innerRadius={60}
+        outerRadius={85}
+        fill={fillColor}
         dataKey='total'
         onMouseEnter={onPieEnter}
       />

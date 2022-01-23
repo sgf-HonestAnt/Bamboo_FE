@@ -33,28 +33,30 @@ type PieChartWithCustomizedLabelProps = {
   stat: string;
   width?: number;
   height?: number;
-  cx?: number;
-  cy?: number;
   labelLine?: boolean;
 };
 
 export default function PieChartWithCustomizedLabel(
   props: PieChartWithCustomizedLabelProps
 ) {
-  const { data, colors, width, height, cx, cy, labelLine } = props;
+  const { data, colors, width, height, labelLine } = props;
+  const twoColors = [colors[2],colors[15]]
   return (
-    <PieChart width={width || 350} height={height || 350} className='pieChart m-auto'>
+    <PieChart
+      width={width || 200}
+      height={height || 200}
+      className='m-auto'>
       <Pie
         data={data}
-        cx={cx || 100}
-        cy={cy || 100}
+        cx='50%'
+        cy='50%'
         labelLine={labelLine || false}
         label={renderCustomizedLabel}
-        outerRadius={80}
+        outerRadius={95}
         fill='#8884d8'
         dataKey='total'>
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+          <Cell key={`cell-${index}`} fill={twoColors[index % twoColors.length]} />
         ))}
       </Pie>
     </PieChart>

@@ -4,7 +4,7 @@ import { dataInt, reduxStateInt } from "../../../typings/interfaces";
 import { Row, Col, Card } from "react-bootstrap";
 import { getDayMonthYearAsString } from "../../../utils/funcs/f_dates";
 import { FiCalendar } from "react-icons/fi";
-// import { useMediaQuery } from "react-responsive";
+import { useMediaQuery } from "react-responsive";
 import { useEffect, useState } from "react";
 import {
   createDataForTagCloud,
@@ -23,11 +23,12 @@ import MixedBarChart from "../StatsComponents/MixedBarChart";
 import SimpleCloud from "../StatsComponents/SimpleCloud";
 import SimpleBarChart from "../StatsComponents/SimpleBarChart";
 import PieChartWithPaddingAngle from "../StatsComponents/PieChartWithPaddingAngle";
-import { STATUS_COLORS } from "../../../utils/const/str";
 import PieChartWithCustomizedLabel from "../StatsComponents/PieChartWithCustomizedLabel";
 import CustomActiveShapePieChart from "../StatsComponents/CustomActiveShapePieChart";
 import { Link } from "react-router-dom";
 import DashChallCard from "./ChallengeCard";
+import { ResponsiveContainer } from "recharts";
+import { CUSTOM_COLORS } from "../../../utils/const/arr";
 
 type AtAGlanceStatsProps = {
   today: string;
@@ -41,6 +42,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   const { categories, awaited, in_progress, completed } = currentTasks;
   const { total_xp } = state.currentUser.my_user;
   const allTasks = awaited.concat(in_progress, completed);
+  const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
   const [taskData, setTaskData] = useState<dataInt>({
     allByStatus: [],
     allByCategory: [],
@@ -76,13 +78,15 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   // const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   // const TYPE_COLORS = ["#000", "#FFF"];
   //const timeSpecific = "overall"; // this week / last week
+  const statsPieCards = `m-0 p-0 ${isLt1238 ? "col-6" : "col-4"}`;
+  const statsGraphsCards = `m-0 p-0 ${isLt1238 ? "col-12" : "col-6"}`;
   useEffect(() => {
     mapData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return !loading ? (
-    <div className='dashboard__at-a-glance-stats m-2'>
+    <div className={`dashboard__at-a-glance-stats ${isLt1238 ? "p-3" : "p-2"}`}>
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
@@ -100,38 +104,27 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
         </Col>
       </Row>
       {total_xp > 0 || awaited.length > 0 || in_progress.length > 0 ? (
-        <Row>
-          {/* <Col sm={12} className='m-0 p-0'>
+        <>
+          <Row>
+            {/* <Col sm={12} className='m-0 p-0'>
             <Card className='stats-card dashboard__dash-stats'>
               <Card.Body>
                 <SimpleCloud history={props.history} data={taskData.tagCloud} />
               </Card.Body>
-            </Card>
+            </Card>  
           </Col> */}
-          <Col sm={12} md={4} className='m-0 p-0'>
-            <Card className='border-0 dashboard__dash-stats'>
-              <div className='stats-card'>
-                <PieChartWithPaddingAngle
-                  deg360={true}
-                  data={taskData.allByStatus}
-                  colors={STATUS_COLORS}
-                  stat='status'
-                  width={200}
-                  height={200}
-                  innerRadius={40}
-                  outerRadius={80}
-                />
-              </div>
-              <Card.Body className='m-auto'>
-                {/* <Card.Title>
-                  {
-                    findMostCommonStatus(
-                      taskData.allByStatus,
-                      allTasks.length
-                    ).split("|")[0]
-                  }
-                </Card.Title> */}
-                <Card.Text>
+            <Col className={statsPieCards}>
+              <Card className='border-0 dashboard__dash-stats'>
+                <div className='stats-card p-0'>
+                  <ResponsiveContainer>
+                    <PieChartWithPaddingAngle
+                      deg360={true}
+                      data={taskData.allByStatus}
+                      stat='status'
+                    />
+                  </ResponsiveContainer>
+                </div>
+                <Card.Body className='m-auto'>
                   <h5>
                     {
                       findMostCommonStatus(
@@ -140,30 +133,21 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                       ).split("|")[1]
                     }
                   </h5>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={4} className='m-0 p-0'>
-            <Card className='border-0 dashboard__dash-stats'>
-              <div className='stats-card'>
-                <PieChartWithCustomizedLabel
-                  data={taskData.allByType}
-                  colors={STATUS_COLORS}
-                  stat='type'
-                  width={200}
-                  height={200}
-                />
-              </div>
-              <Card.Body className='m-auto'>
-                {/* <Card.Title>
-                  {
-                    findMostUsedType(taskData.allByType, allTasks.length).split(
-                      "|"
-                    )[0]
-                  }
-                </Card.Title> */}
-                <Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col className={statsPieCards}>
+              <Card className='border-0 dashboard__dash-stats'>
+                <div className='stats-card p-0'>
+                  <ResponsiveContainer>
+                    <PieChartWithCustomizedLabel
+                      data={taskData.allByType}
+                      stat='type'
+                      colors={CUSTOM_COLORS}
+                    />
+                  </ResponsiveContainer>
+                </div>
+                <Card.Body className='m-auto'>
                   <h5>
                     {
                       findMostUsedType(
@@ -172,32 +156,20 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                       ).split("|")[1]
                     }
                   </h5>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={4} className='m-0 p-0'>
-            <Card className='border-0 dashboard__dash-stats'>
-              <div className='stats-card'>
-                <CustomActiveShapePieChart
-                  data={taskData.allByDueDate}
-                  stat='deadline'
-                  width={200}
-                  height={200}
-                  innerRadius={50}
-                  outerRadius={80}
-                />
-              </div>
-              <Card.Body className='m-auto'>
-                {/* <Card.Title>
-                    {
-                      findMostUsedDeadline(
-                        taskData.allByDueDate,
-                        allTasks.length
-                      ).split("|")[0]
-                    }
-                </Card.Title> */}
-                <Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col className={statsPieCards}>
+              <Card className='border-0 dashboard__dash-stats'>
+                <div className='stats-card p-0'>
+                  <ResponsiveContainer>
+                    <CustomActiveShapePieChart
+                      data={taskData.allByDueDate}
+                      stat='deadline'
+                    />
+                  </ResponsiveContainer>
+                </div>
+                <Card.Body className='m-auto'>
                   <h5>
                     {
                       findMostUsedDeadline(
@@ -206,30 +178,22 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                       ).split("|")[1]
                     }
                   </h5>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} className='m-0 p-0'>
-            <Card className='border-0 dashboard__dash-stats'>
-              <div className='stats-card'>
-                <MixedBarChart
-                  data={taskData.allByCategory}
-                  stat='category'
-                  width={300}
-                  height={200}
-                />
-              </div>
-              <Card.Body className='m-auto'>
-                {/* <Card.Title>
-                  {categories.length / allTasks.length <= 0.7
-                    ? "Minimalist"
-                    : categories.length / allTasks.length > 0.7 &&
-                      categories.length / allTasks.length < 1
-                    ? "Prepper"
-                    : "Accumulator"}
-                </Card.Title> */}
-                <Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={statsGraphsCards}>
+              <Card className='border-0 dashboard__dash-stats'>
+                <div className='stats-card p-0'>
+                  <ResponsiveContainer>
+                    <MixedBarChart
+                      data={taskData.allByCategory}
+                      stat='category'
+                    />
+                  </ResponsiveContainer>
+                </div>
+                <Card.Body className='m-auto'>
                   <h5>
                     You're using{" "}
                     {taskData.allByCategory.length -
@@ -237,41 +201,30 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                     {taskData.allByCategory.length -
                       taskData.unusedCategories.length >
                     1
-                      ? "categories"
-                      : "category"}{" "}
+                      ? "active categories"
+                      : "active category"}{" "}
                     to organise {allTasks.length}{" "}
                     {allTasks.length > 1 ? "tasks" : "task"}.
                     {taskData.unusedCategories.length > 0 &&
-                      ` You have ${taskData.unusedCategories.length} unused ${
+                      ` You also have ${
+                        taskData.unusedCategories.length
+                      } inactive ${
                         taskData.unusedCategories.length > 1
                           ? "categories."
                           : "category."
                       }`}
                   </h5>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={12} md={6} className='m-0 p-0'>
-            <Card className='border-0 dashboard__dash-stats'>
-              <div className='stats-card'>
-                <SimpleBarChart
-                  data={taskData.allByValue}
-                  stat='value'
-                  width={300}
-                  height={200}
-                />
-              </div>
-              <Card.Body className='m-auto'>
-                {/* <Card.Title>
-                  {
-                    findMostUsedValue(
-                      taskData.allByValue,
-                      allTasks.length
-                    ).split("|")[0]
-                  }
-                </Card.Title> */}
-                <Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col className={statsGraphsCards}>
+              <Card className='border-0 dashboard__dash-stats'>
+                <div className='stats-card p-0'>
+                  <ResponsiveContainer>
+                    <SimpleBarChart data={taskData.allByValue} stat='value' />
+                  </ResponsiveContainer>
+                </div>
+                <Card.Body className='m-auto'>
                   <h5>
                     {
                       findMostUsedValue(
@@ -280,11 +233,11 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
                       ).split("|")[2]
                     }
                   </h5>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
       ) : (
         <></>
       )}
