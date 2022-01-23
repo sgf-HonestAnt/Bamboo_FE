@@ -3,7 +3,6 @@ import { Col, Row } from "react-bootstrap";
 import { useMediaQuery } from "react-responsive";
 import { useAppSelector } from "../../../redux/hooks";
 import { genericTaskInt, reduxStateInt } from "../../../typings/interfaces";
-import { STATUS_COLORS } from "../../../utils/const/str";
 import {
   findMostCommonStatus,
   mapByStatus,
@@ -38,11 +37,10 @@ export default function DashStats(props: DashStatsProps) {
       {/* ${isBigScreen && "my-3"} */}
       <Row>
         {(total_xp > 0 || awaited.length > 0 || in_progress.length > 0) && (
-          <Col sm={12} >
+          <Col sm={12}>
             <PieChartWithPaddingAngle
               deg360={true}
               data={allByStatus}
-              colors={STATUS_COLORS}
               stat='status'
               width={200}
               height={200}

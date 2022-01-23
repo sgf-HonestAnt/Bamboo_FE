@@ -1,7 +1,7 @@
 import { History, Location } from "history";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { Modal, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
@@ -36,10 +36,7 @@ import {
   attemptDeleteTask,
   removeSelfFromTask,
 } from "../../utils/funcs/f_tasks";
-import BambooPoints from "./XP";
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
-import { XButton } from "./Buttons";
-import { setUserLoading } from "../../redux/actions/user";
 import { Link } from "react-router-dom";
 
 const schema = yup.object().shape({
@@ -123,9 +120,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     // const value = e.target.value;
     // const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
     // setForm({ ...form, sharedWith: updatedSharedUsers });
-  };
-  const handleChangeFormik = async (id: string, value: any) => {
-    console.log(id, value);
   };
   const handleSubmitFormik = async (e: any) => {
     console.log("submitting to post or edit=>", e);
@@ -914,7 +908,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     ) : (
                       <></>
                     )}
-                    <div className='py-1'>
+                    <div className='pt-3 pb-1'>
                       {
                         // taskSet && !changed ? (
                         //   <Button variant='primary' className="mx-1" type='submit' disabled>

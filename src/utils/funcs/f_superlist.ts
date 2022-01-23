@@ -4,12 +4,12 @@ import { achievementInt, followedUserInt } from "../../typings/interfaces";
 import { CONGRATS, LIST_OF_VOWELS } from "../const/arr";
 import { NONE } from "../const/str";
 import { getCurrDateTimeAsString } from "./f_dates";
-import { getUsernameById } from "./f_users";
+import { getAvatarById, getAvatarByUsername, getUsernameById } from "./f_users";
 
 const createSuperlist = async (
   // create list of achievements with randomised congrats
   list: achievementInt[],
-  username: string,
+  _id: string,
   followedUsers: followedUserInt[],
   dispatch: Dispatch<any>
 ) => {
@@ -21,7 +21,8 @@ const createSuperlist = async (
     const num = i < nice.length ? i : Math.floor(Math.random() * nice.length);
     const achIsGift = ach.item.includes("sent you a");
     if (!achIsGift) {
-      return ach.username === username
+      // ach.username is actually user_id
+      return ach.username === _id
         ? super_list.push(
             `you completed task: ${ach.item} on ${timestamp}. ${nice[num]}!`
           )
@@ -32,7 +33,10 @@ const createSuperlist = async (
                 : "a"
             } ${
               ach.category !== NONE ? ach.category! : ""
-            } task on ${timestamp}.`
+            } task on ${timestamp}.||${ach.username}||${getAvatarById(
+              followedUsers,
+              ach.username
+            )}`
           );
     } else {
       return super_list.push(ach.item);

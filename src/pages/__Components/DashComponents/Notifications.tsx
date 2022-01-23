@@ -3,10 +3,10 @@ import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { AcceptButton, ClearNotification, RejectButton } from "../Buttons";
-import { ICOSMILE } from "../../../utils/appIcons";
 import {
   acceptOrRejectUser,
   clearLastNotification,
+  getAvatarByUsername,
 } from "../../../utils/funcs/f_users";
 import { removeSelfFromTask } from "../../../utils/funcs/f_tasks";
 import { fillUserAction } from "../../../redux/actions/user";
@@ -74,47 +74,62 @@ export default function DashNotifications(props: DashNotificationsProps) {
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
+  console.log(followedUsers)
   return (
     <Button
-      variant='link'
+      variant='primary'
       style={{ width: "100%" }}
       id='notification-button'
       className={`${dashClass} px-3 py-1 m-0 mb-2`}>
-      {notifLength > 0 && isTask ? (
-        <span>
-          <img src={avatar} alt={username} className='img-fluid dotted-border x-tiny-round' />
-          <strong>{username}</strong> included you in a shared task: "{title}
-          ". Do you accept? <br />
-          <AcceptButton handleClick={handleAcceptTask} />
-          <RejectButton handleClick={handleRejectTask} />
-        </span>
-      ) : notifLength > 0 && isReq ? (
-        <span>
-          {recentNotif}, do you accept?
-          <br />
-          <AcceptButton handleClick={handleAccept} />
-          <RejectButton handleClick={handleReject} />
-        </span>
-      ) : notifLength > 0 && isAcc ? (
-        <span>
-          {recentNotif} <ICOSMILE />
-        </span>
-      ) : notifLength > 0 && isGift ? (
-        <span>
-          <strong>{recentNotif.split("just")[0]}</strong>
-          just {recentNotif.split("just")[1].split(":::")[0]}
-          <br />
-          <FiGift />
-          <br />~{recentNotif.split(":::")[1]} xp~
-        </span>
-      ) : notifLength > 0 ? (
-        <span>{recentNotif.split(",")[0]}!</span>
-      ) : (
-        <></>
-      )}
-      {!isReq && !isTask && notifLength > 0 && (
-        <ClearNotification handleClick={handleReset} />
-      )}
+      <h5>
+        {notifLength > 0 && isTask ? (
+          <>
+            <img
+              src={avatar}
+              alt={username}
+              className='img-fluid dotted-border x-tiny-round'
+            />
+            <strong>{username}</strong> included you in a shared task: "{title}
+            ". Do you accept? <br />
+            <AcceptButton handleClick={handleAcceptTask} />
+            <RejectButton handleClick={handleRejectTask} />
+          </>
+        ) : notifLength > 0 && isReq ? (
+          <>
+            {recentNotif}, do you accept?
+            <br />
+            <AcceptButton handleClick={handleAccept} />
+            <RejectButton handleClick={handleReject} />
+          </>
+        ) : notifLength > 0 && isAcc ? (
+          <>
+            <img
+              src={getAvatarByUsername(
+                followedUsers,
+                recentNotif.split(" ")[0]
+              )}
+              alt={recentNotif.split(" ")[0]}
+              className='dotted-border x-tiny-round'
+            />{" "}
+            {recentNotif}
+          </>
+        ) : notifLength > 0 && isGift ? (
+          <>
+            <strong>{recentNotif.split("just")[0]}</strong>
+            just {recentNotif.split("just")[1].split(":::")[0]}
+            <br />
+            <FiGift />
+            <br />~{recentNotif.split(":::")[1]} xp~
+          </>
+        ) : notifLength > 0 ? (
+          <>{recentNotif.split(",")[0]}!</>
+        ) : (
+          <></>
+        )}
+        {!isReq && !isTask && notifLength > 0 && (
+          <ClearNotification handleClick={handleReset} />
+        )}
+      </h5>
     </Button>
   );
 }

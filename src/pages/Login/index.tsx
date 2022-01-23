@@ -73,14 +73,11 @@ export default function LoginPage({ history }: RouteComponentProps) {
                           <Form.Control
                             type='text'
                             value={values.username}
-                            placeholder='Enter email or username'
+                            placeholder={errors.username||'Enter email or username'}
                             aria-describedby='enter email or username'
                             onChange={handleChange}
                             isInvalid={!!errors.username}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.username}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </Col>
                     </Form.Group>
@@ -93,13 +90,10 @@ export default function LoginPage({ history }: RouteComponentProps) {
                           <Form.Control
                             type='password'
                             value={values.password}
-                            placeholder='Enter password'
+                            placeholder={errors.password||'Enter password'}
                             onChange={handleChange}
                             isInvalid={!!errors.password}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.password}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </Col>
                     </Form.Group>

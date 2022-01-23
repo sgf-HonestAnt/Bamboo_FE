@@ -54,6 +54,11 @@ export const CUSTOM_COLORS = [
   "hsla(62, 63%, 30%, 0.4)",
   "hsla(201, 100%, 30%, 0.8)",
 ];
+export const STATUS_COLORS = [
+  "hsl(12, 75%, 56%, 0.6)",
+  "hsla(60, 68%, 71%, 0.8)",
+  "hsl(183, 100%, 33%)",
+];
 export const SPECIAL_CHARS = [
   "!",
   "'",

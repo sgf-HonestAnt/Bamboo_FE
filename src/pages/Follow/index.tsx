@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import { Row, Card, Container, Col, Image } from "react-bootstrap";
+import { Row, Container, Col, Image } from "react-bootstrap";
 import {
   // ContactAdminButton,
   SendGiftButton,
@@ -77,12 +77,9 @@ export default function FollowingPage(props: FollowingPageProps) {
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     dispatch(fillTasksAction());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
     createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allTasks]);
+  }, []);
   useEffect(() => {
     if (location.search) {
       // console.log(location.search);
@@ -90,18 +87,14 @@ export default function FollowingPage(props: FollowingPageProps) {
         (user) => user._id === locationSearch
       );
       setUsersToShow(filteredUsers);
+    } else {
+      setUsersToShow(followedUsers);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
   useEffect(() => {
     setLoading(false);
   }, [loading]);
-  useEffect(() => {
-    if (!location.search) {
-      setUsersToShow(followedUsers);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location]);
   console.log("TEAM");
   return (
     <Container fluid>

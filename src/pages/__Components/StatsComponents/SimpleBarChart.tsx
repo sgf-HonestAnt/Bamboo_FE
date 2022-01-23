@@ -8,6 +8,7 @@ import {
   Legend,
 } from "recharts";
 import { genericTaskInt } from "../../../typings/interfaces";
+import { CUSTOM_COLORS } from "../../../utils/const/arr";
 
 type SimpleBarChartProps = {
   data: genericTaskInt[];
@@ -18,16 +19,17 @@ type SimpleBarChartProps = {
 
 export default function SimpleBarChart(props: SimpleBarChartProps) {
   const { data, width, height } = props;
+  const fillColor = CUSTOM_COLORS[6];
   return (
     <BarChart
-      width={width || 350}
-      height={height || 350}
+      width={width || 200}
+      height={height || 400}
       data={data}
       margin={{
-        top: 0,
-        right: 0,
-        left: 0,
-        bottom: 0,
+        top: 30,
+        right: 50,
+        left: 10,
+        bottom: 30,
       }}
       className='m-auto'>
       <CartesianGrid strokeDasharray='3 3' />
@@ -35,7 +37,7 @@ export default function SimpleBarChart(props: SimpleBarChartProps) {
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey='total' fill='#000' />
+      <Bar dataKey='total' fill={fillColor} />
     </BarChart>
   );
 }

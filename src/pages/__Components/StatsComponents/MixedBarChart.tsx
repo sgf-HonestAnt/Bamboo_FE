@@ -8,6 +8,7 @@ import {
   Legend,
 } from "recharts";
 import { categoryTaskInt } from "../../../typings/interfaces";
+import { STATUS_COLORS } from "../../../utils/const/arr";
 
 type MixedBarChartProps = {
   data: categoryTaskInt[];
@@ -32,14 +33,14 @@ export default function MixedBarChart(props: MixedBarChartProps) {
   } = props;
   return (
     <BarChart
-      width={width || 350}
-      height={height || 350}
+      width={width || 200}
+      height={height || 400}
       data={data}
       margin={{
-        top: marginTop || 0,
-        right: marginRight || 0,
-        left: marginLeft || 0,
-        bottom: marginBottom || 0,
+        top: marginTop || 30,
+        right: marginRight || 50,
+        left: marginLeft || 10,
+        bottom: marginBottom || 30,
       }}
       className='m-auto'>
       <CartesianGrid strokeDasharray='3 3' />
@@ -48,9 +49,9 @@ export default function MixedBarChart(props: MixedBarChartProps) {
       <Tooltip />
       <Legend />
       {/* <Bar dataKey='total' fill='#000' /> */}
-      <Bar dataKey='completed' stackId='a' fill='#ffc658' />
-      <Bar dataKey='awaited' stackId='a' fill='#8884d8' />
-      <Bar dataKey='in_progress' stackId='a' fill='#82ca9d' />
+      <Bar dataKey='completed' stackId='a' fill={STATUS_COLORS[0]} />
+      <Bar dataKey='awaited' stackId='a' fill={STATUS_COLORS[1]} />
+      <Bar dataKey='in_progress' stackId='a' fill={STATUS_COLORS[2]} />
     </BarChart>
   );
 }

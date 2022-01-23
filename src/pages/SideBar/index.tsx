@@ -4,11 +4,10 @@ import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { attemptLogout } from "../../utils/funcs/f_users";
-import BambooLogo from "../__Components/Logo";
-import "./styles.css";
-
 import { RiSettings5Line } from "react-icons/ri";
 import { FiMoon, FiChevronRight } from "react-icons/fi";
+import BambooLogo from "../__Components/Logo";
+import "./styles.css";
 
 type SidebarProps = {
   history: History<unknown> | string[];

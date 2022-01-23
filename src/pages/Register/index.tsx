@@ -115,16 +115,13 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder='Jane'
+                            placeholder={errors.first_name||'Jane'}
                             aria-describedby='first name'
                             name='first_name'
                             value={values.first_name}
                             onChange={handleChange}
                             isInvalid={!!errors.first_name}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.first_name}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </Col>
                     </Form.Group>
@@ -136,16 +133,13 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder='Doe'
+                            placeholder={errors.last_name||'Doe'}
                             aria-describedby='Last name'
                             name='last_name'
                             value={values.last_name}
                             onChange={handleChange}
                             isInvalid={!!errors.last_name}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.last_name}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </Col>
                     </Form.Group>
@@ -155,19 +149,15 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
-                          <InputGroup.Text id='username'>@</InputGroup.Text>
                           <Form.Control
                             type='text'
-                            placeholder='janedoe'
+                            placeholder={errors.username||'janedoe'}
                             aria-describedby='username'
                             name='username'
                             value={values.username}
                             onChange={handleChange}
                             isInvalid={!!errors.username}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.username}
-                          </Form.Control.Feedback>
                         </InputGroup>
                       </Col>
                     </Form.Group>
@@ -179,16 +169,13 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                         <InputGroup hasValidation>
                           <Form.Control
                             type='email'
-                            placeholder='janedoe@email.com'
+                            placeholder={errors.email||'janedoe@email.com'}
                             aria-describedby='email'
                             name='email'
                             value={values.email}
                             onChange={handleChange}
                             isInvalid={!!errors.email}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.email}
-                          </Form.Control.Feedback>{" "}
                         </InputGroup>
                       </Col>
                     </Form.Group>
@@ -200,18 +187,15 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder='********'
+                            placeholder={errors.password||'********'}
                             aria-describedby='password'
                             name='password'
                             value={values.password}
                             onChange={handleChange}
                             isInvalid={!!errors.password}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.password}
-                          </Form.Control.Feedback>
                         </InputGroup>
-                      </Col>
+                      </Col> 
                     </Form.Group>
                     {loadingRegistration ? (
                       <Spinner animation='grow' className='my-4' />
