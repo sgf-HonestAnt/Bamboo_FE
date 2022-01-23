@@ -71,28 +71,22 @@ const Achievements = (props: AchievementsProps) => {
             {superlist.map((ach, i) => {
               return ach.includes("completed") &&
                 ach.split(" ")[0] !== "you" ? (
-                <tr key={i}>
+                <tr key={i} id={i.toString()}>
                   <td>
                     <Link
-                      to={`/following?id=${getIdByUsername(
-                        followedUsers,
-                        ach.split(" ")[0]
-                      )}`}>
+                      to={`/following?id=${ach.split("||")[1]}`}>
                       <img
-                        src={getAvatarByUsername(
-                          followedUsers,
-                          ach.split(" ")[0]
-                        )}
-                        alt={ach.split(" ")[0]}
+                        src={ach.split("||")[2]}
+                        alt={ach.split("||")[0].split(" ")[0]}
                         className='dotted-border dashboard__activities__img mr-1'
                       />
-                      {ach.split(" ")[0]} completed a task on{" "}
-                      {ach.split(" task on ")[1]}
+                      {ach.split("||")[0].split(" ")[0]} completed a task on{" "}
+                      {ach.split("||")[0].split(" task on ")[1]}
                     </Link>
                   </td>
                 </tr>
               ) : ach.includes("completed") && ach.split(" ")[0] === "you" ? (
-                <tr key={i}>
+                <tr key={i} id={i.toString()}>
                   <td>
                     {" "}
                     <img
@@ -121,7 +115,7 @@ const Achievements = (props: AchievementsProps) => {
                   </td>
                 </tr>
               ) : (
-                <tr key={i}>
+                <tr key={i} id={i.toString()}>
                   <td>
                     {" "}
                     <span>{ach.split("|")[0]}</span>

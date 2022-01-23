@@ -148,9 +148,7 @@ export const getUsersAsAdmin = async (_id: string) => {
 export const getUserRole = (level: number | null) => {
   // find user role based on their current level
   console.log("🙋Getting User Role");
-  return !level || level === null || level === 0
-    ? `🌟New user`
-    : `Level ${level}`;
+  return !level || level === null || level === 0 ? "Level 0" : `Level ${level}`;
 };
 
 export const clearLastNotification = async (notification: string[]) => {

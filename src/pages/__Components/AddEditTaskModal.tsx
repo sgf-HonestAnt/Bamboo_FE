@@ -914,7 +914,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                     ) : (
                       <></>
                     )}
-                    <div className='py-1'>
+                    <div className='pt-3 pb-1'>
                       {
                         // taskSet && !changed ? (
                         //   <Button variant='primary' className="mx-1" type='submit' disabled>

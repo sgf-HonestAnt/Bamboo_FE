@@ -117,11 +117,8 @@
   text-align: center;
 }
 #notification-button {
-  background: linear-gradient(
-    to bottom right,
-    hsla(var(--pale-sunbeam), 1),
-    hsla(var(--pale-stone), 1)
-  );
+  background: yellow;
+  border: 1px solid grey;
 }
 .dashboard__at-a-glance-stats .bamboo-card {
   min-height: 100px;

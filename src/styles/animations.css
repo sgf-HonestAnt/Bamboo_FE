@@ -1,0 +1,16 @@
+/* For Portrait Screens */
+.rotate {
+    margin: auto;
+    width: 50px;
+    height: 100%;
+    color: white;
+    animation: flip 5s infinite;
+  }
+  .rotate svg {
+    font-size: 25px;
+  }
+  @keyframes flip {
+    50% {
+      transform: rotate(90deg);
+    }
+  }

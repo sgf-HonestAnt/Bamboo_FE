@@ -1,24 +1,47 @@
 /* Bootstrap forms & modals */
-form select#rewards.form-control option.disabled {
-  color: #c7c7c7 !important;
-}
-input.form-control:focus::placeholder,
-textarea.form-control:focus::placeholder {
-  color: transparent;
-}
-#title.form-control.is-invalid,
-#value.form-control.is-invalid,
-#category.form-control.is-invalid,
-#desc.form-control.is-invalid,
-.invalid-feedback {
-  border-color: hsla(var(--pale-sunbeam), 1);
-}
 .modal-header,
 .modal-body,
 .modal-footer {
   background-color: hsla(var(--mint-cream), 1) !important;
 }
-.form-control,
+input.form-control,
+select.form-control,
+textarea.form-control {
+  background-color: hsla(var(--honeydew), 0.6) !important;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px !important;
+      border: none !important;
+}
+input.form-control.is-invalid,
+select.form-control.is-invalid,
+textarea.form-control.is-invalid,
+.invalid-feedback {
+  border-color: hsla(var(--pale-sunbeam), 1);
+}
+.form-control:focus,
+.form-control:focus-visible,
+.form-control option:focus,
+.form-control option:focus-visible {
+  background-color: hsla(var(--honeydew), 1) !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.2) 0px 0px 1px 0px !important;
+  outline: none !important;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+input.form-control:focus::placeholder,
+textarea.form-control:focus::placeholder {
+  color: transparent;
+}
+input#search.form-control:focus {
+  background-color: hsla(var(--aero-blue), 1) !important;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+}
+form select#rewards.form-control option.disabled {
+  color: #c7c7c7 !important;
+}
+/* .form-control,
   .form-control:focus,
   .form-control option:focus,
   #first_name, #first_name:focus,
@@ -38,82 +61,12 @@ textarea.form-control:focus::placeholder {
   #val, #val:focus,
   #type, #type:focus,
   #due, #due:focus,
-  /* #title:focus-visible, */ {
+  #title:focus-visible, 
+  {
   border-radius: 0 !important;
   border: 1px solid #e5e9ee;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   transition: all 0.5s;
   outline: none;
-}
-#first_name,
-#last_name,
-#username,
-#email,
-#password,
-#bio,
-#title,
-#value,
-#category,
-#desc,
-#deadline,
-#cat,
-#status,
-#val,
-#type,
-#due,
-#dropdown.form-control {
-  background-color: hsla(var(--mint-cream), 0.7) !important;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-}
-#first_name:focus,
-#first_name:focus-visible,
-#last_name:focus,
-#last_name:focus-visible,
-#username:focus,
-#username:focus-visible,
-#email:focus,
-#email:focus-visible,
-#password:focus,
-#password:focus-visible,
-#bio:focus,
-#bio:focus-visible,
-#title:focus,
-#title:focus-visible,
-#value:focus,
-#value:focus-visible,
-#category:focus,
-#category:focus-visible,
-#desc:focus,
-#desc:focus-visible,
-#deadline:focus,
-#deadline:focus-visible,
-#cat:focus,
-#cat:focus-visible,
-#status:focus,
-#status:focus-visible,
-#val:focus,
-#val:focus-visible,
-#type:focus,
-#type:focus-visible,
-#due:focus,
-#due:focus-visible,
-.form-control:focus,
-.form-control:focus-visible,
-.form-control option:focus,
-.form-control option:focus-visible,
-#dropdown.form-control:focus,
-#dropdown.form-control:focus-visible {
-  background-color: hsla(var(--honeydew), 1) !important;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-  outline: none;
-}
-#search:focus,
-.form-control:focus,
-.form-control option:focus {
-  border: none !important;
-  background-color: hsla(var(--pale-sunbeam), 1);
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  outline: none;
-}
+} */

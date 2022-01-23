@@ -8,7 +8,7 @@ import { fillAchievementsAction } from "../../redux/actions/achievements";
 import { fillFeaturesAction } from "../../redux/actions/features";
 import { fillSettingsAction } from "../../redux/actions/settings";
 import { reduxStateInt, userInt } from "../../typings/interfaces";
-import { Container } from "react-bootstrap";
+import { Badge, Container } from "react-bootstrap";
 import checkToken from "../../utils/funcs/f_checkToken";
 import SideBar from "../SideBar";
 import SettingsPage from "../Settings";
@@ -19,6 +19,7 @@ import AdminPage from "../Admin";
 import LoadingPage from "../Loading";
 import "./styles.css";
 import { useMediaQuery } from "react-responsive";
+import { FiTablet } from "react-icons/fi";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
   const isLt755 = useMediaQuery({ query: "(max-width: 755px)" });
@@ -71,7 +72,13 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               className={`sidebar${
                 location.pathname === "/admin-dash" ? "-admin" : ""
               }`}>
-              <SideBar
+      {isLt755 && (
+        <Badge bg="dark" style={{maxWidth:"100%"}}>
+          <div className='rotate'>
+            <FiTablet />
+          </div>
+        </Badge>
+      )}              <SideBar
                 history={history}
                 location={location}
                 setTheme={setTheme}
