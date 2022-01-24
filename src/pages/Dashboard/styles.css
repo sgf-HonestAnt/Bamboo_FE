@@ -106,7 +106,7 @@
 .dashboard__profile-card__form {
   text-align: center;
 }
-.dashboard__profile-card__level h3 {
+.profile-card__level h3, .profile-card__level h5:nth-child(1) {
   border-right: 1px solid hsla(var(--bottle-green), 0.3) !important;
 }
 .dashboard__profile-card__bio {

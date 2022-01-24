@@ -20,7 +20,7 @@ import {
   mapByValue,
 } from "../../../utils/funcs/f_statistics";
 import MixedBarChart from "../StatsComponents/MixedBarChart";
-import SimpleCloud from "../StatsComponents/SimpleCloud";
+// import SimpleCloud from "../StatsComponents/SimpleCloud";
 import SimpleBarChart from "../StatsComponents/SimpleBarChart";
 import PieChartWithPaddingAngle from "../StatsComponents/PieChartWithPaddingAngle";
 import PieChartWithCustomizedLabel from "../StatsComponents/PieChartWithCustomizedLabel";

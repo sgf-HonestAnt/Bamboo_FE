@@ -4,7 +4,7 @@ import { achievementInt, followedUserInt } from "../../typings/interfaces";
 import { CONGRATS, LIST_OF_VOWELS } from "../const/arr";
 import { NONE } from "../const/str";
 import { getCurrDateTimeAsString } from "./f_dates";
-import { getAvatarById, getAvatarByUsername, getUsernameById } from "./f_users";
+import { getAvatarById, getUsernameById } from "./f_users";
 
 const createSuperlist = async (
   // create list of achievements with randomised congrats
