@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import {
   currentFeaturesInt,
   reduxStateInt,
@@ -50,7 +50,7 @@ export default function AdminPage(props: AdminPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
-  const { user, history } = props;
+  const { user } = props;
   const signedInId = my_user._id;
   const [usersData, setUsersData] = useState<userInt[]>();
   const [usersToDisplay, setUsersToDisplay] = useState<userInt[]>();
@@ -64,11 +64,11 @@ export default function AdminPage(props: AdminPageProps) {
   });
   const userByFormId = usersToDisplay?.find((u) => u._id === form.id);
   const username = usersToDisplay && userByFormId ? userByFormId.username : "";
-  const resetForm = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setForm({ dropdown: USERS, id: "", search: "" });
-    history.push("/admin-dash");
-  };
+  // const resetForm = async (e: { preventDefault: () => void }) => {
+  //   e.preventDefault();
+  //   setForm({ dropdown: USERS, id: "", search: "" });
+  //   history.push("/admin-dash");
+  // };
   const loadAdmin = async () => {
     const data = await getUsersAsAdmin(form.id);
     const allTasks = await getAllTasks(form.id);
@@ -180,6 +180,7 @@ export default function AdminPage(props: AdminPageProps) {
           ) : form.dropdown
               .toLowerCase()
               .includes(NOTIFICATIONS || "notification") &&
+            notifications &&
             usersToDisplay.filter((u) => u._id === form.id).length > 0 ? (
             <NotificationsTableHeading />
           ) : (

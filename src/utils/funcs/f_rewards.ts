@@ -36,7 +36,7 @@ export async function purchaseReward(
   xp: number,
   dispatch: Dispatch<any>
 ) {
-  // console.log("🙋Purchasing Reward Badge");
+  console.log("🙋Purchasing Reward Badge");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_MYREWARDS}/${reward._id}`;
@@ -46,7 +46,7 @@ export async function purchaseReward(
       "Content-Type": "application/json",
     };
     const available = reward.available - 1;
-    const body = JSON.stringify({ available });
+    const body = JSON.stringify({ reward: reward.reward, value: reward.value, available });
     const response = await fetch(url, { method, headers, body });
     const { value } = await response.json();
     const remainingXp = xp - value;
@@ -59,7 +59,7 @@ export async function purchaseReward(
     });
     if (response.ok) {
       dispatch(setUserLoading(true));
-      // dispatch(setUserPoints(xp));
+      // dispatch(setUserPoints(remainingXp));
       // dispatch(setUserRewards(updatedRewards));
       return remainingXp;
     }

@@ -2,7 +2,7 @@ import { Nav, Form, FormControl } from "react-bootstrap";
 import { taskInt, userInt } from "../../../typings/interfaces";
 import { ResetButton } from "../Buttons";
 import {
-  FEATURES,
+  // FEATURES,
   NOTIFICATIONS,
   TASKS,
   USERS,
