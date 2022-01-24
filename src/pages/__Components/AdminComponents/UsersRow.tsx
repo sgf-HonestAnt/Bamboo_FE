@@ -1,14 +1,11 @@
 import { Button } from "react-bootstrap";
 import { userInt } from "../../../typings/interfaces";
-import { ICODELETE, ICODOWNRIGHT, ICOEDIT } from "../../../utils/appIcons";
 import { AiFillStar } from "react-icons/ai";
-import {
-  DeleteUserButton,
-  EditButton,
-} from "../Buttons";
+// import { DeleteUserButton, EditButton } from "../Buttons";
 import { NOTIFICATIONS, TASKS, USERS } from "../../../utils/const/str";
 import { useState } from "react";
 import EditDeleteUserModal from "./EditDeleteUserModal";
+import { FiCornerDownRight } from "react-icons/fi";
 
 interface UsersRowProps extends userInt {
   signedInId: string | undefined;
@@ -25,15 +22,15 @@ const UsersRow = (props: UsersRowProps) => {
   const handleShow = () => {
     setShow(true);
   };
-  const handleDelete = (e: {
-    preventDefault: () => void;
-    target: { value: string };
-  }) => {
-    e.preventDefault();
-    const id = e.target.value;
-    setDeleteOption({ show: true, id });
-    handleShow();
-  };
+  // const handleDelete = (e: {
+  //   preventDefault: () => void;
+  //   target: { value: string };
+  // }) => {
+  //   e.preventDefault();
+  //   const id = e.target.value;
+  //   setDeleteOption({ show: true, id });
+  //   handleShow();
+  // };
   const handleClick = (e: {
     preventDefault: () => void;
     currentTarget: any;
@@ -52,7 +49,7 @@ const UsersRow = (props: UsersRowProps) => {
   };
   return (
     <tr>
-      <td>
+      {/* <td>
         {props._id === signedInId ? (
           <Button variant='link' className='m-0 p-0 small-button' disabled>
             <ICOEDIT />
@@ -72,7 +69,7 @@ const UsersRow = (props: UsersRowProps) => {
         ) : (
           <DeleteUserButton handleClick={handleDelete} value={`${props._id}`} />
         )}
-      </td>
+      </td> */}
       <EditDeleteUserModal
         _id={props._id}
         first_name={props.first_name}
@@ -97,11 +94,11 @@ const UsersRow = (props: UsersRowProps) => {
         showDeleteWarning={deleteOption.show}
       />
       <td
-        className='admin-page__table__td cursor-point'
+        className='cursor-point'
         onClick={() => {
           navigator.clipboard.writeText(props._id);
         }}>
-        <div className='overflow'>{props._id}</div>
+        <div className='overflow m-auto'>{props._id}</div>
         <div className='text-tinycaps'>copy</div>
       </td>
       <td>
@@ -119,7 +116,7 @@ const UsersRow = (props: UsersRowProps) => {
           className='p-0 m-0'
           value={`${TASKS}:${props._id}`}
           onClick={handleClick}>
-          <ICODOWNRIGHT />
+          <FiCornerDownRight />
         </Button>
       </td>
       <td>
@@ -128,7 +125,7 @@ const UsersRow = (props: UsersRowProps) => {
           className='p-0 m-0'
           value={`${NOTIFICATIONS}:${props._id}`}
           onClick={handleClick}>
-          <ICODOWNRIGHT />
+          <FiCornerDownRight />
         </Button>
       </td>
       <td>{props.email}</td>

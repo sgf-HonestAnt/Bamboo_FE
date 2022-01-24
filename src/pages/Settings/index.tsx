@@ -31,7 +31,6 @@ type SettingsPageProps = {
   location: Location<unknown>;
 };
 export default function SettingsPage(props: SettingsPageProps) {
-  //console.log("FIX NEEDED ON SETTINGSPAGE") // 🔨 FIX NEEDED: WELCOME AND GOODBYE EMAILS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { history } = props;
@@ -102,10 +101,6 @@ export default function SettingsPage(props: SettingsPageProps) {
       history.push("/");
     }
   };
-  // useEffect(() => {
-  //   console.log(location.pathname);
-  // }, [location.pathname]);
-  console.log("SETTINGS PAGE")
   return (
     <div className='settings-page'>
       <Card className='bamboo-card-mid'>

@@ -97,11 +97,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  // console.log(
-  //   `${search.split("=")[1].charAt(0).toUpperCase()}${search
-  //     .split("=")[1]
-  //     .slice(1)}`
-  // );
   return (
     <Row className='pt-4'>
       <Col sm={12}>

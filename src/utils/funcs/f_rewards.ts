@@ -9,11 +9,10 @@ export async function sendXpGift(
   currentPoints: number,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Sending Xp Gift");
+  // console.log("🙋Sending Xp Gift");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_GIFTS}/${userId}`;
-    // console.log(url);
     const method = POST;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -23,11 +22,8 @@ export async function sendXpGift(
     const response = await fetch(url, { method, headers, body });
     const { message } = await response.json();
     if (response.ok) {
-      console.log("response ok", currentPoints - xp);
       dispatch(setUserPoints(currentPoints - xp));
       return message;
-    } else {
-      console.log("CHECK REWARD ID!");
     }
   } catch (error) {
     console.log(error);
@@ -40,11 +36,10 @@ export async function purchaseReward(
   xp: number,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Purchasing Reward Badge");
+  // console.log("🙋Purchasing Reward Badge");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_MYREWARDS}/${reward._id}`;
-    // console.log(url);
     const method = PUT;
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -63,13 +58,10 @@ export async function purchaseReward(
       _id: reward._id,
     });
     if (response.ok) {
-      console.log("NOW LOAD REWARDS???", remainingXp);
       dispatch(setUserLoading(true));
       // dispatch(setUserPoints(xp));
       // dispatch(setUserRewards(updatedRewards));
       return remainingXp;
-    } else {
-      console.log("CHECK REWARD ID!");
     }
   } catch (error) {
     console.log(error);

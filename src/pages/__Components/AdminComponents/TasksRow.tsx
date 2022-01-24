@@ -1,10 +1,7 @@
 import { Button } from "react-bootstrap";
+import { FiCornerDownRight } from "react-icons/fi";
 import { taskInt, userInt } from "../../../typings/interfaces";
-import { ICODOWNRIGHT } from "../../../utils/appIcons";
-import {
-  DeleteButton,
-  EditButton,
-} from "../Buttons";
+// import { DeleteButton, EditButton } from "../Buttons";
 import { USERS } from "../../../utils/const/str";
 
 interface TasksRowProps extends taskInt {
@@ -27,12 +24,12 @@ const TasksRow = (props: TasksRowProps) => {
   const taskCreator = users?.find((u) => u._id === props.createdBy);
   return (
     <tr>
-      <td>
+      {/* <td>
         <EditButton handleClick={null} />
       </td>
       <td>
         <DeleteButton handleClick={null} />
-      </td>
+      </td> */}
       <td
         className='admin-page__table__td cursor-point'
         onClick={() => {
@@ -56,7 +53,7 @@ const TasksRow = (props: TasksRowProps) => {
           className='p-0 m-0'
           value={`${USERS}:${props.createdBy}`}
           onClick={handleClick}>
-          <ICODOWNRIGHT />
+          <FiCornerDownRight />
         </Button>
       </td>
       <td>{props.desc.length > 1 ? props.desc : "..."}</td>

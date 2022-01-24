@@ -68,7 +68,6 @@ export const loadTasksAction = (loading: boolean) => ({
   payload: true,
 });
 export const fillTasksAction = () => {
-  // console.log("🙋Filling tasks!")
   const token = localStorage.getItem("token");
   return async (dispatch: AppDispatch, getState: any) => {
     try {

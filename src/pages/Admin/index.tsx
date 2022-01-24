@@ -47,7 +47,6 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 export default function AdminPage(props: AdminPageProps) {
-  //console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
@@ -145,20 +144,14 @@ export default function AdminPage(props: AdminPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
-  // useEffect(() => {
-  //   console.log(location.pathname);
-  // }, [location.pathname]);
-  console.log("ADMIN PAGE")
   return !user.admin ? (
-    <Container fluid className='admin-page m-0 p-0 pl-2'>
+    <Container fluid className='admin-page'>
       <Row id='denied'>
-        <Col sm={6}>
-          <h1>Access Denied</h1>
-        </Col>
+        <h1 className='m-auto'>Access Denied</h1>
       </Row>
     </Container>
   ) : usersToDisplay && tasksToDisplay ? (
-    <Container fluid className='admin-page m-0 p-0 pl-2'>
+    <Container fluid className='admin-page'>
       <Row>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
@@ -171,16 +164,23 @@ export default function AdminPage(props: AdminPageProps) {
         </Col>
       </Row>
       <Row>
-        <Table striped bordered hover className='admin-page__admin-table'>
+        <Table
+          striped
+          bordered
+          hover
+          size='sm'
+          responsive
+          className='admin-page__admin-table'>
           {form.dropdown.toLowerCase().includes(USERS) &&
           usersToDisplay.length > 0 ? (
             <UsersTableHeading />
           ) : form.dropdown.toLowerCase().includes(TASKS) &&
             tasksToDisplay.length > 0 ? (
             <TasksTableHeading />
-          ) : form.dropdown.toLowerCase().includes(NOTIFICATIONS) &&
-            notifications &&
-            notifications.length > 0 ? (
+          ) : form.dropdown
+              .toLowerCase()
+              .includes(NOTIFICATIONS || "notification") &&
+            usersToDisplay.filter((u) => u._id === form.id).length > 0 ? (
             <NotificationsTableHeading />
           ) : (
             <></>
@@ -298,20 +298,12 @@ export default function AdminPage(props: AdminPageProps) {
                     notification={n}
                     form={form}
                     setForm={setForm}
+                    users={usersToDisplay}
                   />
                 ))
             ) : (
               <tr>
-                <td colSpan={4}>
-                  Select a{" "}
-                  <Button
-                    variant='link'
-                    onClick={resetForm}
-                    className='m-0 p-0'>
-                    user
-                  </Button>{" "}
-                  to search for notifications.
-                </td>
+                <td colSpan={12}>Select a user to search for notifications.</td>
               </tr>
             )}
           </tbody>

@@ -5,7 +5,7 @@ import { reduxStateInt } from "../../typings/interfaces";
 import { Button } from "react-bootstrap";
 import { attemptLogout } from "../../utils/funcs/f_users";
 import { RiSettings5Line } from "react-icons/ri";
-import { FiMoon, FiChevronRight } from "react-icons/fi";
+import { FiMoon } from "react-icons/fi";
 import BambooLogo from "../__Components/Logo";
 import "./styles.css";
 
@@ -37,11 +37,13 @@ export default function SideBar(props: SidebarProps) {
         className={`main-side-bar__branding${
           pathIsAdmin ? "-admin" : ""
         } my-3`}>
-        <BambooLogo />
+        <Link to='/'>
+          <BambooLogo isAdmin={pathIsAdmin} />
+        </Link>
         {/* <div className='main-side-bar__blurb'>Task app</div> */}
         {/* {!pathIsAdmin && <div className='main-side-bar__updates'>&nbsp;</div>} */}
       </div>
-      {!pathIsAdmin ? (
+      {!pathIsAdmin && (
         <>
           <div className='main-side-bar__profile mb-2'>
             You are logged in as
@@ -95,13 +97,6 @@ export default function SideBar(props: SidebarProps) {
             </Button>
           </div>
         </>
-      ) : (
-        <div className={`main-side-bar__links${pathIsAdmin ? "-admin" : ""}`}>
-          <Link to='/dash'>
-            <FiChevronRight />
-            &nbsp;dash
-          </Link>
-        </div>
       )}
     </div>
   );

@@ -71,7 +71,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
   };
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
-    console.log("draggable task initial data use effect");
     checkIfTaskIsOverdue();
     if (locationSearch !== task!._id) {
       setShow(false);
@@ -80,7 +79,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, setInitialData]);
   useEffect(() => {
-    console.log("draggable task location use effect");
     const { search } = location;
     if (search.includes(task!._id)) {
       setShow(true);

@@ -33,7 +33,6 @@ export default function LoginPage({ history }: RouteComponentProps) {
     const loggedIn = await attemptLoginUser(e, setLoadingLoginPage, dispatch);
     loggedIn ? history.push("/") : setFailed(true);
   };
-  console.log("LOGIN PAGE");
   return (
     <Container fluid>
       <Row className='login-form px-1 px-md-5'>

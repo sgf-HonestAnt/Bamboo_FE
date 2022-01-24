@@ -139,7 +139,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
   useEffect(() => {}, [taskState, atAGlanceData]);
-  // console.log("length at ataglance=>", currLength);
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
