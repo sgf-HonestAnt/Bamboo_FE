@@ -1,4 +1,6 @@
 /* .tasks-page {
+  max-height: 100vh;
+  overflow-y: scroll;
 } */
 .tasks-page__filter-row form {
   display: inline-flex;

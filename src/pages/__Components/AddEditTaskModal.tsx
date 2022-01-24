@@ -1,7 +1,8 @@
 import { History, Location } from "history";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useState } from "react";
+import Select, { ActionMeta, MultiValue } from "react-select";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { Modal, Form, Button, Row, Col, InputGroup } from "react-bootstrap";
@@ -64,6 +65,8 @@ const schema = yup.object().shape({
   deadline: yup.string(),
 });
 
+type UserOptionProps = { value: string; label: string };
+
 type AddEditTaskModalProps = {
   view?: any;
   setView?: any;
@@ -85,6 +88,36 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
+  // react-select options for shared tasks feature
+  const [userOptions, setUserOptions] = useState<UserOptionProps[]>([]);
+  function getUserOptions() {
+    let array = [];
+    for (let i = 0; i < followedUsers.length; i++) {
+      array.push({
+        value: `${followedUsers[i]._id}/${followedUsers[i].username}`,
+        label: `${followedUsers[i].username}`,
+      });
+    }
+    setUserOptions(array);
+  }
+  // react-select change handler for shared tasks feature
+  const [mySelectedUsers, setMySelectedUsers] = useState<{ selectedUsers: any }>();
+  function handleChangeReactSelect(newValue: MultiValue<{selectedUsers:any}>, actionMeta: ActionMeta<{selectedUsers:any}) {
+    setMySelectedUsers({ selectedUsers });
+    console.log(mySlectedUsers)
+  }
+
+//   (JSX attribute) onChange?: ((newValue: MultiValue<{
+//     selectedUsers: any;
+// }>, actionMeta: ActionMeta<{
+//     selectedUsers: any;
+// }>) => void) | undefined
+// Handle change events on the select
+
+// Type '(selectedUsers: UserOptionProps) => void' is not assignable to type '(newValue: MultiValue<{ selectedUsers: any; }>, actionMeta: ActionMeta<{ selectedUsers: any; }>) => void'.
+//   Types of parameters 'selectedUsers' and 'newValue' are incompatible.
+//     Type 'readonly { selectedUsers: any; }[]' is missing the following properties from type 'UserOptionProps': value, label
+
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -260,6 +293,10 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   // if (taskId) {
   //   // console.log(taskId);
   // }
+  useEffect(() => {
+    getUserOptions();
+  }, [followedUsers]);
+  console.log(selectedUsers);
   return (
     <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (
@@ -749,9 +786,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             <option value='never'>Never</option>
                           </Form.Control>
                           <Form.Text style={{ display: "inline-block" }}>
-                            * Daily, weekly and monthly repetitions are preset by default to 7,
-                            4 and 2 reps respectively. Alternatively, select
-                            'Other' for full control.
+                            * Daily, weekly and monthly repetitions are preset
+                            by default to 7, 4 and 2 reps respectively.
+                            Alternatively, select 'Other' for full control.
                           </Form.Text>
                         </InputGroup>
                       </Form.Group>
@@ -850,7 +887,15 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             })}
                           </Form.Text>
                         )} */}
-                        <Form.Control
+                        <Select
+                          isMulti
+                          value={mySelectedUsers}
+                          onChange={handleChangeReactSelect}
+                          options={userOptions}
+                        />
+                        {userOptions.map(o=><p>{o.value</p>)}
+
+                        {/* <Form.Control
                           as='select'
                           aria-label='Who would you like to share it with?'
                           // isInvalid={!!errors.sharedWith}
@@ -876,7 +921,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               {u.username}
                             </option>
                           ))}
-                        </Form.Control>
+                        </Form.Control> */}
                         {/* <Form.Control
                           as='select'
                           onChange={(e) => {

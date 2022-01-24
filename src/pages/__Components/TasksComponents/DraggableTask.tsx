@@ -21,7 +21,7 @@ import {
 import { Badge, Button } from "react-bootstrap";
 import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiFlag, FiUsers } from "react-icons/fi";
-import { IoHandRightOutline, IoHandRight } from "react-icons/io5";
+import { MdDragIndicator } from "react-icons/md";
 
 type DraggableTaskProps = {
   task: taskInt;
@@ -40,8 +40,9 @@ const Handle = (props: HandleProps) => {
     <div
       {...dragHandleProps}
       className='tasks-page__list-task__drag-handle mr-2'>
-      <IoHandRightOutline />
-      <IoHandRight />
+      <MdDragIndicator />
+      <MdDragIndicator />
+      {/* If in future want to subtly change hover svg, here is where to do it! */}
     </div>
   );
 };
