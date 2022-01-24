@@ -51,6 +51,22 @@
   max-height: 30px;
   max-width: 30px;
   background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+}
+.tasks-page__list-task__drag-handle svg {
+  margin: auto;
+}
+.tasks-page__list-task__drag-handle svg:nth-child(1) {
+  display: block;
+}
+.tasks-page__list-task__drag-handle:hover svg:nth-child(1) {
+  display: none;
+}
+.tasks-page__list-task__drag-handle svg:nth-child(2) {
+  display: none;
+}
+.tasks-page__list-task__drag-handle:hover svg:nth-child(2) {
+  display: block;
 }
 .dnd-placeholder {
   font-size: 1px;

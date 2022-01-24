@@ -21,6 +21,7 @@ import { createColorArray } from "../../utils/funcs/f_styling";
 import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
+import BambooPoints from "../__Components/XP";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -157,9 +158,12 @@ export default function FollowingPage(props: FollowingPageProps) {
                 />
               )}
             </div> */}
-            <div className='py-2'>
-              {/* {u.admin && "Admin: "} */}
-              <h5>{getUserRole(u.level)}</h5>
+            <div className='profile-card__level d-flex justify-content-between px-2 py-3'>
+              <h5 className='w-50'>
+                {u.xp}
+                <BambooPoints />
+              </h5>
+              <h5 className='w-50'>{getUserRole(u.level)}</h5>
             </div>
             {/* {u.admin && (
               <>

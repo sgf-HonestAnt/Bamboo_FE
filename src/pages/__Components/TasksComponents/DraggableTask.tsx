@@ -21,6 +21,7 @@ import {
 import { Badge, Button } from "react-bootstrap";
 import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiFlag, FiUsers } from "react-icons/fi";
+import { IoHandRightOutline, IoHandRight } from "react-icons/io5";
 
 type DraggableTaskProps = {
   task: taskInt;
@@ -38,7 +39,10 @@ const Handle = (props: HandleProps) => {
   return (
     <div
       {...dragHandleProps}
-      className='tasks-page__list-task__drag-handle mr-2'></div>
+      className='tasks-page__list-task__drag-handle mr-2'>
+      <IoHandRightOutline />
+      <IoHandRight />
+    </div>
   );
 };
 const DraggableTask = (props: DraggableTaskProps) => {
@@ -66,7 +70,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   };
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
-    console.log("draggable task initial data use effect")
+    console.log("draggable task initial data use effect");
     checkIfTaskIsOverdue();
     if (locationSearch !== task!._id) {
       setShow(false);
@@ -75,7 +79,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, setInitialData]);
   useEffect(() => {
-    console.log("draggable task location use effect")
+    console.log("draggable task location use effect");
     const { search } = location;
     if (search.includes(task!._id)) {
       setShow(true);

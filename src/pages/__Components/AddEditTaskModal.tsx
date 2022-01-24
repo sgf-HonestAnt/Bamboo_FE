@@ -58,7 +58,7 @@ const schema = yup.object().shape({
   repeated: yup.string(),
   repeats: yup.string(),
   repeatsOther: yup.number(),
-  repetitions: yup.string().matches(/^(?=.*[0-9])/, "Must be numbers."),
+  repetitions: yup.string().matches(/^(?=.*[1-9])/, "Must be numbers."),
   shared: yup.string(),
   sharedWith: yup.array().of(yup.string()),
   deadline: yup.string(),
@@ -359,7 +359,11 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
           <Modal.Body>
             {taskSet && (
               <div className='px-2 pb-3'>
-                <img src={avatar} alt='' className='dotted-border x-tiny-round' />{" "}
+                <img
+                  src={avatar}
+                  alt=''
+                  className='dotted-border x-tiny-round'
+                />{" "}
                 <strong>
                   {taskSet.createdBy !== my_user._id
                     ? getUsernameById(followedUsers, taskSet.createdBy)
@@ -388,7 +392,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 repeated: "no",
                 repeats: taskSet?.repeats || "never",
                 repeatsOther: 0,
-                repetitions: "0",
+                repetitions: "1",
                 shared: "no",
                 sharedWith: taskSet?.sharedWith || [],
                 deadline: taskSet?.deadline || "",
@@ -738,15 +742,17 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                             <option value='DEFAULT' disabled>
                               Select a value
                             </option>
-                            <option value='daily'>Daily</option>
-                            <option value='weekly'>Weekly</option>
-                            <option value='monthly'>Monthly</option>
+                            <option value='daily'>Daily*</option>
+                            <option value='weekly'>Weekly*</option>
+                            <option value='monthly'>Monthly*</option>
                             <option value='other'>Other</option>
                             <option value='never'>Never</option>
                           </Form.Control>
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.repeats}
-                          </Form.Control.Feedback>
+                          <Form.Text style={{ display: "inline-block" }}>
+                            * Daily, weekly and monthly repetitions are preset by default to 7,
+                            4 and 2 reps respectively. Alternatively, select
+                            'Other' for full control.
+                          </Form.Text>
                         </InputGroup>
                       </Form.Group>
                     ) : values.repeats === "other" ? (
@@ -961,15 +967,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         Go back
                       </Button>
                     </div>
-                    {/* <div text-muted>
-                      RESULTS... sharedWith({values.sharedWith})... shared(
-                      {values.shared})... sharedRadio({values.sharedRadio}
-                      )...repetitions({values.repetitions})... repeatsOther(
-                      {values.repeatsOther})... repeats(
-                      {values.repeats})... repeatsRadio({values.repeatsRadio})
-                      ...repeated({values.repeated}) ...repeatedRadio(
-                      {values.repeatedRadio})
-                    </div> */}
                   </Form>
                 </>
               )}
