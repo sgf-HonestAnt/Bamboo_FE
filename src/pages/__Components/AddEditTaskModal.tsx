@@ -1,7 +1,7 @@
 import { History, Location } from "history";
-import { Formik } from "formik";
+import { Formik, useField } from "formik";
+import Select from "react-select";
 import * as yup from "yup";
-import Select, { ActionMeta, MultiValue } from "react-select";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
@@ -44,8 +44,7 @@ const schema = yup.object().shape({
   title: yup
     .string()
     .required("No title provided.")
-    .min(1, "No title provided.")
-    .max(30, "Title cannot exceed 30 chars."),
+    .min(1, "No title provided."),
   value: yup
     .number()
     .required("No value provided.")
@@ -54,7 +53,6 @@ const schema = yup.object().shape({
     .string()
     .required("No category provided.")
     .min(1, "No category provided."),
-  newCategory: yup.string().max(12, "Category cannot exceed 12 chars."),
   desc: yup.string(),
   repeated: yup.string(),
   repeats: yup.string(),
@@ -64,8 +62,6 @@ const schema = yup.object().shape({
   sharedWith: yup.array().of(yup.string()),
   deadline: yup.string(),
 });
-
-type UserOptionProps = { value: string; label: string };
 
 type AddEditTaskModalProps = {
   view?: any;
@@ -82,42 +78,44 @@ type AddEditTaskModalProps = {
   setInitialData?: any;
   taskSet: taskInt | null;
 };
+
+function SelectInput({ label, setSharedUsers, ...props }: any) {
+  const [field, meta] = useField(props);
+  const options = props.children.map((option: typeof props.children) => ({
+    value: option.props.value,
+    label: option.props.children,
+  }));
+  const onChange = (selectedOptions: any) => {
+    setSharedUsers({ selectedOptions });
+  };
+  return (
+    <div className='mb-3'>
+      <label htmlFor={props.id || props.name} className='form-label'>
+        {label}
+      </label>
+      <Select
+        isMulti
+        defaultValue={options.find(
+          (option: { label: string; value: string }) =>
+            option.value === field.value
+        )}
+        options={options}
+        onChange={onChange}
+        // onBlur={setTouched}
+      />
+      {meta.touched && meta.error ? (
+        <div className='form-text text-danger'>{meta.error}</div>
+      ) : null}
+    </div>
+  );
+}
+
 const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
-  // react-select options for shared tasks feature
-  const [userOptions, setUserOptions] = useState<UserOptionProps[]>([]);
-  function getUserOptions() {
-    let array = [];
-    for (let i = 0; i < followedUsers.length; i++) {
-      array.push({
-        value: `${followedUsers[i]._id}/${followedUsers[i].username}`,
-        label: `${followedUsers[i].username}`,
-      });
-    }
-    setUserOptions(array);
-  }
-  // react-select change handler for shared tasks feature
-  const [mySelectedUsers, setMySelectedUsers] = useState<{ selectedUsers: any }>();
-  function handleChangeReactSelect(newValue: MultiValue<{selectedUsers:any}>, actionMeta: ActionMeta<{selectedUsers:any}) {
-    setMySelectedUsers({ selectedUsers });
-    console.log(mySlectedUsers)
-  }
-
-//   (JSX attribute) onChange?: ((newValue: MultiValue<{
-//     selectedUsers: any;
-// }>, actionMeta: ActionMeta<{
-//     selectedUsers: any;
-// }>) => void) | undefined
-// Handle change events on the select
-
-// Type '(selectedUsers: UserOptionProps) => void' is not assignable to type '(newValue: MultiValue<{ selectedUsers: any; }>, actionMeta: ActionMeta<{ selectedUsers: any; }>) => void'.
-//   Types of parameters 'selectedUsers' and 'newValue' are incompatible.
-//     Type 'readonly { selectedUsers: any; }[]' is missing the following properties from type 'UserOptionProps': value, label
-
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -132,6 +130,21 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
+  // react-select multiple dropdown
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    []
+  );
+  async function loadModal() {
+    let array: { value: string; label: string }[] = [];
+    for (let i = 0; i < followedUsers.length; i++) {
+      array.push({
+        value: `${followedUsers[i]._id}`, // /${followedUsers[i].username}
+        label: `${followedUsers[i].username}`,
+      });
+    }
+    setOptions(array);
+  }
+  //
   const avatar =
     taskSet && taskSet.createdBy !== my_user._id
       ? getAvatarById(followedUsers, taskSet.createdBy)
@@ -147,19 +160,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     value: false,
     category: false,
   });
-  const removeUserFromShared = () => {
-    console.log("remove user...");
-    // e.preventDefault();
-    // const value = e.target.value;
-    // const updatedSharedUsers = form.sharedWith.filter((u_id) => u_id !== value);
-    // setForm({ ...form, sharedWith: updatedSharedUsers });
-  };
+  const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
   const handleSubmitFormik = async (e: any) => {
     console.log("submitting to post or edit=>", e);
-    console.log(e.sharedWith.selectedOptions);
     const { repeatedRadio, sharedRadio, repeats } = e;
     e.repeated = repeatedRadio;
     e.shared = sharedRadio;
+    e.sharedWith = sharedUsers?.selectedOptions;
     if (repeats === "other") {
       e.repeats = e.repeatsOther;
     }
@@ -294,9 +301,9 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
   //   // console.log(taskId);
   // }
   useEffect(() => {
-    getUserOptions();
+    loadModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [followedUsers]);
-  console.log(selectedUsers);
   return (
     <Modal show={show} onHide={handleCloseModal}>
       {taskSet && view ? (
@@ -457,6 +464,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                       <InputGroup hasValidation>
                         <Form.Control
                           type='text'
+                          maxLength={30}
                           value={values.title}
                           placeholder={
                             errors.title
@@ -614,6 +622,7 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
+                            maxLength={15}
                             value={values.newCategory}
                             placeholder='for e.g. "Knitting"'
                             aria-describedby='create new category'
@@ -864,99 +873,49 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         </div>
                       </Form.Group>
                     ) : values.sharedRadio === "yes" ? (
-                      <Form.Group controlId='sharedWith' className='py-1'>
-                        <Form.Label>
-                          Who would you like to share it with?
-                        </Form.Label>
-                        {/* {values.sharedWith.length > 0 && (
-                          <Form.Text>
-                            {values.sharedWith.map((id) => {
-                              const username = getUsernameById(
-                                followedUsers,
-                                id
-                              );
-                              return (
-                                <span className='mr-3' key={id}>
-                                  {username}{" "}
-                                  <XButton
-                                    value={id}
-                                    handleClick={removeUserFromShared}
-                                  />
-                                </span>
-                              );
-                            })}
-                          </Form.Text>
-                        )} */}
-                        <Select
-                          isMulti
-                          value={mySelectedUsers}
-                          onChange={handleChangeReactSelect}
-                          options={userOptions}
-                        />
-                        {userOptions.map(o=><p>{o.value</p>)}
-
-                        {/* <Form.Control
-                          as='select'
-                          aria-label='Who would you like to share it with?'
-                          // isInvalid={!!errors.sharedWith}
-                          onChange={handleChange}
-                          multiple
-                          // value={field}
-                        >
-                          <option value='DEFAULT' disabled>
-                            Select a user
+                      <SelectInput
+                        name='sharedWith'
+                        label='Who would you like to share it with?'
+                        setSharedUsers={setSharedUsers}>
+                        {options.map((option: any) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
                           </option>
-                          {followedUsers.map((u, i) => (
-                            <option
-                              key={i}
-                              value={`${u._id}/${u.username}`}
-                              // onSelect={(e) => {
-                              //   if (!changed) {
-                              //     setChanged(true);
-                              //   }
-                              //   console.log(values.sharedWith);
-                              //   handleSelectFormik(e);
-                              // }}
-                            >
-                              {u.username}
-                            </option>
-                          ))}
-                        </Form.Control> */}
-                        {/* <Form.Control
-                          as='select'
-                          onChange={(e) => {
-                            if (!changed) {
-                              setChanged(true);
-                            }
-                            console.log(e);
-                            handleChange(e);
-                          }}
-                          aria-describedby='who would you like to share it with?'
-                          defaultValue={["DEFAULT"]}
-                          isInvalid={!!errors.sharedWith}
-                          multiple>
-                          <option value='DEFAULT' disabled>
-                            Select a user
-                          </option>
-                          {followedUsers.map((u) => (
-                            <option
-                              key={u._id}
-                              value={`${u._id}/${u.username}`}>
-                              {u.username}
-                            </option>
-                          ))}
-                        </Form.Control> */}
-                        {followedUsers.length < 1 && (
-                          <Form.Text id='sharedWithHelpBlock' muted>
-                            No one to share with? Add users at the 'following'
-                            page.
-                          </Form.Text>
-                        )}
-                        <Form.Control.Feedback type='invalid'>
-                          {errors.sharedWith}
-                        </Form.Control.Feedback>
-                      </Form.Group>
+                        ))}
+                      </SelectInput>
                     ) : (
+                      // <Form.Group controlId='sharedWith' className='py-1'>
+                      //   <Form.Label>
+                      //     Who would you like to share it with?
+                      //   </Form.Label>
+                      //   <Form.Control
+                      //     as='select'
+                      //     aria-label='Who would you like to share it with?'
+                      //     onChange={(e) => {
+                      //       handleChange(e);
+                      //       console.log(e);
+                      //     }}
+                      //     multiple
+                      //   >
+                      //     <option value='DEFAULT' disabled>
+                      //       Select a user
+                      //     </option>
+                      //     {followedUsers.map((u, i) => (
+                      //       <option key={i} value={`${u._id}/${u.username}`}>
+                      //         {u.username}
+                      //       </option>
+                      //     ))}
+                      //   </Form.Control>
+                      //   {followedUsers.length < 1 && (
+                      //     <Form.Text id='sharedWithHelpBlock' muted>
+                      //       No one to share with? Add users at the 'following'
+                      //       page.
+                      //     </Form.Text>
+                      //   )}
+                      //   <Form.Control.Feedback type='invalid'>
+                      //     {errors.sharedWith}
+                      //   </Form.Control.Feedback>
+                      // </Form.Group>
                       <></>
                     )}
                     <div className='pt-3 pb-1'>

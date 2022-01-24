@@ -5,10 +5,10 @@ import { achievementInt, reduxStateInt } from "../../../typings/interfaces";
 import { LinkButton } from "../Buttons";
 import { attemptPostAchievement } from "../../../utils/funcs/f_achievements";
 import createSuperlist from "../../../utils/funcs/f_superlist";
-import {
-  getAvatarByUsername,
-  getIdByUsername,
-} from "../../../utils/funcs/f_users";
+// import {
+//   getAvatarByUsername,
+//   getIdByUsername,
+// } from "../../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
