@@ -60,7 +60,7 @@ export async function purchaseReward(
     if (response.ok) {
       dispatch(setUserLoading(true));
       // dispatch(setUserPoints(remainingXp));
-      // dispatch(setUserRewards(updatedRewards));
+      // dispatch(setUserRewards(updatedRewards)); // <== THERE IS A PROBLEM HERE
       return remainingXp;
     }
   } catch (error) {

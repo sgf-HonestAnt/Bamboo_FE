@@ -82,7 +82,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   };
   const findRewardsAvailable = async () => {
     let generalRewards = rewards
-      .filter((item) => item.available > 0)
+      .filter((item) => item.available && item.available > 0)
       .filter((item) => !item.reward.includes("SPECIAL"));
     const month = await getMonthByIndex(new Date()).toUpperCase();
     const nextMonth = await getMonthByIndex(new Date(), true).toUpperCase();

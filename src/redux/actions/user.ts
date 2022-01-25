@@ -17,6 +17,7 @@ import {
   SET_USER_POINTS_TOTAL,
   SET_USER_COMPLETED_TOTAL,
   SET_USER_POINTS_AND_COMPLETED,
+  SET_USER_REWARDS,
 } from "../../utils/const/str";
 import { SET_REFRESH_TOKEN } from "../../utils/const/str";
 import { rewardsInt, userInt } from "../../typings/interfaces";
@@ -49,8 +50,8 @@ export const setUserLevel = (level: number) => ({
   type: SET_USER_LEVEL,
   payload: level,
 });
-export const setUserRewards = (rewards: rewardsInt[]) => ({
-  type: SET_USER_LEVEL,
+export const setUserRewards = (rewards: rewardsInt[]) => ({ // // <== THERE IS A PROBLEM HERE
+  type: SET_USER_REWARDS,
   payload: rewards,
 });
 export const setUserPointsAndCompleted = (user: userInt) => ({
