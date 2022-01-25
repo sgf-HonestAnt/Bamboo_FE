@@ -73,7 +73,7 @@ export default function MapTasks(props: MapTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
   return (
-    <div className='dashboard__map-tasks'>
+    <div className='dashboard__map-tasks pt-2'>
       {tasks.length > 0 && <hr />}
       {
         // eslint-disable-next-line array-callback-return
@@ -91,7 +91,7 @@ export default function MapTasks(props: MapTasksProps) {
           </Link>
         ))
       }
-      {tasks.length > 0 && <hr />}
+      <hr />
     </div>
   );
 }
