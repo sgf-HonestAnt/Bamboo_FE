@@ -13,32 +13,20 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
-import {
-  EditTask,
-  setNewCategory,
-  setNewTask,
-} from "../../redux/actions/tasks";
 import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  PUT,
-  POST,
-  NEVER,
-  TASK_CATEGORIES,
-  TEAM,
-  AWAITED,
-} from "../../utils/const/str";
+import { NEVER, TASK_CATEGORIES, TEAM } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
   getMinMaxDateAsString,
 } from "../../utils/funcs/f_dates";
 import {
-  attemptPostOrEditTask,
   attemptDeleteTask,
   removeSelfFromTask,
 } from "../../utils/funcs/f_tasks";
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
+import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 
 const schema = yup.object().shape({
   title: yup
@@ -110,7 +98,7 @@ function SelectInput({ label, setSharedUsers, ...props }: any) {
   );
 }
 
-const AddEditTaskModal = (props: AddEditTaskModalProps) => {
+export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
@@ -161,80 +149,102 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
-  const handleSubmitFormik = async (e: any) => {
-    const { repeatedRadio, sharedRadio, repeats } = e;
-    e.repeated = repeatedRadio;
-    e.shared = sharedRadio;
-    e.sharedWith = sharedUsers?.selectedOptions;
-    if (repeats === "other") {
-      e.repeats = e.repeatsOther;
-    }
-    if (e.category === "") {
-      e.category = "none";
-    }
-    try {
-      const method = taskSet ? PUT : POST;
-      const taskId = taskSet ? taskSet._id : null;
-      const newTask = await attemptPostOrEditTask(
-        e,
-        refreshToken,
-        method,
-        taskId,
-        history,
-        location
-      );
-      if (taskSet) {
-        // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
-        const editedStatus = taskSet.status;
-        const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
-        const editedListOfTasks = listOfTasks.filter(
-          (t) => t._id !== taskSet._id
-        );
-        editedListOfTasks.push(newTask);
-        dispatch(EditTask(editedStatus, editedListOfTasks));
-      } else {
-        // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
-        dispatch(setNewTask(newTask));
-      }
-      if (
-        !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
-        !categories.includes(newTask.category.toLowerCase())
-      ) {
-        // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
-        categories.push(newTask.category.toLowerCase());
-        dispatch(setNewCategory(categories));
-      }
-      if (initialData) {
-        // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
-        if (taskSet) {
-          const index = initialData.tasks.findIndex(
-            (task: taskInt | undefined) => task?._id === taskSet._id
-          );
-          initialData.tasks[index] = newTask;
-        } else {
-          initialData.tasks.push(newTask); // push new task to list of tasks
-          initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
-        }
-        const newData = {
-          ...initialData,
-          tasks: [...initialData.tasks!],
-          lists: [...initialData.lists!],
-        };
-        setInitialData(newData);
-      }
-      if (repeats !== "never") {
-        // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
-        // force reload when tasks are repeated
-        setTimeout(() => history.push("/reload?pathname=tasks"), 500);
-      } else {
-        // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-        handleClose();
-        setChanged({ title: false, value: false, category: false });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSubmitFormik = async (e: any) => {
+  //   // B/E: Schema:
+  //   // {
+  //   //   category: { type: String, default: NONE, required: true },
+  //   //   title: { type: String, required: true },
+  //   //   desc: { type: String, required: true },
+  //   //   repeats: { type: String, required: true, enum: [NEVER, DAILY, WEEKLY, MONTHLY, STRING(NUMBER),] }, //
+  //   //   type: { type: String, default: SOLO, enum: [SOLO, TEAM], },
+  //   //   value: { type: Number, default: 0 },
+  //   //   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+  //   //   sharedWith: { default: [], type: [{ type: Schema.Types.ObjectId, ref: "User" }], },
+  //   //   status: { type: String, default: AWAITED, enum: [AWAITED, COMPLETED, IN_PROGRESS] },
+  //   //   deadline: { type: Date },
+  //   // },
+  //   // Formik adds:
+  //   // newCategory: "", // overrides category if defined
+  //   // repeated: "no", // "yes" or "no"
+  //   // repeatsOther: 0,
+  //   // repetitions: "1",
+  //   // shared: "no",
+  //   // repeatedRadio: null, // "yes" or "no" => show Repeated dropdown
+  //   // sharedRadio: null, // "yes" or "no" => show Shared dropdown
+  //   // Note, task cannot be sharedWith.length>1 AND repeats !== NEVER
+  //   const { repeatedRadio, sharedRadio, repeats } = e;
+  //   e.repeated = repeatedRadio;
+  //   e.shared = sharedRadio;
+  //   e.sharedWith = sharedUsers?.selectedOptions;
+  //   if (repeats === "other") {
+  //     e.repeats = e.repeatsOther;
+  //   }
+  //   if (e.category === "") {
+  //     e.category = NONE;
+  //   }
+  //   try {
+  //     const method = taskSet ? PUT : POST;
+  //     const taskId = taskSet ? taskSet._id : null;
+  //     const newTask = await attemptPostOrEditTask(
+  //       e,
+  //       refreshToken,
+  //       method,
+  //       taskId,
+  //       history,
+  //       location
+  //     );
+  //     if (taskSet) {
+  //       // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
+  //       const editedStatus = taskSet.status;
+  //       const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
+  //       const editedListOfTasks = listOfTasks.filter(
+  //         (t) => t._id !== taskSet._id
+  //       );
+  //       editedListOfTasks.push(newTask);
+  //       dispatch(EditTask(editedStatus, editedListOfTasks));
+  //     } else {
+  //       // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
+  //       dispatch(setNewTask(newTask));
+  //     }
+  //     if (
+  //       !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
+  //       !categories.includes(newTask.category.toLowerCase())
+  //     ) {
+  //       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
+  //       categories.push(newTask.category.toLowerCase());
+  //       dispatch(setNewCategory(categories));
+  //     }
+  //     if (initialData) {
+  //       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
+  //       if (taskSet) {
+  //         const index = initialData.tasks.findIndex(
+  //           (task: taskInt | undefined) => task?._id === taskSet._id
+  //         );
+  //         initialData.tasks[index] = newTask;
+  //       } else {
+  //         initialData.tasks.push(newTask); // push new task to list of tasks
+  //         initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
+  //       }
+  //       const newData = {
+  //         ...initialData,
+  //         tasks: [...initialData.tasks!],
+  //         lists: [...initialData.lists!],
+  //       };
+  //       setInitialData(newData);
+  //     }
+  //     if (repeats !== NEVER) {
+  //       // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
+  //       // force reload when tasks are repeated
+  //       setTimeout(() => history.push("/reload?pathname=tasks"), 500);
+  //     } else {
+  //       // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+  //       handleClose();
+  //       setChanged({ title: false, value: false, category: false });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const handleDelete = () => {
     setShowWarning(true);
   };
@@ -382,7 +392,22 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                  handleSubmitFormik(values);
+                  submitFormikTask(
+                    values,
+                    sharedUsers,
+                    taskSet,
+                    categories,
+                    awaited,
+                    in_progress,
+                    refreshToken,
+                    initialData,
+                    setInitialData,
+                    setChanged,
+                    handleClose,
+                    history,
+                    location,
+                    dispatch
+                  );
                   setSubmitting(false);
                 }, 400);
               }}
@@ -393,14 +418,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 newCategory: "",
                 desc: taskSet?.desc || " ",
                 repeated: "no",
-                repeats: taskSet?.repeats || "never",
+                repeats: taskSet?.repeats || NEVER,
                 repeatsOther: 0,
                 repetitions: "1",
                 shared: "no",
                 sharedWith: taskSet?.sharedWith || [],
                 deadline: taskSet?.deadline || "",
                 repeatedRadio: null,
-                repeatsRadio: null,
                 sharedRadio: null,
               }}>
               {({
@@ -893,6 +917,4 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
       )}
     </Modal>
   );
-};
-
-export default AddEditTaskModal;
+}
