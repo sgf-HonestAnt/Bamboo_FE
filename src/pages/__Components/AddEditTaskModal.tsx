@@ -51,6 +51,9 @@ const schema = yup.object().shape({
   deadline: yup.string(),
 });
 
+// repeatsOther: 0,
+// repetitions: "1",
+
 type AddEditTaskModalProps = {
   view?: any;
   setView?: any;
@@ -786,14 +789,17 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               <Form.Control
                                 as='select'
                                 onChange={handleChange}
-                                defaultValue='1'
+                                defaultValue='DEFAULT'
                                 aria-describedby='task repeats'
                                 isInvalid={!!errors.repeatsOther}>
-                                <option value='1'>Daily</option>
-                                <option value='7'>Weekly</option>
-                                <option value='28'>Monthly</option>
-                                <option value='2'>Every other day</option>
-                                <option value='3'>Every third day</option>
+                                <option value='DEFAULT' disabled>
+                                  Select a value
+                                </option>
+                                <option value={1}>Daily</option>
+                                <option value={7}>Weekly</option>
+                                <option value={28}>Monthly</option>
+                                <option value={2}>Every other day</option>
+                                <option value={3}>Every third day</option>
                               </Form.Control>
                               <Form.Control.Feedback type='invalid'>
                                 {errors.repeatsOther}
