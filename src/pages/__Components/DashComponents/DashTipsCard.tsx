@@ -3,7 +3,6 @@ import { reduxStateInt } from "../../../typings/interfaces";
 
 type DashTipsCardProps = {};
 const DashTipsCard = (props: DashTipsCardProps) => {
-  //console.log("FIX NEEDED ON DASHTIPSCARD") // 🔨 FIX NEEDED ON TIP SUGGESTIONS
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { username, level, total_xp, total_completed } = my_user;
@@ -12,12 +11,6 @@ const DashTipsCard = (props: DashTipsCardProps) => {
   const userHasFollows = followedUsers.length > 0;
   const userIsAhead = followedUsers.find((u) => u.level > level!);
   const newLevelApproaching = (total_xp! + 50) / 250 >= level! + 1;
-  // console.log(
-  //   "NEW LEVEL APPROACHING",
-  //   newLevelApproaching,
-  //   total_xp! + 50,
-  //   (total_xp! + 50) / 250
-  // );
   const whyNoTasks =
     awaited.length + in_progress.length === 0 && total_completed === 0;
   return (

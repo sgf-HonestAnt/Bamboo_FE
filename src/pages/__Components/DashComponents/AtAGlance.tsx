@@ -105,7 +105,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     const todayTasks = allTasks.filter(
       (task) => task.deadline?.slice(0, 10) === today
     );
-    const sharedTasks = allTasks.filter((task) => task.sharedWith!.length > 1);
+    const sharedTasks = allTasks.filter((task) => task.sharedWith && task.sharedWith.length > 1);
     const overdueTasks = await findIfTasksOverdue();
     const rewardsAvailable = await findRewardsAvailable();
     overdueTasks &&
@@ -139,7 +139,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
   useEffect(() => {}, [taskState, atAGlanceData]);
-  // console.log("length at ataglance=>", currLength);
   return (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />

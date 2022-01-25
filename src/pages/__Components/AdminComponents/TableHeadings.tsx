@@ -1,17 +1,15 @@
-import { ICODELETE, ICOEDIT } from "../../../utils/appIcons";
-
 type UsersTableHeadingProps = {};
 export const UsersTableHeading = (props: UsersTableHeadingProps) => {
   return (
     <>
       <thead>
         <tr>
-          <th>
+          {/* <th>
             <ICOEDIT />
           </th>
           <th>
             <ICODELETE />
-          </th>
+          </th> */}
           <th>Id</th>
           <th>Name</th>
           <th>Username</th>
@@ -33,16 +31,16 @@ export const TasksTableHeading = (props: TasksTableHeadingProps) => {
   return (
     <thead>
       <tr>
-        <th>
+        {/* <th>
           <ICOEDIT />
         </th>
         <th>
           <ICODELETE />
-        </th>
-        <th>Id</th>
-        <th>Title</th>
+        </th> */}
+        <th className="col-1">Id</th>
+        <th className="col-2">Title</th>
         <th>Created By</th>
-        <th>Description</th>
+        <th className="col-3">Description</th>
         <th>Category</th>
         {/* <th>Image</th> */}
         <th>Value</th>
@@ -57,14 +55,14 @@ export const NotificationsTableHeading = (props: NotificationsTableHeadingProps)
   return (
     <thead>
       <tr>
-        <th>
+        {/* <th>
           <ICOEDIT />
         </th>
         <th>
           <ICODELETE />
-        </th>
-        <th>Text</th>
-        <th>Belongs to</th>
+        </th> */}
+        <th className="col-2">Belongs to</th>
+        <th className="col-10">Notification text</th>
       </tr>
     </thead>
   );

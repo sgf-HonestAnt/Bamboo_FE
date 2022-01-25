@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { History, Location } from "history";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import {
   currentFeaturesInt,
   reduxStateInt,
@@ -47,11 +47,10 @@ type AdminPageProps = {
   location: Location<unknown>;
 };
 export default function AdminPage(props: AdminPageProps) {
-  //console.log("FIX NEEDED ON ADMINPAGE"); // 🔨 FIX NEEDED: CHANGE SELECTED FEATURE
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   // include search users by username or email
-  const { user, history } = props;
+  const { user } = props;
   const signedInId = my_user._id;
   const [usersData, setUsersData] = useState<userInt[]>();
   const [usersToDisplay, setUsersToDisplay] = useState<userInt[]>();
@@ -65,11 +64,11 @@ export default function AdminPage(props: AdminPageProps) {
   });
   const userByFormId = usersToDisplay?.find((u) => u._id === form.id);
   const username = usersToDisplay && userByFormId ? userByFormId.username : "";
-  const resetForm = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setForm({ dropdown: USERS, id: "", search: "" });
-    history.push("/admin-dash");
-  };
+  // const resetForm = async (e: { preventDefault: () => void }) => {
+  //   e.preventDefault();
+  //   setForm({ dropdown: USERS, id: "", search: "" });
+  //   history.push("/admin-dash");
+  // };
   const loadAdmin = async () => {
     const data = await getUsersAsAdmin(form.id);
     const allTasks = await getAllTasks(form.id);
@@ -145,20 +144,14 @@ export default function AdminPage(props: AdminPageProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
-  // useEffect(() => {
-  //   console.log(location.pathname);
-  // }, [location.pathname]);
-  console.log("ADMIN PAGE")
   return !user.admin ? (
-    <Container fluid className='admin-page m-0 p-0 pl-2'>
+    <Container fluid className='admin-page'>
       <Row id='denied'>
-        <Col sm={6}>
-          <h1>Access Denied</h1>
-        </Col>
+        <h1 className='m-auto'>Access Denied</h1>
       </Row>
     </Container>
   ) : usersToDisplay && tasksToDisplay ? (
-    <Container fluid className='admin-page m-0 p-0 pl-2'>
+    <Container fluid className='admin-page'>
       <Row>
         <Col sm='12' className='p-0 m-0'>
           <AdminNavbar
@@ -171,16 +164,24 @@ export default function AdminPage(props: AdminPageProps) {
         </Col>
       </Row>
       <Row>
-        <Table striped bordered hover className='admin-page__admin-table'>
+        <Table
+          striped
+          bordered
+          hover
+          size='sm'
+          responsive
+          className='admin-page__admin-table'>
           {form.dropdown.toLowerCase().includes(USERS) &&
           usersToDisplay.length > 0 ? (
             <UsersTableHeading />
           ) : form.dropdown.toLowerCase().includes(TASKS) &&
             tasksToDisplay.length > 0 ? (
             <TasksTableHeading />
-          ) : form.dropdown.toLowerCase().includes(NOTIFICATIONS) &&
+          ) : form.dropdown
+              .toLowerCase()
+              .includes(NOTIFICATIONS || "notification") &&
             notifications &&
-            notifications.length > 0 ? (
+            usersToDisplay.filter((u) => u._id === form.id).length > 0 ? (
             <NotificationsTableHeading />
           ) : (
             <></>
@@ -298,20 +299,12 @@ export default function AdminPage(props: AdminPageProps) {
                     notification={n}
                     form={form}
                     setForm={setForm}
+                    users={usersToDisplay}
                   />
                 ))
             ) : (
               <tr>
-                <td colSpan={4}>
-                  Select a{" "}
-                  <Button
-                    variant='link'
-                    onClick={resetForm}
-                    className='m-0 p-0'>
-                    user
-                  </Button>{" "}
-                  to search for notifications.
-                </td>
+                <td colSpan={12}>Select a user to search for notifications.</td>
               </tr>
             )}
           </tbody>

@@ -2,7 +2,7 @@ import { Nav, Form, FormControl } from "react-bootstrap";
 import { taskInt, userInt } from "../../../typings/interfaces";
 import { ResetButton } from "../Buttons";
 import {
-  FEATURES,
+  // FEATURES,
   NOTIFICATIONS,
   TASKS,
   USERS,
@@ -20,7 +20,7 @@ type AdminNavbarProps = {
 const AdminNavbar = (props: AdminNavbarProps) => {
   const { users, username, tasks, form, setForm } = props;
   const { id } = form;
-  const dropdown = [USERS, TASKS, NOTIFICATIONS, FEATURES];
+  const dropdown = [USERS, TASKS, NOTIFICATIONS]; // FEATURES
   const [loadingForm, setLoadingForm] = useState(false);
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
@@ -78,16 +78,19 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  // console.log(form);
   return !loadingForm ? (
     <Form>
       <Nav className='admin-page__form p-2'>
         <div className='d-flex mr-auto'>
-          <ResetButton label='Reset' className="my-0 mr-2" handleClick={handleReset} />
+          <ResetButton
+            label='Reset'
+            className='mr-2'
+            handleClick={handleReset}
+          />
           {form.dropdown.toLowerCase().includes(USERS) && (
             <Form.Group
               controlId='dropdown'
-              className='admin-page__form-dropdown'
+              className='admin-page__form-dropdown mr-2'
               id='dropdown'>
               <Form.Control as='select' onChange={handleChange}>
                 {dropdown.map((d) => (
@@ -99,7 +102,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
               </Form.Control>
             </Form.Group>
           )}
-          <div className='admin-page__form-header p-2'>
+          <div className='admin-page__form-header m-auto'>
             {form.dropdown.toLowerCase().includes(USERS)
               ? usersHeader
               : form.dropdown.toLowerCase().includes(TASKS)
@@ -109,21 +112,14 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         </div>
         <div>
           {!form.dropdown.toLowerCase().includes(NOTIFICATIONS) && (
-            <>
-              <Form.Group
-                controlId='search'
-                className='admin-page__form-search'>
-                <FormControl
-                  type='text'
-                  placeholder='Search'
-                  className='mr-sm-2'
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              {/* <Button variant='outline-success' disabled>
-                      Search
-                    </Button> */}
-            </>
+            <Form.Group controlId='search' className='admin-page__form-search'>
+              <FormControl
+                type='text'
+                placeholder='Search'
+                className='mr-sm-2'
+                onChange={handleChange}
+              />
+            </Form.Group>
           )}
         </div>
         {/* {form.dropdown === USERS && (

@@ -13,32 +13,20 @@ import {
   taskInt,
   userInt,
 } from "../../typings/interfaces";
-import {
-  EditTask,
-  setNewCategory,
-  setNewTask,
-} from "../../redux/actions/tasks";
 import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  PUT,
-  POST,
-  NEVER,
-  TASK_CATEGORIES,
-  TEAM,
-  AWAITED,
-} from "../../utils/const/str";
+import { NEVER, TASK_CATEGORIES, TEAM } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
   getMinMaxDateAsString,
 } from "../../utils/funcs/f_dates";
 import {
-  attemptPostOrEditTask,
   attemptDeleteTask,
   removeSelfFromTask,
 } from "../../utils/funcs/f_tasks";
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
+import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 
 const schema = yup.object().shape({
   title: yup
@@ -62,6 +50,9 @@ const schema = yup.object().shape({
   sharedWith: yup.array().of(yup.string()),
   deadline: yup.string(),
 });
+
+// repeatsOther: 0,
+// repetitions: "1",
 
 type AddEditTaskModalProps = {
   view?: any;
@@ -110,7 +101,7 @@ function SelectInput({ label, setSharedUsers, ...props }: any) {
   );
 }
 
-const AddEditTaskModal = (props: AddEditTaskModalProps) => {
+export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
@@ -161,124 +152,109 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
-  const handleSubmitFormik = async (e: any) => {
-    console.log("submitting to post or edit=>", e);
-    const { repeatedRadio, sharedRadio, repeats } = e;
-    e.repeated = repeatedRadio;
-    e.shared = sharedRadio;
-    e.sharedWith = sharedUsers?.selectedOptions;
-    if (repeats === "other") {
-      e.repeats = e.repeatsOther;
-    }
-    if (e.category === "") {
-      e.category = "none";
-    }
-    console.log(e);
-    try {
-      const method = taskSet ? PUT : POST;
-      const taskId = taskSet ? taskSet._id : null;
-      const newTask = await attemptPostOrEditTask(
-        e,
-        refreshToken,
-        method,
-        taskId,
-        history,
-        location
-      );
-      console.log("POSTED OR EDITED TASK=>", newTask);
-      if (taskSet) {
-        console.log("TASK WAS SET, SO I AM DISPATCHING AN EDIT.");
-        const editedStatus = taskSet.status;
-        const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
-        const editedListOfTasks = listOfTasks.filter(
-          (t) => t._id !== taskSet._id
-        );
-        editedListOfTasks.push(newTask);
-        dispatch(EditTask(editedStatus, editedListOfTasks));
-      } else {
-        console.log("TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK.");
-        dispatch(setNewTask(newTask));
-      }
-      if (
-        !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
-        !categories.includes(newTask.category.toLowerCase())
-      ) {
-        console.log(
-          "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
-        );
-        categories.push(newTask.category.toLowerCase());
-        dispatch(setNewCategory(categories));
-      }
-      if (initialData) {
-        console.log(
-          "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
-        );
-        if (taskSet) {
-          const index = initialData.tasks.findIndex(
-            (task: taskInt | undefined) => task?._id === taskSet._id
-          );
-          initialData.tasks[index] = newTask;
-        } else {
-          initialData.tasks.push(newTask); // push new task to list of tasks
-          initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
-        }
-        const newData = {
-          ...initialData,
-          tasks: [...initialData.tasks!],
-          lists: [...initialData.lists!],
-        };
-        setInitialData(newData);
-      }
-      if (repeats !== "never") {
-        console.log("TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD.");
-        // force reload when tasks are repeated
-        setTimeout(() => history.push("/reload?pathname=tasks"), 500);
-      } else {
-        console.log(
-          "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-        );
-        handleClose();
-        setChanged({ title: false, value: false, category: false });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSubmitFormik = async (e: any) => {
+  //   // B/E: Schema:
+  //   // {
+  //   //   category: { type: String, default: NONE, required: true },
+  //   //   title: { type: String, required: true },
+  //   //   desc: { type: String, required: true },
+  //   //   repeats: { type: String, required: true, enum: [NEVER, DAILY, WEEKLY, MONTHLY, STRING(NUMBER),] }, //
+  //   //   type: { type: String, default: SOLO, enum: [SOLO, TEAM], },
+  //   //   value: { type: Number, default: 0 },
+  //   //   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+  //   //   sharedWith: { default: [], type: [{ type: Schema.Types.ObjectId, ref: "User" }], },
+  //   //   status: { type: String, default: AWAITED, enum: [AWAITED, COMPLETED, IN_PROGRESS] },
+  //   //   deadline: { type: Date },
+  //   // },
+  //   // Formik adds:
+  //   // newCategory: "", // overrides category if defined
+  //   // repeated: "no", // "yes" or "no"
+  //   // repeatsOther: 0,
+  //   // repetitions: "1",
+  //   // shared: "no",
+  //   // repeatedRadio: null, // "yes" or "no" => show Repeated dropdown
+  //   // sharedRadio: null, // "yes" or "no" => show Shared dropdown
+  //   // Note, task cannot be sharedWith.length>1 AND repeats !== NEVER
+  //   const { repeatedRadio, sharedRadio, repeats } = e;
+  //   e.repeated = repeatedRadio;
+  //   e.shared = sharedRadio;
+  //   e.sharedWith = sharedUsers?.selectedOptions;
+  //   if (repeats === "other") {
+  //     e.repeats = e.repeatsOther;
+  //   }
+  //   if (e.category === "") {
+  //     e.category = NONE;
+  //   }
+  //   try {
+  //     const method = taskSet ? PUT : POST;
+  //     const taskId = taskSet ? taskSet._id : null;
+  //     const newTask = await attemptPostOrEditTask(
+  //       e,
+  //       refreshToken,
+  //       method,
+  //       taskId,
+  //       history,
+  //       location
+  //     );
+  //     if (taskSet) {
+  //       // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
+  //       const editedStatus = taskSet.status;
+  //       const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
+  //       const editedListOfTasks = listOfTasks.filter(
+  //         (t) => t._id !== taskSet._id
+  //       );
+  //       editedListOfTasks.push(newTask);
+  //       dispatch(EditTask(editedStatus, editedListOfTasks));
+  //     } else {
+  //       // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
+  //       dispatch(setNewTask(newTask));
+  //     }
+  //     if (
+  //       !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
+  //       !categories.includes(newTask.category.toLowerCase())
+  //     ) {
+  //       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
+  //       categories.push(newTask.category.toLowerCase());
+  //       dispatch(setNewCategory(categories));
+  //     }
+  //     if (initialData) {
+  //       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
+  //       if (taskSet) {
+  //         const index = initialData.tasks.findIndex(
+  //           (task: taskInt | undefined) => task?._id === taskSet._id
+  //         );
+  //         initialData.tasks[index] = newTask;
+  //       } else {
+  //         initialData.tasks.push(newTask); // push new task to list of tasks
+  //         initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
+  //       }
+  //       const newData = {
+  //         ...initialData,
+  //         tasks: [...initialData.tasks!],
+  //         lists: [...initialData.lists!],
+  //       };
+  //       setInitialData(newData);
+  //     }
+  //     if (repeats !== NEVER) {
+  //       // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
+  //       // force reload when tasks are repeated
+  //       setTimeout(() => history.push("/reload?pathname=tasks"), 500);
+  //     } else {
+  //       // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+  //       handleClose();
+  //       setChanged({ title: false, value: false, category: false });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   const handleDelete = () => {
     setShowWarning(true);
   };
   const handleEdit = () => {
     setView(false);
   };
-  // const removeTaskFromInitialData = async (selectedTask: taskInt) => {
-  //   console.log("removing task from initial data");
-  //   if (initialData) {
-  //     const updatedInitialDataTasks = initialData.tasks.filter(
-  //       (task) => task?._id !== selectedTask._id
-  //     );
-  //     const listIndex = initialData.lists.findIndex(
-  //       (list) => list.id === selectedTask.status
-  //     );
-  //     const indexedList = initialData.lists[listIndex];
-  //     const updatedTaskIds = indexedList.taskIds.filter(
-  //       (id) => id !== selectedTask._id
-  //     );
-  //     const updatedList = {
-  //       ...indexedList,
-  //       taskIds: updatedTaskIds,
-  //     };
-  //     const updatedInitialDataLists = initialData.lists;
-  //     updatedInitialDataLists[listIndex] = updatedList;
-  //     const newData = {
-  //       ...initialData,
-  //       tasks: [...updatedInitialDataTasks!],
-  //       lists: [...updatedInitialDataLists!],
-  //     };
-  //     setInitialData(newData);
-  //   }
-  // };
   const deleteTask = async () => {
-    console.log("deleting task at addedittaskmodal");
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
       handleClose();
@@ -286,7 +262,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     }
   };
   const removeSelf = async () => {
-    console.log("removing task at addedittaskmodal");
     if (taskSet) {
       await removeSelfFromTask(taskSet._id, currentTasks, dispatch);
       handleClose();
@@ -297,9 +272,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
     setChanged({ title: false, value: false, category: false });
     handleClose();
   };
-  // if (taskId) {
-  //   // console.log(taskId);
-  // }
   useEffect(() => {
     loadModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -423,7 +395,22 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                  handleSubmitFormik(values);
+                  submitFormikTask(
+                    values,
+                    sharedUsers,
+                    taskSet,
+                    categories,
+                    awaited,
+                    in_progress,
+                    refreshToken,
+                    initialData,
+                    setInitialData,
+                    setChanged,
+                    handleClose,
+                    history,
+                    location,
+                    dispatch
+                  );
                   setSubmitting(false);
                 }, 400);
               }}
@@ -434,14 +421,13 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                 newCategory: "",
                 desc: taskSet?.desc || " ",
                 repeated: "no",
-                repeats: taskSet?.repeats || "never",
+                repeats: taskSet?.repeats || NEVER,
                 repeatsOther: 0,
                 repetitions: "1",
                 shared: "no",
                 sharedWith: taskSet?.sharedWith || [],
                 deadline: taskSet?.deadline || "",
                 repeatedRadio: null,
-                repeatsRadio: null,
                 sharedRadio: null,
               }}>
               {({
@@ -607,13 +593,6 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               </>
                             )}
                           </Form.Control>
-                          {/* <Form.Control.Feedback type='invalid'>
-                            {errors.category}
-                          </Form.Control.Feedback> */}
-                          {/* {()=>{
-                          if (value === "new") 
-                          {console.log(value)}
-                        )}} */}
                         </InputGroup>
                       </Form.Group>
                     ) : (
@@ -810,14 +789,17 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                               <Form.Control
                                 as='select'
                                 onChange={handleChange}
-                                defaultValue='1'
+                                defaultValue='DEFAULT'
                                 aria-describedby='task repeats'
                                 isInvalid={!!errors.repeatsOther}>
-                                <option value='1'>Daily</option>
-                                <option value='7'>Weekly</option>
-                                <option value='28'>Monthly</option>
-                                <option value='2'>Every other day</option>
-                                <option value='3'>Every third day</option>
+                                <option value='DEFAULT' disabled>
+                                  Select a value
+                                </option>
+                                <option value={1}>Daily</option>
+                                <option value={7}>Weekly</option>
+                                <option value={28}>Monthly</option>
+                                <option value={2}>Every other day</option>
+                                <option value={3}>Every third day</option>
                               </Form.Control>
                               <Form.Control.Feedback type='invalid'>
                                 {errors.repeatsOther}
@@ -884,69 +866,30 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
                         ))}
                       </SelectInput>
                     ) : (
-                      // <Form.Group controlId='sharedWith' className='py-1'>
-                      //   <Form.Label>
-                      //     Who would you like to share it with?
-                      //   </Form.Label>
-                      //   <Form.Control
-                      //     as='select'
-                      //     aria-label='Who would you like to share it with?'
-                      //     onChange={(e) => {
-                      //       handleChange(e);
-                      //       console.log(e);
-                      //     }}
-                      //     multiple
-                      //   >
-                      //     <option value='DEFAULT' disabled>
-                      //       Select a user
-                      //     </option>
-                      //     {followedUsers.map((u, i) => (
-                      //       <option key={i} value={`${u._id}/${u.username}`}>
-                      //         {u.username}
-                      //       </option>
-                      //     ))}
-                      //   </Form.Control>
-                      //   {followedUsers.length < 1 && (
-                      //     <Form.Text id='sharedWithHelpBlock' muted>
-                      //       No one to share with? Add users at the 'following'
-                      //       page.
-                      //     </Form.Text>
-                      //   )}
-                      //   <Form.Control.Feedback type='invalid'>
-                      //     {errors.sharedWith}
-                      //   </Form.Control.Feedback>
-                      // </Form.Group>
                       <></>
                     )}
                     <div className='pt-3 pb-1'>
-                      {
-                        // taskSet && !changed ? (
-                        //   <Button variant='primary' className="mx-1" type='submit' disabled>
-                        //     Save edit
-                        //   </Button>
-                        // ) :
-                        taskSet ? (
-                          <Button
-                            variant='primary'
-                            className='mx-1'
-                            type='submit'>
-                            Edit task
-                          </Button>
-                        ) : !changed.title ||
-                          !changed.category ||
-                          !changed.value ? (
-                          <Button variant='primary' type='submit' disabled>
-                            Save task
-                          </Button>
-                        ) : (
-                          <Button
-                            variant='primary'
-                            className='mx-1'
-                            type='submit'>
-                            Save task
-                          </Button>
-                        )
-                      }
+                      {taskSet ? (
+                        <Button
+                          variant='primary'
+                          className='mx-1'
+                          type='submit'>
+                          Edit task
+                        </Button>
+                      ) : !changed.title ||
+                        !changed.category ||
+                        !changed.value ? (
+                        <Button variant='primary' type='submit' disabled>
+                          Save task
+                        </Button>
+                      ) : (
+                        <Button
+                          variant='primary'
+                          className='mx-1'
+                          type='submit'>
+                          Save task
+                        </Button>
+                      )}
                       {taskSet && taskSet.createdBy === my_user._id ? (
                         <Button
                           variant='secondary'
@@ -976,11 +919,8 @@ const AddEditTaskModal = (props: AddEditTaskModalProps) => {
               )}
             </Formik>
           </Modal.Body>
-          {/* <Modal.Footer></Modal.Footer> */}
         </>
       )}
     </Modal>
   );
-};
-
-export default AddEditTaskModal;
+}

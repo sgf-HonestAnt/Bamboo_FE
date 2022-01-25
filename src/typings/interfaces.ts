@@ -151,11 +151,11 @@ export interface featureInt {
 }
 export interface setTaskInt {
   // for adding a task
-  category: string;
+  category: string; 
   title: string;
   desc: string;
   value: number;
-  repeats: string;
+  repeats: number | string;
   sharedWith: string[];
   deadline: string;
 }
@@ -193,4 +193,20 @@ export interface dataInt {
   tagCloud: { value: string; count: number }[];
   unusedCategories: categoryTaskInt[];
 }
+export interface initialValuesInt {
+  category: string;
+  title: string;
+  desc: string;
+  value: number;
+  repeats: number | string;
+  sharedWith: string[];
+  deadline: string;
+  newCategory: string | undefined;
+  repeated: string | null;
+  repeatsOther: number | string;
+  repetitions: string;
+  shared: string | null;
+  repeatedRadio: string | null;
+  sharedRadio: string | null;
+};
 //

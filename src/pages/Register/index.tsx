@@ -42,7 +42,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
   const handleSubmit = async (e: any) => {
     setLoadingRegistration(true);
     try {
-      console.log("✔️attempt registration!", e);
+      // console.log("✔️attempt registration!", e);
       const url = `${BE_URL}/${USERS}/${REGISTER}`;
       const method = POST;
       const headers = { "Content-Type": "application/json" };
@@ -69,7 +69,6 @@ export default function RegisterPage({ history }: RouteComponentProps) {
       console.log(error);
     }
   };
-  console.log("REGISTRATION PAGE");
   return (
     <Container fluid>
       <Row className='registration-form px-1'>

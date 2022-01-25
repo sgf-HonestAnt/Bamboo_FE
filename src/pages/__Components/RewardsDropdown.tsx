@@ -21,9 +21,9 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const [loading, setLoading] = useState(false);
-  const [reward, setReward] = useState<rewardsInt | undefined>();
+  const [reward, setReward] = useState<rewardsInt | null>(null);
   function handleReset(e: any) {
-    setReward(undefined);
+    setReward(null);
     setLoading(true);
   }
   function handleChange(e: { target: { id: any; value: any } }) {
@@ -38,16 +38,11 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
     if (reward && xp >= reward.value) {
       const remainingXp = await purchaseReward(rewards, reward, xp, dispatch);
       if (remainingXp) {
-        setReward(undefined);
-        history.push("/reload");
-      } else {
-        console.log(
-          "CAN'T REMEMBER HOW TO MAKE COMPONENT TO SIDE SHOW BADGES AND XP CHANGE IN REDUX. NEED SLEEP LOL"
-        );
+        setReward(null);
+        history.push("/reload?pathname=dash");
       }
     }
   }
-  // console.log(reward);
   useEffect(() => {
     setLoading(false);
   }, [loading]);

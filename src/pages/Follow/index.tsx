@@ -83,7 +83,6 @@ export default function FollowingPage(props: FollowingPageProps) {
   }, []);
   useEffect(() => {
     if (location.search) {
-      // console.log(location.search);
       const filteredUsers = followedUsers.filter(
         (user) => user._id === locationSearch
       );
@@ -96,7 +95,6 @@ export default function FollowingPage(props: FollowingPageProps) {
   useEffect(() => {
     setLoading(false);
   }, [loading]);
-  console.log("TEAM");
   return (
     <Container fluid>
       <Row className='p-3'>

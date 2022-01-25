@@ -1,15 +1,17 @@
 import { Button } from "react-bootstrap";
-import { ICODOWNRIGHT } from "../../../utils/appIcons";
-import { DeleteButton, EditButton } from "../Buttons";
+// import { DeleteButton, EditButton } from "../Buttons";
 import { USERS } from "../../../utils/const/str";
+import { FiCornerDownRight } from "react-icons/fi";
+import { userInt } from "../../../typings/interfaces";
 
 interface NotificationsRowProps {
   notification?: string;
   form: any;
   setForm: any;
+  users: userInt[];
 }
 const NotificationsRow = (props: NotificationsRowProps) => {
-  const { notification, form, setForm } = props;
+  const { notification, form, setForm, users } = props;
   const handleClick = (e: {
     preventDefault: () => void;
     currentTarget: any;
@@ -22,22 +24,23 @@ const NotificationsRow = (props: NotificationsRowProps) => {
   };
   return (
     <tr>
-      <td>
+      {/* <td>
         <EditButton handleClick={null} />
       </td>
       <td>
         <DeleteButton handleClick={null} />
-      </td>
-      <td>{notification}</td>
-      <td>
+      </td> */}
+      <td className='fixed-width'>
+        {users.find((user) => user._id === form.id)?.username}
         <Button
           variant='link'
           className='p-0 m-0'
           value={`${USERS}:${form.id}`}
           onClick={handleClick}>
-          <ICODOWNRIGHT />
+          <FiCornerDownRight />
         </Button>
       </td>
+      <td>{notification}</td>
     </tr>
   );
 };

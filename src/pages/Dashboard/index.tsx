@@ -24,7 +24,6 @@ type DashboardPageProps = {
   location: Location<unknown>;
 };
 export default function DashboardPage(props: DashboardPageProps) {
-  //console.log("FIX NEEDED ON DASHBOARDPAGE"); // 🔨 FIX NEEDED: IMPLEMENT BUY REWARDS FEATURE AND STATISTICS PAGE WITH DOWNLOADABLE PDF
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { notification, admin } = state.currentUser.my_user;
   // const { awaited, in_progress, completed } = state.currentTasks;
@@ -55,21 +54,6 @@ export default function DashboardPage(props: DashboardPageProps) {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   console.log(location.pathname);
-  // }, [location.pathname]);
-  // console.log(
-  //   "isbig=>",
-  //   isBigScreen,
-  //   "isdesktop=>",
-  //   isGt1500,
-  //   "istablet=>",
-  //   isGt999,
-  //   "issmallertablet=>",
-  //   isSmallerTabletOrMobile
-  // );
-  // console.log("length at dashboard=>", currLength);
-  console.log("DASHBOARD", isGt1660, isGt1500, isGt1390, isGt999, isGt755);
   return isGt1660 ? (
     <Container fluid>
       <Row className='dashboard'>

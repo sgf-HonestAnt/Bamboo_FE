@@ -118,7 +118,6 @@ export default function TasksPage(props: TasksPageProps) {
     }
   };
   useEffect(() => {
-    console.log("tasks page use effect");
     if (taskList) {
       setInitialData({
         tasks: taskList, //[{}]
@@ -153,7 +152,6 @@ export default function TasksPage(props: TasksPageProps) {
     }
   }, [taskList, tasks_to_hide]);
   useEffect(() => {
-    console.log("tasks page use effect for queries");
     if (search.includes("?category")) {
       setFilter({ ...filter, cat: search.split("=")[1].split("?")[0] });
     }
@@ -176,7 +174,6 @@ export default function TasksPage(props: TasksPageProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, search]);
   useEffect(() => {
-    console.log("tasks page initial data use effect");
   }, [initialData]);
   // useEffect(() => {
   //   const { search } = location;

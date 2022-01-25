@@ -74,7 +74,6 @@ export default function DashNotifications(props: DashNotificationsProps) {
     await clearLastNotification(notification);
     dispatch(fillUserAction()); // 👈HERE!
   };
-  console.log(followedUsers)
   return (
     <Button
       variant='primary'

@@ -1,10 +1,11 @@
 .admin-page {
-  min-width: 100vw;
+  /* min-width: 100vw;
+  max-width: 100vw; */
   min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll;
 }
-.admin-page #denied {
-  min-width: 100vw;
-  min-height: 100vh;
+.admin-page.row#denied {
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -16,8 +17,6 @@
   align-items: center;
   vertical-align: middle;
 }
-/* .admin-page__form-header {
-} */
 .admin-page__form-search {
   display: flex;
   justify-content: space-between;
@@ -25,14 +24,18 @@
 .admin-page__admin-table {
   overflow: scroll;
 }
-.admin-page__table__td {
-  max-width: 100px;
-}
-.admin-page__table__td div.overflow {
+.admin-page__admin-table .overflow {
+  max-width: 125px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.admin-page__table__img {
+/* .admin-page__table__td {
+} */
+/* .admin-page-table__td div.wrap {
+  inline-size: 150px; 
+  white-space: wrap;
+} */
+/* .admin-page__table__img {
   max-height: 25px;
-}
+} */

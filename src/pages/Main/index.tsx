@@ -72,13 +72,14 @@ export default function MainBody({ history, location }: RouteComponentProps) {
               className={`sidebar${
                 location.pathname === "/admin-dash" ? "-admin" : ""
               }`}>
-      {isLt755 && (
-        <Badge bg="dark" style={{maxWidth:"100%"}}>
-          <div className='rotate'>
-            <FiTablet />
-          </div>
-        </Badge>
-      )}              <SideBar
+              {isLt755 && (
+                <Badge bg='dark' style={{ maxWidth: "100%" }}>
+                  <div className='rotate'>
+                    <FiTablet />
+                  </div>
+                </Badge>
+              )}{" "}
+              <SideBar
                 history={history}
                 location={location}
                 setTheme={setTheme}
@@ -113,7 +114,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
                 <FollowingPage history={history} location={location} />
               </div>
             ) : path === "/admin-dash" ? (
-              <div className='admin'>
+              <div className='admin-section'>
                 <AdminPage
                   user={user}
                   features={features}
