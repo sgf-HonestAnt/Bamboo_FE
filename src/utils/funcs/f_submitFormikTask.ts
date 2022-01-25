@@ -56,7 +56,7 @@ export default async function submitFormikTask(
   const { repeatedRadio, sharedRadio, repeats } = e;
   e.repeated = repeatedRadio;
   e.shared = sharedRadio;
-  e.sharedWith = sharedUsers?.selectedOptions;
+  e.sharedWith = taskSet ? taskSet.sharedWith : sharedUsers?.selectedOptions
   if (repeats === "other") {
     e.repeats = e.repeatsOther;
   }

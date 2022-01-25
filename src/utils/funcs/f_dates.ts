@@ -140,11 +140,13 @@ export const getMinMaxDateAsString = (datePar: Date) => {
 export const filterTasksByOverdue = async (tasks: taskInt[]) => {
   let array: taskInt[] = [];
   for (let i = 0; i < tasks.length; i++) {
-    const date1 = getSelectedDateAsString(new Date());
-    const date2 = tasks[i].deadline!.slice(0, 10);
-    const taskIsOverdue = await checkTaskOverdue(date1, date2);
-    if (taskIsOverdue) {
-      array.push(tasks[i]);
+    if (tasks[i].deadline !== undefined) {
+      const date1 = getSelectedDateAsString(new Date());
+      const date2 = tasks[i].deadline!.slice(0, 10);
+      const taskIsOverdue = await checkTaskOverdue(date1, date2);
+      if (taskIsOverdue) {
+        array.push(tasks[i]);
+      }
     }
   }
   return array;
