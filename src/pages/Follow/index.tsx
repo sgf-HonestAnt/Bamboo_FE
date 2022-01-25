@@ -156,7 +156,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                 />
               )}
             </div> */}
-            <div className='profile-card__level d-flex justify-content-between px-2 py-3'>
+            <div className='profile-card__level d-flex justify-content-between px-2 pt-3'>
               <h5 className='w-50'>
                 {u.xp}
                 <BambooPoints />
@@ -171,10 +171,6 @@ export default function FollowingPage(props: FollowingPageProps) {
                 />
               </>
             )} */}
-            <SendGiftButton
-              value={`${u._id} ${u.username}`}
-              handleClick={sendGift}
-            />
             <div className='py-2'>
               {u.rewards &&
                 u.rewards
@@ -191,6 +187,10 @@ export default function FollowingPage(props: FollowingPageProps) {
                     />
                   ))}
             </div>
+            <SendGiftButton
+              value={`${u._id} ${u.username}`}
+              handleClick={sendGift}
+            />
             <FollowModal
               points={points}
               show={show}

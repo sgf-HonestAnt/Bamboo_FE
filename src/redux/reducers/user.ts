@@ -93,12 +93,12 @@ const currentUserReducer = (
           xp: action.payload,
         },
       };
-    case SET_USER_REWARDS:
+    case SET_USER_REWARDS: // // <== THERE IS A PROBLEM HERE
       return {
         ...state,
         my_user: {
           ...state.my_user,
-          rewards: action.payload,
+          rewards: { ...state.my_user.rewards, ...action.payload },
         },
       };
     case SET_USER_POINTS_AND_COMPLETED:

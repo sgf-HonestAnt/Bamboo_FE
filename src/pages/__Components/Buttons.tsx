@@ -50,20 +50,22 @@ export const XButton = (props: ButtonProps) => (
   </>
 );
 export const RejectButton = (props: ButtonProps) => (
-  <Button
-    variant={props.variant || "primary"}
+  <Badge
+    bg={props.variant || "secondary"}
     className={props.className || "m-1"}
+    id="reject-button"
     onClick={props.handleClick}>
     <FiXSquare /> No
-  </Button>
+  </Badge>
 );
 export const AcceptButton = (props: ButtonProps) => (
-  <Button
-    variant={props.variant || "secondary"}
+  <Badge
+    bg={props.variant || "secondary"}
     className={props.variant || "m-1"}
+    id="accept-button"
     onClick={props.handleClick}>
     <FiCheckSquare /> Yes
-  </Button>
+  </Badge>
 );
 export const LinkButton = (props: ButtonProps) => (
   <Button

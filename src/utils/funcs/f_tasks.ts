@@ -152,21 +152,19 @@ export const attemptPostOrEditTask = async (
   console.log("✏️Posting or Editing New Task", form);
   try {
     const token = localStorage.getItem("token");
-    const username = await checkToken(refreshToken, history, location);
-    if (username) {
-      const url =
-        method === POST
-          ? `${ENDPOINT_TASKS}/me`
-          : `${ENDPOINT_TASKS}/me/${t_id}`;
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-      const body = JSON.stringify(form);
-      const response = await fetch(url, { method, headers, body });
-      const newTask = await response.json();
-      return newTask;
-    }
+    // const username = await checkToken(refreshToken, history, location);
+    // if (username) {
+    const url =
+      method === POST ? `${ENDPOINT_TASKS}/me` : `${ENDPOINT_TASKS}/me/${t_id}`;
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+    const body = JSON.stringify(form);
+    const response = await fetch(url, { method, headers, body });
+    const newTask = await response.json();
+    return newTask;
+    // }
   } catch (error) {
     console.log("😥TROUBLE POSTING TASK", error);
     history.push("/login");
@@ -325,14 +323,15 @@ export const moveTaskBetweenStatus = async (
   if (destination === "awaited") {
     awaited.push(task!);
     dispatch(AddTaskToAwaited(awaited));
-  } 
+  }
   if (destination === "in_progress") {
     in_progress.push(task!);
     dispatch(AddTaskToInProgress(in_progress));
-  } 
+  }
   if (destination === "completed") {
     completed.push(task!);
-    dispatch(AddTaskToCompleted(completed));}
+    dispatch(AddTaskToCompleted(completed));
+  }
   if (source === "awaited") {
     const index = awaited.indexOf(task!);
     awaited.splice(index, 1);

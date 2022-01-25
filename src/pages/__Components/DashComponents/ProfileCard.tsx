@@ -91,7 +91,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           )}
         </div>
       </div>
-      <div className='profile-card__level d-flex justify-content-between px-3 py-3'>
+      <div className='profile-card__level d-flex justify-content-between px-3 pt-3 pb-2'>
         <h3 className='w-50'>
           {xp}
           <BambooPoints />

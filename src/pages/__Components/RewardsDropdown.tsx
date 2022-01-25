@@ -6,7 +6,7 @@ import { reduxStateInt, rewardsInt } from "../../typings/interfaces";
 import returnIco from "../../utils/funcs/f_ico";
 import { purchaseReward } from "../../utils/funcs/f_rewards";
 import { History } from "history";
-import BambooPoints from "./XP";
+// import BambooPoints from "./XP";
 
 type RewardsDropdownProps = {
   rewards: rewardsInt[];
@@ -48,7 +48,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   }, [loading]);
   return formType === "dropdown" ? (
     <Card className='col col-8 mt-2 py-2 px-3'>
-      <Form>
+      {/* <Form>
         <Form.Group as={Row} controlId='rewards'>
           <Form.Label column sm={12}>
             {label}
@@ -84,7 +84,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
             </>
           )}
         </div>
-      </Form>
+      </Form> */}
     </Card>
   ) : formType === "select" ? (
     <>

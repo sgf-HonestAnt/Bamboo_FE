@@ -151,7 +151,7 @@ export interface featureInt {
 }
 export interface setTaskInt {
   // for adding a task
-  category: string; 
+  category: string;
   title: string;
   desc: string;
   value: number;
@@ -208,5 +208,5 @@ export interface initialValuesInt {
   shared: string | null;
   repeatedRadio: string | null;
   sharedRadio: string | null;
-};
+}
 //
