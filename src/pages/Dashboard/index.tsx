@@ -1,8 +1,7 @@
 import { History, Location } from "history";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
 import { fillUserAction } from "../../redux/actions/user";
@@ -25,7 +24,7 @@ type DashboardPageProps = {
 };
 export default function DashboardPage(props: DashboardPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { notification, admin } = state.currentUser.my_user;
+  const { notification } = state.currentUser.my_user;
   // const { awaited, in_progress, completed } = state.currentTasks;
   // const currLength = awaited.concat(in_progress, completed).length;
   const dispatch = useDispatch();
@@ -66,13 +65,13 @@ export default function DashboardPage(props: DashboardPageProps) {
               ) : ( */}
               <DashProfileCard history={history} />
               {/* )} */}
-              {admin && (
+              {/* {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
                     Go to Admin
                   </Button>
                 </Link>
-              )}
+              )} */}
             </Col>
             {location.pathname !== "/stats" && (
               <Col className='col-12 px-3 pt-3'>
@@ -133,13 +132,13 @@ export default function DashboardPage(props: DashboardPageProps) {
               ) : ( */}
               <DashProfileCard history={history} />
               {/* )} */}
-              {admin && (
+              {/* {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
                     Go to Admin
                   </Button>
                 </Link>
-              )}
+              )} */}
             </Col>
             {notification.length < 1 && location.pathname !== "/stats" && (
               <Col className='col-12 px-3'>
@@ -197,13 +196,13 @@ export default function DashboardPage(props: DashboardPageProps) {
             ) : ( */}
               <DashProfileCard history={history} />
               {/* )} */}
-              {admin && (
+              {/* {admin && (
                 <Link to='/admin-dash'>
                   <Button variant='info' className='dashboard__admin-card'>
                     Go to Admin
                   </Button>
                 </Link>
-              )}
+              )} */}
               {notification.length < 1 && location.pathname !== "/stats" && (
                 <Col className='col-12 p-0 my-3'>
                   <DashStats />
@@ -266,13 +265,13 @@ export default function DashboardPage(props: DashboardPageProps) {
           ) : ( */}
           <DashProfileCard history={history} />
           {/* )} */}
-          {admin && (
+          {/* {admin && (
             <Link to='/admin-dash'>
               <Button variant='info' className='dashboard__admin-card'>
                 Go to Admin
               </Button>
             </Link>
-          )}
+          )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
             <Col className='col-12 p-0 my-3'>
               <DashStats />
@@ -309,13 +308,13 @@ export default function DashboardPage(props: DashboardPageProps) {
           ) : ( */}
           <DashProfileCard history={history} />
           {/* )} */}
-          {admin && (
+          {/* {admin && (
             <Link to='/admin-dash'>
               <Button variant='info' className='dashboard__admin-card'>
                 Go to Admin
               </Button>
             </Link>
-          )}
+          )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
             <Col className='col-12 p-0 my-3'>
               <DashStats />
@@ -352,13 +351,13 @@ export default function DashboardPage(props: DashboardPageProps) {
           ) : ( */}
           <DashProfileCard history={history} />
           {/* )} */}
-          {admin && (
+          {/* {admin && (
             <Link to='/admin-dash'>
               <Button variant='info' className='dashboard__admin-card'>
                 Go to Admin
               </Button>
             </Link>
-          )}
+          )} */}
         </Col>
         <Col className='pr-3 pb-3 pl-2 pt-0'>
           {location.pathname === "/dash" ? (

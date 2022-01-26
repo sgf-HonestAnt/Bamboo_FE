@@ -27,12 +27,13 @@ export default function DashStats(props: DashStatsProps) {
   useEffect(() => {
     mapData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentTasks]); // CHECK THIS, OR PASS CURRENTTASKS DOWN
   return (
     <div
       className={`bamboo-card ${
         isGt1660 && notification.length > 0 ? "m-1" : "m-0"
-      } dashboard__dash-stats`}>
+      }`}
+      id="dashboard__dash-stats">
       {" "}
       {/* ${isBigScreen && "my-3"} */}
       <Row>

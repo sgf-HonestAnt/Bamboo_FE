@@ -52,7 +52,7 @@ const Achievements = (props: AchievementsProps) => {
   }, []);
   useEffect(() => {}, [superlist]);
   return (
-    <div className='bamboo-card dashboard__activities p-0'>
+    <div className='bamboo-card dashboard__activities p-0' id="dashboard__activities">
       {superlist?.length < 1 && (
         <Table>
           <tbody>

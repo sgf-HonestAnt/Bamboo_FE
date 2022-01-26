@@ -26,6 +26,9 @@
 .dashboard__alt__card-header h5 {
   font-size: 18px;
 }
+.dashboard__admin-card {
+  background-color: black !important;
+}
 .dashboard__admin-card:hover {
   transform: scale(1) !important;
 }
@@ -37,7 +40,10 @@
 .dashboard__alerts-card,
 .dashboard__challenge-card {
 } */
-.dashboard__activities {
+#dashboard__activities {
+  border-radius: 0;
+}
+#dashboard__activities {
   text-align: left;
   font-size: 1rem;
   min-height: 100vh;
@@ -49,21 +55,25 @@
     hsla(var(--castleton-green), 0.1)
   );
 }
-.dashboard__activities#smaller {
+#dashboard__activities#smaller {
   min-height: 170px !important;
   max-height: 170px !important;
   overflow-y: scroll;
 }
-.dashboard__activities table td {
-  font-size: small;
+#dashboard__activities table td {
+  font-family: "Baloo Bhai", sans-serif;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  line-height: 1.05em;
+  line-height: 1.25em;
   letter-spacing: 0.3px;
 }
-.dashboard__activities table td a:hover {
+#dashboard__activities table td em {
+  font-family: "Baloo Bhai", sans-serif;
+}
+#dashboard__activities table td a:hover {
   text-decoration: none !important;
 }
-.dashboard__dash-stats {
+#dashboard__dash-stats {
   padding: 0;
   border-radius: 7.5px;
 }
@@ -106,7 +116,8 @@
 .dashboard__profile-card__form {
   text-align: center;
 }
-.profile-card__level h3, .profile-card__level h5:nth-child(1) {
+.profile-card__level h3,
+.profile-card__level h5:nth-child(1) {
   border-right: 1px solid hsla(var(--bottle-green), 0.3) !important;
 }
 .dashboard__profile-card__bio {
@@ -214,9 +225,9 @@
   max-height: 70vh;
 }
 .dashboard__activities__img {
-  width: 35px; 
+  width: 35px;
   height: 35px;
-  border-radius: 50%; 
+  border-radius: 50%;
   float: left;
 }
 /* .dashboard__alerts-card {

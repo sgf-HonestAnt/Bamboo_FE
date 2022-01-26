@@ -115,7 +115,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
           </Col> */}
             <Col className={statsPieCards}>
               <Card className='border-0 dashboard__dash-stats'>
-                <div className='stats-card p-0'>
+                <div className='p-0' id="stats-card">
                   <ResponsiveContainer>
                     <PieChartWithPaddingAngle
                       deg360={true}
@@ -138,7 +138,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
             </Col>
             <Col className={statsPieCards}>
               <Card className='border-0 dashboard__dash-stats'>
-                <div className='stats-card p-0'>
+                <div className='p-0' id="stats-card">
                   <ResponsiveContainer>
                     <PieChartWithCustomizedLabel
                       data={taskData.allByType}
@@ -161,7 +161,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
             </Col>
             <Col className={statsPieCards}>
               <Card className='border-0 dashboard__dash-stats'>
-                <div className='stats-card p-0'>
+                <div className='p-0' id="stats-card">
                   <ResponsiveContainer>
                     <CustomActiveShapePieChart
                       data={taskData.allByDueDate}
@@ -185,7 +185,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
           <Row>
             <Col className={statsGraphsCards}>
               <Card className='border-0 dashboard__dash-stats'>
-                <div className='stats-card p-0'>
+                <div className='p-0' id="stats-card">
                   <ResponsiveContainer>
                     <MixedBarChart
                       data={taskData.allByCategory}
@@ -219,7 +219,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
             </Col>
             <Col className={statsGraphsCards}>
               <Card className='border-0 dashboard__dash-stats'>
-                <div className='stats-card p-0'>
+                <div className='p-0' id="stats-card">
                   <ResponsiveContainer>
                     <SimpleBarChart data={taskData.allByValue} stat='value' />
                   </ResponsiveContainer>
