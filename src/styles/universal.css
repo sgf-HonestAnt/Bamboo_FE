@@ -69,9 +69,9 @@ h4 {
   background-image: url("https://images.unsplash.com/photo-1620870300436-a70b605f6ebe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
   background: linear-gradient(
       to bottom right,
-      hsla(var(--medium-aquamarine), 0.6),
-      hsla(var(--aero-blue), 0.6),
-      hsla(var(--honeydew), 0.6)
+      hsla(var(--medium-aquamarine), 0.95),
+      hsla(var(--aero-blue), 0.95),
+      hsla(var(--honeydew), 0.95)
     ),
     url("https://images.unsplash.com/photo-1620870300436-a70b605f6ebe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80")
       no-repeat center center fixed;
