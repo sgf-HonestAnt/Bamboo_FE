@@ -119,22 +119,24 @@ const DraggableTask = (props: DraggableTaskProps) => {
                       {task.value}xp
                     </Badge>
                     &nbsp;
-                    <Badge
-                      bg='warning'
-                      className={`bg-warning ${task.category}`}>
-                      {task.category === NONE ? (
-                        "no category"
-                      ) : task.category === URGENT ? (
-                        <>
-                          <FiFlag />
-                          &nbsp;
-                          {task.category}
-                        </>
-                      ) : (
-                        task.category
-                      )}
-                    </Badge>
-                    &nbsp;
+                    {task.category !== NONE && (
+                      <>
+                        <Badge
+                          bg='warning'
+                          className={`bg-warning ${task.category}`}>
+                          {task.category === URGENT ? (
+                            <>
+                              <FiFlag />
+                              &nbsp;
+                              {task.category}
+                            </>
+                          ) : (
+                            task.category
+                          )}
+                        </Badge>
+                        &nbsp;
+                      </>
+                    )}
                     {task.sharedWith && task.sharedWith.length > 1 && (
                       <Badge bg='info'>
                         <FiUsers />+{task.sharedWith.length - 1}

@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import {
   EditTask,
   setNewCategory,
+  setNewCategoryColors,
   setNewTask,
 } from "../../redux/actions/tasks";
 import {
@@ -41,6 +42,7 @@ export default async function submitFormikTask(
   sharedUsers: { selectedOptions: any },
   taskSet: taskInt | null,
   categories: string[],
+  categoriesColors: string[],
   awaited: taskInt[],
   in_progress: taskInt[],
   refreshToken: string | undefined,
@@ -93,7 +95,9 @@ export default async function submitFormikTask(
     ) {
       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
       categories.push(newTask.category.toLowerCase());
+      categoriesColors.push(e.newCategoryColor||"#ccc")
       dispatch(setNewCategory(categories));
+      dispatch(setNewCategoryColors(categoriesColors))
     }
     if (initialData) {
       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."

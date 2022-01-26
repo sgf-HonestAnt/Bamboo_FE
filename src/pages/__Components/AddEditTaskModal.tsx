@@ -115,7 +115,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const { categories, awaited, in_progress } = currentTasks;
+  const { categories, categoriesColors, awaited, in_progress } = currentTasks;
   const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
@@ -141,7 +141,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     const parseL = 100 * lAsNum;
     const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
     setNewCategoryColor(hsla);
-    // send this along with new category to schema
   }
   console.log(newCategoryColor);
   // react-select multiple dropdown
@@ -419,11 +418,13 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
+                  values.newCategoryColor = newCategoryColor
                   submitFormikTask(
                     values,
                     sharedUsers,
                     taskSet,
                     categories,
+                    categoriesColors,
                     awaited,
                     in_progress,
                     refreshToken,
@@ -443,6 +444,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                 value: taskSet?.value || 0,
                 category: taskSet?.category || "",
                 newCategory: "",
+                newCategoryColor: "",
                 desc: taskSet?.desc || " ",
                 repeated: "no",
                 repeats: taskSet?.repeats || NEVER,
