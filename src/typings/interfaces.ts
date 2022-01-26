@@ -203,7 +203,7 @@ export interface initialValuesInt {
   sharedWith: string[];
   deadline: string;
   newCategory: string | undefined;
-  newCategoryColor: string | undefined;
+  newCategoryColor?: string | undefined;
   repeated: string | null;
   repeatsOther: number | string;
   repetitions: string;

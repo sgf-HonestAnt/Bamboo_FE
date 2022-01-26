@@ -19,7 +19,7 @@ import {
   getShortDateAsString,
 } from "../../../utils/funcs/f_dates";
 import { Badge, Button } from "react-bootstrap";
-import { createColorArray } from "../../../utils/funcs/f_styling";
+// import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiFlag, FiUsers } from "react-icons/fi";
 import { MdDragIndicator } from "react-icons/md";
 
@@ -49,10 +49,10 @@ const Handle = (props: HandleProps) => {
 const DraggableTask = (props: DraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { customColors } = state.currentSettings;
-  const categories = state.currentTasks.categories;
+  // const { customColors } = state.currentSettings;
+  const { categories, categoriesColors } = state.currentTasks;
   const { task, i, initialData, setInitialData, history, location } = props;
-  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
   const [show, setShow] = useState(false);
@@ -75,7 +75,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
     if (locationSearch !== task!._id) {
       setShow(false);
     }
-    createColorArray(customColors, categories, setCategoryColors);
+    // createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, setInitialData]);
   useEffect(() => {
@@ -104,7 +104,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 className='m-1 bamboo-task'
                 style={{
                   backgroundColor: `${
-                    categoryColors[
+                    categoriesColors[
                       categories.findIndex((cat) => cat === task.category)
                     ]
                   }`,

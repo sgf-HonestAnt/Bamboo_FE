@@ -15,13 +15,7 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  AWAITED,
-  NEVER,
-  SOLO,
-  TASK_CATEGORIES,
-  TEAM,
-} from "../../utils/const/str";
+import { AWAITED, NEVER, SOLO, TEAM } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -50,6 +44,8 @@ const schema = yup.object().shape({
     .string()
     .required("No category provided.")
     .min(1, "No category provided."),
+  // newCategory: yup.string(),
+  // newCategoryColor: yup.string(),
   desc: yup.string(),
   repeated: yup.string(),
   repeats: yup.string(),
@@ -132,7 +128,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   } = props;
   const { refreshToken } = my_user;
   // react-colors
-  const [categoryColors, setCategoryColors] = useState<string[]>([]);
+  // const [categoryColors, setCategoryColors] = useState<string[]>([]);
   const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
   function handleChangeColor(color: any) {
     const sAsNum = parseFloat(color.hsl.s);
@@ -142,7 +138,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
     setNewCategoryColor(hsla);
   }
-  console.log(newCategoryColor);
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
@@ -156,7 +151,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       });
     }
     setOptions(array);
-    createColorArray(customColors, categories, setCategoryColors);
+    // createColorArray(customColors, categories, setCategoryColors);
   }
   //
   const avatar =
@@ -175,102 +170,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
-  // const handleSubmitFormik = async (e: any) => {
-  //   // B/E: Schema:
-  //   // {
-  //   //   category: { type: String, default: NONE, required: true },
-  //   //   title: { type: String, required: true },
-  //   //   desc: { type: String, required: true },
-  //   //   repeats: { type: String, required: true, enum: [NEVER, DAILY, WEEKLY, MONTHLY, STRING(NUMBER),] }, //
-  //   //   type: { type: String, default: SOLO, enum: [SOLO, TEAM], },
-  //   //   value: { type: Number, default: 0 },
-  //   //   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-  //   //   sharedWith: { default: [], type: [{ type: Schema.Types.ObjectId, ref: "User" }], },
-  //   //   status: { type: String, default: AWAITED, enum: [AWAITED, COMPLETED, IN_PROGRESS] },
-  //   //   deadline: { type: Date },
-  //   // },
-  //   // Formik adds:
-  //   // newCategory: "", // overrides category if defined
-  //   // repeated: "no", // "yes" or "no"
-  //   // repeatsOther: 0,
-  //   // repetitions: "1",
-  //   // shared: "no",
-  //   // repeatedRadio: null, // "yes" or "no" => show Repeated dropdown
-  //   // sharedRadio: null, // "yes" or "no" => show Shared dropdown
-  //   // Note, task cannot be sharedWith.length>1 AND repeats !== NEVER
-  //   const { repeatedRadio, sharedRadio, repeats } = e;
-  //   e.repeated = repeatedRadio;
-  //   e.shared = sharedRadio;
-  //   e.sharedWith = sharedUsers?.selectedOptions;
-  //   if (repeats === "other") {
-  //     e.repeats = e.repeatsOther;
-  //   }
-  //   if (e.category === "") {
-  //     e.category = NONE;
-  //   }
-  //   try {
-  //     const method = taskSet ? PUT : POST;
-  //     const taskId = taskSet ? taskSet._id : null;
-  //     const newTask = await attemptPostOrEditTask(
-  //       e,
-  //       refreshToken,
-  //       method,
-  //       taskId,
-  //       history,
-  //       location
-  //     );
-  //     if (taskSet) {
-  //       // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
-  //       const editedStatus = taskSet.status;
-  //       const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
-  //       const editedListOfTasks = listOfTasks.filter(
-  //         (t) => t._id !== taskSet._id
-  //       );
-  //       editedListOfTasks.push(newTask);
-  //       dispatch(EditTask(editedStatus, editedListOfTasks));
-  //     } else {
-  //       // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
-  //       dispatch(setNewTask(newTask));
-  //     }
-  //     if (
-  //       !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
-  //       !categories.includes(newTask.category.toLowerCase())
-  //     ) {
-  //       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
-  //       categories.push(newTask.category.toLowerCase());
-  //       dispatch(setNewCategory(categories));
-  //     }
-  //     if (initialData) {
-  //       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
-  //       if (taskSet) {
-  //         const index = initialData.tasks.findIndex(
-  //           (task: taskInt | undefined) => task?._id === taskSet._id
-  //         );
-  //         initialData.tasks[index] = newTask;
-  //       } else {
-  //         initialData.tasks.push(newTask); // push new task to list of tasks
-  //         initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
-  //       }
-  //       const newData = {
-  //         ...initialData,
-  //         tasks: [...initialData.tasks!],
-  //         lists: [...initialData.lists!],
-  //       };
-  //       setInitialData(newData);
-  //     }
-  //     if (repeats !== NEVER) {
-  //       // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
-  //       // force reload when tasks are repeated
-  //       setTimeout(() => history.push("/reload?pathname=tasks"), 500);
-  //     } else {
-  //       // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-  //       handleClose();
-  //       setChanged({ title: false, value: false, category: false });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   const handleDelete = () => {
     setShowWarning(true);
   };
@@ -418,9 +317,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
               validationSchema={schema}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
-                  values.newCategoryColor = newCategoryColor
                   submitFormikTask(
                     values,
+                    newCategoryColor,
                     sharedUsers,
                     taskSet,
                     categories,
@@ -444,7 +343,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                 value: taskSet?.value || 0,
                 category: taskSet?.category || "",
                 newCategory: "",
-                newCategoryColor: "",
                 desc: taskSet?.desc || " ",
                 repeated: "no",
                 repeats: taskSet?.repeats || NEVER,
@@ -546,6 +444,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                         </Form.Control.Feedback> */}
                       </InputGroup>
                     </Form.Group>
+                    {/* Categories Start */}
                     {values.category !== "new" ||
                     (taskSet && values.category === "new") ? (
                       <Form.Group controlId='category' className='py-1'>
@@ -578,11 +477,11 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               Select a category
                             </option>
                             {categories
-                              .filter(
-                                (c) =>
-                                  c !== "none" && !TASK_CATEGORIES.includes(c)
-                              )
-                              .sort()
+                              // .filter(
+                              //   (c) =>
+                              //     c !== "none" && !TASK_CATEGORIES.includes(c)
+                              // )
+                              // .sort()
                               .map((c, i) => {
                                 return (
                                   <option
@@ -594,7 +493,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   </option>
                                 );
                               })}
-                            {TASK_CATEGORIES.map((c, i) => {
+                            {/* {TASK_CATEGORIES.map((c, i) => {
                               return (
                                 <option
                                   key={i}
@@ -604,7 +503,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   {c}
                                 </option>
                               );
-                            })}
+                            })} */}
                             {!taskSet && (
                               <>
                                 <option value='' disabled>
@@ -632,7 +531,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               value={values.newCategory}
                               placeholder='for e.g. "Knitting"'
                               aria-describedby='create new category'
-                              onChange={handleChange}
+                              onChange={(e) => {
+                                if (values.category !== undefined) {
+                                  setChanged({ ...changed, category: true });
+                                }
+                                handleChange(e);
+                              }}
                               isInvalid={!!errors.newCategory}
                             />
                             <Form.Control.Feedback type='invalid'>
@@ -640,44 +544,40 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             </Form.Control.Feedback>
                           </InputGroup>
                         </Form.Group>
-                        {categoryColors && (
-                          <>
-                            <Form.Group
-                              controlId='newCategoryColor'
-                              className='py-1'>
-                              <Form.Label>Choose category color.</Form.Label>
-                              <CirclePicker
-                                width='100%'
-                                colors={categoryColors}
-                                onChangeComplete={handleChangeColor}
-                              />
-                            </Form.Group>
-                            <Form.Group
-                              controlId='sampleTaskBtn'
-                              className='py-1'>
-                              <TaskButton
-                                i={0}
-                                task={{
-                                  _id: my_user._id,
-                                  category:
-                                    values.newCategory || "Sample Category",
-                                  title: values.title || "Sample Task",
-                                  image: "",
-                                  desc: values.desc,
-                                  repeats: NEVER,
-                                  type: SOLO,
-                                  value: values.value,
-                                  createdBy: my_user._id,
-                                  status: AWAITED,
-                                  _v: 0,
-                                }}
-                                bgColor={newCategoryColor}
-                              />
-                            </Form.Group>
-                          </>
-                        )}
+                        <Form.Group
+                          // controlId='newCategoryColor'
+                          className='py-1'>
+                          <Form.Label>Choose category color.</Form.Label>
+                          <CirclePicker
+                            width='100%'
+                            colors={customColors}
+                            onChangeComplete={handleChangeColor}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          // controlId='sampleTaskBtn'
+                          className='py-1'>
+                          <TaskButton
+                            i={0}
+                            task={{
+                              _id: my_user._id,
+                              category: values.newCategory || "Sample Category",
+                              title: values.title || "Sample Task",
+                              image: "",
+                              desc: values.desc,
+                              repeats: NEVER,
+                              type: SOLO,
+                              value: values.value,
+                              createdBy: my_user._id,
+                              status: AWAITED,
+                              _v: 0,
+                            }}
+                            bgColor={newCategoryColor}
+                          />
+                        </Form.Group>
                       </>
                     )}
+                    {/* Categories End */}
                     <Form.Group controlId='desc' className='py-1'>
                       <Form.Label>
                         {taskSet
