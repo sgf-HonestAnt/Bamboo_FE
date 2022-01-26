@@ -116,7 +116,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
-  const { customColors } = state.currentSettings;
+  const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -133,16 +133,15 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const { refreshToken } = my_user;
   // react-colors
   const [categoryColors, setCategoryColors] = useState<string[]>([]);
-  const [newCategoryColor, setNewCategoryColor] = useState<string>("");
+  const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
   function handleChangeColor(color: any) {
-    console.log(color.hsl);
     const sAsNum = parseFloat(color.hsl.s);
     const lAsNum = parseFloat(color.hsl.l);
     const parseS = 100 * sAsNum;
     const parseL = 100 * lAsNum;
     const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
-    console.log(hsla);
     setNewCategoryColor(hsla);
+    // send this along with new category to schema
   }
   console.log(newCategoryColor);
   // react-select multiple dropdown
@@ -670,7 +669,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   status: AWAITED,
                                   _v: 0,
                                 }}
-                                bgColor={newCategoryColor || "#ccc"}
+                                bgColor={newCategoryColor}
                               />
                             </Form.Group>
                           </>

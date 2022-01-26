@@ -60,6 +60,7 @@ export interface currentTasksInt {
   // GET tasks/me
   _id: string;
   categories: string[];
+  categoriesColors: string[];
   completed: taskInt[];
   awaited: taskInt[];
   in_progress: taskInt[];

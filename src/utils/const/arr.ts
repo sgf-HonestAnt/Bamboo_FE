@@ -37,10 +37,11 @@ export const MONTHNAMES = [
 ];
 export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
 export const CUSTOM_COLORS = [
+  "#ccc",
+  "hsl(12, 75%, 56%, 0.6)",
   "hsl(183, 100%, 33%)",
   "hsl(60, 68%, 71%)",
   "hsl(190, 100%, 34%)",
-  "hsl(12, 75%, 56%, 0.6)",
   "hsl(61, 38%, 50%)",
   "hsl(196, 100%, 33%)",
   "hsla(62, 63%, 30%, 0.6)",
