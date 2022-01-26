@@ -105,7 +105,9 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     const todayTasks = allTasks.filter(
       (task) => task.deadline?.slice(0, 10) === today
     );
-    const sharedTasks = allTasks.filter((task) => task.sharedWith && task.sharedWith.length > 1);
+    const sharedTasks = allTasks.filter(
+      (task) => task.sharedWith && task.sharedWith.length > 1
+    );
     const overdueTasks = await findIfTasksOverdue();
     const rewardsAvailable = await findRewardsAvailable();
     overdueTasks &&
@@ -120,6 +122,13 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         sharedTasks,
         rewardsAvailable,
       });
+    if (atAGlanceData.urgentTasks.length > 0) {
+      setTaskState(URGENT);
+    } else if (atAGlanceData.todayTasks.length > 0) {
+      setTaskState(TODAY);
+    } else {
+      setTaskState(ALL_TASKS);
+    }
   };
   const handleClick = (e: {
     preventDefault: () => void;
