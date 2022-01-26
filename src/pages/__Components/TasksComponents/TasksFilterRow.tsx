@@ -97,11 +97,20 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
+  useEffect(() => {
+    if (location.pathname === "/categories") {
+      setShow(true);
+    }
+  }, [location.pathname]);
   return (
     <Row className='pt-4'>
       <Col sm={12}>
         <Row className='tasks-page__filter-row m-0 p-1'>
-          <AddNewTaskButton variant="secondary" label='Add task' handleClick={handleShow} />
+          <AddNewTaskButton
+            variant='secondary'
+            label='Add task'
+            handleClick={handleShow}
+          />
           <AddEditTaskModal
             show={show}
             handleClose={handleClose}

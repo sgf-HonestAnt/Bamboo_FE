@@ -28,8 +28,8 @@ import {
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
-import { createColorArray } from "../../utils/funcs/f_styling";
 import { TaskButton } from "./DashComponents/MapTasks";
+import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
 
 const schema = yup.object().shape({
   title: yup
@@ -180,7 +180,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
       handleClose();
-      history.push("/reload?pathname=tasks");
+      if (location.search) {
+        history.push("/reload?pathname=tasks");
+      }
     }
   };
   const removeSelf = async () => {
@@ -190,8 +192,11 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       history.push("/reload?pathname=tasks");
     }
   };
+  // show categories edit/delete modal
+  const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
     setChanged({ title: false, value: false, category: false });
+    history.push("/tasks");
     handleClose();
   };
   useEffect(() => {
@@ -200,7 +205,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   }, [followedUsers]);
   return (
     <Modal show={show} onHide={handleCloseModal}>
-      {taskSet && view ? (
+      {location.pathname === "/categories" || showEditCategories ? (
+        <CategoryEditOrDelete />
+      ) : taskSet && view ? (
         <>
           <Modal.Header>
             <Modal.Title>
@@ -369,7 +376,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     </h4>
                     <Form.Group controlId='title' className='py-1'>
                       <Form.Label>
-                        {taskSet ? "Edit name (optional)." : "Name your task."}
+                        {taskSet
+                          ? "Edit task name (optional)."
+                          : "Name your task."}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <Form.Control
@@ -385,7 +394,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                           }
                           aria-describedby={
                             taskSet
-                              ? "Edit name (optional)."
+                              ? "Edit task name (optional)."
                               : "Name your task."
                           }
                           onChange={(e) => {
@@ -404,7 +413,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     <Form.Group controlId='value' className='py-1'>
                       <Form.Label>
                         {taskSet
-                          ? "Edit value (optional)."
+                          ? "Edit task value (optional)."
                           : "What's its value?"}
                       </Form.Label>
                       <InputGroup hasValidation>
@@ -413,7 +422,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                           defaultValue={taskSet ? taskSet.value : 0}
                           aria-describedby={
                             taskSet
-                              ? "Edit value (optional)."
+                              ? "Edit task value (optional)."
                               : "What's its value?"
                           }
                           onChange={(e) => {
@@ -450,7 +459,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                       <Form.Group controlId='category' className='py-1'>
                         <Form.Label>
                           {taskSet
-                            ? "Edit category (optional)."
+                            ? "Edit task category (optional)."
                             : "Choose a category."}
                         </Form.Label>
                         <InputGroup hasValidation>
@@ -461,7 +470,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             }
                             aria-describedby={
                               taskSet
-                                ? "Edit category (optional)."
+                                ? "Edit task category (optional)."
                                 : "Choose a category."
                             }
                             onChange={(e) => {
@@ -519,6 +528,18 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             )}
                           </Form.Control>
                         </InputGroup>
+                        {taskSet && (
+                          <Form.Text style={{ display: "inline-block" }}>
+                            * Want to edit or delete{" "}
+                            <Button
+                              variant='link'
+                              id='edit-categories'
+                              onClick={(e) => setShowEditCategories(true)}>
+                              the categories
+                            </Button>{" "}
+                            themselves?
+                          </Form.Text>
+                        )}
                       </Form.Group>
                     ) : (
                       <>
@@ -529,7 +550,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               type='text'
                               maxLength={15}
                               value={values.newCategory}
-                              placeholder='for e.g. "Knitting"'
+                              placeholder='for e.g. "Save the Pandas"'
                               aria-describedby='create new category'
                               onChange={(e) => {
                                 if (values.category !== undefined) {

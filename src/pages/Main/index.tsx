@@ -106,6 +106,13 @@ export default function MainBody({ history, location }: RouteComponentProps) {
                 }`}>
                 <TasksPage history={history} location={location} />
               </div>
+            ) : path === "/categories" ? (
+              <div
+                className={`main-section ${
+                  isLt755 ? "overflow-x-scroll" : ""
+                }`}>
+                <TasksPage history={history} location={location} />
+              </div>
             ) : path === "/following" ? (
               <div
                 className={`main-section ${
