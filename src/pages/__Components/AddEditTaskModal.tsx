@@ -135,9 +135,16 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const [categoryColors, setCategoryColors] = useState<string[]>([]);
   const [newCategoryColor, setNewCategoryColor] = useState<string>("");
   function handleChangeColor(color: any) {
-    setNewCategoryColor(color.hex);
-    console.log(newCategoryColor);
+    console.log(color.hsl);
+    const sAsNum = parseFloat(color.hsl.s);
+    const lAsNum = parseFloat(color.hsl.l);
+    const parseS = 100 * sAsNum;
+    const parseL = 100 * lAsNum;
+    const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
+    console.log(hsla);
+    setNewCategoryColor(hsla);
   }
+  console.log(newCategoryColor);
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
@@ -651,8 +658,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                 i={0}
                                 task={{
                                   _id: my_user._id,
-                                  category: values.newCategory || "Knitting",
-                                  title: "Sample Task",
+                                  category:
+                                    values.newCategory || "Sample Category",
+                                  title: values.title || "Sample Task",
                                   image: "",
                                   desc: values.desc,
                                   repeats: NEVER,
