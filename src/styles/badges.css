@@ -9,6 +9,11 @@ button,
 .btn:hover {
   transform: scale(1.02);
 }
+.btn-info {
+  border-radius: 0;
+  border: none !important;
+  font-weight: 600 !important;
+}
 .btn-light {
   background-color: hsla(var(--honeydew), 1) !important;
   border: none !important;
@@ -28,7 +33,9 @@ button,
   transform: scale(1.02);
   z-index: 9;
 }
-.btn-secondary, #accept-button.bg-secondary, #reject-button.bg-secondary {
+.btn-secondary,
+#accept-button.bg-secondary,
+#reject-button.bg-secondary {
   background-color: hsla(var(--caribbean-green), 0.5) !important;
   color: hsla(var(--castleton-green), 1) !important;
   border: none !important;

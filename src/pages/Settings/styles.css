@@ -7,6 +7,9 @@
 }
 /* .settings-page__profile-card.card.bamboo-card {
 } */
+#settings-page-card {
+  border-radius: 0;
+}
 .settings-page__profile-card__profile-img {
   width: 200px;
   height: 200px;

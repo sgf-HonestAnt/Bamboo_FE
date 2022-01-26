@@ -17,7 +17,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
   const isLt756 = useMediaQuery({ query: "(max-width: 756px)" });
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
-  const { username, bio, level, xp, rewards } = my_user;
+  const { admin, username, bio, level, xp, rewards } = my_user;
   const { history } = props;
   const pushToSettings = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -117,6 +117,15 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         <FiActivity />
         <Link to='/stats'>View Stats</Link>
       </div>
+      {admin && (
+        <div className='mt-3'>
+          <Link to='/admin-dash'>
+            <Button variant='info' className='dashboard__admin-card'>
+              Go to Admin
+            </Button>
+          </Link>
+        </div>
+      )}
     </div>
   ) : (
     <Row className='bamboo-card-mid m-0'>
@@ -214,6 +223,15 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           <FiActivity />
           <Link to='/stats'>View Stats</Link>
         </div>
+        {admin && (
+          <div className='mt-3'>
+            <Link to='/admin-dash'>
+              <Button variant='info' className='dashboard__admin-card'>
+                Go to Admin
+              </Button>
+            </Link>
+          </div>
+        )}
       </Col>
     </Row>
   );

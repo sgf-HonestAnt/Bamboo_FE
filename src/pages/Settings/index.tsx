@@ -103,7 +103,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   };
   return (
     <div className='settings-page'>
-      <Card className='bamboo-card-mid'>
+      <Card className='bamboo-card-mid' id="settings-page-card">
         <Card.Body className='settings-page__profile-card'>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
