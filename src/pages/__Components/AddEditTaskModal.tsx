@@ -2,6 +2,7 @@ import { History, Location } from "history";
 import { Formik, useField } from "formik";
 import Select from "react-select";
 import * as yup from "yup";
+import { CirclePicker } from "react-color";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
@@ -14,7 +15,13 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import { NEVER, TASK_CATEGORIES, TEAM } from "../../utils/const/str";
+import {
+  AWAITED,
+  NEVER,
+  SOLO,
+  TASK_CATEGORIES,
+  TEAM,
+} from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -27,6 +34,8 @@ import {
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
+import { createColorArray } from "../../utils/funcs/f_styling";
+import { TaskButton } from "./DashComponents/MapTasks";
 
 const schema = yup.object().shape({
   title: yup
@@ -107,6 +116,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
   const { categories, awaited, in_progress } = currentTasks;
+  const { customColors } = state.currentSettings;
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -121,6 +131,13 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
+  // react-colors
+  const [categoryColors, setCategoryColors] = useState<string[]>([]);
+  const [newCategoryColor, setNewCategoryColor] = useState<string>("");
+  function handleChangeColor(color: any) {
+    setNewCategoryColor(color.hex);
+    console.log(newCategoryColor);
+  }
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
@@ -134,6 +151,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       });
     }
     setOptions(array);
+    createColorArray(customColors, categories, setCategoryColors);
   }
   //
   const avatar =
@@ -596,23 +614,60 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                         </InputGroup>
                       </Form.Group>
                     ) : (
-                      <Form.Group controlId='newCategory' className='py-1'>
-                        <Form.Label>Create new category.</Form.Label>
-                        <InputGroup hasValidation>
-                          <Form.Control
-                            type='text'
-                            maxLength={15}
-                            value={values.newCategory}
-                            placeholder='for e.g. "Knitting"'
-                            aria-describedby='create new category'
-                            onChange={handleChange}
-                            isInvalid={!!errors.newCategory}
-                          />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.newCategory}
-                          </Form.Control.Feedback>
-                        </InputGroup>
-                      </Form.Group>
+                      <>
+                        <Form.Group controlId='newCategory' className='py-1'>
+                          <Form.Label>Create new category.</Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type='text'
+                              maxLength={15}
+                              value={values.newCategory}
+                              placeholder='for e.g. "Knitting"'
+                              aria-describedby='create new category'
+                              onChange={handleChange}
+                              isInvalid={!!errors.newCategory}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                              {errors.newCategory}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+                        {categoryColors && (
+                          <>
+                            <Form.Group
+                              controlId='newCategoryColor'
+                              className='py-1'>
+                              <Form.Label>Choose category color.</Form.Label>
+                              <CirclePicker
+                                width='100%'
+                                colors={categoryColors}
+                                onChangeComplete={handleChangeColor}
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              controlId='sampleTaskBtn'
+                              className='py-1'>
+                              <TaskButton
+                                i={0}
+                                task={{
+                                  _id: my_user._id,
+                                  category: values.newCategory || "Knitting",
+                                  title: "Sample Task",
+                                  image: "",
+                                  desc: values.desc,
+                                  repeats: NEVER,
+                                  type: SOLO,
+                                  value: values.value,
+                                  createdBy: my_user._id,
+                                  status: AWAITED,
+                                  _v: 0,
+                                }}
+                                bgColor={newCategoryColor || "#ccc"}
+                              />
+                            </Form.Group>
+                          </>
+                        )}
+                      </>
                     )}
                     <Form.Group controlId='desc' className='py-1'>
                       <Form.Label>
