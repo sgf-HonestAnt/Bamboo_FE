@@ -213,6 +213,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                 .map((task, i) => (
                   <TaskButton
                     i={i}
+                    key={task._id}
                     task={task}
                     bgColor={
                       categoryColors[
