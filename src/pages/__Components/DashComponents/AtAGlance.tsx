@@ -122,13 +122,13 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         sharedTasks,
         rewardsAvailable,
       });
-    // if (atAGlanceData.urgentTasks.length > 0) {
-    //   setTaskState(URGENT);
-    // } else if (atAGlanceData.todayTasks.length > 0) {
-    //   setTaskState(TODAY);
-    // } else {
-    setTaskState(ALL_TASKS);
-    // }
+    if (atAGlanceData.urgentTasks.length > 0) {
+      setTaskState(URGENT);
+    } else if (atAGlanceData.todayTasks.length > 0) {
+      setTaskState(TODAY);
+    } else {
+      setTaskState(ALL_TASKS);
+    }
   };
   const handleClick = (e: {
     preventDefault: () => void;
