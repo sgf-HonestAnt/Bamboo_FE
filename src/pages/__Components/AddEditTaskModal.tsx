@@ -15,7 +15,13 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import { AWAITED, NEVER, SOLO, TEAM } from "../../utils/const/str";
+import {
+  AWAITED,
+  IN_PROGRESS,
+  NEVER,
+  SOLO,
+  TEAM,
+} from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -30,6 +36,11 @@ import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 import { TaskButton } from "./DashComponents/MapTasks";
 import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
+import {
+  RemTaskFromAwaited,
+  RemTaskFromCompleted,
+  RemTaskFromInProgress,
+} from "../../redux/actions/tasks";
 
 const schema = yup.object().shape({
   title: yup
@@ -111,7 +122,8 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const { categories, categoriesColors, awaited, in_progress } = currentTasks;
+  const { categories, categoriesColors, awaited, in_progress, completed } =
+    currentTasks;
   const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
@@ -179,10 +191,24 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const deleteTask = async () => {
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
-      // if (location.search) {
-        history.push("/reload?pathname=tasks");
-      // }
-      // handleCloseModal();
+      if (taskSet.status === AWAITED) {
+        dispatch(
+          RemTaskFromAwaited(awaited.filter((task) => task._id !== taskSet._id))
+        );
+      } else if (taskSet.status === IN_PROGRESS) {
+        dispatch(
+          RemTaskFromInProgress(
+            in_progress.filter((task) => task._id !== taskSet._id)
+          )
+        );
+      } else {
+        dispatch(
+          RemTaskFromCompleted(
+            completed.filter((task) => task._id !== taskSet._id)
+          )
+        );
+      }
+      history.push("/reload?pathname=tasks");
     }
   };
   const removeSelf = async () => {
