@@ -97,11 +97,11 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  useEffect(() => {
-    if (location.pathname === "/categories") {
-      setShow(true);
-    }
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   if (location.pathname === "/categories") {
+  //     setShow(true);
+  //   }
+  // }, [location.pathname]);
   return (
     <Row className='pt-4'>
       <Col sm={12}>

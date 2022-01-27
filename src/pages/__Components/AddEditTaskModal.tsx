@@ -195,6 +195,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   // show categories edit/delete modal
   const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
+    setShowEditCategories(false);
     setChanged({ title: false, value: false, category: false });
     history.push("/tasks");
     handleClose();
@@ -206,7 +207,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   return (
     <Modal show={show} onHide={handleCloseModal}>
       {location.pathname === "/categories" || showEditCategories ? (
-        <CategoryEditOrDelete />
+        <CategoryEditOrDelete handleCloseModal={handleCloseModal} />
       ) : taskSet && view ? (
         <>
           <Modal.Header>
@@ -530,14 +531,14 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                         </InputGroup>
                         {taskSet && (
                           <Form.Text style={{ display: "inline-block" }}>
-                            * Want to edit or delete{" "}
                             <Button
                               variant='link'
                               id='edit-categories'
+                              className='p-0'
                               onClick={(e) => setShowEditCategories(true)}>
-                              the categories
-                            </Button>{" "}
-                            themselves?
+                              * Want to edit or delete the categories
+                              themselves?
+                            </Button>
                           </Form.Text>
                         )}
                       </Form.Group>

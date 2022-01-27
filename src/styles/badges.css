@@ -49,9 +49,9 @@ button,
   color: inherit !important;
   box-shadow: none !important;
 }
-.btn-link:hover {
+/* .btn-link:hover {
   text-decoration: none !important;
-}
+} */
 .dashboard__profile-card__edit-btn {
   color: hsla(var(--spanish-viridian), 1) !important;
 }
@@ -107,4 +107,7 @@ button,
 }
 .task-btn {
   text-align: left !important;
+}
+#edit-categories.btn {
+  font-size: inherit;
 }
