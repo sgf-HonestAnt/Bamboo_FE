@@ -57,10 +57,10 @@ export default async function submitFormikTask(
 ) {
   // console.log("🙋Submitting Formik Task", e);
   const { repeatedRadio, sharedRadio, repeats } = e;
-  e.newCategoryColor = newCategoryColor
+  e.newCategoryColor = newCategoryColor;
   e.repeated = repeatedRadio;
   e.shared = sharedRadio;
-  e.sharedWith = taskSet ? taskSet.sharedWith : sharedUsers?.selectedOptions
+  e.sharedWith = taskSet ? taskSet.sharedWith : sharedUsers?.selectedOptions;
   if (repeats === "other") {
     e.repeats = e.repeatsOther;
   }
@@ -79,7 +79,7 @@ export default async function submitFormikTask(
       location
     );
     if (taskSet) {
-      // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
+      console.log("TASK WAS SET, SO I AM DISPATCHING AN EDIT.");
       const editedStatus = taskSet.status;
       const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
       const editedListOfTasks = listOfTasks.filter(
@@ -87,22 +87,32 @@ export default async function submitFormikTask(
       );
       editedListOfTasks.push(newTask);
       dispatch(EditTask(editedStatus, editedListOfTasks));
+    } else if (repeats !== NEVER) {
+      console.log("TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD.");
+      // force reload when tasks are repeated
+      setTimeout(() => history.push("/reload?pathname=tasks"), 500);
     } else {
-      // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
+      console.log(
+        "TASK WAS NOT SET OR REPEATED, SO I AM DISPATCHING A NEW TASK."
+      );
       dispatch(setNewTask(newTask));
     }
     if (
       !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
       !categories.includes(newTask.category.toLowerCase())
     ) {
-      // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
+      console.log(
+        "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
+      );
       categories.push(newTask.category.toLowerCase());
-      categoriesColors.push(e.newCategoryColor||"#ccc")
+      categoriesColors.push(e.newCategoryColor || "#ccc");
       dispatch(setNewCategory(categories));
-      dispatch(setNewCategoryColors(categoriesColors))
+      dispatch(setNewCategoryColors(categoriesColors));
     }
     if (initialData) {
-      // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
+      console.log(
+        "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
+      );
       if (taskSet) {
         const index = initialData.tasks.findIndex(
           (task: taskInt | undefined) => task?._id === taskSet._id
@@ -118,13 +128,9 @@ export default async function submitFormikTask(
         lists: [...initialData.lists!],
       };
       setInitialData(newData);
-    }
-    if (repeats !== NEVER) {
-      // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
-      // force reload when tasks are repeated
-      setTimeout(() => history.push("/reload?pathname=tasks"), 500);
-    } else {
-      // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+      console.log(
+        "TASK WAS NOT REPEATED, SO AFTER SETTING INITIAL DATA, I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+      );
       handleClose();
       setChanged({ title: false, value: false, category: false });
     }

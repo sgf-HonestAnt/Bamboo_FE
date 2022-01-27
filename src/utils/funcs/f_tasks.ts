@@ -149,7 +149,7 @@ export const attemptPostOrEditTask = async (
   history: string[] | History<unknown>,
   location: Location<unknown> | undefined
 ) => {
-  console.log("✏️Posting or Editing New Task", form);
+  // console.log("✏️Posting or Editing New Task", form);
   try {
     const token = localStorage.getItem("token");
     // const username = await checkToken(refreshToken, history, location);

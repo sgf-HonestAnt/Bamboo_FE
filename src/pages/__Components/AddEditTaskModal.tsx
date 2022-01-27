@@ -179,10 +179,10 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const deleteTask = async () => {
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
-      handleClose();
-      if (location.search) {
+      // if (location.search) {
         history.push("/reload?pathname=tasks");
-      }
+      // }
+      // handleCloseModal();
     }
   };
   const removeSelf = async () => {
