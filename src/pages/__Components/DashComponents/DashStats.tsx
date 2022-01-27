@@ -33,10 +33,10 @@ export default function DashStats(props: DashStatsProps) {
       className={`bamboo-card ${
         isGt1660 && notification.length > 0 ? "m-1" : "m-0"
       }`}
-      id="dashboard__dash-stats">
+      id='dashboard__dash-stats'>
       {" "}
       {/* ${isBigScreen && "my-3"} */}
-      <Row>
+      <Row className='p-1'>
         {(total_xp > 0 || awaited.length > 0 || in_progress.length > 0) && (
           <Col sm={12}>
             <PieChartWithPaddingAngle

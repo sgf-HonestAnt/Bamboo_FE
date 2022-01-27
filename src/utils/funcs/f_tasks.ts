@@ -160,7 +160,7 @@ export const attemptPostOrEditTask = async (
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-    const body = JSON.stringify(form);
+    const body = JSON.stringify(form); // if POST TASK includes newCategory, should also include newCategoryColor (both strings)
     const response = await fetch(url, { method, headers, body });
     const newTask = await response.json();
     return newTask;

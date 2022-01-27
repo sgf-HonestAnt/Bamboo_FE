@@ -17,7 +17,7 @@ import { sendXpGift } from "../../utils/funcs/f_rewards";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TaskButton } from "../__Components/DashComponents/MapTasks";
-import { createColorArray } from "../../utils/funcs/f_styling";
+import { createColorArray } from "../../utils/funcs/f_styling"; // remove when categoryColors comes from redux
 import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
@@ -31,10 +31,10 @@ export default function FollowingPage(props: FollowingPageProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { categories, awaited, in_progress, completed } = state.currentTasks;
+  const { categories, awaited, in_progress, completed } = state.currentTasks; // categoryColors
   const allTasks = awaited.concat(in_progress, completed);
   const { customColors } = state.currentSettings;
-  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  const [categoryColors, setCategoryColors] = useState<string | any[]>([]); // remove when categoryColors comes from redux
   const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
@@ -78,7 +78,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     dispatch(fillTasksAction());
-    createColorArray(customColors, categories, setCategoryColors);
+    createColorArray(customColors, categories, setCategoryColors); // remove when categoryColors comes from redux
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
