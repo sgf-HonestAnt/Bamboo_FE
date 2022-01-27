@@ -2,6 +2,7 @@ import { History, Location } from "history";
 import { Formik, useField } from "formik";
 import Select from "react-select";
 import * as yup from "yup";
+import { CirclePicker } from "react-color";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
@@ -14,7 +15,7 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import { NEVER, TASK_CATEGORIES, TEAM } from "../../utils/const/str";
+import { AWAITED, NEVER, SOLO, TEAM } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -27,6 +28,8 @@ import {
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
+import { TaskButton } from "./DashComponents/MapTasks";
+import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
 
 const schema = yup.object().shape({
   title: yup
@@ -41,6 +44,8 @@ const schema = yup.object().shape({
     .string()
     .required("No category provided.")
     .min(1, "No category provided."),
+  // newCategory: yup.string(),
+  // newCategoryColor: yup.string(),
   desc: yup.string(),
   repeated: yup.string(),
   repeats: yup.string(),
@@ -106,7 +111,8 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const { categories, awaited, in_progress } = currentTasks;
+  const { categories, categoriesColors, awaited, in_progress } = currentTasks;
+  const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -121,6 +127,17 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
+  // react-colors
+  // const [categoryColors, setCategoryColors] = useState<string[]>([]);
+  const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
+  function handleChangeColor(color: any) {
+    const sAsNum = parseFloat(color.hsl.s);
+    const lAsNum = parseFloat(color.hsl.l);
+    const parseS = 100 * sAsNum;
+    const parseL = 100 * lAsNum;
+    const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
+    setNewCategoryColor(hsla);
+  }
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
@@ -134,6 +151,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       });
     }
     setOptions(array);
+    // createColorArray(customColors, categories, setCategoryColors);
   }
   //
   const avatar =
@@ -152,102 +170,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
-  // const handleSubmitFormik = async (e: any) => {
-  //   // B/E: Schema:
-  //   // {
-  //   //   category: { type: String, default: NONE, required: true },
-  //   //   title: { type: String, required: true },
-  //   //   desc: { type: String, required: true },
-  //   //   repeats: { type: String, required: true, enum: [NEVER, DAILY, WEEKLY, MONTHLY, STRING(NUMBER),] }, //
-  //   //   type: { type: String, default: SOLO, enum: [SOLO, TEAM], },
-  //   //   value: { type: Number, default: 0 },
-  //   //   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-  //   //   sharedWith: { default: [], type: [{ type: Schema.Types.ObjectId, ref: "User" }], },
-  //   //   status: { type: String, default: AWAITED, enum: [AWAITED, COMPLETED, IN_PROGRESS] },
-  //   //   deadline: { type: Date },
-  //   // },
-  //   // Formik adds:
-  //   // newCategory: "", // overrides category if defined
-  //   // repeated: "no", // "yes" or "no"
-  //   // repeatsOther: 0,
-  //   // repetitions: "1",
-  //   // shared: "no",
-  //   // repeatedRadio: null, // "yes" or "no" => show Repeated dropdown
-  //   // sharedRadio: null, // "yes" or "no" => show Shared dropdown
-  //   // Note, task cannot be sharedWith.length>1 AND repeats !== NEVER
-  //   const { repeatedRadio, sharedRadio, repeats } = e;
-  //   e.repeated = repeatedRadio;
-  //   e.shared = sharedRadio;
-  //   e.sharedWith = sharedUsers?.selectedOptions;
-  //   if (repeats === "other") {
-  //     e.repeats = e.repeatsOther;
-  //   }
-  //   if (e.category === "") {
-  //     e.category = NONE;
-  //   }
-  //   try {
-  //     const method = taskSet ? PUT : POST;
-  //     const taskId = taskSet ? taskSet._id : null;
-  //     const newTask = await attemptPostOrEditTask(
-  //       e,
-  //       refreshToken,
-  //       method,
-  //       taskId,
-  //       history,
-  //       location
-  //     );
-  //     if (taskSet) {
-  //       // "TASK WAS SET, SO I AM DISPATCHING AN EDIT."
-  //       const editedStatus = taskSet.status;
-  //       const listOfTasks = editedStatus === AWAITED ? awaited : in_progress;
-  //       const editedListOfTasks = listOfTasks.filter(
-  //         (t) => t._id !== taskSet._id
-  //       );
-  //       editedListOfTasks.push(newTask);
-  //       dispatch(EditTask(editedStatus, editedListOfTasks));
-  //     } else {
-  //       // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
-  //       dispatch(setNewTask(newTask));
-  //     }
-  //     if (
-  //       !TASK_CATEGORIES.includes(newTask.category.toLowerCase()) &&
-  //       !categories.includes(newTask.category.toLowerCase())
-  //     ) {
-  //       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
-  //       categories.push(newTask.category.toLowerCase());
-  //       dispatch(setNewCategory(categories));
-  //     }
-  //     if (initialData) {
-  //       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
-  //       if (taskSet) {
-  //         const index = initialData.tasks.findIndex(
-  //           (task: taskInt | undefined) => task?._id === taskSet._id
-  //         );
-  //         initialData.tasks[index] = newTask;
-  //       } else {
-  //         initialData.tasks.push(newTask); // push new task to list of tasks
-  //         initialData.lists[0].taskIds.push(newTask._id); // push new id to awaited taskIds
-  //       }
-  //       const newData = {
-  //         ...initialData,
-  //         tasks: [...initialData.tasks!],
-  //         lists: [...initialData.lists!],
-  //       };
-  //       setInitialData(newData);
-  //     }
-  //     if (repeats !== NEVER) {
-  //       // "TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD."
-  //       // force reload when tasks are repeated
-  //       setTimeout(() => history.push("/reload?pathname=tasks"), 500);
-  //     } else {
-  //       // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-  //       handleClose();
-  //       setChanged({ title: false, value: false, category: false });
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   const handleDelete = () => {
     setShowWarning(true);
   };
@@ -258,7 +180,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     if (taskSet) {
       await attemptDeleteTask(taskSet._id);
       handleClose();
-      history.push("/reload?pathname=tasks");
+      if (location.search) {
+        history.push("/reload?pathname=tasks");
+      }
     }
   };
   const removeSelf = async () => {
@@ -268,8 +192,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       history.push("/reload?pathname=tasks");
     }
   };
+  // show categories edit/delete modal
+  const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
+    setShowEditCategories(false);
     setChanged({ title: false, value: false, category: false });
+    history.push("/tasks");
     handleClose();
   };
   useEffect(() => {
@@ -278,7 +206,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   }, [followedUsers]);
   return (
     <Modal show={show} onHide={handleCloseModal}>
-      {taskSet && view ? (
+      {location.pathname === "/categories" || showEditCategories ? (
+        <CategoryEditOrDelete handleCloseModal={handleCloseModal} />
+      ) : taskSet && view ? (
         <>
           <Modal.Header>
             <Modal.Title>
@@ -397,9 +327,11 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                 setTimeout(() => {
                   submitFormikTask(
                     values,
+                    newCategoryColor,
                     sharedUsers,
                     taskSet,
                     categories,
+                    categoriesColors,
                     awaited,
                     in_progress,
                     refreshToken,
@@ -445,7 +377,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     </h4>
                     <Form.Group controlId='title' className='py-1'>
                       <Form.Label>
-                        {taskSet ? "Edit name (optional)." : "Name your task."}
+                        {taskSet
+                          ? "Edit task name (optional)."
+                          : "Name your task."}
                       </Form.Label>
                       <InputGroup hasValidation>
                         <Form.Control
@@ -461,7 +395,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                           }
                           aria-describedby={
                             taskSet
-                              ? "Edit name (optional)."
+                              ? "Edit task name (optional)."
                               : "Name your task."
                           }
                           onChange={(e) => {
@@ -480,7 +414,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     <Form.Group controlId='value' className='py-1'>
                       <Form.Label>
                         {taskSet
-                          ? "Edit value (optional)."
+                          ? "Edit task value (optional)."
                           : "What's its value?"}
                       </Form.Label>
                       <InputGroup hasValidation>
@@ -489,7 +423,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                           defaultValue={taskSet ? taskSet.value : 0}
                           aria-describedby={
                             taskSet
-                              ? "Edit value (optional)."
+                              ? "Edit task value (optional)."
                               : "What's its value?"
                           }
                           onChange={(e) => {
@@ -520,12 +454,13 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                         </Form.Control.Feedback> */}
                       </InputGroup>
                     </Form.Group>
+                    {/* Categories Start */}
                     {values.category !== "new" ||
                     (taskSet && values.category === "new") ? (
                       <Form.Group controlId='category' className='py-1'>
                         <Form.Label>
                           {taskSet
-                            ? "Edit category (optional)."
+                            ? "Edit task category (optional)."
                             : "Choose a category."}
                         </Form.Label>
                         <InputGroup hasValidation>
@@ -536,7 +471,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             }
                             aria-describedby={
                               taskSet
-                                ? "Edit category (optional)."
+                                ? "Edit task category (optional)."
                                 : "Choose a category."
                             }
                             onChange={(e) => {
@@ -552,11 +487,11 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               Select a category
                             </option>
                             {categories
-                              .filter(
-                                (c) =>
-                                  c !== "none" && !TASK_CATEGORIES.includes(c)
-                              )
-                              .sort()
+                              // .filter(
+                              //   (c) =>
+                              //     c !== "none" && !TASK_CATEGORIES.includes(c)
+                              // )
+                              // .sort()
                               .map((c, i) => {
                                 return (
                                   <option
@@ -568,7 +503,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   </option>
                                 );
                               })}
-                            {TASK_CATEGORIES.map((c, i) => {
+                            {/* {TASK_CATEGORIES.map((c, i) => {
                               return (
                                 <option
                                   key={i}
@@ -578,7 +513,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   {c}
                                 </option>
                               );
-                            })}
+                            })} */}
                             {!taskSet && (
                               <>
                                 <option value='' disabled>
@@ -594,26 +529,78 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             )}
                           </Form.Control>
                         </InputGroup>
+                        {/* ENABLE ONCE SET UP SUCCESSFULLY IN B/E */}
+                        {/* {taskSet && (
+                          <Form.Text style={{ display: "inline-block" }}>
+                            <Button
+                              variant='link'
+                              id='edit-categories'
+                              className='p-0'
+                              onClick={(e) => setShowEditCategories(true)}>
+                              * Want to edit or delete the categories
+                              themselves?
+                            </Button>
+                          </Form.Text>
+                        )} */}
                       </Form.Group>
                     ) : (
-                      <Form.Group controlId='newCategory' className='py-1'>
-                        <Form.Label>Create new category.</Form.Label>
-                        <InputGroup hasValidation>
-                          <Form.Control
-                            type='text'
-                            maxLength={15}
-                            value={values.newCategory}
-                            placeholder='for e.g. "Knitting"'
-                            aria-describedby='create new category'
-                            onChange={handleChange}
-                            isInvalid={!!errors.newCategory}
+                      <>
+                        <Form.Group controlId='newCategory' className='py-1'>
+                          <Form.Label>Create new category.</Form.Label>
+                          <InputGroup hasValidation>
+                            <Form.Control
+                              type='text'
+                              maxLength={15}
+                              value={values.newCategory}
+                              placeholder='for e.g. "Save the Pandas"'
+                              aria-describedby='create new category'
+                              onChange={(e) => {
+                                if (values.category !== undefined) {
+                                  setChanged({ ...changed, category: true });
+                                }
+                                handleChange(e);
+                              }}
+                              isInvalid={!!errors.newCategory}
+                            />
+                            <Form.Control.Feedback type='invalid'>
+                              {errors.newCategory}
+                            </Form.Control.Feedback>
+                          </InputGroup>
+                        </Form.Group>
+                        <Form.Group
+                          // controlId='newCategoryColor'
+                          className='py-1'>
+                          <Form.Label>Choose category color.</Form.Label>
+                          <CirclePicker
+                            width='100%'
+                            colors={customColors}
+                            onChangeComplete={handleChangeColor}
                           />
-                          <Form.Control.Feedback type='invalid'>
-                            {errors.newCategory}
-                          </Form.Control.Feedback>
-                        </InputGroup>
-                      </Form.Group>
+                        </Form.Group>
+                        <Form.Group
+                          // controlId='sampleTaskBtn'
+                          className='py-1'>
+                          <TaskButton
+                            i={0}
+                            task={{
+                              _id: my_user._id,
+                              category: values.newCategory || "Sample Category",
+                              title: values.title || "Sample Task",
+                              image: "",
+                              desc: values.desc,
+                              repeats: NEVER,
+                              type: SOLO,
+                              value: values.value,
+                              createdBy: my_user._id,
+                              status: AWAITED,
+                              _v: 0,
+                            }}
+                            bgColor={newCategoryColor}
+                          />
+                        </Form.Group>
+                      </>
                     )}
+                    {/* Categories End */}
                     <Form.Group controlId='desc' className='py-1'>
                       <Form.Label>
                         {taskSet
