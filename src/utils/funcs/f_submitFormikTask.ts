@@ -149,12 +149,12 @@ export default async function submitFormikTask(
         lists: [...initialData.lists!],
       };
       setInitialData(newData);
-      // console.log(
-      //   "TASK WAS NOT REPEATED, SO AFTER SETTING INITIAL DATA, I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-      // );
-      handleClose();
-      setChanged({ title: false, value: false, category: false });
     }
+    // console.log(
+    //   "TASK WAS NOT REPEATED, SO AFTER SETTING INITIAL DATA, I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
+    // );
+    handleClose();
+    setChanged({ title: false, value: false, category: false });
   } catch (error) {
     console.log(error);
   }
