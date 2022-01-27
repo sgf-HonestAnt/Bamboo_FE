@@ -63,7 +63,6 @@ export const initialState: reduxStateInt = {
     // set upon loading with endpoint "/tasks/me/"
     _id: "",
     categories: [],
-    categoriesColors: [],
     completed: [],
     awaited: [],
     in_progress: [],

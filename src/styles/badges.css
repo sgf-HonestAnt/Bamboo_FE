@@ -49,9 +49,9 @@ button,
   color: inherit !important;
   box-shadow: none !important;
 }
-/* .btn-link:hover {
+.btn-link:hover {
   text-decoration: none !important;
-} */
+}
 .dashboard__profile-card__edit-btn {
   color: hsla(var(--spanish-viridian), 1) !important;
 }
@@ -61,7 +61,6 @@ button,
   padding: 2px;
   font-size: 50px;
 }
-.badge.bg-primary,
 #custom-bg-urgent.badge.bg-primary,
 #custom-bg-today.badge.bg-primary,
 #custom-bg-awaited.badge.bg-primary,
@@ -70,11 +69,9 @@ button,
 #custom-bg-shared.badge.bg-primary,
 #custom-bg-all-tasks.badge.bg-primary,
 #custom-bg-rewards.badge.bg-primary {
-  color: #fff;
   background-color: hsla(var(--beachhouse-blue), 1) !important;
   transition: 0.7s;
 }
-.badge.bg-secondary,
 #custom-bg-urgent.badge.bg-secondary,
 #custom-bg-today.badge.bg-secondary,
 #custom-bg-awaited.badge.bg-secondary,
@@ -96,18 +93,13 @@ button,
   color: black;
   background-color: hsla(var(--gold), 1) !important;
 }
-#urgent.urgent.badge {
-  color: red !important;
+#urgent.bg-warning.urgent.badge {
+  color: black !important;
+  background-color: hsla(var(--sunset-beach), 1) !important;
 }
 .delete-task-badge.badge.bg-dark {
   color: white !important;
 }
 .delete-task-badge.badge.bg-dark svg {
   margin: 2px 1px;
-}
-.task-btn {
-  text-align: left !important;
-}
-#edit-categories.btn {
-  font-size: inherit;
 }
