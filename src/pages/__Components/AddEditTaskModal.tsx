@@ -529,7 +529,8 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             )}
                           </Form.Control>
                         </InputGroup>
-                        {taskSet && (
+                        {/* ENABLE ONCE SET UP SUCCESSFULLY IN B/E */}
+                        {/* {taskSet && (
                           <Form.Text style={{ display: "inline-block" }}>
                             <Button
                               variant='link'
@@ -540,7 +541,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               themselves?
                             </Button>
                           </Form.Text>
-                        )}
+                        )} */}
                       </Form.Group>
                     ) : (
                       <>
