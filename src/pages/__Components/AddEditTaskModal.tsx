@@ -636,7 +636,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                       <InputGroup hasValidation>
                         <Form.Control
                           as='textarea'
-                          rows={1}
+                          rows={3}
                           value={values.desc}
                           placeholder={
                             taskSet

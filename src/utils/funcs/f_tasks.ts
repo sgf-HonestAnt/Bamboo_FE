@@ -266,6 +266,12 @@ export const getCategories = async (tasks: taskInt[]) => {
   return array;
 };
 
+export const postNewCategory = async () => {
+    // console.log("🙋Posting New Category");
+    
+
+}
+
 export const removeSelfFromTask = async (
   taskId: string,
   currentTasks: currentTasksInt,
