@@ -126,7 +126,7 @@ export default async function submitFormikTask(
       //   "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
       // );
       categories.push(newTask.category.toLowerCase());
-      categoriesColors.push(e.newCategoryColor || "#ccc");
+      categoriesColors.push(newCategoryColor || "#ccc");
       dispatch(setNewCategory(categories));
       dispatch(setNewCategoryColors(categoriesColors));
     }
