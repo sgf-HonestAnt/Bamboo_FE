@@ -89,17 +89,17 @@ export default function TasksPage(props: TasksPageProps) {
       ? await getTaskByQuery(query, my_user._id)
       : await getTasks();
     if (query) {
-      // HERE, WE NEED TO CONCAT ANY RELEVANT SHARED TASKS!
       let updatedTasks = data.tasks;
       if (filter.due === OVERDUE) {
         const overdueTasks = await filterTasksOverdue(updatedTasks);
         setTaskList(overdueTasks);
-      } else if (filter.status !== ANY_STATUS) {
-        const tasksByStatus = await filterTasksByStatus(filter.status);
-        setTaskList(tasksByStatus);
-      } else if (filter.type !== ANY_TYPE) {
-        const allShared = await filterTasksByType(filter.type);
-        setTaskList(allShared);
+        // }
+        // else if (filter.status !== ANY_STATUS) {
+        //   const tasksByStatus = await filterTasksByStatus(filter.status);
+        //   setTaskList(tasksByStatus);
+        // } else if (filter.type !== ANY_TYPE) {
+        //   const allShared = await filterTasksByType(filter.type);
+        //   setTaskList(allShared);
       } else {
         setTaskList(updatedTasks);
       }
@@ -118,7 +118,7 @@ export default function TasksPage(props: TasksPageProps) {
       }
     }
   };
-  console.log(taskList)
+  console.log(taskList);
   useEffect(() => {
     if (taskList) {
       setInitialData({
@@ -162,9 +162,11 @@ export default function TasksPage(props: TasksPageProps) {
         ? `deadline=${filter.due}&`
         : "";
     const catQuery = filter.cat !== ANY_CAT ? `category=${filter.cat}&` : "";
+    const statusQuery =
+      filter.status !== ANY_STATUS ? `status=${filter.status}&` : "";
     const valQuery = filter.val !== ANY_VAL ? `value=${filter.val}&` : "";
     const typeQuery = filter.type !== ANY_TYPE ? `type=${filter.type}&` : "";
-    const fullQuery = `${dueQuery}${catQuery}${valQuery}${typeQuery}`;
+    const fullQuery = `${dueQuery}${catQuery}${statusQuery}${valQuery}${typeQuery}`;
     const queryWithoutAmpersand = fullQuery.slice(0, fullQuery.length - 1);
     retrieveTasks(queryWithoutAmpersand);
     // if (filter.type !== ANY_TYPE) {
@@ -175,8 +177,7 @@ export default function TasksPage(props: TasksPageProps) {
     // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter, search]);
-  useEffect(() => {
-  }, [initialData]);
+  useEffect(() => {}, [initialData]);
   // useEffect(() => {
   //   const { search } = location;
   //   if (search.includes(task!._id)) {
@@ -208,5 +209,5 @@ export default function TasksPage(props: TasksPageProps) {
         location={location}
       />
     </Container>
-  )
+  );
 }
