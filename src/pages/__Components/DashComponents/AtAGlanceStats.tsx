@@ -86,9 +86,10 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   }, [loading]);
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return !loading ? (
-    <div className={`dashboard__at-a-glance-stats ${isLt1238 ? "p-3" : "p-2"}`}>
+    <div
+      className={`dashboard__at-a-glance-stats p-0 ${isLt1238 ? "px-2" : "px-3"}`}>
       <Row className='dashboard__alt__card-header'>
-        <Col className='m-1'>
+        <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
           {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
             <></>
@@ -114,8 +115,8 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
             </Card>  
           </Col> */}
             <Col className={statsPieCards}>
-              <Card className='border-0 dashboard__dash-stats'>
-                <div className='p-0' id="stats-card">
+              <Card className='border-0 dashboard__dash-stats pt-0'>
+                <div className='p-0' id='stats-card'>
                   <ResponsiveContainer>
                     <PieChartWithPaddingAngle
                       deg360={true}
@@ -137,8 +138,8 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
               </Card>
             </Col>
             <Col className={statsPieCards}>
-              <Card className='border-0 dashboard__dash-stats'>
-                <div className='p-0' id="stats-card">
+              <Card className='border-0 dashboard__dash-stats pt-0'>
+                <div className='p-0' id='stats-card'>
                   <ResponsiveContainer>
                     <PieChartWithCustomizedLabel
                       data={taskData.allByType}
@@ -160,8 +161,8 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
               </Card>
             </Col>
             <Col className={statsPieCards}>
-              <Card className='border-0 dashboard__dash-stats'>
-                <div className='p-0' id="stats-card">
+              <Card className='border-0 dashboard__dash-stats pt-0'>
+                <div className='p-0' id='stats-card'>
                   <ResponsiveContainer>
                     <CustomActiveShapePieChart
                       data={taskData.allByDueDate}
@@ -184,8 +185,8 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
           </Row>
           <Row>
             <Col className={statsGraphsCards}>
-              <Card className='border-0 dashboard__dash-stats'>
-                <div className='p-0' id="stats-card">
+              <Card className='border-0 dashboard__dash-stats pt-0'>
+                <div className='p-0' id='stats-card'>
                   <ResponsiveContainer>
                     <MixedBarChart
                       data={taskData.allByCategory}
@@ -218,8 +219,8 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
               </Card>
             </Col>
             <Col className={statsGraphsCards}>
-              <Card className='border-0 dashboard__dash-stats'>
-                <div className='p-0' id="stats-card">
+              <Card className='border-0 dashboard__dash-stats pt-0'>
+                <div className='p-0' id='stats-card'>
                   <ResponsiveContainer>
                     <SimpleBarChart data={taskData.allByValue} stat='value' />
                   </ResponsiveContainer>

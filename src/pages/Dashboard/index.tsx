@@ -90,7 +90,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               />
             </Col>
           </Row>
-          <Row className='p-0'>
+          <Row className='p-0 py-3'>
             <Col className='col-12'>
               {location.pathname === "/dash" ? (
                 <AtAGlance
@@ -278,7 +278,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Col>
           )}
         </Col>
-        <Col className='p-0'>
+        <Col className='p-0 pt-2 pr-3'>
           {location.pathname === "/dash" ? (
             <AtAGlance today={today} history={history} location={location} />
           ) : (

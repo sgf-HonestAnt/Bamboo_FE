@@ -45,27 +45,16 @@ const DashChallCard = (props: DashChallCardProps) => {
           </Col>
         ) : (
           <Col>
-            <AiOutlineQuestionCircle />
-            {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
-              <>
-                <div className='dashboard__card-header'>
-                  Looks like you haven't started any tasks yet.
-                </div>
-                <div>Click the 'Add Task' button to begin.</div>
-              </>
-            ) : (
-              <>
-                <div className='dashboard__card-header'>
-                  ...I will write this in time for the demo day
-                </div>
-                <div>
-                  (Note. Gifting works - so does Rewards Badge system. Ability
-                  to delete/edit category, category Color Choice will be
-                  advanced features added after demo day. I'm constantly
-                  thinking of new ways to improve.)
-                </div>
-              </>
-            )}
+            <>
+              <AiOutlineQuestionCircle />
+              <div className='dashboard__card-header'>How to Use</div>
+              <div>
+                (Note. Gifting works - so does Rewards Badge system. Ability to
+                delete/edit category, category Color Choice will be advanced
+                features added after demo day. I'm constantly thinking of new
+                ways to improve.)
+              </div>
+            </>
           </Col>
         )}
       </Row>

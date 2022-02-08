@@ -89,6 +89,7 @@ export default function TasksPage(props: TasksPageProps) {
       ? await getTaskByQuery(query, my_user._id)
       : await getTasks();
     if (query) {
+      // HERE, WE NEED TO CONCAT ANY RELEVANT SHARED TASKS!
       let updatedTasks = data.tasks;
       if (filter.due === OVERDUE) {
         const overdueTasks = await filterTasksOverdue(updatedTasks);
@@ -117,6 +118,7 @@ export default function TasksPage(props: TasksPageProps) {
       }
     }
   };
+  console.log(taskList)
   useEffect(() => {
     if (taskList) {
       setInitialData({
