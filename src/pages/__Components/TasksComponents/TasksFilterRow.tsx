@@ -97,146 +97,147 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(filter)
+  console.log(filter);
   return (
-    <Row className='pt-4'>
-      <Col sm={12}>
-        <Row className='tasks-page__filter-row m-0 p-1'>
-          <AddNewTaskButton variant="secondary" label='Add task' handleClick={handleShow} />
-          <AddEditTaskModal
-            show={show}
-            handleClose={handleClose}
-            user={my_user}
-            followedUsers={followedUsers}
-            categories={categories}
-            history={history}
-            location={location}
-            initialData={initialData}
-            setInitialData={setInitialData}
-            taskSet={null}
-          />{" "}
-          <Button
-            variant='secondary'
-            className='my-1 mr-2'
-            id='changeAll'
-            onClick={handleReset}>
-            <FiRefreshCcw />
-          </Button>
-          {!loadingForm && (
-            <Form>
-              <Form.Group controlId='cat' className='mr-1 my-1'>
-                <Form.Control
-                  as='select'
-                  defaultValue={ANY_CAT}
-                  onChange={handleChange}>
-                  <option value={ANY_CAT}>Filter by Category</option>
-                  <option value='' disabled>
-                    ---
-                  </option>
-                  {/* PRE-SET CATEGORIES */}
-                  {categories
-                    .filter((c) => !TASK_CATEGORIES.includes(c))
-                    .map(
-                      (cat, i) =>
-                        !TASK_CATEGORIES.includes(
-                          cat!.charAt(0).toUpperCase() + cat!.slice(1)
-                        ) && (
-                          <option key={i} value={cat}>
-                            {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
-                          </option>
-                        )
-                    )}
-                  {TASK_CATEGORIES.map((cat, i) => (
-                    <option key={i} value={cat}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId='status' className='mr-1 my-1'>
-                <Form.Control
-                  as='select'
-                  defaultValue={ANY_STATUS}
-                  onChange={handleChange}>
-                  <option value={ANY_STATUS}>Filter by Status</option>
-                  <option value='' disabled>
-                    ---
-                  </option>
-                  {TASK_STATUS_TYPES.map((status, i) => (
-                    <option key={i} value={status}>
-                      {status.charAt(0).toUpperCase() + status.slice(1)}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId='val' className='mr-1 my-1'>
-                <Form.Control
-                  as='select'
-                  defaultValue={ANY_VAL}
-                  onChange={handleChange}>
-                  <option value={ANY_VAL}>Filter by Value</option>
-                  <option value='' disabled>
-                    ---
-                  </option>
-                  {/* PRE-SET VALUES */}
-                  {TASK_VALUE_NUMS.map((value, i) => {
-                    return (
-                      <option key={i} value={value}>
-                        {value}XP
+    <Row className='tasks-page__filter-row m-0 p-0 pt-4'>
+      <AddNewTaskButton
+        variant='secondary'
+        label='Add task'
+        handleClick={handleShow}
+        className='m-1 ml-0'
+      />
+      <AddEditTaskModal
+        show={show}
+        handleClose={handleClose}
+        user={my_user}
+        followedUsers={followedUsers}
+        categories={categories}
+        history={history}
+        location={location}
+        initialData={initialData}
+        setInitialData={setInitialData}
+        taskSet={null}
+      />{" "}
+      <Button
+        variant='secondary'
+        className='m-1'
+        id='changeAll'
+        onClick={handleReset}>
+        <FiRefreshCcw />
+      </Button>
+      {!loadingForm && (
+        <Form>
+          <Form.Group controlId='cat' className='m-1'>
+            <Form.Control
+              as='select'
+              defaultValue={ANY_CAT}
+              onChange={handleChange}>
+              <option value={ANY_CAT}>Filter by Category</option>
+              <option value='' disabled>
+                ---
+              </option>
+              {/* PRE-SET CATEGORIES */}
+              {categories
+                .filter((c) => !TASK_CATEGORIES.includes(c))
+                .map(
+                  (cat, i) =>
+                    !TASK_CATEGORIES.includes(
+                      cat!.charAt(0).toUpperCase() + cat!.slice(1)
+                    ) && (
+                      <option key={i} value={cat}>
+                        {cat!.charAt(0).toUpperCase() + cat!.slice(1)}
                       </option>
-                    );
-                  })}
-                </Form.Control>
-              </Form.Group>
-              <Form.Group controlId='type' className='mr-1 my-1'>
-                <Form.Control
-                  as='select'
-                  defaultValue={ANY_TYPE}
-                  onChange={handleChange}>
-                  <option value={ANY_TYPE}>Filter by Type</option>
-                  <option value='' disabled>
-                    ---
+                    )
+                )}
+              {TASK_CATEGORIES.map((cat, i) => (
+                <option key={i} value={cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId='status' className='m-1'>
+            <Form.Control
+              as='select'
+              defaultValue={ANY_STATUS}
+              onChange={handleChange}>
+              <option value={ANY_STATUS}>Filter by Status</option>
+              <option value='' disabled>
+                ---
+              </option>
+              {TASK_STATUS_TYPES.map((status, i) => (
+                <option key={i} value={status}>
+                  {status.charAt(0).toUpperCase() + status.slice(1)}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId='val' className='m-1'>
+            <Form.Control
+              as='select'
+              defaultValue={ANY_VAL}
+              onChange={handleChange}>
+              <option value={ANY_VAL}>Filter by Value</option>
+              <option value='' disabled>
+                ---
+              </option>
+              {/* PRE-SET VALUES */}
+              {TASK_VALUE_NUMS.map((value, i) => {
+                return (
+                  <option key={i} value={value}>
+                    {value}XP
                   </option>
-                  {/* PRE-SET VALUES */}
-                  {TASK_TYPES.map((type, i) => {
-                    return (
-                      <option key={i} value={type}>
-                        {type}
-                      </option>
-                    );
-                  })}
-                </Form.Control>
-              </Form.Group>
-              {!selectDate ? (
-                <Form.Group controlId='due' className='mr-1 my-1'>
-                  <Form.Control
-                    as='select'
-                    defaultValue={ANY_DUE}
-                    onChange={handleChange}>
-                    <option value={ANY_DUE}>Filter by Deadline</option>
-                    <option value='' disabled>
-                      ---
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId='type' className='m-1'>
+            <Form.Control
+              as='select'
+              defaultValue={ANY_TYPE}
+              onChange={handleChange}>
+              <option value={ANY_TYPE}>Filter by Type</option>
+              <option value='' disabled>
+                ---
+              </option>
+              {/* PRE-SET VALUES */}
+              {TASK_TYPES.map((type, i) => {
+                return (
+                  <option key={i} value={type}>
+                    {type}
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
+          {!selectDate ? (
+            <Form.Group controlId='due' className='m-1'>
+              <Form.Control
+                as='select'
+                defaultValue={ANY_DUE}
+                onChange={handleChange}>
+                <option value={ANY_DUE}>Filter by Deadline</option>
+                <option value='' disabled>
+                  ---
+                </option>
+                {/* PRE-SET VALUES */}
+                {TASKS_TO_SHOW.map((type, i) => {
+                  return (
+                    <option key={i} value={type}>
+                      {type}
                     </option>
-                    {/* PRE-SET VALUES */}
-                    {TASKS_TO_SHOW.map((type, i) => {
-                      return (
-                        <option key={i} value={type}>
-                          {type}
-                        </option>
-                      );
-                    })}
-                    <option value='Select date'>Select date</option>
-                  </Form.Control>
-                </Form.Group>
-              ) : (
-                <Form.Group controlId='due' className='mr-1 my-1'>
-                  <Form.Control type='date' onChange={handleChange} />
-                </Form.Group>
-              )}
-            </Form>
+                  );
+                })}
+                <option value='Select date'>Select date</option>
+              </Form.Control>
+            </Form.Group>
+          ) : (
+            <Form.Group controlId='due' className='mr-1 my-1'>
+              <Form.Control type='date' onChange={handleChange} />
+            </Form.Group>
           )}
-        </Row>
-      </Col>
+        </Form>
+      )}
     </Row>
   );
 };
