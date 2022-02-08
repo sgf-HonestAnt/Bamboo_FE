@@ -74,7 +74,8 @@ export const getTaskByQuery = async (criteria: string, _id: string) => {
   // query task created by specific user
   // console.log("🙋Searching Task Belonging To User With Criteria");
   try {
-    const url = `${ENDPOINT_TASKS}/query?createdBy=${_id}&${criteria}`;
+    console.log(criteria);
+    const url = `${ENDPOINT_TASKS}/query?sharedWith=${_id}&${criteria}`;
     const method = GET;
     const headers = {
       "Content-Type": "application/json",
