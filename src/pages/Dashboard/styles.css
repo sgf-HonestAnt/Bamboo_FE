@@ -40,6 +40,9 @@
 .dashboard__alerts-card,
 .dashboard__challenge-card {
 } */
+.dashboard__challenge-card a {
+  font-weight: 700 !important;
+}
 #dashboard__activities {
   border-radius: 0;
 }
