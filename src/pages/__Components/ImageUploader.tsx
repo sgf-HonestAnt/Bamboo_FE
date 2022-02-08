@@ -59,7 +59,7 @@ const ImageUploader = (props: ImageUploaderProps) => {
               <>
                 <button
                   style={isDragging ? { color: "red" } : undefined}
-                  onClick={(e) => uploadAvatar(e, onImageUpload)}
+                  onClick={(e) => uploadAvatar(e, onImageUpload)} 
                   {...dragProps}>
                   Click or Drop here
                 </button>

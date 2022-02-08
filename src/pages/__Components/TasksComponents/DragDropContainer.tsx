@@ -148,7 +148,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
   };
   useEffect(() => {}, [initialData]);
   return (
-    <Row className='tasks-page'>
+    <Row className='tasks-page px-1'>
       <DragDropContext
         // onDragStart
         // onDragUpdate

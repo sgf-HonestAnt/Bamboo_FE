@@ -105,7 +105,7 @@ export default function FollowingPage(props: FollowingPageProps) {
         {usersToShow?.map((u, i) => (
           <Col
             key={i}
-            className={`bamboo-card-x-dark m-1 py-2 ${
+            className={`bamboo-card-x-dark py-2 mr-2 ${
               isgt1330
                 ? "col-2"
                 : isgt975
