@@ -122,13 +122,13 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         sharedTasks,
         rewardsAvailable,
       });
-    if (atAGlanceData.urgentTasks.length > 0) {
-      setTaskState(URGENT);
-    } else if (atAGlanceData.todayTasks.length > 0) {
-      setTaskState(TODAY);
-    } else {
-      setTaskState(ALL_TASKS);
-    }
+    // if (atAGlanceData.urgentTasks.length > 0) {
+    //   setTaskState(URGENT);
+    // } else if (atAGlanceData.todayTasks.length > 0) {
+    //   setTaskState(TODAY);
+    // } else {
+    setTaskState(ALL_TASKS);
+    // }
   };
   const handleClick = (e: {
     preventDefault: () => void;
@@ -256,11 +256,12 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const { awaited, in_progress } = state.currentTasks;
   const { today, history, location } = props;
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
+  const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return (
-    <div className='dashboard__at-a-glance m-2'>
+    <div className={`dashboard__at-a-glance ${isLt1238 ? "px-2" : "px-3"}`}>
       <Row className='dashboard__alt__card-header'>
-        <Col className='m-1'>
+        <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
           {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
             <></>

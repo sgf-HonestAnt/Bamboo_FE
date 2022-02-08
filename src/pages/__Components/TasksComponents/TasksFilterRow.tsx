@@ -97,6 +97,7 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
+  console.log(filter)
   return (
     <Row className='pt-4'>
       <Col sm={12}>

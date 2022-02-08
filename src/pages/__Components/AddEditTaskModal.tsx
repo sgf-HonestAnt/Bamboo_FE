@@ -301,17 +301,38 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
               {taskSet.repeats && (
                 <li className='py-1'>Repeats: {taskSet.repeats}</li>
               )}
+              {taskSet.createdBy !== my_user._id && (
+                <li className='py-1'>
+                  Created by: <br />
+                  <div>
+                    <Link to={`/following?id=${taskSet.createdBy}`}>
+                      <img
+                        src={getAvatarById(followedUsers, taskSet.createdBy)}
+                        alt={getUsernameById(followedUsers, taskSet.createdBy)}
+                        className='dotted-border x-tiny-round mr-1'
+                      />
+                      {getUsernameById(followedUsers, taskSet.createdBy)}
+                    </Link>
+                  </div>
+                </li>
+              )}
               {taskSet.sharedWith && taskSet.sharedWith.length > 1 ? (
                 <li className='py-1'>
                   Shared with:
                   <br />
+                  <img
+                    src={my_user.avatar}
+                    alt={my_user.username}
+                    className='dotted-border x-tiny-round mr-1'
+                  />
+                  {my_user.username} (me)
                   {taskSet.sharedWith
                     .filter((id) => id !== my_user._id)
                     .map((id, i) => {
                       const avatar = getAvatarById(followedUsers, id);
                       const username = getUsernameById(followedUsers, id);
                       return (
-                        <div key={i}>
+                        <div key={i} className="pt-1">
                           <Link to={`/following?id=${id}`}>
                             <img
                               src={avatar}

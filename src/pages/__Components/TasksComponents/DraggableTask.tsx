@@ -9,7 +9,6 @@ import {
   DraggableProvidedDragHandleProps,
 } from "react-beautiful-dnd";
 import { NONE, URGENT } from "../../../utils/const/str";
-import { ICOCLOCK } from "../../../utils/appIcons";
 import { useEffect, useState } from "react";
 import AddEditTaskModal from "../AddEditTaskModal";
 import { useAppSelector } from "../../../redux/hooks";
@@ -20,7 +19,7 @@ import {
 } from "../../../utils/funcs/f_dates";
 import { Badge, Button } from "react-bootstrap";
 import { createColorArray } from "../../../utils/funcs/f_styling";
-import { FiFlag, FiUsers } from "react-icons/fi";
+import { FiClock, FiFlag, FiUsers } from "react-icons/fi";
 import { MdDragIndicator } from "react-icons/md";
 
 type DraggableTaskProps = {
@@ -141,8 +140,8 @@ const DraggableTask = (props: DraggableTaskProps) => {
                       </Badge>
                     )}
                     {taskIsOverdue && (
-                      <span style={{ color: "red" }}>
-                        <ICOCLOCK />
+                      <span style={{ color: "red" }} className="pl-1">
+                        <FiClock />
                       </span>
                     )}
                   </span>
