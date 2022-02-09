@@ -39,7 +39,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         )}
         <br /> */}
         <h4 className='mt-3'>
-          {username} !
+          {username}
           <Button
             className='p-1 dashboard__profile-card__edit-btn'
             variant='link'
