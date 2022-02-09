@@ -17,7 +17,7 @@ import {
 import { TASK_VALUES } from "../../utils/const/arr";
 import {
   NEVER,
-  TASK_CATEGORIES,
+  // TASK_CATEGORIES,
   TEAM,
   SOLO,
   AWAITED,
@@ -36,11 +36,10 @@ import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 import { TaskButton } from "./DashComponents/MapTasks";
 // import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
-import {
-  RemTaskFromAwaited,
-  RemTaskFromCompleted,
-  RemTaskFromInProgress,
-} from "../../redux/actions/tasks";
+import // RemTaskFromAwaited,
+// RemTaskFromCompleted,
+// RemTaskFromInProgress,
+"../../redux/actions/tasks";
 
 const schema = yup.object().shape({
   title: yup
@@ -120,8 +119,13 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const { categories, categoriesColors, awaited, in_progress, completed } =
-    currentTasks;
+  const {
+    categories,
+    categoriesColors,
+    awaited,
+    in_progress,
+    //completed
+  } = currentTasks;
   const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
@@ -146,7 +150,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     const parseL = 100 * lAsNum;
     const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
     setNewCategoryColor(hsla);
-    console.log("The new category color should be=>", newCategoryColor)
+    console.log("The new category color should be=>", newCategoryColor);
   }
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(

@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { 
+  //useState, 
+  useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import { Button, Badge } from "react-bootstrap";
 import { NONE, URGENT, COMPLETED } from "../../../utils/const/str";
 import { FiFlag, FiUsers } from "react-icons/fi";
-import { createColorArray } from "../../../utils/funcs/f_styling";
+// import { createColorArray } from "../../../utils/funcs/f_styling";
 
 type MapTasksProps = {
   tasks: taskInt[];
@@ -27,6 +29,10 @@ export function TaskButton(props: TaskButtonProps) {
         task.status === COMPLETED ? "-completed" : ""
       }`}
       style={{ backgroundColor: `${bgColor}` }}
+      // style={{
+      //   backgroundColor:
+      //     "hsla(61.000000000000014, 37.999999999999986%, 50%, 0.8)",
+      // }}
       key={i}>
       <span className={`bamboo-task__title ${task!.category}`}>
         {task.title}
@@ -65,11 +71,11 @@ export function TaskButton(props: TaskButtonProps) {
 export default function MapTasks(props: MapTasksProps) {
   const { tasks, link } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const { categories } = state.currentTasks;
-  const { customColors } = state.currentSettings;
-  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  const { categories, categoriesColors } = state.currentTasks;
+  // const { customColors } = state.currentSettings;
+  // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   useEffect(() => {
-    createColorArray(customColors, categories, setCategoryColors);
+    // createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
   return (
@@ -83,7 +89,7 @@ export default function MapTasks(props: MapTasksProps) {
               i={i}
               task={task}
               bgColor={
-                categoryColors[
+                categoriesColors[
                   categories.findIndex((cat) => cat === task.category)
                 ]
               }
