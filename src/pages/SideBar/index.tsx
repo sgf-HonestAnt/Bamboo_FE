@@ -2,13 +2,7 @@ import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import {
-  Badge,
-  Button,
-  Container,
-  Navbar,
-  NavDropdown,
-} from "react-bootstrap";
+import { Badge, Button, Container, Navbar, NavDropdown } from "react-bootstrap";
 import { attemptLogout } from "../../utils/funcs/f_users";
 import { RiDashboard3Line, RiSettings5Line } from "react-icons/ri";
 import { FiActivity, FiMoon, FiServer, FiUsers } from "react-icons/fi";
@@ -106,17 +100,10 @@ export default function SideBar(props: SidebarProps) {
         <>
           <div className='mb-2'>
             <div className='main-side-bar__links pb-2'>
-              <Link to='/user-settings' className='m-1'>
-                <Button variant='primary'>
-                  <RiSettings5Line />
-                </Button>
-              </Link>
-            </div>{" "}
-            <div className='main-side-bar__links py-2'>
-              <div className='text-tinycaps'>You are logged in as</div>
               <Link to='/dash'>
                 <Button variant='primary' className='m-1'>
-                  <CgProfile /> {my_user.username}{" "}
+                  {/* <div className='text-tinycaps'>You are logged in as</div> */}
+                  <CgProfile /> You are logged in as {my_user.username}{" "}
                   <Badge
                     bg={toggle ? "secondary" : "dark"}
                     onClick={(e) => {
@@ -201,6 +188,11 @@ export default function SideBar(props: SidebarProps) {
               <Link to='/stats'>
                 <Button variant='primary' className='m-1'>
                   <FiActivity /> Stats
+                </Button>
+              </Link>
+              <Link to='/user-settings'>
+                <Button variant='primary' className='m-1'>
+                  <RiSettings5Line /> Settings
                 </Button>
               </Link>
               <Button variant='primary' onClick={logout} className='m-1'>

@@ -14,6 +14,9 @@
 .btn.btn-link:hover {
   color: var(--trebor-mint);
 }
+.main-side-bar {
+  text-align: right;
+}
 .main-side-bar__links .badge {
   font-size: 0.7em;
 }

@@ -107,7 +107,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
               roundedCircle
               src={returnIco(item.reward)}
               alt={item.reward}
-              className='p-1 mr-1 mb-1'
+              className='tiny-square p-1 mr-1 mb-1'
               style={{ backgroundColor: "white" }}
               height='40px'
             />
@@ -204,7 +204,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           </h3>
           <h4 className='w-50'>{role}</h4>
         </div>
-        <div className='rewards py-3'>
+        <div className='dotted-border x-tiny-round rewards py-3'>
           {rewards
             .filter((item) => item.available < 1)
             .map((item, i) => (
