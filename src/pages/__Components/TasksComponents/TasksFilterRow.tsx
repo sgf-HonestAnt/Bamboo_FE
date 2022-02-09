@@ -6,7 +6,7 @@ import {
   reduxStateInt,
   taskInt,
 } from "../../../typings/interfaces";
-import { Row, Col, Button, Form } from "react-bootstrap";
+import { Row, Button, Form } from "react-bootstrap";
 import { FiRefreshCcw } from "react-icons/fi";
 import { AddNewTaskButton } from "../Buttons";
 import { TASK_VALUE_NUMS } from "../../../utils/const/arr";
@@ -97,7 +97,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(filter);
   return (
     <Row className='tasks-page__filter-row m-0 p-0 pt-4'>
       <AddNewTaskButton

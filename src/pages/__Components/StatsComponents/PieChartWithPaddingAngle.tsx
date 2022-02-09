@@ -15,8 +15,7 @@ type PieChartWithPaddingAngleProps = {
 export default function PieChartWithPaddingAngle(
   props: PieChartWithPaddingAngleProps
 ) {
-  const { data, deg360, width, height, innerRadius, outerRadius } =
-    props;
+  const { data, deg360, width, height, innerRadius, outerRadius } = props;
   return (
     <PieChart
       width={width || 200}

@@ -36,6 +36,18 @@ const schema = yup.object().shape({
 
 export default function RegisterPage({ history }: RouteComponentProps) {
   const [loadingRegistration, setLoadingRegistration] = useState(false);
+  const defaultValidity = {
+    username: null,
+    available: null,
+    email: null,
+    password: null,
+  };
+  const [invalid, setInvalid] = useState<{
+    username: null | string;
+    available: null | string[];
+    email: null | string;
+    password: null | string;
+  }>(defaultValidity);
   const handleClick = () => {
     history.push("/login");
   };
@@ -52,14 +64,20 @@ export default function RegisterPage({ history }: RouteComponentProps) {
         headers,
         body,
       });
-      const {
-        //message,
-        //available,
-        accessToken,
-        refreshToken,
-      } = await response.json();
+      const { message, available, accessToken, refreshToken } =
+        await response.json();
       if (response.status === 409) {
         setLoadingRegistration(false);
+        if (message === "USERNAME NOT AVAILABLE") {
+          setInvalid({
+            ...invalid,
+            username: `${message}`,
+            available,
+          });
+        }
+        if (message === "EMAIL NOT AVAILABLE") {
+          setInvalid({ ...invalid, email: message });
+        }
       } else {
         localStorage.setItem("token", accessToken);
         setRefreshToken(refreshToken);
@@ -74,7 +92,7 @@ export default function RegisterPage({ history }: RouteComponentProps) {
       <Row className='registration-form px-1'>
         <Col
           sm={4}
-          className='col-12 col-sm-8 col-md-6 col-lg-4 px-0 register-form__col'>
+          className='col-12 col-sm-8 col-md-6 col-lg-5 px-0 register-form__col'>
           <Card className='bamboo-card px-4 pb-0 pt-1 m-0' id='register-card'>
             <Card.Body>
               <h1 className='pb-1 align-left'>Join Bamboo</h1>
@@ -107,14 +125,14 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       as={Row}
                       controlId='first_name'
                       className='py-1'>
-                      <Form.Label column sm='3' className="align-left">
+                      <Form.Label column sm='3' className='align-left'>
                         First name
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder={errors.first_name||'Jane'}
+                            placeholder={errors.first_name || "Jane"}
                             aria-describedby='first name'
                             name='first_name'
                             value={values.first_name}
@@ -125,14 +143,14 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='last_name' className='py-1'>
-                      <Form.Label column sm='3' className="align-left">
+                      <Form.Label column sm='3' className='align-left'>
                         Last name
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder={errors.last_name||'Doe'}
+                            placeholder={errors.last_name || "Doe"}
                             aria-describedby='Last name'
                             name='last_name'
                             value={values.last_name}
@@ -143,50 +161,71 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='username' className='py-1'>
-                      <Form.Label column sm='3' className="align-left">
+                      <Form.Label column sm='3' className='align-left'>
                         Username
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
                           <Form.Control
                             type='text'
-                            placeholder={errors.username||'janedoe'}
+                            placeholder={errors.username || "janedoe"}
                             aria-describedby='username'
                             name='username'
                             value={values.username}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              handleChange(e);
+                              setInvalid(defaultValidity);
+                            }}
                             isInvalid={!!errors.username}
                           />
                         </InputGroup>
+                        {invalid.username && (
+                          <Form.Text className='text-muted'>
+                            {invalid.username}
+                          </Form.Text>
+                        )}
+                        {/* {invalid.available && (
+                          <Form.Text className='text-muted'>
+                            Try: {invalid.available.map((username) => `${username} `)}
+                          </Form.Text>
+                        )} */}
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='email' className='py-1'>
-                      <Form.Label column sm='3' className="align-left">
+                      <Form.Label column sm='3' className='align-left'>
                         Email
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
                           <Form.Control
                             type='email'
-                            placeholder={errors.email||'janedoe@email.com'}
+                            placeholder={errors.email || "janedoe@email.com"}
                             aria-describedby='email'
                             name='email'
                             value={values.email}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                              handleChange(e);
+                              setInvalid(defaultValidity);
+                            }}
                             isInvalid={!!errors.email}
                           />
                         </InputGroup>
+                        {invalid.email && (
+                          <Form.Text className='text-muted'>
+                            {invalid.email}
+                          </Form.Text>
+                        )}{" "}
                       </Col>
                     </Form.Group>
                     <Form.Group as={Row} controlId='password' className='py-1'>
-                      <Form.Label column sm='3' className="align-left">
+                      <Form.Label column sm='3' className='align-left'>
                         Password
                       </Form.Label>
                       <Col>
                         <InputGroup hasValidation>
                           <Form.Control
-                            type='text'
-                            placeholder={errors.password||'********'}
+                            type='password'
+                            placeholder={errors.password || "********"}
                             aria-describedby='password'
                             name='password'
                             value={values.password}
@@ -194,7 +233,13 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                             isInvalid={!!errors.password}
                           />
                         </InputGroup>
-                      </Col> 
+                        {errors.password &&
+                          errors.password !== "No password provided." && (
+                            <Form.Text className='text-muted'>
+                              {errors.password.toUpperCase()}
+                            </Form.Text>
+                          )}{" "}
+                      </Col>
                     </Form.Group>
                     {loadingRegistration ? (
                       <Spinner animation='grow' className='my-4' />

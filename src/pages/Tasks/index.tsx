@@ -15,8 +15,8 @@ import {
   ANY_TYPE,
   OVERDUE,
   ANY_STATUS,
-  TEAM,
-  SOLO,
+  // TEAM,
+  // SOLO,
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
@@ -47,20 +47,20 @@ export default function TasksPage(props: TasksPageProps) {
     lists: [],
     listOrder: [],
   });
-  const filterTasksByType = async (type: string) => {
-    let allShared: taskInt[] = [];
-    if (type === TEAM) {
-      allShared = allTasks.filter(
-        (task) => task?.sharedWith && task.sharedWith.length > 1
-      );
-    }
-    if (type === SOLO) {
-      allShared = allTasks.filter(
-        (task) => task?.sharedWith && task.sharedWith.length < 2
-      );
-    }
-    return allShared;
-  };
+  // const filterTasksByType = async (type: string) => {
+  //   let allShared: taskInt[] = [];
+  //   if (type === TEAM) {
+  //     allShared = allTasks.filter(
+  //       (task) => task?.sharedWith && task.sharedWith.length > 1
+  //     );
+  //   }
+  //   if (type === SOLO) {
+  //     allShared = allTasks.filter(
+  //       (task) => task?.sharedWith && task.sharedWith.length < 2
+  //     );
+  //   }
+  //   return allShared;
+  // };
   const filterTasksByStatus = async (status: string) => {
     let tasksByStatus: taskInt[] = [];
     if (status === AWAITED) {
@@ -118,7 +118,7 @@ export default function TasksPage(props: TasksPageProps) {
       }
     }
   };
-  console.log(taskList);
+  // console.log(taskList);
   useEffect(() => {
     if (taskList) {
       setInitialData({

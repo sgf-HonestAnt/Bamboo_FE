@@ -55,8 +55,10 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
   const [show, setShow] = useState(false);
+  const isFromDash = location.pathname === "/dash-tasks";
   const handleClose = () => {
     setShow(false);
+    isFromDash && history.push("/dash")
   };
   const handleShow = () => {
     setShow(true);
@@ -140,7 +142,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                       </Badge>
                     )}
                     {taskIsOverdue && (
-                      <span style={{ color: "red" }} className="pl-1">
+                      <span style={{ color: "red" }} className='pl-1'>
                         <FiClock />
                       </span>
                     )}

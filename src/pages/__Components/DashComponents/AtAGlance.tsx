@@ -89,8 +89,10 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     let specialRewards: rewardsInt[] = [];
     for (let i = 0; i < rewards.length; i++) {
       if (
-        rewards[i].reward.includes(month) ||
-        rewards[i].reward.includes(nextMonth)
+        rewards[i].available &&
+        rewards[i].available! > 0 &&
+        (rewards[i].reward.includes(month) ||
+          rewards[i].reward.includes(nextMonth))
       ) {
         specialRewards.push(rewards[i]);
       }
@@ -139,8 +141,10 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     setTaskState(value);
   };
   const [show, setShow] = useState(false);
+  const isFromDash = location.pathname === "/dash-tasks";
   const handleClose = () => {
     setShow(false);
+    isFromDash && history.push("/dash")
   };
   const handleShow = () => setShow(true);
   useEffect(() => {
@@ -211,29 +215,33 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
       {taskState === URGENT ? (
         <MapTasks
           tasks={atAGlanceData.urgentTasks}
-          link={`/tasks`} // /tasks?category=urgent
+          link={"/dash-tasks"} // /tasks?category=urgent
         />
       ) : taskState === TODAY ? (
-        <MapTasks tasks={atAGlanceData.todayTasks} link={"/tasks"} />
+        <MapTasks tasks={atAGlanceData.todayTasks} link={"/dash-tasks"} />
       ) : taskState === AWAITED ? (
-        <MapTasks tasks={awaited} link={`/tasks`} /> // /tasks?status=awaited
+        <MapTasks tasks={awaited} link={"/dash-tasks"} /> // /tasks?status=awaited
       ) : taskState === IN_PROGRESS ? (
-        <MapTasks tasks={in_progress} link={`/tasks`} /> // /tasks?status=in_progress
+        <MapTasks tasks={in_progress} link={"/dash-tasks"} /> // /tasks?status=in_progress
       ) : taskState === OVERDUE ? (
-        <MapTasks tasks={atAGlanceData.overdueTasks} link={"/tasks"} />
+        <MapTasks tasks={atAGlanceData.overdueTasks} link={"/dash-tasks"} />
       ) : taskState === "Shared" ? (
-        <MapTasks tasks={atAGlanceData.sharedTasks} link={`/tasks`} /> // /tasks?type=team
+        <MapTasks tasks={atAGlanceData.sharedTasks} link={"/dash-tasks"} /> // /tasks?type=team
       ) : taskState === "REWARDS" ? (
         <div>
           <RewardsDropdown
             rewards={atAGlanceData.rewardsAvailable}
             formType='select'
-            label='Celebrate your progress! Spend well-earned xp to display a reward badge:'
+            label={
+              atAGlanceData.rewardsAvailable.length > 0
+                ? "Celebrate your progress! Spend well-earned xp to display a reward badge:"
+                : ""
+            }
             history={history}
           />
         </div>
       ) : (
-        <MapTasks tasks={allTasks} link={`/tasks`} />
+        <MapTasks tasks={allTasks} link={"/dash-tasks"} />
       )}
       <AddEditTaskModal
         show={show}

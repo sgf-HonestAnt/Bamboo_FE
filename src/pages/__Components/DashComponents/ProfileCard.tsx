@@ -14,7 +14,7 @@ type DashProfileCardProps = {
   history: History<unknown> | string[];
 };
 const DashProfileCard = (props: DashProfileCardProps) => {
-  const isLt756 = useMediaQuery({ query: "(max-width: 756px)" });
+  const islt850 = useMediaQuery({ query: "(max-width: 850px)" });
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
   const { admin, username, bio, level, xp, rewards } = my_user;
@@ -24,7 +24,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     history.push("/user-settings");
   };
   const role = getUserRole(level);
-  return !isLt756 ? (
+  return !islt850 ? (
     <div className='bamboo-card-mid'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
@@ -100,7 +100,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       </div>
       <div className='rewards py-2'>
         {rewards
-          .filter((item) => item.available < 1)
+          .filter((item) => !item.available || item.available < 1)
           .map((item, i) => (
             <Image
               key={i}
@@ -204,16 +204,16 @@ const DashProfileCard = (props: DashProfileCardProps) => {
           </h3>
           <h4 className='w-50'>{role}</h4>
         </div>
-        <div className='dotted-border x-tiny-round rewards py-3'>
+        <div className='rewards py-3'>
           {rewards
-            .filter((item) => item.available < 1)
+            .filter((item) => !item.available || item.available < 1)
             .map((item, i) => (
               <Image
                 key={i}
                 roundedCircle
                 src={returnIco(item.reward)}
                 alt={item.reward}
-                className='p-1 mr-1 mb-1'
+                className='tiny-square p-1 mr-1 mb-1'
                 style={{ backgroundColor: "white" }}
                 height='40px'
               />

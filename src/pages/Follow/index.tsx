@@ -171,7 +171,7 @@ export default function FollowingPage(props: FollowingPageProps) {
             <div className='py-2'>
               {u.rewards &&
                 u.rewards
-                  .filter((item) => item.available < 1)
+                  .filter((item) => !item.available || item.available < 1)
                   .map((item, i) => (
                     <Image
                       key={i}

@@ -24,7 +24,7 @@ export interface currentUserInt {
 export interface rewardsInt {
   reward: string;
   value: number;
-  available: number;
+  available: number | null;
   _id: string;
 }
 export interface userInt {

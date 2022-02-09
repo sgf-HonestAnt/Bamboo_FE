@@ -129,7 +129,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
                 }`}>
                 <DashboardPage history={history} location={location} />
               </div>
-            ) : path === "/tasks" ? (
+            ) : path === "/tasks" || path === "/dash-tasks" ? (
               <div
                 className={`${
                   isLt755 ? "full-width overflow-x-scroll" : "main-section"

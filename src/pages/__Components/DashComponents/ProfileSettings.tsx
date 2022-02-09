@@ -116,7 +116,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
       </div>
       <div className='rewards'>
         {rewards
-          .filter((item) => item.available < 1)
+          .filter((item) => !item.available || item.available < 1)
           .map((item, i) => (
             <Image
               key={i}
@@ -145,7 +145,8 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
         <Link to='/stats'>View Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
-        My Team: <Link to='/following'>{followedUsers.length}</Link> <ICOUSERS className='mr-1' />
+        My Team: <Link to='/following'>{followedUsers.length}</Link>{" "}
+        <ICOUSERS className='mr-1' />
       </div>
       <div>
         {followedUsers.length > 3 ? (
