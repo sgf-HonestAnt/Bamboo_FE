@@ -2,12 +2,14 @@ import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import { Button } from "react-bootstrap";
+import { Badge, Button } from "react-bootstrap";
 import { attemptLogout } from "../../utils/funcs/f_users";
 import { RiSettings5Line } from "react-icons/ri";
-import { FiMoon } from "react-icons/fi";
+import { FiActivity, FiMoon, FiServer, FiUsers } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
 import BambooLogo from "../__Components/Logo";
 import "./styles.css";
+import { useState } from "react";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -17,13 +19,18 @@ type SidebarProps = {
 export default function SideBar(props: SidebarProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { total_xp } = my_user;
+  const { xp, total_xp } = my_user;
   const { awaited, in_progress, completed } = state.currentTasks;
   const allTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
+  const numOfSharedTasks = allTasks
+    .concat(completed)
+    .filter((task) => task?.sharedWith!.length > 1).length;
   const { history, location } = props;
   const pathIsAdmin = location.pathname === "/admin-dash";
   // const dispatch = useDispatch();
+  const [toggle, setToggle] = useState(false);
+  const [toggleMore, setToggleMore] = useState(false);
   const logout = async () => {
     await attemptLogout();
     history.push("/login");
@@ -45,56 +52,84 @@ export default function SideBar(props: SidebarProps) {
       </div>
       {!pathIsAdmin && (
         <>
-          <div className='main-side-bar__profile mb-2'>
-            You are logged in as
-            <div className='text-bigger'>
-              <Link to='/dash'>
-                {my_user.username} {my_user.admin && "(admin)"}
-              </Link>{" "}
-              <div>{completed.length} tasks completed</div>
-              <div>{total_xp}xp earned</div>
-              <div>
-                <Link to='/user-settings'>
+          <div className='mb-2'>
+            <div className='main-side-bar__links pb-2'>
+              <Link to='/user-settings' className='m-1'>
+                <Button variant='primary'>
                   <RiSettings5Line />
-                </Link>
-              </div>
-            </div>
-            {/* <div>
-              {xp}
-              <BambooPoints />
-            </div> */}
-          </div>
-          <div>
-            <div
-              className={`main-side-bar__links${
-                pathIsAdmin ? "-admin" : ""
-              } pb-3`}>
-              {/* {my_user.admin && (
-                <Link to='/admin-dash'>
-                  <FiChevronRight />
-                  &nbsp;admin
-                </Link>
-              )} */}
-              {/* <Link to='/stats'>
-                <FiChevronRight />
-                &nbsp;view stats
-              </Link> */}
-              <Button variant='link' className='d-inline-block p-0'>
-                <Link to='/tasks'>tasks ({allTasks.length})</Link>
-              </Button>
-              <br />
-              {numOfUsers > 0 ? (
-                <Button variant='link' className='d-inline-block p-0'>
-                  <Link to='/following'>team ({numOfUsers})</Link>
                 </Button>
-              ) : (
-                <></>
+              </Link>
+            </div>{" "}
+            <div className='main-side-bar__links py-2'>
+              <div className='text-tinycaps'>You are logged in as</div>
+              <Link to='/dash'>
+                <Button variant='primary' className='m-1'>
+                  <CgProfile /> {my_user.username}{" "}
+                  <Badge
+                    bg={toggle ? "secondary" : "dark"}
+                    onClick={(e) => {
+                      setToggle(!toggle);
+                      setToggleMore(false);
+                    }}>
+                    toggle
+                  </Badge>
+                  {toggle && (
+                    <>
+                      {my_user.admin && <Badge bg='primary'>admin</Badge>}{" "}
+                      <Badge bg='dark'>
+                        {completed.length} task
+                        {completed.length === 1 ? "" : "s"} completed
+                      </Badge>
+                      <Badge bg='danger'>{total_xp}xp earned</Badge>
+                      {toggleMore && (
+                        <>
+                          <Badge bg='dark'>
+                            {awaited.length} task
+                            {awaited.length === 1 ? "" : "s"} awaited
+                          </Badge>
+                          <Badge bg='dark'>
+                            {in_progress.length} task
+                            {in_progress.length === 1 ? "" : "s"} in progress
+                          </Badge>
+                          <Badge bg='dark'>
+                            {numOfSharedTasks} task
+                            {numOfSharedTasks === 1 ? "" : "s"} shared
+                          </Badge>
+                          <Badge bg='danger'>{xp}xp available</Badge>
+                        </>
+                      )}
+                      <Badge
+                        bg='warning'
+                        onClick={(e) => setToggleMore(!toggleMore)}>
+                        toggle {toggleMore ? "less" : "more"}
+                      </Badge>{" "}
+                    </>
+                  )}
+                </Button>
+              </Link>
+              <Link to='/tasks'>
+                <Button variant='primary' className='m-1'>
+                  <FiServer /> Tasks <Badge bg='dark'>{allTasks.length}</Badge>
+                </Button>
+              </Link>
+              {numOfUsers > 0 && (
+                <Link to='/following'>
+                  <Button variant='primary' className='m-1'>
+                    <FiUsers /> Team <Badge bg='dark'>{numOfUsers}</Badge>
+                  </Button>
+                </Link>
               )}
+              <Link to='/stats'>
+                <Button variant='primary' className='m-1'>
+                  <FiActivity /> Stats
+                </Button>
+              </Link>
             </div>
-            <Button variant='link' className='bamboo-logo' onClick={logout}>
-              <FiMoon />
-              &nbsp;log out
-            </Button>
+            <div className='main-side-bar__logout pt-2'>
+              <Button variant='primary' onClick={logout}>
+                <FiMoon /> Log out
+              </Button>
+            </div>
           </div>
         </>
       )}

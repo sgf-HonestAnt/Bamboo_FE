@@ -25,12 +25,11 @@
   align-content: center;
 }
 .main-side-bar__branding,
-.main-side-bar__links {
-  margin: 0 20px 0 20px;
-}
+.main-side-bar__links,
 .main-side-bar__branding-admin,
-.main-side-bar__links-admin {
-  margin: 0 10px 0 10px;
+.main-side-bar__links-admin,
+.main-side-bar__logout {
+  margin: 0;
 }
 .main-side-bar__branding svg,
 .main-side-bar__branding-admin svg {
