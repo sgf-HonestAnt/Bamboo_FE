@@ -31,17 +31,17 @@ export default function DashboardPage(props: DashboardPageProps) {
   const { history, location } = props;
   const [search, setSearch] = useState("");
   // ****************************MEDIA********************************************
-  const isGt1660 = useMediaQuery({
+  const isgt1660 = useMediaQuery({
     query: "(min-width: 1660px)",
   });
-  const isGt1500 = useMediaQuery({
+  const isgt1500 = useMediaQuery({
     query: "(min-width: 1390px)",
   });
-  const isGt1390 = useMediaQuery({
+  const isgt1390 = useMediaQuery({
     query: "(min-width: 1390px)",
   });
-  const isGt999 = useMediaQuery({ query: "(min-width: 999px)" });
-  const isGt755 = useMediaQuery({ query: "(min-width: 755px)" });
+  const isgt999 = useMediaQuery({ query: "(min-width: 999px)" });
+  const isgt851 = useMediaQuery({ query: "(min-width: 851px)" });
   // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
@@ -53,7 +53,7 @@ export default function DashboardPage(props: DashboardPageProps) {
     attemptLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return isGt1660 ? (
+  return isgt1660 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col p-3'>
@@ -115,7 +115,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : isGt1500 ? (
+  ) : isgt1500 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
@@ -184,7 +184,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : isGt1390 ? (
+  ) : isgt1390 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-3 dashboard__left-col'>
@@ -248,7 +248,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : isGt999 ? (
+  ) : isgt999 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-12 mt-3 mb-2'>
@@ -291,7 +291,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
       </Row>
     </Container>
-  ) : isGt755 ? (
+  ) : isgt851 ? (
     <Container fluid>
       <Row className='dashboard'>
         <Col className='col-12 mt-3 mb-2'>
@@ -373,48 +373,4 @@ export default function DashboardPage(props: DashboardPageProps) {
       </Row>
     </Container>
   );
-  // : (
-  //   <Container fluid>
-  //     <Row className='dashboard py-3'>
-  //       <Col className='col-12'>
-  //         <FindFollows
-  //           history={history}
-  //           search={search}
-  //           setSearch={setSearch}
-  //         />
-  //       </Col>
-  //       <Col className={`${isTiny ? "col-12" : "col-5"} p-3`}>
-  //         {notification.length > 0 && <DashNotifications />}
-  //         {/* {location.pathname === "/user-settings" ? (
-  //           <ProfileSettings history={history} />
-  //         ) : ( */}
-  //         <DashProfileCard history={history} />
-  //         {/* )} */}
-  //         {admin && (
-  //           <Link to='/admin-dash'>
-  //             <Button variant='info' className='dashboard__admin-card'>
-  //               Go to Admin
-  //             </Button>
-  //           </Link>
-  //         )}
-  //         {notification.length < 1 && location.pathname !== "/stats" && (
-  //           <Col className='col-12 p-0 my-3'>
-  //             <DashStats />
-  //           </Col>
-  //         )}
-  //       </Col>
-  //       <Col className={`${isTiny ? "col-12" : "col-7"} px-3 pb-3`}>
-  //         {location.pathname === "/dash" ? (
-  //           <AtAGlance today={today} history={history} location={location} />
-  //         ) : (
-  //           <AtAGlanceStats
-  //             today={today}
-  //             history={history}
-  //             location={location}
-  //           />
-  //         )}{" "}
-  //       </Col>
-  //     </Row>
-  //   </Container>
-  // );
 }

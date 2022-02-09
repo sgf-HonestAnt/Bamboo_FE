@@ -42,7 +42,6 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   const { categories, awaited, in_progress, completed } = currentTasks;
   const { total_xp } = state.currentUser.my_user;
   const allTasks = awaited.concat(in_progress, completed);
-  const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
   const [taskData, setTaskData] = useState<dataInt>({
     allByStatus: [],
     allByCategory: [],
@@ -55,6 +54,10 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
     unusedCategories: [],
   });
   const [loading, setLoading] = useState(true);
+  const isgt1265 = useMediaQuery({ query: "(min-width: 1265px)" });
+  const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
+  const isgt850 = useMediaQuery({ query: "(min-width: 850px)" });
+  const isgt756 = useMediaQuery({ query: "(min-width: 756px)" });
   const mapData = async () => {
     const allByStatus = await mapByStatus(currentTasks);
     const allByType = await mapByType(allTasks);
@@ -78,8 +81,12 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   // const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   // const TYPE_COLORS = ["#000", "#FFF"];
   //const timeSpecific = "overall"; // this week / last week
-  const statsPieCards = `m-0 p-0 ${isLt1238 ? "col-6" : "col-4"}`;
-  const statsGraphsCards = `m-0 p-0 ${isLt1238 ? "col-12" : "col-6"}`;
+  const statsPieCards = `m-0 p-0 ${
+    isgt1265 ? "col-4" : isgt850 ? "col-4" : isgt756 ? "col-6" : "col-6"
+  }`;
+  const statsGraphsCards = `m-0 p-0 ${
+    isgt1265 ? "col-6" : isgt850 ? "col-6" : isgt756 ? "col-12" : "col-12"
+  }`;
   useEffect(() => {
     mapData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,7 +94,10 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   return !loading ? (
     <div
-      className={`dashboard__at-a-glance-stats p-0 ${isLt1238 ? "px-2" : "px-3"}`}>
+      className={`dashboard__at-a-glance-stats ${isLt1238 ? "px-2" : "px-3"}`}>
+      {/* {`dashboard__at-a-glance-stats p-0 ${
+        isgt850 ? "px-2" : "px-3"
+      }`} */}
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}

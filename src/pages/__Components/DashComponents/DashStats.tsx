@@ -18,7 +18,7 @@ export default function DashStats(props: DashStatsProps) {
   const { total_xp, notification } = state.currentUser.my_user;
   const { awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
-  const isGt1660 = useMediaQuery({ query: "(max-width: 1559px)" });
+  const islt1660 = useMediaQuery({ query: "(max-width: 1559px)" });
   const [allByStatus, setAllByStatus] = useState<genericTaskInt[]>([]);
   const mapData = async () => {
     const allByStatus = await mapByStatus(currentTasks);
@@ -31,9 +31,9 @@ export default function DashStats(props: DashStatsProps) {
   return (
     <div
       className={`bamboo-card ${
-        isGt1660 && notification.length > 0 ? "m-1" : "m-0"
+        islt1660 && notification.length > 0 ? "m-1" : "m-0"
       }`}
-      id="dashboard__dash-stats">
+      id='dashboard__dash-stats'>
       {" "}
       {/* ${isBigScreen && "my-3"} */}
       <Row>
