@@ -123,7 +123,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
               roundedCircle
               src={returnIco(item.reward)}
               alt={item.reward}
-              className='p-1 mr-1 mb-1'
+              className='tiny-square p-1 mr-1 mb-1'
               style={{ backgroundColor: "white" }}
               height='40px'
             />

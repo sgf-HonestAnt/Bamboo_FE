@@ -74,7 +74,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               )} */}
             </Col>
             {location.pathname !== "/stats" && (
-              <Col className='col-12 px-3 pt-3'>
+              <Col className='col-12 px-3 pt-3 pb-1'>
                 <DashStats />
               </Col>
             )}
@@ -141,7 +141,7 @@ export default function DashboardPage(props: DashboardPageProps) {
               )} */}
             </Col>
             {notification.length < 1 && location.pathname !== "/stats" && (
-              <Col className='col-12 px-3'>
+              <Col className='col-12 px-3 pb-1'>
                 <DashStats />
               </Col>
             )}
@@ -204,7 +204,7 @@ export default function DashboardPage(props: DashboardPageProps) {
                 </Link>
               )} */}
               {notification.length < 1 && location.pathname !== "/stats" && (
-                <Col className='col-12 p-0 my-3'>
+                <Col className='col-12 p-0 my-3 pb-1'>
                   <DashStats />
                 </Col>
               )}
@@ -251,14 +251,14 @@ export default function DashboardPage(props: DashboardPageProps) {
   ) : isGt999 ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-12 my-3'>
+        <Col className='col-12 mt-3 mb-2'>
           <FindFollows
             history={history}
             search={search}
             setSearch={setSearch}
           />
         </Col>
-        <Col className='col-4 pt-3 pl-3 pr-3 pb-0'>
+        <Col className='col-4 pt-3 pl-3 pr-3 pb-3'>
           {notification.length > 0 && <DashNotifications />}
           {/* {location.pathname === "/user-settings" ? (
             <ProfileSettings history={history} />
@@ -273,12 +273,12 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Link>
           )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
-            <Col className='col-12 p-0 my-3'>
+            <Col className='col-12 p-0 my-3 pb-1'>
               <DashStats />
             </Col>
           )}
         </Col>
-        <Col className='p-0 pt-2 pr-3'>
+        <Col className='p-0 pr-3'>
           {location.pathname === "/dash" ? (
             <AtAGlance today={today} history={history} location={location} />
           ) : (
@@ -294,7 +294,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   ) : isGt755 ? (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-12 my-3'>
+        <Col className='col-12 mt-3 mb-2'>
           <FindFollows
             history={history}
             search={search}
@@ -316,7 +316,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             </Link>
           )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
-            <Col className='col-12 p-0 my-3'>
+            <Col className='col-12 p-0 my-3 pb-1'>
               <DashStats />
             </Col>
           )}
@@ -337,7 +337,7 @@ export default function DashboardPage(props: DashboardPageProps) {
   ) : (
     <Container fluid>
       <Row className='dashboard'>
-        <Col className='col-12 my-3'>
+        <Col className='col-12 mt-3 mb-2'>
           <FindFollows
             history={history}
             search={search}

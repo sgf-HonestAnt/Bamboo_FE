@@ -23,7 +23,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
   const notifLength = notification.length;
   const recentNotif = notification[notifLength - 1];
   const isTask = recentNotif?.includes("included you in a shared task");
-  const isReq = recentNotif?.includes("has sent you a request");
+  const isReq = recentNotif?.includes("has sent you a request"); 
   const isAcc = recentNotif?.includes("accepted your request");
   const isGift = recentNotif?.includes("sent you a gift");
   let username = "";

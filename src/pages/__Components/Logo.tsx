@@ -8,8 +8,8 @@ export default function BambooLogo(props: BambooLogoProps) {
   const { isAdmin } = props;
   return (
     <div className='bamboo-logo'>
-      <Image fluid src={BAMBOO} />
-      {!isAdmin && <h3>Bamboo tasks</h3>}
+      <Image fluid src={BAMBOO} width="50%" />
+      {!isAdmin && <h3>Bamboo</h3>}
     </div>
   );
 }

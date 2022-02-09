@@ -14,6 +14,12 @@
 .btn.btn-link:hover {
   color: var(--trebor-mint);
 }
+.main-side-bar {
+  text-align: right;
+}
+.main-side-bar__links .badge {
+  font-size: 0.7em;
+}
 .main-side-bar__links a {
   display: block;
 }
@@ -25,12 +31,11 @@
   align-content: center;
 }
 .main-side-bar__branding,
-.main-side-bar__links {
-  margin: 0 20px 0 20px;
-}
+.main-side-bar__links,
 .main-side-bar__branding-admin,
-.main-side-bar__links-admin {
-  margin: 0 10px 0 10px;
+.main-side-bar__links-admin,
+.main-side-bar__logout {
+  margin: 0;
 }
 .main-side-bar__branding svg,
 .main-side-bar__branding-admin svg {

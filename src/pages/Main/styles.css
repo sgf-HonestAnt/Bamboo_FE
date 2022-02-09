@@ -1,5 +1,6 @@
 /* Main Page */
 .main-page .main-section,
+.main-page .full-width,
 .main-page .admin-section {
   min-height: 100vh;
   overflow-y: scroll;
@@ -13,8 +14,11 @@
 .main-page .main-section {
   margin: 0 0 0 230px;
 }
+.main-page .full-width {
+  margin: 0;
+}
 .main-page .admin-section {
-  margin: 0 0 0 100px;
+  margin: 0;
 }
 @keyframes fadeIn {
   0% {
@@ -70,6 +74,10 @@
   padding: 10px;
   position: fixed;
   top: 0;
+}
+.settings-page__wrapper a#collasible-nav-dropdown,
+.main-page__wrapper a#collasible-nav-dropdown {
+  color: white !important;
 }
 .main-page .admin {
   min-height: 100vh;

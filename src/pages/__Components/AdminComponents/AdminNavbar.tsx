@@ -74,23 +74,24 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           notifNum !== 1 ? "s" : ""
         } for username: ${username}`
       : "";
+
   // const DEFAULT = "Sort by...";
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
   return !loadingForm ? (
     <Form>
-      <Nav className='admin-page__form p-2'>
+      <Nav className='admin-page__form p-0 pt-2 px-2'>
         <div className='d-flex mr-auto'>
           <ResetButton
             label='Reset'
-            className='mr-2'
+            className='mr-2 mb-2'
             handleClick={handleReset}
           />
           {form.dropdown.toLowerCase().includes(USERS) && (
             <Form.Group
               controlId='dropdown'
-              className='admin-page__form-dropdown mr-2'
+              className='admin-page__form-dropdown mr-2 mb-2'
               id='dropdown'>
               <Form.Control as='select' onChange={handleChange}>
                 {dropdown.map((d) => (
@@ -102,6 +103,8 @@ const AdminNavbar = (props: AdminNavbarProps) => {
               </Form.Control>
             </Form.Group>
           )}
+        </div>
+        <div className='d-flex px-1 py-2 mr-auto'>
           <div className='admin-page__form-header m-auto'>
             {form.dropdown.toLowerCase().includes(USERS)
               ? usersHeader
@@ -112,7 +115,9 @@ const AdminNavbar = (props: AdminNavbarProps) => {
         </div>
         <div>
           {!form.dropdown.toLowerCase().includes(NOTIFICATIONS) && (
-            <Form.Group controlId='search' className='admin-page__form-search'>
+            <Form.Group
+              controlId='search'
+              className='admin-page__form-search mb-2'>
               <FormControl
                 type='text'
                 placeholder='Search'

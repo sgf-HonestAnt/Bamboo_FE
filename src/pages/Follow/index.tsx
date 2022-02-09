@@ -38,7 +38,6 @@ export default function FollowingPage(props: FollowingPageProps) {
   const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
-  const isgt595 = useMediaQuery({ query: "(min-width: 595px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -110,9 +109,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                 ? "col-2"
                 : isgt975
                 ? "col-3"
-                : isgt595
-                ? "col-5"
-                : "col-12"
+                : "col-5"
             }`}>
             {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge
@@ -181,7 +178,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                       roundedCircle
                       src={returnIco(item.reward)}
                       alt={item.reward}
-                      className='p-1 mr-1 mb-1'
+                      className='tiny-square p-1 mr-1 mb-1'
                       style={{ backgroundColor: "white" }}
                       height='25px'
                     />
