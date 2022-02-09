@@ -258,13 +258,17 @@ export function findMostCommonStatus(
       (completedTasks / tasksTotal) * 100
     )}% of your tasks are marked 'Completed'.`;
   } else if (
-    completedTasks > 0 && 
+    completedTasks > 0 &&
     completedTasks === awaitedTasks &&
     completedTasks === progressingTasks
   ) {
     return `Perfect Balance|Your tasks are split evenly between 'Awaited', 'In Progress' and 'Completed.`;
+  } else if (completedTasks !== 0) {
+    return `${completedTasks} task${
+      completedTasks === 1 ? "" : "s"
+    } completed|${awaitedTasks} awaited, ${progressingTasks} in progress`;
   } else {
-    return `No Tasks Completed|Finish some tasks to view your stats`;
+    return `No Tasks Completed|Create or progress some tasks to view your stats`;
   }
 }
 

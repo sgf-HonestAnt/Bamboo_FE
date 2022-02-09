@@ -2,14 +2,23 @@ import { History, Location } from "history";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { reduxStateInt } from "../../typings/interfaces";
-import { Badge, Button } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+} from "react-bootstrap";
 import { attemptLogout } from "../../utils/funcs/f_users";
-import { RiSettings5Line } from "react-icons/ri";
+import { RiDashboard3Line, RiSettings5Line } from "react-icons/ri";
 import { FiActivity, FiMoon, FiServer, FiUsers } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import BambooLogo from "../__Components/Logo";
 import "./styles.css";
 import { useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import { BAMBOO } from "../../utils/const/ico";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -19,7 +28,7 @@ type SidebarProps = {
 export default function SideBar(props: SidebarProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { xp, total_xp } = my_user;
+  const { xp, total_xp, notification } = my_user;
   const { awaited, in_progress, completed } = state.currentTasks;
   const allTasks = awaited.concat(in_progress);
   const numOfUsers = followedUsers.length;
@@ -35,7 +44,10 @@ export default function SideBar(props: SidebarProps) {
     await attemptLogout();
     history.push("/login");
   };
-  return (
+  const isGt755 = useMediaQuery({
+    query: "(min-width: 755px)",
+  });
+  return isGt755 ? (
     <div className='main-side-bar'>
       {!pathIsAdmin && (
         <div>{/* <ThemePicker handleChange={handleChange} /> */}</div>
@@ -72,32 +84,57 @@ export default function SideBar(props: SidebarProps) {
                       setToggleMore(false);
                     }}>
                     toggle
-                  </Badge>
+                  </Badge>{" "}
                   {toggle && (
                     <>
-                      {my_user.admin && <Badge bg='primary'>admin</Badge>}{" "}
                       <Badge bg='dark'>
-                        {completed.length} task
-                        {completed.length === 1 ? "" : "s"} completed
-                      </Badge>
-                      <Badge bg='danger'>{total_xp}xp earned</Badge>
+                        {allTasks.concat(completed).length} task
+                        {allTasks.concat(completed).length === 1
+                          ? ""
+                          : "s"}{" "}
+                        total
+                      </Badge>{" "}
                       {toggleMore && (
                         <>
+                          <Badge bg='dark'>{completed.length} completed</Badge>{" "}
+                          <Badge bg='dark'>{awaited.length} awaited</Badge>{" "}
                           <Badge bg='dark'>
-                            {awaited.length} task
-                            {awaited.length === 1 ? "" : "s"} awaited
-                          </Badge>
-                          <Badge bg='dark'>
-                            {in_progress.length} task
-                            {in_progress.length === 1 ? "" : "s"} in progress
-                          </Badge>
-                          <Badge bg='dark'>
-                            {numOfSharedTasks} task
-                            {numOfSharedTasks === 1 ? "" : "s"} shared
-                          </Badge>
-                          <Badge bg='danger'>{xp}xp available</Badge>
+                            {in_progress.length} in progress
+                          </Badge>{" "}
                         </>
                       )}
+                      <Badge bg='danger'>{total_xp}xp total</Badge>{" "}
+                      {toggleMore && (
+                        <>
+                          <Badge bg='danger'>{xp}xp available</Badge>{" "}
+                          <Badge bg='danger'>{total_xp - xp}xp spent</Badge>{" "}
+                        </>
+                      )}
+                      <Badge bg='success'>
+                        {followedUsers.length} teammates
+                      </Badge>{" "}
+                      {toggleMore && (
+                        <>
+                          <Badge bg='success'>
+                            {
+                              notification.filter((note) =>
+                                note.includes("has sent you a request")
+                              ).length
+                            }{" "}
+                            request
+                            {notification.filter((note) =>
+                              note.includes("has sent you a request")
+                            ).length === 1
+                              ? ""
+                              : "s"}{" "}
+                          </Badge>{" "}
+                          <Badge bg='success'>
+                            {numOfSharedTasks} task
+                            {numOfSharedTasks === 1 ? "" : "s"} shared
+                          </Badge>{" "}
+                        </>
+                      )}
+                      {my_user.admin && <Badge bg='primary'>admin</Badge>}{" "}
                       <Badge
                         bg='warning'
                         onClick={(e) => setToggleMore(!toggleMore)}>
@@ -107,6 +144,8 @@ export default function SideBar(props: SidebarProps) {
                   )}
                 </Button>
               </Link>
+            </div>{" "}
+            <div className='pt-2'>
               <Link to='/tasks'>
                 <Button variant='primary' className='m-1'>
                   <FiServer /> Tasks <Badge bg='dark'>{allTasks.length}</Badge>
@@ -124,9 +163,7 @@ export default function SideBar(props: SidebarProps) {
                   <FiActivity /> Stats
                 </Button>
               </Link>
-            </div>
-            <div className='main-side-bar__logout pt-2'>
-              <Button variant='primary' onClick={logout}>
+              <Button variant='primary' onClick={logout} className='m-1'>
                 <FiMoon /> Log out
               </Button>
             </div>
@@ -134,5 +171,46 @@ export default function SideBar(props: SidebarProps) {
         </>
       )}
     </div>
+  ) : (
+    <Navbar sticky='top' bg='dark' variant='dark'>
+      <Container>
+        <Navbar.Brand href='/dash'>
+          <img
+            alt=''
+            src={BAMBOO}
+            width='30'
+            height='30'
+            className='d-inline-block align-top'
+          />{" "}
+        </Navbar.Brand>
+        <NavDropdown title='Navigation' id='collasible-nav-dropdown'>
+          <NavDropdown.Item href='/dash'>
+            <RiDashboard3Line /> Dash
+          </NavDropdown.Item>
+          <NavDropdown.Item href='/tasks'>
+            <FiServer /> Tasks
+          </NavDropdown.Item>
+          {numOfUsers > 0 && (
+            <NavDropdown.Item href='/following'>
+              <FiUsers /> Team
+            </NavDropdown.Item>
+          )}
+          <NavDropdown.Item href='/stats'>
+            <FiActivity /> Stats
+          </NavDropdown.Item>
+          <NavDropdown.Item href='/user-settings'>
+            <RiSettings5Line /> Settings
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item>
+            <span onClick={logout}>
+              <FiMoon /> Log out
+            </span>
+          </NavDropdown.Item>
+        </NavDropdown>
+        {/* <Link to='/user-settings' className='m-1'>
+        </Link> */}
+      </Container>
+    </Navbar>
   );
 }
