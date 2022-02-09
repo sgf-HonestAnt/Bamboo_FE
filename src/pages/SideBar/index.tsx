@@ -6,7 +6,6 @@ import {
   Badge,
   Button,
   Container,
-  Nav,
   Navbar,
   NavDropdown,
 } from "react-bootstrap";
@@ -47,7 +46,48 @@ export default function SideBar(props: SidebarProps) {
   const isGt755 = useMediaQuery({
     query: "(min-width: 755px)",
   });
-  return isGt755 ? (
+  return pathIsAdmin || !isGt755 ? (
+    <Navbar sticky='top' bg='dark' variant='dark'>
+      <Container fluid>
+        <Navbar.Brand href='/dash'>
+          <img
+            alt=''
+            src={BAMBOO}
+            width='30'
+            height='30'
+            className='d-inline-block align-top'
+          />{" "}
+        </Navbar.Brand>
+        <NavDropdown title='Navigation' id='collasible-nav-dropdown'>
+          <NavDropdown.Item href='/dash'>
+            <RiDashboard3Line /> Dash
+          </NavDropdown.Item>
+          <NavDropdown.Item href='/tasks'>
+            <FiServer /> Tasks
+          </NavDropdown.Item>
+          {numOfUsers > 0 && (
+            <NavDropdown.Item href='/following'>
+              <FiUsers /> Team
+            </NavDropdown.Item>
+          )}
+          <NavDropdown.Item href='/stats'>
+            <FiActivity /> Stats
+          </NavDropdown.Item>
+          <NavDropdown.Item href='/user-settings'>
+            <RiSettings5Line /> Settings
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item>
+            <span onClick={logout}>
+              <FiMoon /> Log out
+            </span>
+          </NavDropdown.Item>
+        </NavDropdown>
+        {/* <Link to='/user-settings' className='m-1'>
+        </Link> */}
+      </Container>
+    </Navbar>
+  ) : (
     <div className='main-side-bar'>
       {!pathIsAdmin && (
         <div>{/* <ThemePicker handleChange={handleChange} /> */}</div>
@@ -171,46 +211,5 @@ export default function SideBar(props: SidebarProps) {
         </>
       )}
     </div>
-  ) : (
-    <Navbar sticky='top' bg='dark' variant='dark'>
-      <Container>
-        <Navbar.Brand href='/dash'>
-          <img
-            alt=''
-            src={BAMBOO}
-            width='30'
-            height='30'
-            className='d-inline-block align-top'
-          />{" "}
-        </Navbar.Brand>
-        <NavDropdown title='Navigation' id='collasible-nav-dropdown'>
-          <NavDropdown.Item href='/dash'>
-            <RiDashboard3Line /> Dash
-          </NavDropdown.Item>
-          <NavDropdown.Item href='/tasks'>
-            <FiServer /> Tasks
-          </NavDropdown.Item>
-          {numOfUsers > 0 && (
-            <NavDropdown.Item href='/following'>
-              <FiUsers /> Team
-            </NavDropdown.Item>
-          )}
-          <NavDropdown.Item href='/stats'>
-            <FiActivity /> Stats
-          </NavDropdown.Item>
-          <NavDropdown.Item href='/user-settings'>
-            <RiSettings5Line /> Settings
-          </NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item>
-            <span onClick={logout}>
-              <FiMoon /> Log out
-            </span>
-          </NavDropdown.Item>
-        </NavDropdown>
-        {/* <Link to='/user-settings' className='m-1'>
-        </Link> */}
-      </Container>
-    </Navbar>
   );
 }

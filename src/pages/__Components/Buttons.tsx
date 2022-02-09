@@ -53,7 +53,7 @@ export const RejectButton = (props: ButtonProps) => (
   <Badge
     bg={props.variant || "secondary"}
     className={props.className || "m-1"}
-    id="reject-button"
+    id='reject-button'
     onClick={props.handleClick}>
     <FiXSquare /> No
   </Badge>
@@ -62,7 +62,7 @@ export const AcceptButton = (props: ButtonProps) => (
   <Badge
     bg={props.variant || "secondary"}
     className={props.variant || "m-1"}
-    id="accept-button"
+    id='accept-button'
     onClick={props.handleClick}>
     <FiCheckSquare /> Yes
   </Badge>
@@ -173,7 +173,8 @@ export const ResetButton = (props: ButtonProps) => (
     variant={props.variant || "light"}
     className={props.className || "m-1"}
     onClick={props.handleClick}>
-    {props.label} <FiRefreshCcw />
+    <FiRefreshCcw />
+    {/* {props.label}  */}
   </Button>
 );
 export const RefreshButton = (props: ButtonProps) => (

@@ -18,7 +18,7 @@
   margin: 0;
 }
 .main-page .admin-section {
-  margin: 0 0 0 100px;
+  margin: 0;
 }
 @keyframes fadeIn {
   0% {
@@ -75,6 +75,7 @@
   position: fixed;
   top: 0;
 }
+.settings-page__wrapper a#collasible-nav-dropdown,
 .main-page__wrapper a#collasible-nav-dropdown {
   color: white !important;
 }

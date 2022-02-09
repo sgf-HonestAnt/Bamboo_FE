@@ -107,6 +107,7 @@ a {
 /* Task Buttons for Dash and Tasks Page */
 .bamboo-task,
 .bamboo-task.btn.btn-link {
+  text-align: left;
   position: relative;
   background-color: white;
   color: var(--main-text) !important;

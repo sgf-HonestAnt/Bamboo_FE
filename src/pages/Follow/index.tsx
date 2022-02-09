@@ -38,7 +38,6 @@ export default function FollowingPage(props: FollowingPageProps) {
   const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
-  const isgt255 = useMediaQuery({ query: "(min-width: 255px)" });
   const [usersToShow, setUsersToShow] = useState(followedUsers);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -110,9 +109,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                 ? "col-2"
                 : isgt975
                 ? "col-3"
-                : isgt255
-                ? "col-6"
-                : "col-12"
+                : "col-5"
             }`}>
             {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge

@@ -60,10 +60,35 @@ export default function MainBody({ history, location }: RouteComponentProps) {
     <>
       <Container fluid className='main-page m-0 p-0' id={theme}>
         {path === "/user-settings" ? (
-          <div>
+          <div className='settings-page__wrapper'>
+            {isLt755 && (
+              <SideBar
+                history={history}
+                location={location}
+                setTheme={setTheme}
+              />
+            )}
             <div className='p-0'>
               <SettingsPage history={history} location={location} />
             </div>
+          </div>
+        ) : path === "/admin-dash" ? (
+          <div className='main-page__wrapper'>
+            <div>
+              <SideBar
+                history={history}
+                location={location}
+                setTheme={setTheme}
+              />
+            </div>
+            <div className='admin-section'>
+              <AdminPage
+                user={user}
+                features={features}
+                history={history}
+                location={location}
+              />
+            </div>{" "}
           </div>
         ) : (
           <div className='main-page__wrapper'>
@@ -117,15 +142,6 @@ export default function MainBody({ history, location }: RouteComponentProps) {
                   isLt755 ? "full-width overflow-x-scroll" : "main-section"
                 }`}>
                 <FollowingPage history={history} location={location} />
-              </div>
-            ) : path === "/admin-dash" ? (
-              <div className='admin-section'>
-                <AdminPage
-                  user={user}
-                  features={features}
-                  history={history}
-                  location={location}
-                />
               </div>
             ) : (
               <div className='main-section'>
