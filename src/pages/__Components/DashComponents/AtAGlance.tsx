@@ -98,7 +98,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
       }
     }
     const rewardsAvailable = generalRewards.concat(specialRewards);
-    console.log("rewardsAvailable at a glance=>", rewardsAvailable);
     return rewardsAvailable;
   };
   const allTasks = awaited.concat(in_progress);

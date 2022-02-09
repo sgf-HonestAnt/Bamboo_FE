@@ -18,7 +18,6 @@ type RewardsDropdownProps = {
 export default function RewardsDropdown(props: RewardsDropdownProps) {
   const dispatch = useDispatch();
   const { rewards, formType, label, history } = props;
-  console.log("rewards at rewards drop =>", rewards);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
   const allRewards = state.currentUser.my_user.rewards
@@ -37,7 +36,6 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   }
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("handle submit at rewards drop");
     if (reward && xp >= reward.value) {
       const remainingXp = await purchaseReward(allRewards, reward, xp, dispatch);
       if (remainingXp) {
@@ -47,7 +45,6 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
     }
   }
   useEffect(() => {
-    console.log("use effect at rewards drop");
     setLoading(false);
   }, [loading]);
   return formType === "dropdown" ? (

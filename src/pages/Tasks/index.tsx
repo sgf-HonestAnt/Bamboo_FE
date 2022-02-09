@@ -118,7 +118,7 @@ export default function TasksPage(props: TasksPageProps) {
       }
     }
   };
-  console.log(taskList);
+  // console.log(taskList);
   useEffect(() => {
     if (taskList) {
       setInitialData({

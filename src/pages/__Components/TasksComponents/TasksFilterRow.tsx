@@ -97,7 +97,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(filter);
   return (
     <Row className='tasks-page__filter-row m-0 p-0 pt-4'>
       <AddNewTaskButton

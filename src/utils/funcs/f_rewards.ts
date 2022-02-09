@@ -36,7 +36,7 @@ export async function purchaseReward(
   xp: number,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Purchasing Reward Badge");
+  // console.log("🙋Purchasing Reward Badge");
   const token = localStorage.getItem("token");
   try {
     const url = `${ENDPOINT_MYREWARDS}/${reward._id}`;
@@ -63,7 +63,6 @@ export async function purchaseReward(
     if (response.ok) {
       dispatch(setUserPoints(remainingXp));
       dispatch(setUserRewards(updatedRewards));
-      console.log("updated rewards=>", updatedRewards);
       return remainingXp;
     }
   } catch (error) {
