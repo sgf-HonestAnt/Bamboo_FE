@@ -18,8 +18,10 @@ type RewardsDropdownProps = {
 export default function RewardsDropdown(props: RewardsDropdownProps) {
   const dispatch = useDispatch();
   const { rewards, formType, label, history } = props;
+  console.log("rewards at rewards drop =>", rewards);
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
+  const allRewards = state.currentUser.my_user.rewards
   const [loading, setLoading] = useState(false);
   const [reward, setReward] = useState<rewardsInt | null>(null);
   function handleReset(e: any) {
@@ -35,8 +37,9 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   }
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
+    console.log("handle submit at rewards drop");
     if (reward && xp >= reward.value) {
-      const remainingXp = await purchaseReward(rewards, reward, xp, dispatch);
+      const remainingXp = await purchaseReward(allRewards, reward, xp, dispatch);
       if (remainingXp) {
         setReward(null);
         history.push("/reload?pathname=dash");
@@ -44,6 +47,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
     }
   }
   useEffect(() => {
+    console.log("use effect at rewards drop");
     setLoading(false);
   }, [loading]);
   return formType === "dropdown" ? (
@@ -89,8 +93,9 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   ) : formType === "select" ? (
     <>
       {!loading && rewards.length > 0 && <hr />}
-      <Form className='pt-1'>
+      <Form className='py-1 px-2'>
         <Form.Label>{label}</Form.Label>
+        {!loading && rewards.length > 0 && <hr />}
         <Form.Group controlId='rewards' className='row'>
           <Row className='d-flex align-items-center justify-content-start mr-auto mx-5'>
             {!loading &&

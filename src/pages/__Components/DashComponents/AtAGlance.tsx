@@ -89,13 +89,16 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     let specialRewards: rewardsInt[] = [];
     for (let i = 0; i < rewards.length; i++) {
       if (
-        rewards[i].reward.includes(month) ||
-        rewards[i].reward.includes(nextMonth)
+        rewards[i].available &&
+        rewards[i].available! > 0 &&
+        (rewards[i].reward.includes(month) ||
+          rewards[i].reward.includes(nextMonth))
       ) {
         specialRewards.push(rewards[i]);
       }
     }
     const rewardsAvailable = generalRewards.concat(specialRewards);
+    console.log("rewardsAvailable at a glance=>", rewardsAvailable);
     return rewardsAvailable;
   };
   const allTasks = awaited.concat(in_progress);
@@ -228,7 +231,11 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
           <RewardsDropdown
             rewards={atAGlanceData.rewardsAvailable}
             formType='select'
-            label='Celebrate your progress! Spend well-earned xp to display a reward badge:'
+            label={
+              atAGlanceData.rewardsAvailable.length > 0
+                ? "Celebrate your progress! Spend well-earned xp to display a reward badge:"
+                : ""
+            }
             history={history}
           />
         </div>

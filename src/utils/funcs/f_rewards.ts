@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { setUserLoading, setUserPoints } from "../../redux/actions/user";
+import { setUserPoints, setUserRewards } from "../../redux/actions/user";
 import { rewardsInt } from "../../typings/interfaces";
 import { ENDPOINT_GIFTS, ENDPOINT_MYREWARDS, POST, PUT } from "../const/str";
 
@@ -45,8 +45,11 @@ export async function purchaseReward(
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     };
-    const available = reward.available - 1;
-    const body = JSON.stringify({ reward: reward.reward, value: reward.value, available });
+    const body = JSON.stringify({
+      reward: reward.reward,
+      value: reward.value,
+      available: 0,
+    }); // remember in future badges can only ever be purchased once.
     const response = await fetch(url, { method, headers, body });
     const { value } = await response.json();
     const remainingXp = xp - value;
@@ -54,13 +57,13 @@ export async function purchaseReward(
     updatedRewards.push({
       reward: reward.reward,
       value: reward.value,
-      available,
+      available: null,
       _id: reward._id,
     });
     if (response.ok) {
-      dispatch(setUserLoading(true));
-      // dispatch(setUserPoints(remainingXp));
-      // dispatch(setUserRewards(updatedRewards)); // <== THERE IS A PROBLEM HERE
+      dispatch(setUserPoints(remainingXp));
+      dispatch(setUserRewards(updatedRewards));
+      console.log("updated rewards=>", updatedRewards);
       return remainingXp;
     }
   } catch (error) {

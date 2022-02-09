@@ -100,7 +100,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       </div>
       <div className='rewards py-2'>
         {rewards
-          .filter((item) => item.available < 1)
+          .filter((item) => !item.available || item.available < 1)
           .map((item, i) => (
             <Image
               key={i}
@@ -206,7 +206,7 @@ const DashProfileCard = (props: DashProfileCardProps) => {
         </div>
         <div className='dotted-border x-tiny-round rewards py-3'>
           {rewards
-            .filter((item) => item.available < 1)
+            .filter((item) => !item.available || item.available < 1)
             .map((item, i) => (
               <Image
                 key={i}
