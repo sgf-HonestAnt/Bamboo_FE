@@ -186,6 +186,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
     setShowEditCategories(false);
+    setSharedUsers({ selectedOptions: [] });
     setChanged({ title: false, value: false, category: false });
     setShowWarning(false);
     taskSet && setView(true);
