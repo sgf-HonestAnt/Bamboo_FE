@@ -52,7 +52,7 @@ export default function DashStats(props: DashStatsProps) {
             />
           </Col>
         )}
-        <Col sm={12}>
+        <Col sm={12} className="px-5">
           <div className='dashboard__card-header'>
             {findMostCommonStatus(allByStatus, allTasks.length).split("|")[0]}
           </div>
