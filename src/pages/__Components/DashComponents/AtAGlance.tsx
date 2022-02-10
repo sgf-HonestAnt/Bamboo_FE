@@ -254,7 +254,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { notification, total_xp } = my_user;
-  const { awaited, in_progress } = state.currentTasks;
+  const { awaited, in_progress, completed } = state.currentTasks;
   const { today, history, location } = props;
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
@@ -264,7 +264,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
-          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
+          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1 && completed.length < 1) ? (
             <></>
           ) : (
             <>

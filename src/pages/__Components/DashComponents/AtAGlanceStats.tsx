@@ -95,7 +95,10 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
-          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1) ? (
+          {total_xp < 1 ||
+          (awaited.length < 1 &&
+            in_progress.length < 1 &&
+            completed.length < 1) ? (
             <></>
           ) : (
             <>
