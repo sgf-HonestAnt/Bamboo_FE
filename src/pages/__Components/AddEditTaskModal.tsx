@@ -36,10 +36,7 @@ import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 import { TaskButton } from "./DashComponents/MapTasks";
 // import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
-import // RemTaskFromAwaited,
-// RemTaskFromCompleted,
-// RemTaskFromInProgress,
-"../../redux/actions/tasks";
+// import {RemTaskFromAwaited, RemTaskFromCompleted, RemTaskFromInProgress} from "../../redux/actions/tasks";
 
 const schema = yup.object().shape({
   title: yup

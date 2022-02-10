@@ -1,6 +1,7 @@
-import { 
-  //useState, 
-  useEffect } from "react";
+import {
+  //useState,
+  useEffect,
+} from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
@@ -42,23 +43,22 @@ export function TaskButton(props: TaskButtonProps) {
         {task.value}xp
       </Badge>
       &nbsp;
-      <Badge
-        bg='warning'
-        className={`bg-warning ${task!.category}`}
-        id={task.category}>
-        {task.category === NONE ? (
-          "no category"
-        ) : task.category === URGENT ? (
-          <>
-            <FiFlag />
-            &nbsp;
-            {task.category}
-          </>
-        ) : (
-          task.category
-        )}
-      </Badge>
-      &nbsp;
+      {task.category !== NONE && (
+        <>
+          <Badge bg='warning' className={`bg-warning ${task!.category}`}>
+            {task.category === URGENT ? (
+              <>
+                <FiFlag />
+                &nbsp;
+                {task.category}
+              </>
+            ) : (
+              task.category
+            )}
+          </Badge>
+          &nbsp;
+        </>
+      )}
       {task.sharedWith && task.sharedWith.length > 1 && (
         <Badge bg='info'>
           <FiUsers />+{task.sharedWith.length - 1}

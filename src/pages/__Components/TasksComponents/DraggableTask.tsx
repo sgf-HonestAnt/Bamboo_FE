@@ -49,7 +49,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
   // const { customColors } = state.currentSettings;
-  const { categories, categoriesColors } = state.currentTasks
+  const { categories, categoriesColors } = state.currentTasks;
   const { task, i, initialData, setInitialData, history, location } = props;
   // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
@@ -58,7 +58,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
   const isFromDash = location.pathname === "/dash-tasks";
   const handleClose = () => {
     setShow(false);
-    isFromDash && history.push("/dash")
+    isFromDash && history.push("/dash");
   };
   const handleShow = () => {
     setShow(true);
@@ -120,22 +120,24 @@ const DraggableTask = (props: DraggableTaskProps) => {
                       {task.value}xp
                     </Badge>
                     &nbsp;
-                    <Badge
-                      bg='warning'
-                      className={`bg-warning ${task.category}`}>
-                      {task.category === NONE ? (
-                        "no category"
-                      ) : task.category === URGENT ? (
-                        <>
-                          <FiFlag />
-                          &nbsp;
-                          {task.category}
-                        </>
-                      ) : (
-                        task.category
-                      )}
-                    </Badge>
-                    &nbsp;
+                    {task.category !== NONE && (
+                      <>
+                        <Badge
+                          bg='warning'
+                          className={`bg-warning ${task.category}`}>
+                          {task.category === URGENT ? (
+                            <>
+                              <FiFlag />
+                              &nbsp;
+                              {task.category}
+                            </>
+                          ) : (
+                            task.category
+                          )}
+                        </Badge>
+                        &nbsp;
+                      </>
+                    )}
                     {task.sharedWith && task.sharedWith.length > 1 && (
                       <Badge bg='info'>
                         <FiUsers />+{task.sharedWith.length - 1}

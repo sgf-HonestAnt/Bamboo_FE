@@ -65,7 +65,7 @@ export default async function submitFormikTask(
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
 ) {
-  // console.log("🙋Submitting Formik Task", e);
+  console.log("🙋Submitting Formik Task", e);
   const {
     repeatedRadio,
     sharedRadio,
