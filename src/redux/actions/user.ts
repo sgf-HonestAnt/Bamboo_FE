@@ -18,9 +18,10 @@ import {
   SET_USER_COMPLETED_TOTAL,
   SET_USER_POINTS_AND_COMPLETED,
   SET_USER_REWARDS,
+  SET_FOLLOWED_USERS,
 } from "../../utils/const/str";
 import { SET_REFRESH_TOKEN } from "../../utils/const/str";
-import { rewardsInt, userInt } from "../../typings/interfaces";
+import { followedUserInt, rewardsInt, userInt } from "../../typings/interfaces";
 
 export const setUserAvatar = (avatar: string | undefined) => ({
   type: SET_USER_AVATAR,
@@ -50,7 +51,8 @@ export const setUserLevel = (level: number) => ({
   type: SET_USER_LEVEL,
   payload: level,
 });
-export const setUserRewards = (rewards: rewardsInt[]) => ({ // // <== THERE IS A PROBLEM HERE
+export const setUserRewards = (rewards: rewardsInt[]) => ({
+  // // <== THERE IS A PROBLEM HERE
   type: SET_USER_REWARDS,
   payload: rewards,
 });
@@ -69,6 +71,10 @@ export const setUserTotalPoints = (total_xp: number) => ({
 export const setUserTotalCompleted = (total_completed: number) => ({
   type: SET_USER_COMPLETED_TOTAL,
   payload: total_completed,
+});
+export const setFollowedUsers = (followedUsers: followedUserInt[]) => ({
+  type: SET_FOLLOWED_USERS,
+  payload: followedUsers,
 });
 export const setUserLoading = (boolean: boolean) => ({
   type: FILL_USER_LOADING,

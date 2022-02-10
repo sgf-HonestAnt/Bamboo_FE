@@ -18,7 +18,7 @@ import {
   getShortDateAsString,
 } from "../../../utils/funcs/f_dates";
 import { Badge, Button } from "react-bootstrap";
-import { createColorArray } from "../../../utils/funcs/f_styling";
+// import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiClock, FiFlag, FiUsers } from "react-icons/fi";
 import { MdDragIndicator } from "react-icons/md";
 
@@ -48,17 +48,17 @@ const Handle = (props: HandleProps) => {
 const DraggableTask = (props: DraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { customColors } = state.currentSettings;
-  const categories = state.currentTasks.categories;
+  // const { customColors } = state.currentSettings;
+  const { categories, categoriesColors } = state.currentTasks;
   const { task, i, initialData, setInitialData, history, location } = props;
-  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
   const [show, setShow] = useState(false);
   const isFromDash = location.pathname === "/dash-tasks";
   const handleClose = () => {
     setShow(false);
-    isFromDash && history.push("/dash")
+    isFromDash && history.push("/dash");
   };
   const handleShow = () => {
     setShow(true);
@@ -76,7 +76,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
     if (locationSearch !== task!._id) {
       setShow(false);
     }
-    createColorArray(customColors, categories, setCategoryColors);
+    // createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, setInitialData]);
   useEffect(() => {
@@ -105,7 +105,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                 className='m-1 bamboo-task'
                 style={{
                   backgroundColor: `${
-                    categoryColors[
+                    categoriesColors[
                       categories.findIndex((cat) => cat === task.category)
                     ]
                   }`,
@@ -120,22 +120,24 @@ const DraggableTask = (props: DraggableTaskProps) => {
                       {task.value}xp
                     </Badge>
                     &nbsp;
-                    <Badge
-                      bg='warning'
-                      className={`bg-warning ${task.category}`}>
-                      {task.category === NONE ? (
-                        "no category"
-                      ) : task.category === URGENT ? (
-                        <>
-                          <FiFlag />
-                          &nbsp;
-                          {task.category}
-                        </>
-                      ) : (
-                        task.category
-                      )}
-                    </Badge>
-                    &nbsp;
+                    {task.category !== NONE && (
+                      <>
+                        <Badge
+                          bg='warning'
+                          className={`bg-warning ${task.category}`}>
+                          {task.category === URGENT ? (
+                            <>
+                              <FiFlag />
+                              &nbsp;
+                              {task.category}
+                            </>
+                          ) : (
+                            task.category
+                          )}
+                        </Badge>
+                        &nbsp;
+                      </>
+                    )}
                     {task.sharedWith && task.sharedWith.length > 1 && (
                       <Badge bg='info'>
                         <FiUsers />+{task.sharedWith.length - 1}
