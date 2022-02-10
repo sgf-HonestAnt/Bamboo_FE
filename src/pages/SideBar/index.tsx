@@ -10,7 +10,7 @@ import { CgProfile } from "react-icons/cg";
 import BambooLogo from "../__Components/Logo";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { BAMBOO } from "../../utils/const/ico";
+import Bamboo1 from "../../media/Bamboo1.svg";
 import "./styles.css";
 
 type SidebarProps = {
@@ -45,9 +45,9 @@ export default function SideBar(props: SidebarProps) {
         <Navbar.Brand href='/dash'>
           <img
             alt=''
-            src={BAMBOO}
-            width='30'
-            height='30'
+            src={Bamboo1}
+            width='50'
+            height='50'
             className='d-inline-block align-top'
           />{" "}
         </Navbar.Brand>
