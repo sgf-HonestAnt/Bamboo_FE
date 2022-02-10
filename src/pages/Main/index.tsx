@@ -49,7 +49,7 @@ export default function MainBody({ history, location }: RouteComponentProps) {
       setTimeout(() => {
         loading && console.log(`🔁LOADING`);
         error && console.log(`💥ERROR`);
-      }, 500);
+      }, 1000);
     }
   };
   useEffect(() => {

@@ -8,6 +8,7 @@ import { reduxStateInt, taskInt } from "../../../typings/interfaces";
 import { Button, Badge } from "react-bootstrap";
 import { NONE, URGENT, COMPLETED } from "../../../utils/const/str";
 import { FiFlag, FiUsers } from "react-icons/fi";
+import { getShortDateAsString } from "../../../utils/funcs/f_dates";
 // import { createColorArray } from "../../../utils/funcs/f_styling";
 
 type MapTasksProps = {
@@ -60,8 +61,16 @@ export function TaskButton(props: TaskButtonProps) {
         </>
       )}
       {task.sharedWith && task.sharedWith.length > 1 && (
+        <>
+          <Badge bg='info'>
+            <FiUsers />+{task.sharedWith.length - 1}
+          </Badge>
+          &nbsp;
+        </>
+      )}
+      {task.deadline && (
         <Badge bg='info'>
-          <FiUsers />+{task.sharedWith.length - 1}
+          {`${getShortDateAsString(task.deadline)}`}
         </Badge>
       )}
     </Button>

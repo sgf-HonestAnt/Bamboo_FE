@@ -143,6 +143,17 @@ const DraggableTask = (props: DraggableTaskProps) => {
                         <FiUsers />+{task.sharedWith.length - 1}
                       </Badge>
                     )}
+                    {task.deadline && (
+                      <Badge bg='info'>
+                        {/* ${
+                          task.desc.length > 1 || task.sharedWith!.length > 1
+                            ? "|"
+                            : ""
+                        }  */}
+                        {`${getShortDateAsString(task.deadline)}`}{" "}
+                        {task.deadline.slice(0, 4)}
+                      </Badge>
+                    )}
                     {taskIsOverdue && (
                       <span style={{ color: "red" }} className='pl-1'>
                         <FiClock />
@@ -160,16 +171,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
                   )}
                   {task.sharedWith!.length > 1 && task.sharedWith!.length} */}
                   </span>
-                  {task.deadline && (
-                    <span>
-                      {`${
-                        task.desc.length > 1 || task.sharedWith!.length > 1
-                          ? "|"
-                          : ""
-                      } ${getShortDateAsString(task.deadline)}`}{" "}
-                      {task.deadline.slice(0, 4)}
-                    </span>
-                  )}
                 </div>
                 <AddEditTaskModal
                   view={view}

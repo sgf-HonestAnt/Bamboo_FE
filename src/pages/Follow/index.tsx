@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TaskButton } from "../__Components/DashComponents/MapTasks";
 // import { createColorArray } from "../../utils/funcs/f_styling";
-import { COMPLETED } from "../../utils/const/str";
+// import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
 import BambooPoints from "../__Components/XP";
@@ -32,9 +32,15 @@ export default function FollowingPage(props: FollowingPageProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { categories, categoriesColors, awaited, in_progress, completed } =
-    state.currentTasks;
-  const allTasks = awaited.concat(in_progress, completed);
+  const {
+    categories,
+    categoriesColors,
+    awaited,
+    in_progress,
+    //completed
+  } = state.currentTasks;
+  // const allTasks = awaited.concat(in_progress, completed);
+  const awaitedAndProgressingTasks = awaited.concat(in_progress);
   // const { customColors } = state.currentSettings;
   // const [categoriesColors, setCategoriesColors] = useState<string | any[]>([]);
   const { history, location } = props;
@@ -72,7 +78,7 @@ export default function FollowingPage(props: FollowingPageProps) {
   };
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("handle submit at gifting")
+    console.log("handle submit at gifting");
     await sendXpGift(gift.userId, gift.xp, points, dispatch);
     const index = followedUsers.findIndex(
       (user: followedUserInt) => user._id === gift.userId
@@ -132,12 +138,12 @@ export default function FollowingPage(props: FollowingPageProps) {
             ) : (
               <>
                 {
-                  allTasks.filter((task) =>
+                  awaitedAndProgressingTasks.filter((task) =>
                     task.sharedWith?.includes(usersToShow[0]._id)
                   ).length
                 }{" "}
-                Task
-                {allTasks.filter((task) =>
+                Open Task
+                {awaitedAndProgressingTasks.filter((task) =>
                   task.sharedWith?.includes(usersToShow[0]._id)
                 ).length === 1
                   ? ""
@@ -206,14 +212,11 @@ export default function FollowingPage(props: FollowingPageProps) {
         {location.search.includes("?id=") && (
           <Col>
             <div className='d-flex'>
-              {allTasks
-                .filter(
-                  (task) =>
-                    task.sharedWith?.includes(usersToShow[0]._id) &&
-                    task.status === COMPLETED
-                )
+              {awaitedAndProgressingTasks
+                .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
                 .map((task, i) => (
                   <TaskButton
+                    key={i}
                     i={i}
                     task={task}
                     bgColor={
@@ -223,15 +226,16 @@ export default function FollowingPage(props: FollowingPageProps) {
                     }
                   />
                 ))}
-              {allTasks
+              {/* {allTasks
                 .filter(
                   (task) =>
                     task.sharedWith?.includes(usersToShow[0]._id) &&
-                    task.status !== COMPLETED
+                    task.status !== COMPLETED // WHY INCLUDES COMPLETED TASKS?
                 )
                 .map((task, i) => (
                   <Link to={`/tasks?id=${task._id}`} key={task._id}>
                     <TaskButton
+                      key={i}
                       i={i}
                       task={task}
                       bgColor={
@@ -241,7 +245,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                       }
                     />
                   </Link>
-                ))}
+                ))} */}
             </div>
           </Col>
         )}

@@ -25,6 +25,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
+    console.log(value);
     if (id === "sortBy" && value === USERS_SORT_BY[0]) {
       setForm({ ...form, sortBy: value });
     } else {
@@ -79,6 +80,7 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
+  console.log(form);
   return !loadingForm ? (
     <Form>
       <Nav className='admin-page__form p-0 pt-2 px-2'>
@@ -88,7 +90,9 @@ const AdminNavbar = (props: AdminNavbarProps) => {
             className='mr-2 mb-2'
             handleClick={handleReset}
           />
-          {form.dropdown.toLowerCase().includes(USERS) && (
+          {(form.dropdown.toLowerCase().includes(USERS) ||
+            form.dropdown.toLowerCase().includes(TASKS) ||
+            form.dropdown.toLowerCase().includes(NOTIFICATIONS)) && (
             <Form.Group
               controlId='dropdown'
               className='admin-page__form-dropdown mr-2 mb-2'
