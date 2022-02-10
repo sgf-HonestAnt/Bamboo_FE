@@ -15,8 +15,6 @@ import {
   ANY_TYPE,
   OVERDUE,
   ANY_STATUS,
-  // TEAM,
-  // SOLO,
 } from "../../utils/const/str";
 import { getTaskByQuery, getTasks } from "../../utils/funcs/f_tasks";
 import { filterTasksByOverdue } from "../../utils/funcs/f_dates";
@@ -197,8 +195,6 @@ export default function TasksPage(props: TasksPageProps) {
         location={location}
         filter={filter}
         setFilter={setFilter}
-        // query={query}
-        // setQuery={setQuery}
       />
       <DragDropContainer
         initialData={initialData}

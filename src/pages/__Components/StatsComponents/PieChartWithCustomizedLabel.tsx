@@ -40,12 +40,9 @@ export default function PieChartWithCustomizedLabel(
   props: PieChartWithCustomizedLabelProps
 ) {
   const { data, colors, width, height, labelLine } = props;
-  const twoColors = [colors[2],colors[15]]
+  const twoColors = [colors[2], colors[15]];
   return (
-    <PieChart
-      width={width || 200}
-      height={height || 200}
-      className='m-auto'>
+    <PieChart width={width || 200} height={height || 200} className='m-auto'>
       <Pie
         data={data}
         cx='50%'
@@ -56,7 +53,10 @@ export default function PieChartWithCustomizedLabel(
         fill='#8884d8'
         dataKey='total'>
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={twoColors[index % twoColors.length]} />
+          <Cell
+            key={`cell-${index}`}
+            fill={twoColors[index % twoColors.length]}
+          />
         ))}
       </Pie>
     </PieChart>

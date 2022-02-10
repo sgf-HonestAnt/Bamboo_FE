@@ -62,12 +62,10 @@ export const EditTask = (status: string, tasks: taskInt[]) => ({
     [status]: tasks,
   },
 });
-// delete if unnecessary
 export const DeleteTask = (completed: taskInt[]) => ({
   type: DELETE_TASK,
   payload: completed,
 });
-//
 export const loadTasksAction = (loading: boolean) => ({
   type: FILL_TASKS_LOADING,
   payload: true,

@@ -41,15 +41,14 @@ type AdminPageForm = {
   sortBy?: string;
 };
 type AdminPageProps = {
-  user: userInt; // to ensure admin role
-  features: currentFeaturesInt; // to check featured challenges
+  user: userInt;
+  features: currentFeaturesInt;
   history: History<unknown> | string[];
   location: Location<unknown>;
 };
 export default function AdminPage(props: AdminPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
-  // include search users by username or email
   const { user } = props;
   const signedInId = my_user._id;
   const [usersData, setUsersData] = useState<userInt[]>();
@@ -64,11 +63,6 @@ export default function AdminPage(props: AdminPageProps) {
   });
   const userByFormId = usersToDisplay?.find((u) => u._id === form.id);
   const username = usersToDisplay && userByFormId ? userByFormId.username : "";
-  // const resetForm = async (e: { preventDefault: () => void }) => {
-  //   e.preventDefault();
-  //   setForm({ dropdown: USERS, id: "", search: "" });
-  //   history.push("/admin-dash");
-  // };
   const loadAdmin = async () => {
     const data = await getUsersAsAdmin(form.id);
     const allTasks = await getAllTasks(form.id);

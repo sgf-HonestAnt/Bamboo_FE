@@ -2,8 +2,7 @@ import { History } from "history";
 import { setRefreshToken, setUserError } from "../../redux/actions/user";
 import { ENDPOINT_REFRESH, POST } from "../const/str";
 
-// NOT IN USE
-const attemptRefresh = async (
+const attemptRefresh = async ( // NOT IN USE
   history: History<unknown> | string[],
   token: string | undefined
 ) => {

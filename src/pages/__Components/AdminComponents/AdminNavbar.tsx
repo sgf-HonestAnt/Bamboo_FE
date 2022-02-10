@@ -2,7 +2,6 @@ import { Nav, Form, FormControl } from "react-bootstrap";
 import { taskInt, userInt } from "../../../typings/interfaces";
 import { ResetButton } from "../Buttons";
 import {
-  // FEATURES,
   NOTIFICATIONS,
   TASKS,
   USERS,
@@ -25,7 +24,6 @@ const AdminNavbar = (props: AdminNavbarProps) => {
   const handleChange = (e: { target: { id: any; value: any } }) => {
     const id = e.target.id;
     const value = e.target.value;
-    console.log(value);
     if (id === "sortBy" && value === USERS_SORT_BY[0]) {
       setForm({ ...form, sortBy: value });
     } else {
@@ -75,12 +73,10 @@ const AdminNavbar = (props: AdminNavbarProps) => {
           notifNum !== 1 ? "s" : ""
         } for username: ${username}`
       : "";
-
-  // const DEFAULT = "Sort by...";
   useEffect(() => {
     setLoadingForm(false);
   }, [loadingForm]);
-  console.log(form);
+  // console.log(form);
   return !loadingForm ? (
     <Form>
       <Nav className='admin-page__form p-0 pt-2 px-2'>
@@ -131,7 +127,8 @@ const AdminNavbar = (props: AdminNavbarProps) => {
             </Form.Group>
           )}
         </div>
-        {/* {form.dropdown === USERS && (
+        {/* "SORT BY" DROPDOWN 
+        {form.dropdown === USERS && (
                 <Form.Group
                   controlId='sortBy'
                   className='admin-page__form-dropdown ml-1'

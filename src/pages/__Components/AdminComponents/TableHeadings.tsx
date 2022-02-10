@@ -37,10 +37,10 @@ export const TasksTableHeading = (props: TasksTableHeadingProps) => {
         <th>
           <ICODELETE />
         </th> */}
-        <th className="col-1">Id</th>
-        <th className="col-2">Title</th>
+        <th className='col-1'>Id</th>
+        <th className='col-2'>Title</th>
         <th>Created By</th>
-        <th className="col-3">Description</th>
+        <th className='col-3'>Description</th>
         <th>Category</th>
         {/* <th>Image</th> */}
         <th>Value</th>
@@ -51,7 +51,9 @@ export const TasksTableHeading = (props: TasksTableHeadingProps) => {
   );
 };
 type NotificationsTableHeadingProps = {};
-export const NotificationsTableHeading = (props: NotificationsTableHeadingProps) => {
+export const NotificationsTableHeading = (
+  props: NotificationsTableHeadingProps
+) => {
   return (
     <thead>
       <tr>
@@ -61,8 +63,8 @@ export const NotificationsTableHeading = (props: NotificationsTableHeadingProps)
         <th>
           <ICODELETE />
         </th> */}
-        <th className="col-2">Belongs to</th>
-        <th className="col-10">Notification text</th>
+        <th className='col-2'>Belongs to</th>
+        <th className='col-10'>Notification text</th>
       </tr>
     </thead>
   );

@@ -35,7 +35,6 @@ export const initialState: reduxStateInt = {
   currentUser: {
     loading: true,
     error: false,
-    // set upon loading with endpoint "/user/me"
     my_user: {
       _id: "",
       first_name: "",
@@ -60,7 +59,6 @@ export const initialState: reduxStateInt = {
   currentTasks: {
     loading: true,
     error: false,
-    // set upon loading with endpoint "/tasks/me/"
     _id: "",
     categories: [],
     categoriesColors: [],
@@ -71,7 +69,6 @@ export const initialState: reduxStateInt = {
   currentAchievements: {
     loading: true,
     error: false,
-    // set upon loading with endpoint "/achievements/me/"
     _id: "",
     user: "",
     list: [],
@@ -80,7 +77,6 @@ export const initialState: reduxStateInt = {
   currentSettings: {
     loading: true,
     error: false,
-    // set upon loading with endpoint "/user/me/settings"
     selectedTheme: LIGHT_MODE,
     customColors: CUSTOM_COLORS,
   },

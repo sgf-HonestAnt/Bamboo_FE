@@ -26,7 +26,7 @@ import PieChartWithPaddingAngle from "../StatsComponents/PieChartWithPaddingAngl
 import PieChartWithCustomizedLabel from "../StatsComponents/PieChartWithCustomizedLabel";
 import CustomActiveShapePieChart from "../StatsComponents/CustomActiveShapePieChart";
 import { Link } from "react-router-dom";
-import DashChallCard from "./ChallengeCard";
+import DashHowToCard from "./DashHowToCard";
 import { ResponsiveContainer } from "recharts";
 import { CUSTOM_COLORS } from "../../../utils/const/arr";
 
@@ -78,9 +78,6 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
     });
     setLoading(false);
   };
-  // const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  // const TYPE_COLORS = ["#000", "#FFF"];
-  //const timeSpecific = "overall"; // this week / last week
   const statsPieCards = `m-0 p-0 ${
     isgt1265 ? "col-4" : isgt850 ? "col-4" : isgt756 ? "col-6" : "col-6"
   }`;
@@ -95,9 +92,6 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
   return !loading ? (
     <div
       className={`dashboard__at-a-glance-stats ${isLt1238 ? "px-2" : "px-3"}`}>
-      {/* {`dashboard__at-a-glance-stats p-0 ${
-        isgt850 ? "px-2" : "px-3"
-      }`} */}
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
@@ -254,7 +248,7 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
       )}
       <Row>
         <Col className='col-12 py-3'>
-          <DashChallCard />
+          <DashHowToCard />
         </Col>
       </Row>
     </div>

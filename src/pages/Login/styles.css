@@ -4,7 +4,6 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  /* background-image: url("https://images.creativemarket.com/0.1.0/ps/4755685/600/400/m2/fpnw/wm1/khkilhgtdxu9s9czwdmwicbtppkjhgpqh0l9rf2mzjwcxqgfxbaw8ucikzob7ae4-.jpg?1531597654&s=c2b3408a9ed362bb709ef4e82d9f2fee&fmt=webp"); */
 }
 .login-form__col {
   text-align: left;

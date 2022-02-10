@@ -8,10 +8,10 @@ import { RiDashboard3Line, RiSettings5Line } from "react-icons/ri";
 import { FiActivity, FiMoon, FiServer, FiUsers } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import BambooLogo from "../__Components/Logo";
-import "./styles.css";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { BAMBOO } from "../../utils/const/ico";
+import "./styles.css";
 
 type SidebarProps = {
   history: History<unknown> | string[];
@@ -30,7 +30,6 @@ export default function SideBar(props: SidebarProps) {
     .filter((task) => task?.sharedWith!.length > 1).length;
   const { history, location } = props;
   const pathIsAdmin = location.pathname === "/admin-dash";
-  // const dispatch = useDispatch();
   const [toggle, setToggle] = useState(false);
   const [toggleMore, setToggleMore] = useState(false);
   const logout = async () => {
@@ -77,8 +76,6 @@ export default function SideBar(props: SidebarProps) {
             </span>
           </NavDropdown.Item>
         </NavDropdown>
-        {/* <Link to='/user-settings' className='m-1'>
-        </Link> */}
       </Container>
     </Navbar>
   ) : (
@@ -93,16 +90,12 @@ export default function SideBar(props: SidebarProps) {
         <Link to='/'>
           <BambooLogo isAdmin={pathIsAdmin} />
         </Link>
-        {/* <div className='main-side-bar__blurb'>Task app</div> */}
-        {/* {!pathIsAdmin && <div className='main-side-bar__updates'>&nbsp;</div>} */}
       </div>
       {!pathIsAdmin && (
         <>
           <div className='mb-2'>
             <div className='main-side-bar__links pb-2'>
-              {/* <Link to='/dash'> */}
               <Button variant='primary' className='m-1'>
-                {/* <div className='text-tinycaps'>You are logged in as</div> */}
                 <CgProfile /> You are logged in as {my_user.username}{" "}
                 <Badge
                   bg={toggle ? "secondary" : "dark"}
@@ -168,7 +161,7 @@ export default function SideBar(props: SidebarProps) {
               {/* </Link> */}
             </div>{" "}
             <div className='pt-2'>
-            <Link to='/dash'>
+              <Link to='/dash'>
                 <Button variant='primary' className='m-1'>
                   <RiDashboard3Line /> Dash
                 </Button>

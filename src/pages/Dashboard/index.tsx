@@ -9,7 +9,6 @@ import { fillTasksAction } from "../../redux/actions/tasks";
 import { reduxStateInt } from "../../typings/interfaces";
 import { getSelectedDateAsString } from "../../utils/funcs/f_dates";
 import DashProfileCard from "../__Components/DashComponents/ProfileCard";
-// import DashTipsCard from "./DashComponents/DashTipsCard";
 import DashNotifications from "../__Components/DashComponents/Notifications";
 import FindFollows from "../__Components/FindFollows";
 import Achievements from "../__Components/DashComponents/Achievements";
@@ -25,12 +24,9 @@ type DashboardPageProps = {
 export default function DashboardPage(props: DashboardPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { notification } = state.currentUser.my_user;
-  // const { awaited, in_progress, completed } = state.currentTasks;
-  // const currLength = awaited.concat(in_progress, completed).length;
   const dispatch = useDispatch();
   const { history, location } = props;
   const [search, setSearch] = useState("");
-  // ****************************MEDIA********************************************
   const isgt1660 = useMediaQuery({
     query: "(min-width: 1660px)",
   });
@@ -42,7 +38,6 @@ export default function DashboardPage(props: DashboardPageProps) {
   });
   const isgt999 = useMediaQuery({ query: "(min-width: 999px)" });
   const isgt851 = useMediaQuery({ query: "(min-width: 851px)" });
-  // const isRetina = useMediaQuery({ query: "(min-resolution: 2dppx)" });
   const todayAsDate = new Date();
   const today = getSelectedDateAsString(todayAsDate);
   const attemptLoad = async () => {
@@ -60,18 +55,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12'>
               {notification.length > 0 && <DashNotifications />}
-              {/* {location.pathname === "/user-settings" ? (
-                <ProfileSettings history={history} isBigScreen={isBigScreen} />
-              ) : ( */}
               <DashProfileCard history={history} />
-              {/* )} */}
-              {/* {admin && (
-                <Link to='/admin-dash'>
-                  <Button variant='info' className='dashboard__admin-card'>
-                    Go to Admin
-                  </Button>
-                </Link>
-              )} */}
             </Col>
             {location.pathname !== "/stats" && (
               <Col className='col-12 px-3 pt-3 pb-1'>
@@ -127,18 +111,7 @@ export default function DashboardPage(props: DashboardPageProps) {
             )}
             <Col
               className={`col-12 ${notification.length > 0 ? "px-3" : "p-3"}`}>
-              {/* {location.pathname === "/user-settings" ? (
-                <ProfileSettings history={history} />
-              ) : ( */}
               <DashProfileCard history={history} />
-              {/* )} */}
-              {/* {admin && (
-                <Link to='/admin-dash'>
-                  <Button variant='info' className='dashboard__admin-card'>
-                    Go to Admin
-                  </Button>
-                </Link>
-              )} */}
             </Col>
             {notification.length < 1 && location.pathname !== "/stats" && (
               <Col className='col-12 px-3 pb-1'>
@@ -191,18 +164,7 @@ export default function DashboardPage(props: DashboardPageProps) {
           <Row className='p-0'>
             <Col className='col-12 p-3'>
               {notification.length > 0 && <DashNotifications />}
-              {/* {location.pathname === "/user-settings" ? (
-              <ProfileSettings history={history} />
-            ) : ( */}
               <DashProfileCard history={history} />
-              {/* )} */}
-              {/* {admin && (
-                <Link to='/admin-dash'>
-                  <Button variant='info' className='dashboard__admin-card'>
-                    Go to Admin
-                  </Button>
-                </Link>
-              )} */}
               {notification.length < 1 && location.pathname !== "/stats" && (
                 <Col className='col-12 p-0 my-3 pb-1'>
                   <DashStats />
@@ -260,18 +222,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
         <Col className='col-4 pt-3 pl-3 pr-3 pb-3'>
           {notification.length > 0 && <DashNotifications />}
-          {/* {location.pathname === "/user-settings" ? (
-            <ProfileSettings history={history} />
-          ) : ( */}
           <DashProfileCard history={history} />
-          {/* )} */}
-          {/* {admin && (
-            <Link to='/admin-dash'>
-              <Button variant='info' className='dashboard__admin-card'>
-                Go to Admin
-              </Button>
-            </Link>
-          )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
             <Col className='col-12 p-0 my-3 pb-1'>
               <DashStats />
@@ -303,18 +254,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
         <Col className='col-6 pt-3 pl-3 pr-3 pb-0'>
           {notification.length > 0 && <DashNotifications />}
-          {/* {location.pathname === "/user-settings" ? (
-            <ProfileSettings history={history} />
-          ) : ( */}
           <DashProfileCard history={history} />
-          {/* )} */}
-          {/* {admin && (
-            <Link to='/admin-dash'>
-              <Button variant='info' className='dashboard__admin-card'>
-                Go to Admin
-              </Button>
-            </Link>
-          )} */}
           {notification.length < 1 && location.pathname !== "/stats" && (
             <Col className='col-12 p-0 my-3 pb-1'>
               <DashStats />
@@ -346,18 +286,7 @@ export default function DashboardPage(props: DashboardPageProps) {
         </Col>
         <Col className='col-12 pt-3 pl-3 pr-3 pb-3'>
           {notification.length > 0 && <DashNotifications />}
-          {/* {location.pathname === "/user-settings" ? (
-            <ProfileSettings history={history} />
-          ) : ( */}
           <DashProfileCard history={history} />
-          {/* )} */}
-          {/* {admin && (
-            <Link to='/admin-dash'>
-              <Button variant='info' className='dashboard__admin-card'>
-                Go to Admin
-              </Button>
-            </Link>
-          )} */}
         </Col>
         <Col className='pr-3 pb-3 pl-2 pt-0'>
           {location.pathname === "/dash" ? (

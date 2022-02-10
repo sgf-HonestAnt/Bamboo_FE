@@ -1,7 +1,4 @@
-import {
-  //useState,
-  useEffect,
-} from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt, taskInt } from "../../../typings/interfaces";
@@ -9,7 +6,6 @@ import { Button, Badge } from "react-bootstrap";
 import { NONE, URGENT, COMPLETED } from "../../../utils/const/str";
 import { FiFlag, FiUsers } from "react-icons/fi";
 import { getShortDateAsString } from "../../../utils/funcs/f_dates";
-// import { createColorArray } from "../../../utils/funcs/f_styling";
 
 type MapTasksProps = {
   tasks: taskInt[];
@@ -31,10 +27,6 @@ export function TaskButton(props: TaskButtonProps) {
         task.status === COMPLETED ? "-completed" : ""
       }`}
       style={{ backgroundColor: `${bgColor}` }}
-      // style={{
-      //   backgroundColor:
-      //     "hsla(61.000000000000014, 37.999999999999986%, 50%, 0.8)",
-      // }}
       key={i}>
       <span className={`bamboo-task__title ${task!.category}`}>
         {task.title}
@@ -69,9 +61,7 @@ export function TaskButton(props: TaskButtonProps) {
         </>
       )}
       {task.deadline && (
-        <Badge bg='info'>
-          {`${getShortDateAsString(task.deadline)}`}
-        </Badge>
+        <Badge bg='info'>{`${getShortDateAsString(task.deadline)}`}</Badge>
       )}
     </Button>
   );
@@ -81,10 +71,7 @@ export default function MapTasks(props: MapTasksProps) {
   const { tasks, link } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { categories, categoriesColors } = state.currentTasks;
-  // const { customColors } = state.currentSettings;
-  // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   useEffect(() => {
-    // createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
   return (

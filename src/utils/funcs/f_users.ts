@@ -4,10 +4,7 @@ import {
   setUserBio,
   setUserLevel,
   setUserPoints,
-  // setUserPoints,
   setUserPointsAndCompleted,
-  // setUserTotalCompleted,
-  // setUserTotalPoints,
 } from "../../redux/actions/user";
 import { followedUserInt, userInt } from "../../typings/interfaces";
 import { loginFormProps, userUpdateType } from "../../typings/types";

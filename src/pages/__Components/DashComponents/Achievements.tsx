@@ -5,10 +5,6 @@ import { achievementInt, reduxStateInt } from "../../../typings/interfaces";
 import { LinkButton } from "../Buttons";
 import { attemptPostAchievement } from "../../../utils/funcs/f_achievements";
 import createSuperlist from "../../../utils/funcs/f_superlist";
-// import {
-//   getAvatarByUsername,
-//   getIdByUsername,
-// } from "../../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 
@@ -52,7 +48,9 @@ const Achievements = (props: AchievementsProps) => {
   }, []);
   useEffect(() => {}, [superlist]);
   return (
-    <div className='bamboo-card dashboard__activities p-0' id="dashboard__activities">
+    <div
+      className='bamboo-card dashboard__activities p-0'
+      id='dashboard__activities'>
       {superlist?.length < 1 && (
         <Table>
           <tbody>
@@ -73,8 +71,7 @@ const Achievements = (props: AchievementsProps) => {
                 ach.split(" ")[0] !== "you" ? (
                 <tr key={i} id={i.toString()}>
                   <td>
-                    <Link
-                      to={`/following?id=${ach.split("||")[1]}`}>
+                    <Link to={`/following?id=${ach.split("||")[1]}`}>
                       <img
                         src={ach.split("||")[2]}
                         alt={ach.split("||")[0].split(" ")[0]}

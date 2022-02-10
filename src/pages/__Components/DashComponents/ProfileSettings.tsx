@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 import { Button, Col, Form, Image, Modal, Row } from "react-bootstrap";
-import { ICOACTIVITY, ICOEDIT, ICOUSERS } from "../../../utils/appIcons";
 import {
   attemptDeleteUser,
   attemptUpdateUser,
@@ -12,7 +11,7 @@ import {
 import BambooPoints from "../XP";
 import ProfileBadge from "../ProfileBadge";
 import returnIco from "../../../utils/funcs/f_ico";
-import { FiEdit } from "react-icons/fi";
+import { FiActivity, FiEdit, FiUsers } from "react-icons/fi";
 import { BackToDashButtonCol, DeleteButton, SubmitBtnCol } from "../Buttons";
 import ImageUploader from "../ImageUploader";
 import { useDispatch } from "react-redux";
@@ -53,7 +52,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
   });
   const editButton = (
     <Button variant='link' className='settings-page__profile-card__edit-button'>
-      <ICOEDIT />
+      <FiEdit />
     </Button>
   );
   const handleChange = (e: { target: { value: any; id: any } }) => {
@@ -140,13 +139,13 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
       </div>
       <div className='dashboard__profile-card__stats'>
         <div>
-          <ICOACTIVITY />
+          <FiActivity />
         </div>
         <Link to='/stats'>View Stats</Link>
       </div>
       <div className='dashboard__profile-card__following'>
         My Team: <Link to='/following'>{followedUsers.length}</Link>{" "}
-        <ICOUSERS className='mr-1' />
+        <FiUsers className='mr-1' />
       </div>
       <div>
         {followedUsers.length > 3 ? (

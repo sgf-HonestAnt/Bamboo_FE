@@ -18,7 +18,6 @@ import {
   getShortDateAsString,
 } from "../../../utils/funcs/f_dates";
 import { Badge, Button } from "react-bootstrap";
-// import { createColorArray } from "../../../utils/funcs/f_styling";
 import { FiClock, FiFlag, FiUsers } from "react-icons/fi";
 import { MdDragIndicator } from "react-icons/md";
 
@@ -41,17 +40,14 @@ const Handle = (props: HandleProps) => {
       className='tasks-page__list-task__drag-handle mr-2'>
       <MdDragIndicator />
       <MdDragIndicator />
-      {/* If in future want to subtly change hover svg, here is where to do it! */}
     </div>
   );
 };
 const DraggableTask = (props: DraggableTaskProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  // const { customColors } = state.currentSettings;
   const { categories, categoriesColors } = state.currentTasks;
   const { task, i, initialData, setInitialData, history, location } = props;
-  // const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
   const [taskIsOverdue, setTaskIsOverdue] = useState(false);
   const [view, setView] = useState(true);
   const [show, setShow] = useState(false);
@@ -76,7 +72,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
     if (locationSearch !== task!._id) {
       setShow(false);
     }
-    // createColorArray(customColors, categories, setCategoryColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, setInitialData]);
   useEffect(() => {
@@ -95,7 +90,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
           return (
             <div
               {...provided.draggableProps}
-              // {...provided.dragHandleProps} // move to seperate element if we want to drag by specific handle!
+              // move to seperate element if we want to drag by specific handle!
               ref={provided.innerRef}
               // isDragging={snapshot.isDragging}
               className={taskClass}
@@ -145,11 +140,6 @@ const DraggableTask = (props: DraggableTaskProps) => {
                     )}
                     {task.deadline && (
                       <Badge bg='info'>
-                        {/* ${
-                          task.desc.length > 1 || task.sharedWith!.length > 1
-                            ? "|"
-                            : ""
-                        }  */}
                         {`${getShortDateAsString(task.deadline)}`}{" "}
                         {task.deadline.slice(0, 4)}
                       </Badge>
@@ -162,15 +152,7 @@ const DraggableTask = (props: DraggableTaskProps) => {
                   </span>
                 </div>
                 <div>
-                  <span onClick={handleShow}>
-                    {task.desc}{" "}
-                    {/* {task.type === SOLO || task.sharedWith!.length < 2 ? (
-                    ""
-                  ) : (
-                    <ICOUSERS />
-                  )}
-                  {task.sharedWith!.length > 1 && task.sharedWith!.length} */}
-                  </span>
+                  <span onClick={handleShow}>{task.desc} </span>
                 </div>
                 <AddEditTaskModal
                   view={view}

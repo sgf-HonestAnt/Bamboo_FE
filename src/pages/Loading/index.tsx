@@ -1,6 +1,6 @@
 import { History, Location } from "history";
 import { useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import "./styles.css";
 
 type LoadingPageProps = {
@@ -18,9 +18,5 @@ export default function LoadingPage(props: LoadingPageProps) {
     }, 200);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    <Row className='error-page p-1'>
-      <Col>{/* <Spinner animation='grow' /> */}</Col>
-    </Row>
-  );
+  return <Row className='error-page p-1'> </Row>;
 }

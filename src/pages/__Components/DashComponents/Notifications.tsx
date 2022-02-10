@@ -45,18 +45,18 @@ export default function DashNotifications(props: DashNotificationsProps) {
   const handleReset = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await clearLastNotification(notification);
-    dispatch(fillUserAction()); // 👈HERE!
+    dispatch(fillUserAction());
   };
   const handleAcceptTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await clearLastNotification(notification);
-    dispatch(fillUserAction()); // 👈HERE!
+    dispatch(fillUserAction());
   };
   const handleRejectTask = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     await removeSelfFromTask(taskId, currentTasks, dispatch);
     await clearLastNotification(notification);
-    dispatch(fillUserAction()); // 👈HERE!
+    dispatch(fillUserAction());
   };
   const handleAccept = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -64,7 +64,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
     const action = "accept";
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
-    dispatch(fillUserAction()); // 👈HERE!
+    dispatch(fillUserAction());
   };
   const handleReject = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ export default function DashNotifications(props: DashNotificationsProps) {
     const action = "reject";
     await acceptOrRejectUser(value, action);
     await clearLastNotification(notification);
-    dispatch(fillUserAction()); // 👈HERE!
+    dispatch(fillUserAction());
   };
   return (
     <Button

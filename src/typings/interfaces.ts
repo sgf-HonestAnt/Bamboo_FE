@@ -10,14 +10,12 @@ export interface reduxStateInt {
 export interface currentSettingsInt {
   loading: boolean;
   error: boolean;
-  // GET users/me/settings
   selectedTheme: themeType;
   customColors: string[];
 }
 export interface currentUserInt {
   loading: boolean;
   error: boolean;
-  // GET users/me
   my_user: userInt;
   followedUsers: followedUserInt[];
 }
@@ -28,7 +26,6 @@ export interface rewardsInt {
   _id: string;
 }
 export interface userInt {
-  // GET users/me, GET users/:id
   _id: string;
   first_name: string;
   last_name: string;
@@ -57,7 +54,6 @@ export interface userInt {
 export interface currentTasksInt {
   loading: boolean;
   error: boolean;
-  // GET tasks/me
   _id: string;
   categories: string[];
   categoriesColors: string[];
@@ -68,7 +64,6 @@ export interface currentTasksInt {
 export interface currentAchievementsInt {
   loading: boolean;
   error: boolean;
-  // GET achievements/me
   _id: string;
   user: string; // user
   list: achievementInt[];
@@ -77,21 +72,18 @@ export interface currentAchievementsInt {
 export interface currentFeaturesInt {
   loading: boolean;
   error: boolean;
-  // GET features
   links: number | null;
   total: number | null;
   features: featureInt[];
   pageTotal: number | null;
 }
 export interface searchedUsersInt {
-  // GET users
   links: number | null;
   total: number;
   publicUsers: publicUserInt;
   pageTotal: number | null;
 }
 export interface followedUserInt {
-  // GET users/me
   _id: string;
   username: string;
   admin: boolean;
@@ -116,7 +108,6 @@ export interface publicUserInt {
   joined: string;
 }
 export interface achievementInt {
-  // GET achievements/me, GET users/me, GET achievements/:id
   username: string;
   item: string;
   category: string;
@@ -124,7 +115,6 @@ export interface achievementInt {
   _id: string;
 }
 export interface taskInt {
-  // GET tasks/me, GET tasks/me/:id
   _id: string;
   category: string;
   title: string;
@@ -140,7 +130,6 @@ export interface taskInt {
   _v: number;
 }
 export interface featureInt {
-  // GET features
   _id: string;
   month: monthType;
   descrip: string;
@@ -151,7 +140,6 @@ export interface featureInt {
   updatedAt: string;
 }
 export interface setTaskInt {
-  // for adding a task
   category: string;
   title: string;
   desc: string;
@@ -170,7 +158,6 @@ export interface beautifulDnD {
   lists: listForBeautifulDnd[];
   listOrder: string[];
 }
-// statistics page
 export interface genericTaskInt {
   name: string;
   total: number;
@@ -211,4 +198,4 @@ export interface initialValuesInt {
   repeatedRadio: string | null;
   sharedRadio: string | null;
 }
-//
+

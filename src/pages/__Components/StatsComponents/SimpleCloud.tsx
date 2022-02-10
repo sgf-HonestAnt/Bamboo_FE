@@ -12,7 +12,7 @@ export default function SimpleCloud(props: any) {
         maxSize={30}
         tags={data}
         onClick={(tag: { value: string }) => viewCategory(tag)}
-        className="tagcloud"
+        className='tagcloud'
       />
     </>
   );

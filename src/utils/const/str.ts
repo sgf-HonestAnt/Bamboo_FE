@@ -1,4 +1,4 @@
-import { ICOFINANCE, ICOFIT, ICOURGENT, ICOWORK } from "../appIcons";
+import { FiBriefcase, FiDribbble, FiFlag, FiUmbrella } from "react-icons/fi";
 // ********** CRUD **********
 export const BE_URL = process.env.REACT_APP_BE_URL;
 export const GET = "GET";
@@ -8,7 +8,6 @@ export const DELETE = "DELETE";
 export const REGISTER = "REGISTER";
 export const SESSION = "session";
 export const REFRESH = "refresh";
-// export const ME = "me";
 export const ADMIN = "admin";
 export const ACHIEVEMENTS = "achievements";
 export const USERS = "users";
@@ -23,7 +22,7 @@ export const ENDPOINT_MYREWARDS = `${BE_URL}/${USERS}/me/rewards`;
 export const FILL_USER_LOADING = "FILL_USER_LOADING";
 export const FILL_USER_ERROR = "FILL_USER_ERROR";
 export const FILL_USER = "FILL_USER";
-export const SET_FOLLOWED_USERS = "SET_FOLLOWED_USERS"
+export const SET_FOLLOWED_USERS = "SET_FOLLOWED_USERS";
 export const SET_USER_AVATAR = "SET_USER_AVATAR";
 export const SET_USER_FIRST_NAME = "SET_USER_FIRST_NAME";
 export const SET_USER_LAST_NAME = "SET_USER_LAST_NAME";
@@ -82,17 +81,14 @@ export const IN_PROGRESS = "in_progress";
 export const TASK_STATUS_TYPES = [AWAITED, COMPLETED, IN_PROGRESS];
 // task categories
 export const URGENT = "urgent";
-export const HOUSEHOLD = "home";
-export const SHOPPING = "shopping";
-export const WORK = "work";
-export const RELATIONSHIPS = "relationships";
-export const FINANCE = "finance";
-export const FITNESS = "fitness";
-export const PETS = "pets";
-export const WELLBEING = "wellbeing";
 export const NONE = "none";
 export const TASK_CATEGORIES = [URGENT, NONE];
-export const TASK_CATEGORY_ICONS = [ICOURGENT, ICOWORK, ICOFINANCE, ICOFIT];
+export const TASK_CATEGORY_ICONS = [
+  FiFlag,
+  FiBriefcase,
+  FiUmbrella,
+  FiDribbble,
+];
 // task repetition
 export const NEVER = "never";
 export const DAILY = "daily";

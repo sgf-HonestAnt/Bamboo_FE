@@ -15,13 +15,7 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  NEVER,
-  // TASK_CATEGORIES,
-  TEAM,
-  SOLO,
-  AWAITED,
-} from "../../utils/const/str";
+import { NEVER, TEAM, SOLO, AWAITED } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -35,8 +29,6 @@ import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
 import { TaskButton } from "./DashComponents/MapTasks";
-// import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
-// import {RemTaskFromAwaited, RemTaskFromCompleted, RemTaskFromInProgress} from "../../redux/actions/tasks";
 
 const schema = yup.object().shape({
   title: yup
@@ -116,14 +108,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const {
-    categories,
-    categoriesColors,
-    awaited,
-    in_progress,
-    //completed
-  } = currentTasks;
-  const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
+  const { categories, categoriesColors, awaited, in_progress } = currentTasks;
+  const { customColors } = state.currentSettings;
+  // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -138,7 +125,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
-  // react-colors
   const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
   function handleChangeColor(color: any) {
     const sAsNum = parseFloat(color.hsl.s);
@@ -147,9 +133,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     const parseL = 100 * lAsNum;
     const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
     setNewCategoryColor(hsla);
-    console.log("The new category color should be=>", newCategoryColor);
   }
-  // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
   );
@@ -157,13 +141,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     let array: { value: string; label: string }[] = [];
     for (let i = 0; i < followedUsers.length; i++) {
       array.push({
-        value: `${followedUsers[i]._id}`, // /${followedUsers[i].username}
+        value: `${followedUsers[i]._id}`,
         label: `${followedUsers[i].username}`,
       });
     }
     setOptions(array);
   }
-  //
   const avatar =
     taskSet && taskSet.createdBy !== my_user._id
       ? getAvatarById(followedUsers, taskSet.createdBy)
@@ -200,7 +183,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       history.push("/reload?pathname=tasks");
     }
   };
-  // show categories edit/delete modal
   const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
     setShowEditCategories(false);
@@ -517,34 +499,13 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             <option value='DEFAULT' disabled>
                               Select a category
                             </option>
-                            {categories
-                              // .filter(
-                              //   (c) =>
-                              //     c !== "none" && !TASK_CATEGORIES.includes(c)
-                              // )
-                              // .sort()
-                              .map((c, i) => {
-                                return (
-                                  <option
-                                    key={i}
-                                    value={c}
-                                    //   selected={form.category === c}
-                                  >
-                                    {c}
-                                  </option>
-                                );
-                              })}
-                            {/* {TASK_CATEGORIES.map((c, i) => {
+                            {categories.map((c, i) => {
                               return (
-                                <option
-                                  key={i}
-                                  value={c}
-                                  //   selected={form.value === value}
-                                >
+                                <option key={i} value={c}>
                                   {c}
                                 </option>
                               );
-                            })} */}
+                            })}
                             {!taskSet && (
                               <>
                                 <option value='' disabled>
@@ -552,7 +513,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                 </option>
                                 <option
                                   value='new' // if value is new, showNewCat(true)
-                                  // selected={form.category === "new"}
                                 >
                                   create new category
                                 </option>
@@ -560,7 +520,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             )}
                           </Form.Control>
                         </InputGroup>
-                        {/* ENABLE ONCE SET UP SUCCESSFULLY IN B/E */}
+                        {/* ENABLE ONCE SET UP IN B/E */}
                         {/* {taskSet && (
                           <Form.Text style={{ display: "inline-block" }}>
                             <Button

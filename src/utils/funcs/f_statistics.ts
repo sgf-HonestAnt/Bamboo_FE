@@ -204,9 +204,6 @@ export function findMostUsedValue(data: genericTaskInt[], tasksTotal: number) {
     (value: number) => value === highestUsed
   );
   const index = array.findIndex((value: number) => value === highestUsed);
-  //   const howMany = arrayOfHighestUsed.filter(
-  //     (value: number) => value === highestUsed
-  //   ).length;
   return arrayOfHighestUsed.length < 2
     ? `${
         data[index].name === "10xp" || data[index].name === "20xp"

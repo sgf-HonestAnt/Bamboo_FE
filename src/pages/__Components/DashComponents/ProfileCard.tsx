@@ -28,16 +28,6 @@ const DashProfileCard = (props: DashProfileCardProps) => {
     <div className='bamboo-card-mid'>
       <ProfileBadge isMine={true} />
       <div className='dashboard__card-header'>
-        {/* {admin && (
-          <Image
-            roundedCircle
-            src={CROWN}
-            alt='Admin'
-            className='p-1'
-            height='35px'
-          />
-        )}
-        <br /> */}
         <h4 className='mt-3'>
           {username}
           <Button
@@ -132,16 +122,6 @@ const DashProfileCard = (props: DashProfileCardProps) => {
       <Col className='col-6 border-right m-auto'>
         <ProfileBadge isMine={true} />
         <div className='dashboard__card-header'>
-          {/* {admin && (
-      <Image
-        roundedCircle
-        src={CROWN}
-        alt='Admin'
-        className='p-1'
-        height='35px'
-      />
-    )}
-    <br /> */}
           <h4 className='mt-3'>
             {username}
             <Button

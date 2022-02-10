@@ -1,7 +1,3 @@
-/* .tasks-page {
-  max-height: 100vh;
-  overflow-y: scroll;
-} */
 .tasks-page__filter-row form {
   display: inline-flex;
   flex-wrap: wrap;
@@ -33,16 +29,6 @@
   display: flex;
   justify-content: flex-start;
 }
-/* .tasks-page__list-task.urgent {
-}
-.tasks-page__list-task.awaited {
-}
-.tasks-page__list-task.in_progress {
-}
-.tasks-page__list-task.completed {
-}
-.tasks-page__list-task.overdue {
-} */
 .tasks-page__list-task div {
   text-align: left;
 }

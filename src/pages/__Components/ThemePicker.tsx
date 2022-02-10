@@ -5,8 +5,6 @@ type ThemePickerProps = {
   handleChange: any;
 };
 
-// DEFUNCT
-
 export default function ThemePicker(props: ThemePickerProps) {
   const { handleChange } = props;
   return (

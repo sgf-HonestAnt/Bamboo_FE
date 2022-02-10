@@ -52,7 +52,6 @@ export const setUserLevel = (level: number) => ({
   payload: level,
 });
 export const setUserRewards = (rewards: rewardsInt[]) => ({
-  // // <== THERE IS A PROBLEM HERE
   type: SET_USER_REWARDS,
   payload: rewards,
 });

@@ -74,7 +74,7 @@ export const getTaskByQuery = async (criteria: string, _id: string) => {
   // query task created by specific user
   // console.log("🙋Searching Task Belonging To User With Criteria");
   try {
-    console.log(criteria);
+    // console.log(criteria);
     const url = `${ENDPOINT_TASKS}/query?sharedWith=${_id}&${criteria}`;
     const method = GET;
     const headers = {
@@ -150,7 +150,7 @@ export const attemptPostOrEditTask = async (
   history: string[] | History<unknown>,
   location: Location<unknown> | undefined
 ) => {
-  console.log("✏️Posting or Editing New Task", form);
+  // console.log("✏️Posting or Editing New Task", form);
   try {
     const token = localStorage.getItem("token");
     // const username = await checkToken(refreshToken, history, location);
@@ -316,7 +316,6 @@ export const moveTaskBetweenStatus = async (
   dispatch: Dispatch<any>
 ) => {
   // console.log("🙋Changing Task Status / Deleting Completed Task");
-  // Unhandled Rejection (TypeError): Cannot set properties of undefined (setting 'status')
   const { awaited, in_progress, completed } = currentTasks;
   if (destination) {
     task.status = destination;

@@ -8,12 +8,10 @@ import BambooPoints from "../XP";
 import { Link } from "react-router-dom";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
-type DashChallCardProps = {};
+type DashHowToCardProps = {};
 
-const DashChallCard = (props: DashChallCardProps) => {
+const DashHowToCard = (props: DashHowToCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  // const { awaited, in_progress } = state.currentTasks;
-  // const { total_xp } = state.currentUser.my_user;
   const [showFirst, setShowFirst] = useState(false);
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
@@ -30,8 +28,6 @@ const DashChallCard = (props: DashChallCardProps) => {
   return (
     <div className='m-1 bamboo-card-x-dark dashboard__challenge-card'>
       <Row>
-        {/* For now, just show first feature with matched month */}
-        {/* {featureList < 1 && } */}
         {featureList.length > 0 ? (
           <Col>
             <div className='dashboard__card-header'>Featured Challenge</div>
@@ -175,4 +171,4 @@ const DashChallCard = (props: DashChallCardProps) => {
   );
 };
 
-export default DashChallCard;
+export default DashHowToCard;

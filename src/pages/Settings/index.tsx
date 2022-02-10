@@ -9,7 +9,6 @@ import {
   DeleteButton,
   SubmitBtnCol,
 } from "../__Components/Buttons";
-import { ICOEDIT } from "../../utils/appIcons";
 import {
   setUserEmail,
   setUserAvatar,
@@ -25,6 +24,7 @@ import {
 } from "../../utils/funcs/f_users";
 import ImageUploader from "../__Components/ImageUploader";
 import "./styles.css";
+import { FiEdit } from "react-icons/fi";
 
 type SettingsPageProps = {
   history: string[] | History<unknown>;
@@ -34,16 +34,6 @@ export default function SettingsPage(props: SettingsPageProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user } = state.currentUser;
   const { history } = props;
-  // const { notification } = my_user;
-  // const achievements = state.currentAchievements;
-  // const tasks = state.currentTasks;
-  // const categories = tasks.categories;
-  // const features = state.currentFeatures;
-  // const settings = state.currentSettings;
-  // const { list, superlist } = achievements;
-  // const { avatar, username, admin, bio, level, xp } = my_user;
-  // const { awaited, in_progress } = tasks;
-  // const { selectedTheme } = settings;
   const dispatch = useDispatch();
   const [newAvatar, setNewAvatar] = useState<any>();
   const [form, setForm] = useState({
@@ -56,7 +46,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   });
   const editButton = (
     <Button variant='link' className='settings-page__profile-card__edit-button'>
-      <ICOEDIT />
+      <FiEdit />
     </Button>
   );
   const handleChange = (e: { target: { value: any; id: any } }) => {
@@ -103,7 +93,7 @@ export default function SettingsPage(props: SettingsPageProps) {
   };
   return (
     <div className='settings-page'>
-      <Card className='bamboo-card-mid' id="settings-page-card">
+      <Card className='bamboo-card-mid' id='settings-page-card'>
         <Card.Body className='settings-page__profile-card'>
           <Form
             className='pt-1 pb-3 settings-page__profile-card__form'
@@ -192,8 +182,11 @@ export default function SettingsPage(props: SettingsPageProps) {
               <SubmitBtnCol label='Submit changes' />
             </div>
           </Form>
-          {/* the delete account modal */}
-          <DeleteButton variant="primary" label='Delete My Account' handleClick={handleShow} />
+          <DeleteButton
+            variant='primary'
+            label='Delete My Account'
+            handleClick={handleShow}
+          />
           <Modal show={show} onHide={handleClose}>
             <Modal.Header>
               <Modal.Title>Are you sure?</Modal.Title>

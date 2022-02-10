@@ -1,7 +1,7 @@
 import { useAppSelector } from "../../../redux/hooks";
 import { reduxStateInt } from "../../../typings/interfaces";
 
-type DashTipsCardProps = {};
+type DashTipsCardProps = {}; // NOT IN USE
 const DashTipsCard = (props: DashTipsCardProps) => {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { followedUsers, my_user } = state.currentUser;
@@ -41,11 +41,7 @@ const DashTipsCard = (props: DashTipsCardProps) => {
           them up by completing some more tasks!
         </div>
       ) : (
-        <div>
-          <strong>Uh-oh.</strong> Here's where we would normally offer a FAQ
-          link...but unfortunately the Bamboo coding elf hasn't got around to it
-          yet. Hang tight, we're sure she'll to it eventually!
-        </div>
+        <></>
       )}
     </div>
   );

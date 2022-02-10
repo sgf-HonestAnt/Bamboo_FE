@@ -29,7 +29,7 @@ export default function DashStats(props: DashStatsProps) {
     mapData();
     setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTasks]); // CHECK THIS, OR PASS CURRENTTASKS DOWN
+  }, [currentTasks]);
   return !loading ? (
     <div
       className={`bamboo-card ${

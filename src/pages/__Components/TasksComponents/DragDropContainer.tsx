@@ -37,11 +37,6 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     location,
   } = props;
   const dispatch = useDispatch();
-  // const [initialData, setInitialData] = useState<beautifulDnD>({
-  //   tasks: [],
-  //   lists: [],
-  //   listOrder: [],
-  // });
   const updateTaskStatus = async (
     draggableId: string,
     sourceStatus: string,
@@ -93,7 +88,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
     // find index of the finish list
     const finishIndex = initialData.lists.findIndex((l) => l === finish);
     if (start === finish) {
-      // ********** if task moved to same list ********** //
+      // if task moved to same list
       const startTaskIds = Array.from(start!.taskIds);
       startTaskIds.splice(source.index, 1); // remove task id from array by index
       startTaskIds.splice(destination.index, 0, draggableId); // add task id into new index of same array
@@ -113,7 +108,7 @@ const DragDropContainer = (props: DragDropContainerProps) => {
       setInitialData(newData);
       // update Task Order in our strings?
     } else {
-      // ********** if task moved to different list ********** //
+      // if task moved to different list
       const startTaskIds = Array.from(start!.taskIds);
       startTaskIds.splice(source.index, 1); // remove task id from array by index
       // rewrite the start list
@@ -155,11 +150,12 @@ const DragDropContainer = (props: DragDropContainerProps) => {
         onDragEnd={onDragEnd}>
         {initialData.listOrder.map((listId, i) => {
           const list = initialData.lists.find((l) => l.id === listId);
-          const tasks = list?.taskIds.map(
-            (taskId) => initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
+          const tasks = list?.taskIds.map((taskId) =>
+            initialData.tasks!.find((t) => t!._id === taskId.slice(0, 24))
           );
           return (
-            list && tasks && (
+            list &&
+            tasks && (
               <DroppableList
                 key={listId}
                 list={list}

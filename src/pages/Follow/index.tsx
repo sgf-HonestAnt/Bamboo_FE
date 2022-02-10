@@ -17,8 +17,6 @@ import { sendXpGift } from "../../utils/funcs/f_rewards";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TaskButton } from "../__Components/DashComponents/MapTasks";
-// import { createColorArray } from "../../utils/funcs/f_styling";
-// import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
 import BambooPoints from "../__Components/XP";
@@ -32,17 +30,9 @@ export default function FollowingPage(props: FollowingPageProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const {
-    categories,
-    categoriesColors,
-    awaited,
-    in_progress,
-    //completed
-  } = state.currentTasks;
-  // const allTasks = awaited.concat(in_progress, completed);
+  const { categories, categoriesColors, awaited, in_progress } =
+    state.currentTasks;
   const awaitedAndProgressingTasks = awaited.concat(in_progress);
-  // const { customColors } = state.currentSettings;
-  // const [categoriesColors, setCategoriesColors] = useState<string | any[]>([]);
   const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
@@ -78,13 +68,11 @@ export default function FollowingPage(props: FollowingPageProps) {
   };
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
-    console.log("handle submit at gifting");
     await sendXpGift(gift.userId, gift.xp, points, dispatch);
     const index = followedUsers.findIndex(
       (user: followedUserInt) => user._id === gift.userId
     );
     followedUsers[index].xp = followedUsers[index].xp + +gift.xp;
-    console.log(followedUsers);
     dispatch(setFollowedUsers(followedUsers));
     handleClose();
     setLoading(true);
@@ -92,7 +80,6 @@ export default function FollowingPage(props: FollowingPageProps) {
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     dispatch(fillTasksAction());
-    // createColorArray(customColors, categories, setCategoriesColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -122,7 +109,6 @@ export default function FollowingPage(props: FollowingPageProps) {
             className={`bamboo-card-x-dark py-2 mr-2 ${
               isgt1330 ? "col-2" : isgt975 ? "col-3" : "col-5"
             }`}>
-            {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge
               isMine={false}
               avatar={u.avatar}
@@ -152,18 +138,6 @@ export default function FollowingPage(props: FollowingPageProps) {
               </>
             )}
             <div className='py-2'>{u.bio}</div>
-            {/* <div className='rewards'>
-              {u.admin && (
-                <Image
-                  roundedCircle
-                  src={CROWN}
-                  alt='Admin'
-                  className='p-1 mr-1 mb-1'
-                  style={{ backgroundColor: "white" }}
-                  height='35px'
-                />
-              )}
-            </div> */}
             <div className='profile-card__level d-flex justify-content-between px-2 pt-3'>
               <h5 className='w-50'>
                 {u.xp}
@@ -226,26 +200,6 @@ export default function FollowingPage(props: FollowingPageProps) {
                     }
                   />
                 ))}
-              {/* {allTasks
-                .filter(
-                  (task) =>
-                    task.sharedWith?.includes(usersToShow[0]._id) &&
-                    task.status !== COMPLETED // WHY INCLUDES COMPLETED TASKS?
-                )
-                .map((task, i) => (
-                  <Link to={`/tasks?id=${task._id}`} key={task._id}>
-                    <TaskButton
-                      key={i}
-                      i={i}
-                      task={task}
-                      bgColor={
-                        categoriesColors[
-                          categories.findIndex((cat) => cat === task.category)
-                        ]
-                      }
-                    />
-                  </Link>
-                ))} */}
             </div>
           </Col>
         )}

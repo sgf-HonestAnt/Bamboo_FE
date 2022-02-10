@@ -16,7 +16,6 @@ import {
 import {
   ALL_TASKS,
   AWAITED,
-  // COMPLETED,
   IN_PROGRESS,
   OVERDUE,
   SHARED,
@@ -28,7 +27,7 @@ import { AddNewTaskButton, DashTaskButton } from "../Buttons";
 import AddEditTaskModal from "../AddEditTaskModal";
 import MapTasks from "./MapTasks";
 import DashStats from "./DashStats";
-import DashChallCard from "./ChallengeCard";
+import DashHowToCard from "./DashHowToCard";
 import { useMediaQuery } from "react-responsive";
 import RewardsDropdown from "../RewardsDropdown";
 import { Link } from "react-router-dom";
@@ -125,13 +124,7 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         sharedTasks,
         rewardsAvailable,
       });
-    // if (atAGlanceData.urgentTasks.length > 0) {
-    //   setTaskState(URGENT);
-    // } else if (atAGlanceData.todayTasks.length > 0) {
-    //   setTaskState(TODAY);
-    // } else {
     setTaskState(ALL_TASKS);
-    // }
   };
   const handleClick = (e: {
     preventDefault: () => void;
@@ -196,11 +189,6 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
             handleClick={handleClick}
             className={taskState === OVERDUE ? "selected" : "not-selected"}
           />
-          {/* <DashTaskButton
-            label={`Completed|${completed.length}`}
-            value={COMPLETED}
-            handleClick={handleClick}
-          /> */}
           <DashTaskButton
             label={`${SHARED}|${atAGlanceData.sharedTasks.length}`}
             value={SHARED}
@@ -295,7 +283,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
         </Col>
         {isBigScreen ? (
           <Col className='col-12'>
-            <DashChallCard />
+            <DashHowToCard />
           </Col>
         ) : (
           <>
@@ -305,12 +293,12 @@ export default function AtAGlance(props: AtAGlanceProps) {
                   <DashStats />
                 </Col>
                 <Col className='col-12 col-lg-6 pl-2'>
-                  <DashChallCard />
+                  <DashHowToCard />
                 </Col>
               </>
             ) : (
               <Col className='col-12'>
-                <DashChallCard />
+                <DashHowToCard />
               </Col>
             )}
           </>

@@ -17,8 +17,8 @@ import TasksPage from "../Tasks";
 import FollowingPage from "../Follow";
 import AdminPage from "../Admin";
 import LoadingPage from "../Loading";
-import "./styles.css";
 import { useMediaQuery } from "react-responsive";
+import "./styles.css";
 
 export default function MainBody({ history, location }: RouteComponentProps) {
   const isLt755 = useMediaQuery({ query: "(max-width: 755px)" });
@@ -94,7 +94,6 @@ export default function MainBody({ history, location }: RouteComponentProps) {
           <div className='main-page__wrapper'>
             {!isLt755 ? (
               <div className='sidebar'>
-                {/* PROMPT USERS TO FLIP PHONE TO LANDSCAPE */}
                 {/* {isLt755 && (
                 <Badge bg='dark' style={{ maxWidth: "100%" }}>
                   <div className='rotate'>

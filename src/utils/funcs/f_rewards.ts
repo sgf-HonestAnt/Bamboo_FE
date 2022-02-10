@@ -49,7 +49,7 @@ export async function purchaseReward(
       reward: reward.reward,
       value: reward.value,
       available: 0,
-    }); // remember in future badges can only ever be purchased once.
+    });
     const response = await fetch(url, { method, headers, body });
     const { value } = await response.json();
     const remainingXp = xp - value;

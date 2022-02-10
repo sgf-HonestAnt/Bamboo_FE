@@ -11,8 +11,6 @@ export const attemptPostAchievement = async (
   // console.log("🙋Posting New Achievement");
   const token = localStorage.getItem("token");
   try {
-    // post an achievement
-    // 💡 push achievement to list so it shows up straightaway!
     const url = `${ENDPOINT_MYACH}`;
     const method = POST;
     const headers = {

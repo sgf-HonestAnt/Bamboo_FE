@@ -20,7 +20,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   const { rewards, formType, label, history } = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { xp } = state.currentUser.my_user;
-  const allRewards = state.currentUser.my_user.rewards
+  const allRewards = state.currentUser.my_user.rewards;
   const [loading, setLoading] = useState(false);
   const [reward, setReward] = useState<rewardsInt | null>(null);
   function handleReset(e: any) {
@@ -37,7 +37,12 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
     if (reward && xp >= reward.value) {
-      const remainingXp = await purchaseReward(allRewards, reward, xp, dispatch);
+      const remainingXp = await purchaseReward(
+        allRewards,
+        reward,
+        xp,
+        dispatch
+      );
       if (remainingXp) {
         setReward(null);
         history.push("/reload?pathname=dash");
@@ -47,7 +52,7 @@ export default function RewardsDropdown(props: RewardsDropdownProps) {
   useEffect(() => {
     setLoading(false);
   }, [loading]);
-  return formType === "dropdown" ? (
+  return formType === "dropdown" ? ( // not currently in use
     <Card className='col col-8 mt-2 py-2 px-3'>
       {/* <Form>
         <Form.Group as={Row} controlId='rewards'>

@@ -11,41 +11,8 @@ import {
   initialValuesInt,
   taskInt,
 } from "../../typings/interfaces";
-import {
-  AWAITED,
-  // DAILY,
-  // MONTHLY,
-  NEVER,
-  NONE,
-  POST,
-  PUT,
-  TASK_CATEGORIES,
-  // WEEKLY,
-} from "../const/str";
+import { AWAITED, NEVER, NONE, POST, PUT, TASK_CATEGORIES } from "../const/str";
 import { attemptPostOrEditTask } from "./f_tasks";
-
-// B/E: Schema:
-// {
-//   category: { type: String, default: NONE, required: true },
-//   title: { type: String, required: true },
-//   desc: { type: String, required: true },
-//   repeats: { type: String, required: true, enum: [NEVER, DAILY, WEEKLY, MONTHLY, STRING(NUMBER),] }, //
-//   type: { type: String, default: SOLO, enum: [SOLO, TEAM], },
-//   value: { type: Number, default: 0 },
-//   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
-//   sharedWith: { default: [], type: [{ type: Schema.Types.ObjectId, ref: "User" }], },
-//   status: { type: String, default: AWAITED, enum: [AWAITED, COMPLETED, IN_PROGRESS] },
-//   deadline: { type: Date },
-// },
-// Formik adds:
-// newCategory: "", // overrides category if defined
-// repeated: "no", // "yes" or "no"
-// repeatsOther: 0,
-// repetitions: "1",
-// shared: "no",
-// repeatedRadio: null, // "yes" or "no" => show Repeated dropdown
-// sharedRadio: null, // "yes" or "no" => show Shared dropdown
-// Note, task cannot be sharedWith.length>1 AND repeats !== NEVER
 
 export default async function submitFormikTask(
   e: initialValuesInt,
@@ -65,7 +32,7 @@ export default async function submitFormikTask(
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Submitting Formik Task", e);
+  // console.log("🙋Submitting Formik Task", e);
   const {
     repeatedRadio,
     sharedRadio,

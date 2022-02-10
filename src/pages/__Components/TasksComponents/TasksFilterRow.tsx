@@ -52,7 +52,6 @@ const TasksFilterRow = (props: TasksFilterRowProps) => {
     // query,
     // setQuery,
   } = props;
-  // const { search } = location;
   const allTasks = awaited.concat(in_progress, completed);
   const [selectDate, setSelectDate] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);

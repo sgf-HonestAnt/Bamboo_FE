@@ -38,7 +38,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
       <Row className='login-form px-1 px-md-5'>
         <Col
           className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
-          <Card className="bamboo-card px-4 pb-0 pt-1 m-0" id="login-card">
+          <Card className='bamboo-card px-4 pb-0 pt-1 m-0' id='login-card'>
             <Card.Body>
               <h2>Login to Bamboo</h2>
               <Formik
@@ -72,7 +72,9 @@ export default function LoginPage({ history }: RouteComponentProps) {
                           <Form.Control
                             type='text'
                             value={values.username}
-                            placeholder={errors.username||'Enter email or username'}
+                            placeholder={
+                              errors.username || "Enter email or username"
+                            }
                             aria-describedby='enter email or username'
                             onChange={handleChange}
                             isInvalid={!!errors.username}
@@ -89,7 +91,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
                           <Form.Control
                             type='password'
                             value={values.password}
-                            placeholder={errors.password||'Enter password'}
+                            placeholder={errors.password || "Enter password"}
                             onChange={handleChange}
                             isInvalid={!!errors.password}
                           />
