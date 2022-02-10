@@ -5,6 +5,7 @@ import {
   FILL_USER,
   FILL_USER_ERROR,
   FILL_USER_LOADING,
+  SET_FOLLOWED_USERS,
   SET_REFRESH_TOKEN,
   SET_USER_AVATAR,
   SET_USER_BIO,
@@ -100,6 +101,11 @@ const currentUserReducer = (
           ...state.my_user,
           rewards: action.payload,
         },
+      };
+    case SET_FOLLOWED_USERS:
+      return {
+        ...state,
+        followedUsers: action.payload,
       };
     case SET_USER_POINTS_AND_COMPLETED:
       return {

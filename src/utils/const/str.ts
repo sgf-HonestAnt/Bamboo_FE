@@ -23,6 +23,7 @@ export const ENDPOINT_MYREWARDS = `${BE_URL}/${USERS}/me/rewards`;
 export const FILL_USER_LOADING = "FILL_USER_LOADING";
 export const FILL_USER_ERROR = "FILL_USER_ERROR";
 export const FILL_USER = "FILL_USER";
+export const SET_FOLLOWED_USERS = "SET_FOLLOWED_USERS"
 export const SET_USER_AVATAR = "SET_USER_AVATAR";
 export const SET_USER_FIRST_NAME = "SET_USER_FIRST_NAME";
 export const SET_USER_LAST_NAME = "SET_USER_LAST_NAME";

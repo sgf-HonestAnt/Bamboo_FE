@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
-import { reduxStateInt } from "../../typings/interfaces";
+import { followedUserInt, reduxStateInt } from "../../typings/interfaces";
 import { Row, Container, Col, Image } from "react-bootstrap";
 import {
   // ContactAdminButton,
@@ -22,6 +22,7 @@ import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
 import BambooPoints from "../__Components/XP";
+import { setFollowedUsers } from "../../redux/actions/user";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -71,7 +72,14 @@ export default function FollowingPage(props: FollowingPageProps) {
   };
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
+    console.log("handle submit at gifting")
     await sendXpGift(gift.userId, gift.xp, points, dispatch);
+    const index = followedUsers.findIndex(
+      (user: followedUserInt) => user._id === gift.userId
+    );
+    followedUsers[index].xp = followedUsers[index].xp + +gift.xp;
+    console.log(followedUsers);
+    dispatch(setFollowedUsers(followedUsers));
     handleClose();
     setLoading(true);
   }
