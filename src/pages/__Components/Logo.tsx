@@ -1,15 +1,15 @@
 import { Image } from "react-bootstrap";
-import { BAMBOO } from "../../utils/const/ico";
+import Bamboo1 from "../../media/Bamboo1.svg";
 
 type BambooLogoProps = {
   isAdmin: boolean;
 };
 export default function BambooLogo(props: BambooLogoProps) {
-  const { isAdmin } = props;
+  // const { isAdmin } = props;
   return (
     <div className='bamboo-logo'>
-      <Image fluid src={BAMBOO} width='50%' />
-      {!isAdmin && <h3>Bamboo</h3>}
+      <Image fluid src={Bamboo1} width='70%' />
+      {/* {!isAdmin && <h3>Bamboo</h3>} */}
     </div>
   );
 }

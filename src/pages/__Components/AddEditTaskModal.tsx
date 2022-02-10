@@ -165,6 +165,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
+  console.log(
+    "sharedUsers at modal=>",
+    sharedUsers,
+    "taskSet.sharedWith at modal",
+    taskSet?.sharedWith
+  );
   const handleDelete = () => {
     setShowWarning(true);
   };
@@ -347,6 +353,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     values,
                     newCategoryColor,
                     sharedUsers,
+                    setSharedUsers,
                     taskSet,
                     categories,
                     categoriesColors,

@@ -18,6 +18,7 @@ export default async function submitFormikTask(
   e: initialValuesInt,
   newCategoryColor: string | undefined,
   sharedUsers: { selectedOptions: any },
+  setSharedUsers: any,
   taskSet: taskInt | null,
   categories: string[],
   categoriesColors: string[],
@@ -33,8 +34,13 @@ export default async function submitFormikTask(
   dispatch: Dispatch<any>
 ) {
   console.log("🙋Submitting Formik Task", e);
-  console.log(newCategoryColor);
-  console.log(sharedUsers);
+  console.log("newCatcolor=>", newCategoryColor);
+  console.log(
+    "sharedUsers=>",
+    sharedUsers,
+    "taskSet.sharedWith",
+    taskSet?.sharedWith
+  );
   const {
     repeatedRadio,
     sharedRadio,
@@ -124,8 +130,9 @@ export default async function submitFormikTask(
       setTimeout(() => history.push("/reload?pathname=tasks"), 500);
     } else {
       // "TASK WAS NOT REPEATED, SO I AM JUST SETTING MODAL TO !CHANGED AND CLOSING IT."
-      handleClose();
       setChanged({ title: false, value: false, category: false });
+      setSharedUsers({ selectedOptions: [] });
+      handleClose();
     }
   } catch (error) {
     console.log(error);

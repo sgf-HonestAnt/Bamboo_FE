@@ -11,9 +11,11 @@ import {
   Spinner,
   InputGroup,
   Card,
+  Image,
 } from "react-bootstrap";
 import { attemptLoginUser } from "../../utils/funcs/f_users";
 import { LoginBtn, SubmitBtn } from "../__Components/Buttons";
+import Bamboo1 from "../../media/Bamboo1.svg";
 import "./styles.css";
 
 const schema = yup.object().shape({
@@ -40,6 +42,7 @@ export default function LoginPage({ history }: RouteComponentProps) {
           className={`col-12 col-sm-8 col-md-6 col-lg-4 px-0 login-form__col`}>
           <Card className='bamboo-card px-4 pb-0 pt-1 m-0' id='login-card'>
             <Card.Body>
+              <Image fluid src={Bamboo1} width='25%' className='pb-2' />
               <h2>Login to Bamboo</h2>
               <Formik
                 validationSchema={schema}

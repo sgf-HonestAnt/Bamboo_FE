@@ -247,7 +247,11 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
           </Row>
         </>
       ) : (
-        <></>
+        <Row>
+          <Col className='m-1'>
+            No tasks completed. Create or progress some tasks to view your stats
+          </Col>
+        </Row>
       )}
       <Row>
         <Col className='col-12 py-3'>
