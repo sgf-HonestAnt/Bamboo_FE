@@ -125,7 +125,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
-  const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
+  const [newCategoryColor, setNewCategoryColor] = useState<
+    string | undefined
+  >();
   function handleChangeColor(color: any) {
     const sAsNum = parseFloat(color.hsl.s);
     const lAsNum = parseFloat(color.hsl.l);
@@ -588,7 +590,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               status: AWAITED,
                               _v: 0,
                             }}
-                            bgColor={newCategoryColor}
+                            bgColor={newCategoryColor || "#ccc"}
                           />
                         </Form.Group>
                       </>

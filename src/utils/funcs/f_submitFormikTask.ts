@@ -16,7 +16,7 @@ import { attemptPostOrEditTask } from "./f_tasks";
 
 export default async function submitFormikTask(
   e: initialValuesInt,
-  newCategoryColor: string,
+  newCategoryColor: string | undefined,
   sharedUsers: { selectedOptions: any },
   taskSet: taskInt | null,
   categories: string[],
@@ -32,7 +32,9 @@ export default async function submitFormikTask(
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
 ) {
-  // console.log("🙋Submitting Formik Task", e);
+  console.log("🙋Submitting Formik Task", e);
+  console.log(newCategoryColor);
+  console.log(sharedUsers);
   const {
     repeatedRadio,
     sharedRadio,
