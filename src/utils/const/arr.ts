@@ -37,13 +37,16 @@ export const MONTHNAMES = [
 ];
 export const LIST_OF_VOWELS = ["a", "e", "i", "o", "u"];
 export const CUSTOM_COLORS = [
-  "#ccc",
-  "hsl(12, 75%, 56%)",
-  "hsl(183, 100%, 33%)",
-  "hsl(60, 68%, 71%)",
-  "hsl(190, 100%, 34%)",
-  "hsl(61, 38%, 50%)",
-  "hsl(196, 100%, 33%)",
+  "hsl(182, 100%, 87%)", // pale blue
+  "#ccc", // grey
+  "hsl(183, 100%, 33%)", // teal
+  "hsl(196, 100%, 33%)", // blue
+  "hsl(182, 100%, 23%)", // ocean blue
+  "hsl(122, 100%, 33%)", // green
+  "hsl(60, 68%, 71%)", // pale yellow
+  "hsl(61, 38%, 50%)", // mustard
+  "hsl(12, 75%, 56%)", // coral
+  "hsl(25, 100%, 33%)", // chocolate brown
 ];
 export const STATUS_COLORS = [
   "hsl(12, 75%, 56%, 0.6)",
