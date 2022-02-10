@@ -2,7 +2,6 @@ import { History, Location } from "history";
 import { Formik, useField } from "formik";
 import Select from "react-select";
 import * as yup from "yup";
-import { CirclePicker } from "react-color";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../redux/hooks";
@@ -15,13 +14,7 @@ import {
   userInt,
 } from "../../typings/interfaces";
 import { TASK_VALUES } from "../../utils/const/arr";
-import {
-  NEVER,
-  // TASK_CATEGORIES,
-  TEAM,
-  SOLO,
-  AWAITED,
-} from "../../utils/const/str";
+import { NEVER, TASK_CATEGORIES, TEAM } from "../../utils/const/str";
 import { FiUser } from "react-icons/fi";
 import {
   getShortDateAsString,
@@ -34,9 +27,6 @@ import {
 import { getAvatarById, getUsernameById } from "../../utils/funcs/f_users";
 import { Link } from "react-router-dom";
 import submitFormikTask from "../../utils/funcs/f_submitFormikTask";
-import { TaskButton } from "./DashComponents/MapTasks";
-// import CategoryEditOrDelete from "./TaskModalComponents/CategoryEditOrDelete";
-// import {RemTaskFromAwaited, RemTaskFromCompleted, RemTaskFromInProgress} from "../../redux/actions/tasks";
 
 const schema = yup.object().shape({
   title: yup
@@ -116,14 +106,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks, currentUser } = state;
   const { my_user, followedUsers } = currentUser;
-  const {
-    categories,
-    categoriesColors,
-    awaited,
-    in_progress,
-    //completed
-  } = currentTasks;
-  const { customColors } = state.currentSettings; // comes from redux (f/e) ONLY. f/e has full control over color choice, b/e merely stores choices once made.
+  const { categories, awaited, in_progress } = currentTasks;
   const { min, max } = getMinMaxDateAsString(new Date());
   const {
     view,
@@ -138,17 +121,6 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     taskSet,
   } = props;
   const { refreshToken } = my_user;
-  // react-colors
-  const [newCategoryColor, setNewCategoryColor] = useState<string>("#ccc");
-  function handleChangeColor(color: any) {
-    const sAsNum = parseFloat(color.hsl.s);
-    const lAsNum = parseFloat(color.hsl.l);
-    const parseS = 100 * sAsNum;
-    const parseL = 100 * lAsNum;
-    const hsla = `hsla(${color.hsl.h}, ${parseS}%, ${parseL}%, 0.8)`;
-    setNewCategoryColor(hsla);
-    console.log("The new category color should be=>", newCategoryColor);
-  }
   // react-select multiple dropdown
   const [options, setOptions] = useState<{ value: string; label: string }[]>(
     []
@@ -200,14 +172,10 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
       history.push("/reload?pathname=tasks");
     }
   };
-  // show categories edit/delete modal
-  const [showEditCategories, setShowEditCategories] = useState(false);
   const handleCloseModal = () => {
-    setShowEditCategories(false);
     setChanged({ title: false, value: false, category: false });
     setShowWarning(false);
-    taskSet && setView(true);
-    // history.push("/tasks");
+    setView(true);
     handleClose();
   };
   useEffect(() => {
@@ -216,11 +184,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
   }, [followedUsers]);
   return (
     <Modal show={show} onHide={handleCloseModal}>
-      {location.pathname === "/categories" || showEditCategories ? (
-        <>
-          {/* <CategoryEditOrDelete handleCloseModal={handleCloseModal} /> */}
-        </>
-      ) : taskSet && view ? (
+      {taskSet && view ? (
         <>
           <Modal.Header>
             <Modal.Title>
@@ -360,11 +324,9 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                 setTimeout(() => {
                   submitFormikTask(
                     values,
-                    newCategoryColor,
                     sharedUsers,
                     taskSet,
                     categories,
-                    categoriesColors,
                     awaited,
                     in_progress,
                     refreshToken,
@@ -376,7 +338,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     location,
                     dispatch
                   );
-                  taskSet && setView(true);
+                  setView(true);
                   setSubmitting(false);
                 }, 400);
               }}
@@ -518,11 +480,11 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                               Select a category
                             </option>
                             {categories
-                              // .filter(
-                              //   (c) =>
-                              //     c !== "none" && !TASK_CATEGORIES.includes(c)
-                              // )
-                              // .sort()
+                              .filter(
+                                (c) =>
+                                  c !== "none" && !TASK_CATEGORIES.includes(c)
+                              )
+                              .sort()
                               .map((c, i) => {
                                 return (
                                   <option
@@ -534,7 +496,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   </option>
                                 );
                               })}
-                            {/* {TASK_CATEGORIES.map((c, i) => {
+                            {TASK_CATEGORIES.map((c, i) => {
                               return (
                                 <option
                                   key={i}
@@ -544,7 +506,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                   {c}
                                 </option>
                               );
-                            })} */}
+                            })}
                             {!taskSet && (
                               <>
                                 <option value='' disabled>
@@ -560,77 +522,25 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             )}
                           </Form.Control>
                         </InputGroup>
-                        {/* ENABLE ONCE SET UP SUCCESSFULLY IN B/E */}
-                        {/* {taskSet && (
-                          <Form.Text style={{ display: "inline-block" }}>
-                            <Button
-                              variant='link'
-                              id='edit-categories'
-                              className='p-0'
-                              onClick={(e) => setShowEditCategories(true)}>
-                              * Want to edit or delete the categories
-                              themselves?
-                            </Button>
-                          </Form.Text>
-                        )} */}
                       </Form.Group>
                     ) : (
-                      <>
-                        <Form.Group controlId='newCategory' className='py-1'>
-                          <Form.Label>Create new category.</Form.Label>
-                          <InputGroup hasValidation>
-                            <Form.Control
-                              type='text'
-                              maxLength={15}
-                              value={values.newCategory}
-                              placeholder='for e.g. "Save the Pandas"'
-                              aria-describedby='create new category'
-                              // onChange={handleChange}
-                              onChange={(e) => {
-                                if (values.category !== undefined) {
-                                  setChanged({ ...changed, category: true });
-                                }
-                                handleChange(e);
-                              }}
-                              isInvalid={!!errors.newCategory}
-                            />
-                            <Form.Control.Feedback type='invalid'>
-                              {errors.newCategory}
-                            </Form.Control.Feedback>
-                          </InputGroup>
-                        </Form.Group>
-                        <Form.Group
-                          // controlId='newCategoryColor'
-                          className='py-1'>
-                          <Form.Label>Choose category color.</Form.Label>
-                          <CirclePicker
-                            width='100%'
-                            colors={customColors}
-                            onChangeComplete={handleChangeColor}
+                      <Form.Group controlId='newCategory' className='py-1'>
+                        <Form.Label>Create new category.</Form.Label>
+                        <InputGroup hasValidation>
+                          <Form.Control
+                            type='text'
+                            maxLength={15}
+                            value={values.newCategory}
+                            placeholder='for e.g. "Knitting"'
+                            aria-describedby='create new category'
+                            onChange={handleChange}
+                            isInvalid={!!errors.newCategory}
                           />
-                        </Form.Group>
-                        <Form.Group
-                          // controlId='sampleTaskBtn'
-                          className='py-1'>
-                          <TaskButton
-                            i={0}
-                            task={{
-                              _id: my_user._id,
-                              category: values.newCategory || "Sample Category",
-                              title: values.title || "Sample Task",
-                              image: "",
-                              desc: values.desc,
-                              repeats: NEVER,
-                              type: SOLO,
-                              value: values.value,
-                              createdBy: my_user._id,
-                              status: AWAITED,
-                              _v: 0,
-                            }}
-                            bgColor={newCategoryColor}
-                          />
-                        </Form.Group>
-                      </>
+                          <Form.Control.Feedback type='invalid'>
+                            {errors.newCategory}
+                          </Form.Control.Feedback>
+                        </InputGroup>
+                      </Form.Group>
                     )}
                     <Form.Group controlId='desc' className='py-1'>
                       <Form.Label>
