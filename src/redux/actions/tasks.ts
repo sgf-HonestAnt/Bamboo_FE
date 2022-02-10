@@ -14,6 +14,7 @@ import {
   ADD_TASK_TO_COMPLETED,
   REMOVE_TASK_FROM_COMPLETED,
   SET_NEW_TASK_CATEGORY,
+  SET_NEW_TASK_CATEGORY_COLOR,
   DELETE_TASK,
   EDIT_TASK,
 } from "../../utils/const/str";
@@ -26,6 +27,10 @@ export const setNewTask = (task: taskInt) => ({
 export const setNewCategory = (categories: string[]) => ({
   type: SET_NEW_TASK_CATEGORY,
   payload: categories,
+});
+export const setNewCategoryColors = (categoriesColors: string[]) => ({
+  type: SET_NEW_TASK_CATEGORY_COLOR,
+  payload: categoriesColors,
 });
 export const AddTaskToAwaited = (status: taskInt[]) => ({
   type: ADD_TASK_TO_AWAITED,

@@ -100,79 +100,79 @@ export default function SideBar(props: SidebarProps) {
         <>
           <div className='mb-2'>
             <div className='main-side-bar__links pb-2'>
-              <Link to='/dash'>
-                <Button variant='primary' className='m-1'>
-                  {/* <div className='text-tinycaps'>You are logged in as</div> */}
-                  <CgProfile /> You are logged in as {my_user.username}{" "}
-                  <Badge
-                    bg={toggle ? "secondary" : "dark"}
-                    onClick={(e) => {
-                      setToggle(!toggle);
-                      setToggleMore(false);
-                    }}>
-                    toggle
-                  </Badge>{" "}
-                  {toggle && (
-                    <>
-                      <Badge bg='dark'>
-                        {allTasks.concat(completed).length} task
-                        {allTasks.concat(completed).length === 1
-                          ? ""
-                          : "s"}{" "}
-                        total
-                      </Badge>{" "}
-                      {toggleMore && (
-                        <>
-                          <Badge bg='dark'>{completed.length} completed</Badge>{" "}
-                          <Badge bg='dark'>{awaited.length} awaited</Badge>{" "}
-                          <Badge bg='dark'>
-                            {in_progress.length} in progress
-                          </Badge>{" "}
-                        </>
-                      )}
-                      <Badge bg='danger'>{total_xp}xp total</Badge>{" "}
-                      {toggleMore && (
-                        <>
-                          <Badge bg='danger'>{xp}xp available</Badge>{" "}
-                          <Badge bg='danger'>{total_xp - xp}xp spent</Badge>{" "}
-                        </>
-                      )}
-                      <Badge bg='success'>
-                        {followedUsers.length} teammates
-                      </Badge>{" "}
-                      {toggleMore && (
-                        <>
-                          <Badge bg='success'>
-                            {
-                              notification.filter((note) =>
-                                note.includes("has sent you a request")
-                              ).length
-                            }{" "}
-                            request
-                            {notification.filter((note) =>
+              {/* <Link to='/dash'> */}
+              <Button variant='primary' className='m-1'>
+                {/* <div className='text-tinycaps'>You are logged in as</div> */}
+                <CgProfile /> You are logged in as {my_user.username}{" "}
+                <Badge
+                  bg={toggle ? "secondary" : "dark"}
+                  onClick={(e) => {
+                    setToggle(!toggle);
+                    setToggleMore(false);
+                  }}>
+                  toggle
+                </Badge>{" "}
+                {toggle && (
+                  <>
+                    <Badge bg='dark'>
+                      {allTasks.concat(completed).length} task
+                      {allTasks.concat(completed).length === 1 ? "" : "s"} total
+                    </Badge>{" "}
+                    {toggleMore && (
+                      <>
+                        <Badge bg='dark'>{completed.length} completed</Badge>{" "}
+                        <Badge bg='dark'>{awaited.length} awaited</Badge>{" "}
+                        <Badge bg='dark'>
+                          {in_progress.length} in progress
+                        </Badge>{" "}
+                      </>
+                    )}
+                    <Badge bg='danger'>{total_xp}xp total</Badge>{" "}
+                    {toggleMore && (
+                      <>
+                        <Badge bg='danger'>{xp}xp available</Badge>{" "}
+                        <Badge bg='danger'>{total_xp - xp}xp spent</Badge>{" "}
+                      </>
+                    )}
+                    <Badge bg='success'>{followedUsers.length} teammates</Badge>{" "}
+                    {toggleMore && (
+                      <>
+                        <Badge bg='success'>
+                          {
+                            notification.filter((note) =>
                               note.includes("has sent you a request")
-                            ).length === 1
-                              ? ""
-                              : "s"}{" "}
-                          </Badge>{" "}
-                          <Badge bg='success'>
-                            {numOfSharedTasks} task
-                            {numOfSharedTasks === 1 ? "" : "s"} shared
-                          </Badge>{" "}
-                        </>
-                      )}
-                      {my_user.admin && <Badge bg='primary'>admin</Badge>}{" "}
-                      <Badge
-                        bg='warning'
-                        onClick={(e) => setToggleMore(!toggleMore)}>
-                        toggle {toggleMore ? "less" : "more"}
-                      </Badge>{" "}
-                    </>
-                  )}
-                </Button>
-              </Link>
+                            ).length
+                          }{" "}
+                          request
+                          {notification.filter((note) =>
+                            note.includes("has sent you a request")
+                          ).length === 1
+                            ? ""
+                            : "s"}{" "}
+                        </Badge>{" "}
+                        <Badge bg='success'>
+                          {numOfSharedTasks} task
+                          {numOfSharedTasks === 1 ? "" : "s"} shared
+                        </Badge>{" "}
+                      </>
+                    )}
+                    {my_user.admin && <Badge bg='primary'>admin</Badge>}{" "}
+                    <Badge
+                      bg='warning'
+                      onClick={(e) => setToggleMore(!toggleMore)}>
+                      toggle {toggleMore ? "less" : "more"}
+                    </Badge>{" "}
+                  </>
+                )}
+              </Button>
+              {/* </Link> */}
             </div>{" "}
             <div className='pt-2'>
+            <Link to='/dash'>
+                <Button variant='primary' className='m-1'>
+                  <RiDashboard3Line /> Dash
+                </Button>
+              </Link>
               <Link to='/tasks'>
                 <Button variant='primary' className='m-1'>
                   <FiServer /> Tasks <Badge bg='dark'>{allTasks.length}</Badge>
