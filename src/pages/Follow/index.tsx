@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
-import { reduxStateInt } from "../../typings/interfaces";
+import { followedUserInt, reduxStateInt } from "../../typings/interfaces";
 import { Row, Container, Col, Image } from "react-bootstrap";
 import {
   // ContactAdminButton,
@@ -17,11 +17,12 @@ import { sendXpGift } from "../../utils/funcs/f_rewards";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { TaskButton } from "../__Components/DashComponents/MapTasks";
-import { createColorArray } from "../../utils/funcs/f_styling";
-import { COMPLETED } from "../../utils/const/str";
+// import { createColorArray } from "../../utils/funcs/f_styling";
+// import { COMPLETED } from "../../utils/const/str";
 import { fillTasksAction } from "../../redux/actions/tasks";
 import FollowModal from "../__Components/FollowComponents/FollowModal";
 import BambooPoints from "../__Components/XP";
+import { setFollowedUsers } from "../../redux/actions/user";
 
 type FollowingPageProps = {
   history: History<unknown> | string[];
@@ -31,10 +32,17 @@ export default function FollowingPage(props: FollowingPageProps) {
   const dispatch = useDispatch();
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { my_user, followedUsers } = state.currentUser;
-  const { categories, awaited, in_progress, completed } = state.currentTasks;
-  const allTasks = awaited.concat(in_progress, completed);
-  const { customColors } = state.currentSettings;
-  const [categoryColors, setCategoryColors] = useState<string | any[]>([]);
+  const {
+    categories,
+    categoriesColors,
+    awaited,
+    in_progress,
+    //completed
+  } = state.currentTasks;
+  // const allTasks = awaited.concat(in_progress, completed);
+  const awaitedAndProgressingTasks = awaited.concat(in_progress);
+  // const { customColors } = state.currentSettings;
+  // const [categoriesColors, setCategoriesColors] = useState<string | any[]>([]);
   const { history, location } = props;
   const isgt1330 = useMediaQuery({ query: "(min-width: 1330px)" });
   const isgt975 = useMediaQuery({ query: "(min-width: 975px)" });
@@ -70,14 +78,21 @@ export default function FollowingPage(props: FollowingPageProps) {
   };
   async function handleSubmit(e: { preventDefault: () => void }) {
     e.preventDefault();
+    console.log("handle submit at gifting");
     await sendXpGift(gift.userId, gift.xp, points, dispatch);
+    const index = followedUsers.findIndex(
+      (user: followedUserInt) => user._id === gift.userId
+    );
+    followedUsers[index].xp = followedUsers[index].xp + +gift.xp;
+    console.log(followedUsers);
+    dispatch(setFollowedUsers(followedUsers));
     handleClose();
     setLoading(true);
   }
   const locationSearch = location.search.split("=")[1];
   useEffect(() => {
     dispatch(fillTasksAction());
-    createColorArray(customColors, categories, setCategoryColors);
+    // createColorArray(customColors, categories, setCategoriesColors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
@@ -105,11 +120,7 @@ export default function FollowingPage(props: FollowingPageProps) {
           <Col
             key={i}
             className={`bamboo-card-x-dark py-2 mr-2 ${
-              isgt1330
-                ? "col-2"
-                : isgt975
-                ? "col-3"
-                : "col-5"
+              isgt1330 ? "col-2" : isgt975 ? "col-3" : "col-5"
             }`}>
             {/* // ${isgt1273 ? "col-2" : isgt1173 ? "col-3" : "col-12"} */}
             <ProfileBadge
@@ -127,12 +138,12 @@ export default function FollowingPage(props: FollowingPageProps) {
             ) : (
               <>
                 {
-                  allTasks.filter((task) =>
+                  awaitedAndProgressingTasks.filter((task) =>
                     task.sharedWith?.includes(usersToShow[0]._id)
                   ).length
                 }{" "}
-                Task
-                {allTasks.filter((task) =>
+                Open Task
+                {awaitedAndProgressingTasks.filter((task) =>
                   task.sharedWith?.includes(usersToShow[0]._id)
                 ).length === 1
                   ? ""
@@ -201,42 +212,40 @@ export default function FollowingPage(props: FollowingPageProps) {
         {location.search.includes("?id=") && (
           <Col>
             <div className='d-flex'>
-              {allTasks
-                .filter(
-                  (task) =>
-                    task.sharedWith?.includes(usersToShow[0]._id) &&
-                    task.status === COMPLETED
-                )
+              {awaitedAndProgressingTasks
+                .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
                 .map((task, i) => (
                   <TaskButton
+                    key={i}
                     i={i}
                     task={task}
                     bgColor={
-                      categoryColors[
+                      categoriesColors[
                         categories.findIndex((cat) => cat === task.category)
                       ]
                     }
                   />
                 ))}
-              {allTasks
+              {/* {allTasks
                 .filter(
                   (task) =>
                     task.sharedWith?.includes(usersToShow[0]._id) &&
-                    task.status !== COMPLETED
+                    task.status !== COMPLETED // WHY INCLUDES COMPLETED TASKS?
                 )
                 .map((task, i) => (
                   <Link to={`/tasks?id=${task._id}`} key={task._id}>
                     <TaskButton
+                      key={i}
                       i={i}
                       task={task}
                       bgColor={
-                        categoryColors[
+                        categoriesColors[
                           categories.findIndex((cat) => cat === task.category)
                         ]
                       }
                     />
                   </Link>
-                ))}
+                ))} */}
             </div>
           </Col>
         )}

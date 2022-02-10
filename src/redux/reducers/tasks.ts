@@ -15,6 +15,7 @@ import {
   REMOVE_TASK_FROM_IN_PROGRESS,
   SET_NEW_TASK,
   SET_NEW_TASK_CATEGORY,
+  SET_NEW_TASK_CATEGORY_COLOR,
 } from "../../utils/const/str";
 
 const currentTasksReducer = (
@@ -46,6 +47,11 @@ const currentTasksReducer = (
       return {
         ...state,
         categories: action.payload,
+      };
+    case SET_NEW_TASK_CATEGORY_COLOR:
+      return {
+        ...state,
+        categoriesColors: action.payload,
       };
     case ADD_TASK_TO_AWAITED:
       return {

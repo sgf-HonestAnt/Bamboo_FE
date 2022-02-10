@@ -55,6 +55,7 @@ type AtAGlanceProps = {
 
 function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
+  const [loading, setLoading] = useState(true);
   const { followedUsers, my_user } = state.currentUser;
   const { rewards } = my_user;
   const tasks = state.currentTasks;
@@ -144,15 +145,17 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   const isFromDash = location.pathname === "/dash-tasks";
   const handleClose = () => {
     setShow(false);
-    isFromDash && history.push("/dash")
+    isFromDash && history.push("/dash");
   };
   const handleShow = () => setShow(true);
   useEffect(() => {
     setTasks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
-  useEffect(() => {}, [taskState, atAGlanceData]);
-  return (
+  useEffect(() => {
+    setLoading(false);
+  }, [taskState, atAGlanceData]);
+  return !loading ? (
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       <DashTaskButton
@@ -254,6 +257,8 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         taskSet={null}
       />
     </div>
+  ) : (
+    <></>
   );
 }
 
