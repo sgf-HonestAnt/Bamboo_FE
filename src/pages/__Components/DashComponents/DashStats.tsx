@@ -15,6 +15,7 @@ export default function DashStats(props: DashStatsProps) {
   // const {} = props;
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
   const { currentTasks } = state;
+  const [loading, setLoading] = useState(true);
   const { total_xp, notification } = state.currentUser.my_user;
   const { awaited, in_progress, completed } = currentTasks;
   const allTasks = awaited.concat(in_progress, completed);
@@ -26,9 +27,10 @@ export default function DashStats(props: DashStatsProps) {
   };
   useEffect(() => {
     mapData();
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTasks]); // CHECK THIS, OR PASS CURRENTTASKS DOWN
-  return (
+  return !loading ? (
     <div
       className={`bamboo-card ${
         islt1660 && notification.length > 0 ? "m-1" : "m-0"
@@ -60,5 +62,7 @@ export default function DashStats(props: DashStatsProps) {
         </Col>
       </Row>
     </div>
+  ) : (
+    <></>
   );
 }
