@@ -60,7 +60,6 @@ export interface currentTasksInt {
   // GET tasks/me
   _id: string;
   categories: string[];
-  categoriesColors: string[];
   completed: taskInt[];
   awaited: taskInt[];
   in_progress: taskInt[];
@@ -203,7 +202,6 @@ export interface initialValuesInt {
   sharedWith: string[];
   deadline: string;
   newCategory: string | undefined;
-  newCategoryColor?: string | undefined;
   repeated: string | null;
   repeatsOther: number | string;
   repetitions: string;

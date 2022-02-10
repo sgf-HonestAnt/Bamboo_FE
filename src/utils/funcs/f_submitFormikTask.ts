@@ -3,7 +3,6 @@ import { Dispatch } from "redux";
 import {
   EditTask,
   setNewCategory,
-  setNewCategoryColors,
   setNewTask,
 } from "../../redux/actions/tasks";
 import {
@@ -11,17 +10,7 @@ import {
   initialValuesInt,
   taskInt,
 } from "../../typings/interfaces";
-import {
-  AWAITED,
-  // DAILY,
-  // MONTHLY,
-  NEVER,
-  NONE,
-  POST,
-  PUT,
-  TASK_CATEGORIES,
-  // WEEKLY,
-} from "../const/str";
+import { AWAITED, NEVER, NONE, POST, PUT, TASK_CATEGORIES } from "../const/str";
 import { attemptPostOrEditTask } from "./f_tasks";
 
 // B/E: Schema:
@@ -49,11 +38,9 @@ import { attemptPostOrEditTask } from "./f_tasks";
 
 export default async function submitFormikTask(
   e: initialValuesInt,
-  newCategoryColor: string,
   sharedUsers: { selectedOptions: any },
   taskSet: taskInt | null,
   categories: string[],
-  categoriesColors: string[],
   awaited: taskInt[],
   in_progress: taskInt[],
   refreshToken: string | undefined,
@@ -65,17 +52,11 @@ export default async function submitFormikTask(
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Submitting Formik Task", e);
-  const {
-    repeatedRadio,
-    sharedRadio,
-    repeats,
-    // repetitions
-  } = e;
-  e.newCategoryColor = newCategoryColor;
+  // console.log("🙋Submitting Formik Task", e);
+  const { repeatedRadio, sharedRadio, repeats } = e;
   e.repeated = repeatedRadio;
   e.shared = sharedRadio;
-  e.sharedWith = taskSet ? taskSet.sharedWith : sharedUsers?.selectedOptions;
+  e.sharedWith = taskSet ? taskSet.sharedWith : sharedUsers?.selectedOptions
   if (repeats === "other") {
     e.repeats = e.repeatsOther;
   }
@@ -102,21 +83,6 @@ export default async function submitFormikTask(
       );
       editedListOfTasks.push(newTask);
       dispatch(EditTask(editedStatus, editedListOfTasks));
-      // } else if (repeats !== NEVER) {
-      //   // console.log("TASK WAS REPEATED, SO I AM FIRING OFF A RELOAD.");
-      //   // force reload when tasks are repeated
-      //   const numOfRepetitions =
-      //     repeats === DAILY
-      //       ? 7
-      //       : repeats === WEEKLY
-      //       ? 4
-      //       : repeats === MONTHLY
-      //       ? 2
-      //       : parseInt(repetitions);
-      //   for (let i = 0; i < numOfRepetitions; i++) {
-      //     dispatch(setNewTask(newTask));
-      //   }
-      //   setTimeout(() => history.push("/reload?pathname=tasks"), 500);
     } else {
       // "TASK WAS NOT SET, SO I AM DISPATCHING A NEW TASK."
       dispatch(setNewTask(newTask));
@@ -127,9 +93,7 @@ export default async function submitFormikTask(
     ) {
       // "THERE WAS A NEW CATEGORY, SO I AM DISPATCHING A NEW CATEGORY."
       categories.push(newTask.category.toLowerCase());
-      categoriesColors.push(newCategoryColor || "#ccc");
       dispatch(setNewCategory(categories));
-      dispatch(setNewCategoryColors(categoriesColors));
     }
     if (initialData) {
       // "THERE WAS INITIAL DATA (THIS CAME FROM TASKS PAGE) SO I AM SHUFFLING THAT TOO."
