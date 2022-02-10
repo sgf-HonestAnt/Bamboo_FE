@@ -33,14 +33,14 @@ export default async function submitFormikTask(
   location: Location<unknown> | undefined,
   dispatch: Dispatch<any>
 ) {
-  console.log("🙋Submitting Formik Task", e);
-  console.log("newCatcolor=>", newCategoryColor);
-  console.log(
-    "sharedUsers=>",
-    sharedUsers,
-    "taskSet.sharedWith",
-    taskSet?.sharedWith
-  );
+  // console.log("🙋Submitting Formik Task", e);
+  // console.log("newCatcolor=>", newCategoryColor);
+  // console.log(
+  //   "sharedUsers=>",
+  //   sharedUsers,
+  //   "taskSet.sharedWith",
+  //   taskSet?.sharedWith
+  // );
   const {
     repeatedRadio,
     sharedRadio,

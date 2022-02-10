@@ -165,12 +165,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
     category: false,
   });
   const [sharedUsers, setSharedUsers] = useState({ selectedOptions: [] });
-  console.log(
-    "sharedUsers at modal=>",
-    sharedUsers,
-    "taskSet.sharedWith at modal",
-    taskSet?.sharedWith
-  );
+  // console.log(
+  //   "sharedUsers at modal=>",
+  //   sharedUsers,
+  //   "taskSet.sharedWith at modal",
+  //   taskSet?.sharedWith
+  // );
   const handleDelete = () => {
     setShowWarning(true);
   };
