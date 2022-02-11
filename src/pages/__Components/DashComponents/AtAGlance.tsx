@@ -261,6 +261,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const [loading, setLoading] = useState(true);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
+  const isLt851 = useMediaQuery({ query: "(max-width: 851px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
   useEffect(() => {
     setLoading(false);
@@ -298,10 +299,10 @@ export default function AtAGlance(props: AtAGlanceProps) {
           <>
             {notification.length > 0 ? (
               <>
-                <Col className='col-12 col-lg-6 pr-2'>
+                <Col className={`col-12 col-lg-6 ${isLt851 ? "px-2" : "pr-2"}`}>
                   <DashStats />
                 </Col>
-                <Col className='col-12 col-lg-6 pl-2'>
+                <Col className={`col-12 col-lg-6 ${isLt851 ? "px-2" : "pl-2"}`}>
                   <DashHowToCard />
                 </Col>
               </>
