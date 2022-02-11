@@ -16,14 +16,15 @@ type TaskButtonProps = {
   i: number;
   task: taskInt;
   bgColor: string;
+  margin?: string;
 };
 
 export function TaskButton(props: TaskButtonProps) {
-  const { i, task, bgColor } = props;
+  const { i, task, bgColor, margin } = props;
   return (
     <Button
       variant='link'
-      className={`m-1 bamboo-task${
+      className={`${margin || "m-1"} bamboo-task${
         task.status === COMPLETED ? "-completed" : ""
       }`}
       style={{ backgroundColor: `${bgColor}` }}

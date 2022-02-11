@@ -184,21 +184,23 @@ export default function FollowingPage(props: FollowingPageProps) {
           </Col>
         ))}
         {location.search.includes("?id=") && (
-          <Col>
+          <Col className='p-0 px-2'>
             <div className='d-flex'>
               {awaitedAndProgressingTasks
                 .filter((task) => task.sharedWith?.includes(usersToShow[0]._id))
                 .map((task, i) => (
-                  <TaskButton
-                    key={i}
-                    i={i}
-                    task={task}
-                    bgColor={
-                      categoriesColors[
-                        categories.findIndex((cat) => cat === task.category)
-                      ]
-                    }
-                  />
+                  <Link to={`/tasks?id=${task._id}`} key={i}>
+                    <TaskButton
+                      i={i}
+                      task={task}
+                      bgColor={
+                        categoriesColors[
+                          categories.findIndex((cat) => cat === task.category)
+                        ]
+                      }
+                      margin="m-0 mx-1"
+                    />
+                  </Link>
                 ))}
             </div>
           </Col>

@@ -30,6 +30,7 @@ export default function SideBar(props: SidebarProps) {
     .filter((task) => task?.sharedWith!.length > 1).length;
   const { history, location } = props;
   const pathIsAdmin = location.pathname === "/admin-dash";
+  const pathIsSettings = location.pathname === "/user-settings";
   const [toggle, setToggle] = useState(false);
   const [toggleMore, setToggleMore] = useState(false);
   const logout = async () => {
@@ -39,7 +40,7 @@ export default function SideBar(props: SidebarProps) {
   const isGt755 = useMediaQuery({
     query: "(min-width: 755px)",
   });
-  return pathIsAdmin || !isGt755 ? (
+  return pathIsAdmin || pathIsSettings || !isGt755 ? (
     <Navbar sticky='top' bg='dark' variant='dark'>
       <Container fluid>
         <Navbar.Brand href='/dash'>

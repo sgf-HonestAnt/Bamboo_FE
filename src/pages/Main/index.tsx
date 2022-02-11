@@ -61,13 +61,12 @@ export default function MainBody({ history, location }: RouteComponentProps) {
       <Container fluid className='main-page m-0 p-0' id={theme}>
         {path === "/user-settings" ? (
           <div className='settings-page__wrapper'>
-            {isLt755 && (
-              <SideBar
-                history={history}
-                location={location}
-                setTheme={setTheme}
-              />
-            )}
+            <SideBar
+              history={history}
+              location={location}
+              setTheme={setTheme}
+            />
+
             <div className='p-0'>
               <SettingsPage history={history} location={location} />
             </div>

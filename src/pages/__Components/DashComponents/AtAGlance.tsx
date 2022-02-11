@@ -54,7 +54,7 @@ type AtAGlanceProps = {
 
 function AtAGlanceTasks(props: AtAGlanceTasksProps) {
   const state: reduxStateInt = useAppSelector((state: reduxStateInt) => state);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
   const { followedUsers, my_user } = state.currentUser;
   const { rewards } = my_user;
   const tasks = state.currentTasks;
@@ -146,9 +146,10 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [show]);
   useEffect(() => {
-    setLoading(false);
+    // setLoading(false);
   }, [taskState, atAGlanceData]);
-  return !loading ? (
+  return (
+    // !loading ?
     <div className='dashboard__tasks-card'>
       <AddNewTaskButton label='Add task' handleClick={handleShow} />
       <DashTaskButton
@@ -245,9 +246,10 @@ function AtAGlanceTasks(props: AtAGlanceTasksProps) {
         taskSet={null}
       />
     </div>
-  ) : (
-    <></>
   );
+  // : (
+  //   <></>
+  // );
 }
 
 export default function AtAGlance(props: AtAGlanceProps) {
@@ -256,15 +258,22 @@ export default function AtAGlance(props: AtAGlanceProps) {
   const { notification, total_xp } = my_user;
   const { awaited, in_progress, completed } = state.currentTasks;
   const { today, history, location } = props;
+  const [loading, setLoading] = useState(true);
   const isBigScreen = useMediaQuery({ query: "(min-width: 1660px)" });
   const isLt1238 = useMediaQuery({ query: "(max-width: 1238px)" });
   const dayMonthYearAsString = getDayMonthYearAsString(new Date());
-  return (
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  return !loading ? (
     <div className={`dashboard__at-a-glance ${isLt1238 ? "px-2" : "px-3"}`}>
       <Row className='dashboard__alt__card-header'>
         <Col className='m-1 py-2'>
           At A Glance | <Link to='/dash'>Tasks</Link>{" "}
-          {total_xp < 1 || (awaited.length < 1 && in_progress.length < 1 && completed.length < 1) ? (
+          {total_xp < 1 ||
+          (awaited.length < 1 &&
+            in_progress.length < 1 &&
+            completed.length < 1) ? (
             <></>
           ) : (
             <>
@@ -305,5 +314,7 @@ export default function AtAGlance(props: AtAGlanceProps) {
         )}
       </Row>
     </div>
+  ) : (
+    <></>
   );
 }
