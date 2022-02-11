@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 type ImageUploaderProps = {
@@ -56,12 +57,12 @@ const ImageUploader = (props: ImageUploaderProps) => {
           <div className='upload__image-wrapper'>
             {imageList.length < 1 && (
               <>
-                <button
+                <Button
                   style={isDragging ? { color: "red" } : undefined}
                   onClick={(e) => uploadAvatar(e, onImageUpload)}
                   {...dragProps}>
-                  Click or Drop here
-                </button>
+                  Click or drop avatar here
+                </Button>
                 &nbsp;
               </>
             )}

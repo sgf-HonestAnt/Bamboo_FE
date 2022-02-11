@@ -183,13 +183,13 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
           <></>
         )}
         <Form
-          className='pt-1 pb-3 settings-page__profile-card__form'
+          className='pt-1 pb-0 settings-page__profile-card__form'
           onSubmit={handleSubmit}>
           <ImageUploader
             avatar={my_user.avatar}
             handleChangeAvatar={handleChangeAvatar}
           />
-          <Form.Group as={Row} controlId='first_name' className='py-2'>
+          <Form.Group as={Row} controlId='first_name' className='pt-3 pb-2'>
             <Form.Label column sm='4'>
               first name
             </Form.Label>
@@ -247,7 +247,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
               {editButton}
             </Col>
           </Form.Group>
-          <Form.Group as={Row} controlId='email' className='pb-2'>
+          <Form.Group as={Row} controlId='email' className='pb-1'>
             <Form.Label column sm='4'>
               email
             </Form.Label>
@@ -261,7 +261,7 @@ export default function ProfileSettings(props: ProfileSettingsProps) {
               {editButton}
             </Col>
           </Form.Group>
-          <div className='user-settings-buttons m-2'>
+          <div className='user-settings-buttons mt-2'>
             <BackToDashButtonCol
               label='Back to dashboard'
               handleClick={handleReturn}

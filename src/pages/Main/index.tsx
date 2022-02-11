@@ -48,7 +48,8 @@ export default function MainBody({ history, location }: RouteComponentProps) {
       }
       setTimeout(() => {
         loading && console.log(`🔁LOADING`);
-        error && console.log(`💥ERROR`);
+        // error && console.log(`💥ERROR`);
+        error && console.log(error);
       }, 1000);
     }
   };
