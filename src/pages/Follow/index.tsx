@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { History, Location } from "history";
 import { useAppSelector } from "../../redux/hooks";
 import { followedUserInt, reduxStateInt } from "../../typings/interfaces";
-import { Row, Container, Col, Image } from "react-bootstrap";
+import { Row, Container, Col, Image, Button } from "react-bootstrap";
 import {
   // ContactAdminButton,
   SendGiftButton,
@@ -120,21 +120,25 @@ export default function FollowingPage(props: FollowingPageProps) {
             />
             <h5>{u.username}</h5>
             {!location.search.includes("?id=") ? (
-              <Link to={`/following?id=${u._id}`}>View Tasks Shared</Link>
+              <Link to={`/following?id=${u._id}`}>
+                <Button variant='dark'>View Tasks Shared</Button>
+              </Link>
             ) : (
               <>
-                {
-                  awaitedAndProgressingTasks.filter((task) =>
+                <Button variant='light'>
+                  {
+                    awaitedAndProgressingTasks.filter((task) =>
+                      task.sharedWith?.includes(usersToShow[0]._id)
+                    ).length
+                  }{" "}
+                  Open Task
+                  {awaitedAndProgressingTasks.filter((task) =>
                     task.sharedWith?.includes(usersToShow[0]._id)
-                  ).length
-                }{" "}
-                Open Task
-                {awaitedAndProgressingTasks.filter((task) =>
-                  task.sharedWith?.includes(usersToShow[0]._id)
-                ).length === 1
-                  ? ""
-                  : "s"}{" "}
-                Shared
+                  ).length === 1
+                    ? ""
+                    : "s"}{" "}
+                  Shared
+                </Button>
               </>
             )}
             <div className='py-2'>{u.bio}</div>
@@ -198,7 +202,7 @@ export default function FollowingPage(props: FollowingPageProps) {
                           categories.findIndex((cat) => cat === task.category)
                         ]
                       }
-                      margin="m-0 mx-1"
+                      margin='m-0 mx-1'
                     />
                   </Link>
                 ))}
