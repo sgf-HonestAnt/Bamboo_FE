@@ -97,7 +97,9 @@ export default function RegisterPage({ history }: RouteComponentProps) {
           className='col-12 col-sm-8 col-md-6 col-lg-5 px-0 register-form__col'>
           <Card className='bamboo-card px-4 pb-0 pt-1 m-0' id='register-card'>
             <Card.Body>
-              <Image fluid src={Bamboo1} width='25%' className='pb-2' />
+              <div className='align-left'>
+                <Image src={Bamboo1} width='25%' className='pb-2' />
+              </div>
               <h1 className='pb-1 align-left'>Join Bamboo</h1>
               <Formik
                 validationSchema={schema}

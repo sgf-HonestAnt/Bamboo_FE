@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 type ImageUploaderProps = {
@@ -61,7 +62,7 @@ const ImageUploader = (props: ImageUploaderProps) => {
                   style={isDragging ? { color: "red" } : undefined}
                   onClick={(e) => uploadAvatar(e, onImageUpload)}
                   {...dragProps}>
-                  Click or drop avatar here
+                  Click or drop avatar here <FaArrowAltCircleLeft />
                 </Button>
                 &nbsp;
               </>
