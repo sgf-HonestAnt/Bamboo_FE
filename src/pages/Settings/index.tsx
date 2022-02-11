@@ -96,14 +96,14 @@ export default function SettingsPage(props: SettingsPageProps) {
       <Card className='bamboo-card-mid' id='settings-page-card'>
         <Card.Body className='settings-page__profile-card'>
           <Form
-            className='pt-1 pb-3 settings-page__profile-card__form'
+            className='settings-page__profile-card__form'
             onSubmit={handleSubmit}>
             <ImageUploader
               avatar={my_user.avatar}
               handleChangeAvatar={handleChangeAvatar}
             />
-            <Form.Group as={Row} controlId='first_name' className='py-2'>
-              <Form.Label column sm='4'>
+            <Form.Group as={Row} controlId='first_name' className='mt-3 mb-1'>
+              <Form.Label column sm='4' className="pb-0">
                 first name
               </Form.Label>
               <Col sm='8'>
@@ -116,8 +116,8 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='last_name' className='pb-2'>
-              <Form.Label column sm='4'>
+            <Form.Group as={Row} controlId='last_name' className='my-1'>
+              <Form.Label column sm='4' className="pb-0">
                 last name
               </Form.Label>
               <Col sm='8'>
@@ -130,8 +130,8 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='username' className='pb-2'>
-              <Form.Label column sm='4'>
+            <Form.Group as={Row} controlId='username' className='my-1'>
+              <Form.Label column sm='4' className="pb-0">
                 username
               </Form.Label>
               <Col sm='8'>
@@ -144,8 +144,8 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='bio' className='pb-2'>
-              <Form.Label column sm='4'>
+            <Form.Group as={Row} controlId='bio' className='my-1'>
+              <Form.Label column sm='4' className="pb-0">
                 bio
               </Form.Label>
               <Col sm='8'>
@@ -160,8 +160,8 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId='email' className='pb-2'>
-              <Form.Label column sm='4'>
+            <Form.Group as={Row} controlId='email' className='mt-1 mb-2'>
+              <Form.Label column sm='4' className="pb-0">
                 email
               </Form.Label>
               <Col sm='8'>
@@ -174,7 +174,7 @@ export default function SettingsPage(props: SettingsPageProps) {
                 {editButton}
               </Col>
             </Form.Group>
-            <div className='user-settings-buttons mt-3'>
+            <div className='user-settings-buttons pt-2'>
               <BackToDashButtonCol
                 label='Back to dashboard'
                 handleClick={handleReturn}
