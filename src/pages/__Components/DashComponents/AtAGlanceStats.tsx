@@ -249,7 +249,10 @@ export default function AtAGlanceStats(props: AtAGlanceStatsProps) {
       ) : (
         <Row>
           <Col className='m-1'>
-            No tasks completed. Create or progress some tasks to view your stats
+            <div className='align-left'>
+              No tasks completed. Create or progress some tasks to view your
+              stats
+            </div>
           </Col>
         </Row>
       )}
