@@ -185,8 +185,8 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                           />
                         </InputGroup>
                         {invalid.username && (
-                          <Form.Text className='text-muted'>
-                            {invalid.username}
+                          <Form.Text className='text-muted align-left capitalized'>
+                            {invalid.username.toLowerCase()}
                           </Form.Text>
                         )}
                         {/* {invalid.available && (
@@ -216,8 +216,8 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                           />
                         </InputGroup>
                         {invalid.email && (
-                          <Form.Text className='text-muted'>
-                            {invalid.email}
+                          <Form.Text className='text-muted align-left capitalized'>
+                            {invalid.email.toLowerCase()}
                           </Form.Text>
                         )}{" "}
                       </Col>
@@ -240,8 +240,8 @@ export default function RegisterPage({ history }: RouteComponentProps) {
                         </InputGroup>
                         {errors.password &&
                           errors.password !== "No password provided." && (
-                            <Form.Text className='text-muted'>
-                              {errors.password.toUpperCase()}
+                            <Form.Text className='text-muted align-left'>
+                              {errors.password}
                             </Form.Text>
                           )}{" "}
                       </Col>

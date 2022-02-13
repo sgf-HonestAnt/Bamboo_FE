@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 type ImageUploaderProps = {
@@ -85,18 +86,21 @@ const ImageUploader = (props: ImageUploaderProps) => {
                     className='settings-page__profile-card__profile-img'
                   />
                   <div className='image-item__btn-wrapper'>
-                    <button
+                    <Button
                       onClick={(e) =>
                         updateOrRemoveAvatar(e, onImageUpdate, index)
-                      }>
-                      Update
-                    </button>
-                    <button
+                      }
+                      className='mt-1 mx-1'>
+                      <FiEdit />
+                    </Button>
+                    <Button
+                      variant='primary'
                       onClick={(e) =>
                         updateOrRemoveAvatar(e, onImageRemove, index)
-                      }>
-                      Remove
-                    </button>
+                      }
+                      className='mt-1 mx-1'>
+                      <FiTrash2 />
+                    </Button>
                   </div>
                 </div>
               ))
