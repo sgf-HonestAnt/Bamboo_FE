@@ -666,10 +666,12 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                                     followedUsers,
                                     id
                                   );
-                                  return (
+                                  return username ? (
                                     <div key={i}>
                                       <FiUser /> {username}
                                     </div>
+                                  ) : (
+                                    <></>
                                   );
                                 })}
                             </div>
