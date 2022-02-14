@@ -264,7 +264,7 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                     .map((id, i) => {
                       const avatar = getAvatarById(followedUsers, id);
                       const username = getUsernameById(followedUsers, id);
-                      return (
+                      return avatar && username ? (
                         <div key={i} className='pt-1'>
                           <Link to={`/following?id=${id}`}>
                             <img
@@ -275,6 +275,8 @@ export default function AddEditTaskModal(props: AddEditTaskModalProps) {
                             {username}
                           </Link>
                         </div>
+                      ) : (
+                        <></>
                       );
                     })}
                 </li>
