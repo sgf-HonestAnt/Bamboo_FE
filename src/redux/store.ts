@@ -95,7 +95,7 @@ const persistConfig = {
   storage: sessionStorage,
   transforms: [
     encryptTransform({
-      secretKey: process.env.REACT_APP_ENCRYPT_KEY || "random string",
+      secretKey: process.env.REACT_APP_ENCRYPT_KEY!,
     }),
   ],
 };
