@@ -20,7 +20,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/sgf-HonestAnt/Bamboo_FE">
-    <img src="https://user-images.githubusercontent.com/82496944/158864072-db4a5615-be82-46a7-a0d5-84ae4a56b86b.png" alt="Logo" width="80" height="80">
+    <img src="https://bamboo-fe.vercel.app/static/media/Bamboo1.db9b6e72e71f07451c56681d65aa0191.svg" alt="Logo" width="80" height="80">
   </a>
 <h3 align="center">Bamboo Task App</h3>
 
