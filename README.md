@@ -16,8 +16,6 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 <!-- [![MIT License][license-shield]][license-url] -->
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -73,7 +71,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project!
 
-[![Ideal_Pancake Screen Shot][product-screenshot]](LINKTOTHEDEMO)
+[![Bamboo_Task_App Screen Shot][product-screenshot]](LINKTOTHEDEMO)
 
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for `LINKTOTHEDEMO` and `Bamboo_FE`. Also remember to change the urls at the bottom of this README and change the Table of Contents as required!
 
@@ -214,4 +212,4 @@ Project Link: [https://github.com/sgf-HonestAnt/Bamboo_FE](https://github.com/sg
 [license-url]: https://github.com/sgf-HonestAnt/Bamboo_FE/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/sarah-guinevere-fisher-0073b316b
-[product-screenshot]: https://user-images.githubusercontent.com/82496944/158865585-28016e6f-a4db-4a17-a7ee-96efba99fdfc.png
+[product-screenshot]: https://res.cloudinary.com/dowvu52wz/image/upload/v1647868016/schrutefarms/Screenshot_2022-03-21_130454_r0grvh.png
