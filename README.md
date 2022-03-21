@@ -1,6 +1,6 @@
 ## About Bamboo
 
-Bamboo is a task management app created for my solo capstone with [Epicode Global](https://epicode.com/) (formerly known as Strive). Written in Typescript with a backend powered by MongoDB, Bamboo has the following cool features:-
+Bamboo is a task management app created for my solo capstone with [Epicode Global](https://epicode.com/) (formerly known as Strive). Written in [Typescript](https://www.typescriptlang.org/) with a backend powered by [MongoDB](https://www.mongodb.com/mern-stack), Bamboo has the following cool features:-
 * Create, Delete and Update User Profile
 * Login and Register with session-stored JWT
 * Search for other users and request, accept or reject them as Teammates
