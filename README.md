@@ -27,12 +27,12 @@
 <h3 align="center">Bamboo Task App</h3>
 
   <p align="center">
-    experiments with material-ui
+    For my solo capstone project at Epicode Global (formerly known as Strive), I wanted to create something useful for friends and family members with ADHD. Bamboo grows fast much like tasks mounting up, and thus Bamboo Task App was born. A task management app Bamboo_FE is the front-end repository.
     <br />
     <a href="https://github.com/sgf-HonestAnt/Bamboo_FE"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://bamboo-fe.vercel.app/">View Demo (BROKEN)</a>
+    <a href="https://bamboo-fe.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/sgf-HonestAnt/Bamboo_FE/issues">Report Bug</a>
     ·
