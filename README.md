@@ -21,22 +21,22 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/sgf-HonestAnt/ideal-pancake">
+  <a href="https://github.com/sgf-HonestAnt/Bamboo_FE">
     <img src="https://user-images.githubusercontent.com/82496944/158864072-db4a5615-be82-46a7-a0d5-84ae4a56b86b.png" alt="Logo" width="80" height="80">
   </a>
-<h3 align="center">ideal-pancake</h3>
+<h3 align="center">Bamboo Task App</h3>
 
   <p align="center">
     experiments with material-ui
     <br />
-    <a href="https://github.com/sgf-HonestAnt/ideal-pancake"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/sgf-HonestAnt/Bamboo_FE"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="LINKTOTHEDEMO">View Demo (BROKEN)</a>
+    <a href="https://bamboo-fe.vercel.app/">View Demo (BROKEN)</a>
     ·
-    <a href="https://github.com/sgf-HonestAnt/ideal-pancake/issues">Report Bug</a>
+    <a href="https://github.com/sgf-HonestAnt/Bamboo_FE/issues">Report Bug</a>
     ·
-    <a href="https://github.com/sgf-HonestAnt/ideal-pancake/issues">Request Feature</a>
+    <a href="https://github.com/sgf-HonestAnt/Bamboo_FE/issues">Request Feature</a>
   </p>
 </div>
 
@@ -75,7 +75,7 @@
 
 [![Ideal_Pancake Screen Shot][product-screenshot]](LINKTOTHEDEMO)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for `LINKTOTHEDEMO` and `ideal-pancake`. Also remember to change the urls at the bottom of this README and change the Table of Contents as required!
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for `LINKTOTHEDEMO` and `Bamboo_FE`. Also remember to change the urls at the bottom of this README and change the Table of Contents as required!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -115,7 +115,7 @@ This is an example of how to list things you need to use the software and how to
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
-   git clone https://github.com/sgf-HonestAnt/ideal-pancake.git
+   git clone https://github.com/sgf-HonestAnt/Bamboo_FE.git
    ```
 3. Install NPM packages
    ```sh
@@ -149,7 +149,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 3
     - [ ] Nested Feature
 
-See the [open issues](https://github.com/sgf-HonestAnt/ideal-pancake/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/sgf-HonestAnt/Bamboo_FE/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p> -->
 
@@ -185,7 +185,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Project Link: [https://github.com/sgf-HonestAnt/ideal-pancake](https://github.com/sgf-HonestAnt/ideal-pancake)
+Project Link: [https://github.com/sgf-HonestAnt/Bamboo_FE](https://github.com/sgf-HonestAnt/Bamboo_FE)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
